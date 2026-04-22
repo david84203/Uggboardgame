@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* ============================
+   烏嘎嘎桌遊推薦系統 - Design Tokens
+   ============================ */
+
+@theme {
+  --font-family-sans: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+  
+  /* Brand Colors */
+  --color-brand-50: #FFF8F0;
+  --color-brand-100: #FFEDD5;
+  --color-brand-200: #FED7AA;
+  --color-brand-300: #FDBA74;
+  --color-brand-400: #FB923C;
+  --color-brand-500: #F97316;
+  --color-brand-600: #EA580C;
+  --color-brand-700: #C2410C;
+  
+  --color-surface: #FAFAF9;
+  --color-surface-card: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  
+  --color-text-primary: #1C1917;
+  --color-text-secondary: #57534E;
+  --color-text-muted: #A8A29E;
+}
+
+/* ============================
+   Base Styles
+   ============================ */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  min-height: 100dvh;
+}
+
+#root {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background-color: var(--color-surface);
+  position: relative;
+}
+
+/* ============================
+   Scrollbar Styling
+   ============================ */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 999px;
+}
+
+/* ============================
+   Custom Animations
+   ============================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #e7e5e4 25%, #d6d3d1 50%, #e7e5e4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Staggered card animations */
+.game-card:nth-child(1) { animation-delay: 0.02s; }
+.game-card:nth-child(2) { animation-delay: 0.06s; }
+.game-card:nth-child(3) { animation-delay: 0.10s; }
+.game-card:nth-child(4) { animation-delay: 0.14s; }
+.game-card:nth-child(5) { animation-delay: 0.18s; }
+.game-card:nth-child(6) { animation-delay: 0.22s; }
+.game-card:nth-child(7) { animation-delay: 0.26s; }
+.game-card:nth-child(8) { animation-delay: 0.30s; }
+
+/* ============================
+   Category Badge Colors
+   ============================ */
+
+.badge-策略 { background-color: #DBEAFE; color: #1E40AF; }
+.badge-派對 { background-color: #FEF3C7; color: #92400E; }
+.badge-陣營 { background-color: #FCE7F3; color: #9D174D; }
+.badge-兒童 { background-color: #D1FAE5; color: #065F46; }
+.badge-雙人 { background-color: #EDE9FE; color: #5B21B6; }
