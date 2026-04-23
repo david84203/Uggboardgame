@@ -35,6 +35,10 @@ const FIELD_MAP = {
   weight: 'BGG遊戲難度',
   bggLink: 'BGG連結',
   owner: '所有人',
+  category: '分類',
+  tag1: '標籤1',
+  tag2: '標籤2',
+  tag3: '標籤3',
 };
 
 /**
@@ -153,8 +157,12 @@ export default function useGoogleSheet() {
                   weight: isNaN(weight) ? null : weight,
                   bggLink: row[FIELD_MAP.bggLink]?.trim() || '',
                   owner: row[FIELD_MAP.owner]?.trim() || '',
-                  // 🏷️ 分類欄位 — 目前 CSV 沒有分類欄位，之後可加入
-                  categories: [],
+                  category: row[FIELD_MAP.category]?.trim() || '',
+                  tags: [
+                    row[FIELD_MAP.tag1]?.trim(),
+                    row[FIELD_MAP.tag2]?.trim(),
+                    row[FIELD_MAP.tag3]?.trim(),
+                  ].filter((t) => t && t !== ''),
                 };
               });
 
