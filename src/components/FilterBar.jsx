@@ -1,4 +1,5 @@
-import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers } from 'lucide-react';
+import { useState } from 'react';
+import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers, ChevronDown, ChevronUp } from 'lucide-react';
 
 const TIME_OPTIONS = [
   { label: '不限時間', value: '' },
@@ -10,6 +11,8 @@ const TIME_OPTIONS = [
 
 export default function FilterBar({ filters, onFilterChange, availableCategories = [], availableTags = [] }) {
   const { searchQuery, playerCount, timeRange, category, tags = [] } = filters;
+  const [isTagsExpanded, setIsTagsExpanded] = useState(false);
+  const [isCatsExpanded, setIsCatsExpanded] = useState(false);
 
   const handlePlayerChange = (delta) => {
     const newVal = Math.max(0, (playerCount || 0) + delta);
@@ -116,45 +119,81 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
 
         {/* Row 3: Categories Pills */}
         {availableCategories.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 pb-1">
-             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-50 text-purple-500 shrink-0">
-              <Layers className="w-4 h-4" />
-            </div>
-            {availableCategories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => toggleCategory(cat)}
-                className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
-                  category === cat 
-                    ? 'bg-purple-500 text-white border-purple-500 shadow-md shadow-purple-200/50 scale-105' 
-                    : 'bg-white text-stone-600 border-stone-200 hover:border-purple-300 hover:bg-purple-50'
-                }`}
+          <div className="flex flex-col gap-2 pb-1 border-t border-stone-100 pt-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-50 text-purple-500 shrink-0">
+                  <Layers className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-semibold text-stone-600">遊戲分類 ({availableCategories.length})</span>
+              </div>
+              <button 
+                onClick={() => setIsCatsExpanded(!isCatsExpanded)}
+                className="flex items-center gap-1 text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1.5 rounded-lg hover:bg-purple-100 transition-colors"
               >
-                {cat}
+                {isCatsExpanded ? '收起分類' : '展開分類'}
+                {isCatsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
               </button>
-            ))}
+            </div>
+
+            {/* Content: show all if expanded, or just selected if collapsed */}
+            {(isCatsExpanded || category) && (
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                {(isCatsExpanded ? availableCategories : [category].filter(Boolean)).map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => toggleCategory(cat)}
+                    className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
+                      category === cat 
+                        ? 'bg-purple-500 text-white border-purple-500 shadow-md shadow-purple-200/50 scale-105' 
+                        : 'bg-white text-stone-600 border-stone-200 hover:border-purple-300 hover:bg-purple-50'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
         {/* Row 4: Tags Pills */}
         {availableTags.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 pb-1">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 shrink-0">
-              <Tag className="w-4 h-4" />
-            </div>
-            {availableTags.map(tag => (
-               <button
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
-                  tags.includes(tag)
-                    ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-200/50 scale-105' 
-                    : 'bg-white text-stone-600 border-stone-200 hover:border-emerald-300 hover:bg-emerald-50'
-                }`}
+          <div className="flex flex-col gap-2 pb-1 border-t border-stone-100 pt-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 shrink-0">
+                  <Tag className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-semibold text-stone-600">遊戲標籤 ({availableTags.length})</span>
+              </div>
+              <button 
+                onClick={() => setIsTagsExpanded(!isTagsExpanded)}
+                className="flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1.5 rounded-lg hover:bg-emerald-100 transition-colors"
               >
-                {tag}
+                {isTagsExpanded ? '收起標籤' : '展開標籤'}
+                {isTagsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
               </button>
-            ))}
+            </div>
+
+            {/* Content: show all if expanded, or just selected if collapsed */}
+            {(isTagsExpanded || tags.length > 0) && (
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                {(isTagsExpanded ? availableTags : tags).map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
+                      tags.includes(tag)
+                        ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-200/50 scale-105' 
+                        : 'bg-white text-stone-600 border-stone-200 hover:border-emerald-300 hover:bg-emerald-50'
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
         

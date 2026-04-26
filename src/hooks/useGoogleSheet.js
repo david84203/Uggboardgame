@@ -39,6 +39,7 @@ const FIELD_MAP = {
   tag1: '標籤1',
   tag2: '標籤2',
   tag3: '標籤3',
+  isHot: '店內熱門',
 };
 
 /**
@@ -163,6 +164,7 @@ export default function useGoogleSheet() {
                     row[FIELD_MAP.tag2]?.trim(),
                     row[FIELD_MAP.tag3]?.trim(),
                   ].filter((t) => t && t !== ''),
+                  isHot: row[FIELD_MAP.isHot]?.trim()?.toLowerCase() === 'v',
                 };
               });
 
