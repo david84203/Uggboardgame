@@ -8,16 +8,40 @@ export default function App() {
   const { games, loading, error } = useGoogleSheet();
 
   const [filters, setFilters] = useState({
+    searchQuery: '',
     playerCount: '',
     timeRange: '',
     category: '',
+    tags: [],
   });
+
+  // 動態取得所有可用分類與標籤，並預先放入核心類別
+  const availableCategories = useMemo(() => {
+    const baseCats = ['派對', '陣營', '小品', '兒童', '策略', '雙人', '紙筆', '解謎', '抽象', 'RPG'];
+    const sheetCats = games.map((g) => g.category).filter((c) => c && c !== '');
+    return Array.from(new Set([...baseCats, ...sheetCats]));
+  }, [games]);
+
+  const availableTags = useMemo(() => {
+    const allTags = games.flatMap((g) => g.tags).filter((t) => t && t !== '');
+    return Array.from(new Set(allTags));
+  }, [games]);
 
   /**
    * 過濾邏輯
    */
   const filteredGames = useMemo(() => {
     return games.filter((game) => {
+      // 0️⃣ 搜尋列過濾 (包含字元即可)
+      if (filters.searchQuery) {
+        const query = filters.searchQuery.toLowerCase();
+        const matchName = game.name.toLowerCase().includes(query);
+        const matchEnglish = game.englishName.toLowerCase().includes(query);
+        if (!matchName && !matchEnglish) {
+          return false;
+        }
+      }
+
       // 1️⃣ 人數過濾: 輸入人數必須在 minPlayers ~ maxPlayers 之間
       if (filters.playerCount) {
         const count = Number(filters.playerCount);
@@ -53,15 +77,18 @@ export default function App() {
         }
       }
 
-      // 3️⃣ 分類過濾 (目前 categories 欄位尚未填入，預留邏輯)
+      // 3️⃣ 分類過濾 (單選)
       if (filters.category) {
-        if (game.categories && game.categories.length > 0) {
-          if (!game.categories.includes(filters.category)) {
-            return false;
-          }
-        } else {
-          // 如果遊戲沒有分類資料，暫時不過濾（等分類資料建好後改為 return false）
-          // return false;
+        if (game.category !== filters.category) {
+          return false;
+        }
+      }
+
+      // 4️⃣ 標籤過濾 (多選 - 交集)
+      if (filters.tags && filters.tags.length > 0) {
+        const hasAllTags = filters.tags.every(selectedTag => game.tags.includes(selectedTag));
+        if (!hasAllTags) {
+          return false;
         }
       }
 
@@ -72,7 +99,12 @@ export default function App() {
   return (
     <div className="min-h-dvh bg-stone-50">
       <Header />
-      <FilterBar filters={filters} onFilterChange={setFilters} />
+      <FilterBar 
+        filters={filters} 
+        onFilterChange={setFilters} 
+        availableCategories={availableCategories}
+        availableTags={availableTags}
+      />
       <GameList
         games={filteredGames}
         loading={loading}

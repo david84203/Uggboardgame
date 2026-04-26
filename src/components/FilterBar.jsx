@@ -1,4 +1,4 @@
-import { Users, Clock, Tag, RotateCcw, Minus, Plus } from 'lucide-react';
+import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers } from 'lucide-react';
 
 const TIME_OPTIONS = [
   { label: '不限時間', value: '' },
@@ -8,17 +8,8 @@ const TIME_OPTIONS = [
   { label: '超過 1 小時', value: '61' },
 ];
 
-const CATEGORY_OPTIONS = [
-  { label: '不限類型', value: '' },
-  { label: '🎯 策略', value: '策略' },
-  { label: '🎉 派對', value: '派對' },
-  { label: '🕵️ 陣營', value: '陣營' },
-  { label: '👶 兒童', value: '兒童' },
-  { label: '💑 雙人', value: '雙人' },
-];
-
-export default function FilterBar({ filters, onFilterChange }) {
-  const { playerCount, timeRange, category } = filters;
+export default function FilterBar({ filters, onFilterChange, availableCategories = [], availableTags = [] }) {
+  const { searchQuery, playerCount, timeRange, category, tags = [] } = filters;
 
   const handlePlayerChange = (delta) => {
     const newVal = Math.max(0, (playerCount || 0) + delta);
@@ -26,70 +17,77 @@ export default function FilterBar({ filters, onFilterChange }) {
   };
 
   const handleReset = () => {
-    onFilterChange({ playerCount: '', timeRange: '', category: '' });
+    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [] });
   };
 
-  const hasActiveFilter = playerCount || timeRange || category;
+  const toggleTag = (tag) => {
+    const newTags = tags.includes(tag) 
+      ? tags.filter(t => t !== tag) 
+      : [...tags, tag];
+    onFilterChange({ ...filters, tags: newTags });
+  };
+
+  const toggleCategory = (cat) => {
+    const newCat = category === cat ? '' : cat;
+    onFilterChange({ ...filters, category: newCat });
+  };
+
+  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0;
 
   return (
-    <div className="sticky top-[53px] z-40 bg-white/80 backdrop-blur-lg border-b border-stone-100">
+    <div className="sticky top-[53px] z-40 bg-white/80 backdrop-blur-lg border-b border-stone-100 shadow-sm">
       <div className="px-4 py-3 space-y-3">
         
-        {/* Row 1: Player count + Reset */}
+        {/* Row 1: Search Bar */}
+        <div className="relative">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">
+            <Search className="w-4 h-4" />
+          </div>
+          <input
+            type="text"
+            placeholder="搜尋遊戲名稱 (中/英文)..."
+            value={searchQuery || ''}
+            onChange={(e) => onFilterChange({ ...filters, searchQuery: e.target.value })}
+            className="w-full pl-9 pr-3 py-2 bg-white border border-stone-200 rounded-xl text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 transition-all shadow-sm"
+          />
+        </div>
+
+        {/* Row 2: Player count + Reset & Time */}
         <div className="flex items-center gap-3">
           {/* Player Count */}
-          <div className="flex items-center gap-2 flex-1">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-50 text-orange-500">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-50 text-orange-500 shrink-0">
               <Users className="w-4 h-4" />
             </div>
-            <span className="text-sm font-medium text-stone-600 min-w-[3rem]">人數</span>
-            <div className="flex items-center gap-1 bg-stone-50 rounded-xl p-1">
+            <div className="flex items-center gap-1 bg-white border border-stone-100 rounded-xl p-1 shadow-sm shrink-0">
               <button
                 onClick={() => handlePlayerChange(-1)}
                 disabled={!playerCount || playerCount <= 0}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white shadow-sm text-stone-500 disabled:opacity-30 disabled:shadow-none active:scale-95 transition-all"
-                id="player-decrease"
+                className="w-7 h-7 flex items-center justify-center rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 disabled:opacity-30 disabled:hover:bg-stone-50 transition-all cursor-pointer disabled:cursor-auto"
               >
-                <Minus className="w-4 h-4" />
+                <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="w-8 text-center text-base font-semibold text-stone-800 tabular-nums" id="player-count">
+              <span className="w-6 text-center text-sm font-semibold text-stone-800 tabular-nums">
                 {playerCount || '-'}
               </span>
               <button
                 onClick={() => handlePlayerChange(1)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white shadow-sm text-stone-500 active:scale-95 transition-all"
-                id="player-increase"
+                className="w-7 h-7 flex items-center justify-center rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 transition-all cursor-pointer"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
 
-          {/* Reset Button */}
-          {hasActiveFilter && (
-            <button
-              onClick={handleReset}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-600 bg-orange-50 rounded-full hover:bg-orange-100 active:scale-95 transition-all"
-              id="filter-reset"
-            >
-              <RotateCcw className="w-3 h-3" />
-              清除
-            </button>
-          )}
-        </div>
-
-        {/* Row 2: Time + Category dropdowns */}
-        <div className="flex gap-2.5">
           {/* Time Select */}
-          <div className="relative flex-1">
+          <div className="relative flex-1 min-w-0">
             <div className="absolute left-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-md bg-blue-50 text-blue-400 pointer-events-none">
               <Clock className="w-3.5 h-3.5" />
             </div>
             <select
-              value={timeRange}
+              value={timeRange || ''}
               onChange={(e) => onFilterChange({ ...filters, timeRange: e.target.value })}
-              className="w-full pl-10 pr-3 py-2.5 bg-stone-50 border border-stone-200/60 rounded-xl text-sm text-stone-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 transition-all"
-              id="time-filter"
+              className="w-full pl-9 pr-8 py-2 bg-white border border-stone-100 shadow-sm rounded-xl text-sm text-stone-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 transition-all truncate cursor-pointer"
             >
               {TIME_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -97,37 +95,69 @@ export default function FilterBar({ filters, onFilterChange }) {
                 </option>
               ))}
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
 
-          {/* Category Select */}
-          <div className="relative flex-1">
-            <div className="absolute left-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-md bg-purple-50 text-purple-400 pointer-events-none">
-              <Tag className="w-3.5 h-3.5" />
-            </div>
-            <select
-              value={category}
-              onChange={(e) => onFilterChange({ ...filters, category: e.target.value })}
-              className="w-full pl-10 pr-3 py-2.5 bg-stone-50 border border-stone-200/60 rounded-xl text-sm text-stone-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 transition-all"
-              id="category-filter"
+          {/* Reset Button */}
+          {hasActiveFilter && (
+            <button
+              onClick={handleReset}
+              className="flex items-center justify-center w-9 h-9 text-orange-600 bg-orange-50 rounded-xl hover:bg-orange-100 active:scale-95 transition-all shrink-0 cursor-pointer"
+              title="清除所有篩選"
             >
-              {CATEGORY_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          )}
         </div>
+
+        {/* Row 3: Categories Pills */}
+        {availableCategories.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 pb-1">
+             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-50 text-purple-500 shrink-0">
+              <Layers className="w-4 h-4" />
+            </div>
+            {availableCategories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => toggleCategory(cat)}
+                className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
+                  category === cat 
+                    ? 'bg-purple-500 text-white border-purple-500 shadow-md shadow-purple-200/50 scale-105' 
+                    : 'bg-white text-stone-600 border-stone-200 hover:border-purple-300 hover:bg-purple-50'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Row 4: Tags Pills */}
+        {availableTags.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 pb-1">
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 shrink-0">
+              <Tag className="w-4 h-4" />
+            </div>
+            {availableTags.map(tag => (
+               <button
+                key={tag}
+                onClick={() => toggleTag(tag)}
+                className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all cursor-pointer ${
+                  tags.includes(tag)
+                    ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-200/50 scale-105' 
+                    : 'bg-white text-stone-600 border-stone-200 hover:border-emerald-300 hover:bg-emerald-50'
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
+        
       </div>
     </div>
   );
