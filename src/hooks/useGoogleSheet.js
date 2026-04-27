@@ -40,6 +40,7 @@ const FIELD_MAP = {
   tag2: '標籤2',
   tag3: '標籤3',
   isHot: '店內熱門',
+  image: '圖片',
 };
 
 /**
@@ -113,7 +114,7 @@ export default function useGoogleSheet() {
 
         Papa.parse(cleanedCsv, {
           header: true,
-          skipEmptyLines: true,
+          skipEmptyLines: false,
           complete: (results) => {
             // 🔍 Debug: 印出第一筆原始資料，方便確認 key 名稱
             if (results.data.length > 0) {
@@ -122,8 +123,10 @@ export default function useGoogleSheet() {
             }
 
             // 過濾掉標題行和空行，將資料轉為結構化格式
+            // 先標記原始索引，再過濾，確保列數對應正確
             const mapped = results.data
-              .filter((row) => {
+              .map((row, originalIndex) => ({ row, originalIndex }))
+              .filter(({ row }) => {
                 const name = row[FIELD_MAP.name];
                 const playersRaw = row[FIELD_MAP.players];
                 // 過濾無遊戲名稱、或是標題/空行
@@ -135,14 +138,19 @@ export default function useGoogleSheet() {
                   playersRaw.trim() !== ''
                 );
               })
-              .map((row, index) => {
+              .map(({ row, originalIndex }) => {
+                // 計算實際的 Google Sheet 列數 (1-based)
+                // headerIndex 是 0-based line index, header 在 Sheet 第 (headerIndex+1) 列
+                // 第一筆資料在 Sheet 第 (headerIndex+2) 列
+                const sheetRowNumber = headerIndex + originalIndex + 2;
+
                 const playersParsed = parsePlayers(row[FIELD_MAP.players]);
                 const timeParsed = parsePlayTime(row[FIELD_MAP.playTime]);
                 const rating = parseFloat(row[FIELD_MAP.rating]);
                 const weight = parseFloat(row[FIELD_MAP.weight]);
 
                 return {
-                  id: index,
+                  id: sheetRowNumber,
                   name: row[FIELD_MAP.name]?.trim() || '',
                   englishName: row[FIELD_MAP.englishName]?.trim() || '',
                   language: row[FIELD_MAP.language]?.trim() || '',
@@ -165,6 +173,7 @@ export default function useGoogleSheet() {
                     row[FIELD_MAP.tag3]?.trim(),
                   ].filter((t) => t && t !== ''),
                   isHot: row[FIELD_MAP.isHot]?.trim()?.toLowerCase() === 'v',
+                  hasImage: row[FIELD_MAP.image]?.trim()?.toLowerCase() === 'v',
                 };
               });
 

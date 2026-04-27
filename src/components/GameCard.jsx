@@ -3,6 +3,7 @@ import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame } from 'lu
 
 export default function GameCard({ game }) {
   const [imgError, setImgError] = useState(false);
+  const [useFallback, setUseFallback] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Prevent background scrolling when modal is open
@@ -42,7 +43,18 @@ export default function GameCard({ game }) {
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
 
   // Initial image source (BGG ID or CSV index fallback)
-  const imgSrc = bggId ? `/images/${bggId}.jpg` : `/images/row-${id}.jpg`;
+  const bggImg = bggId ? `/images/${bggId}.jpg` : null;
+  const rowImg = `/images/row-${id}.jpg`;
+  
+  const imgSrc = !useFallback ? (bggImg || rowImg) : rowImg;
+
+  const handleImgError = () => {
+    if (!useFallback && bggId) {
+      setUseFallback(true);
+    } else {
+      setImgError(true);
+    }
+  };
 
   // 格式化人數顯示
   const playersDisplay = playersRaw || `${minPlayers}${maxPlayers && maxPlayers !== minPlayers ? `-${maxPlayers}` : ''} 人`;
@@ -63,8 +75,12 @@ export default function GameCard({ game }) {
   const weightLabel = getWeightLabel(weight);
   
   const displayCategories = category ? [category] : [];
-  // All tags combined for the bottom row
-  const allBadges = [...displayCategories, ...(tags || [])].slice(0, 4); // Max 4 badges to prevent overflow
+  // All tags combined for the bottom row, prioritizing Hot badge
+  const allBadges = [
+    ...(isHot ? ['🔥 熱門'] : []),
+    ...displayCategories, 
+    ...(tags || [])
+  ].slice(0, 4); // Max 4 badges to prevent overflow
 
   return (
     <>
@@ -88,11 +104,11 @@ export default function GameCard({ game }) {
               alt={name}
               className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
-              onError={() => setImgError(true)}
+              onError={handleImgError}
             />
           ) : (
-            <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-              <Gamepad2 className="w-10 h-10 text-stone-300" strokeWidth={1.5} />
+            <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-stone-50">
+              <img src="/images/LOGO.jpg" alt="Logo" className="w-16 h-16 object-contain opacity-20 grayscale" />
             </div>
           )}
         </div>
@@ -169,7 +185,7 @@ export default function GameCard({ game }) {
                 />
               ) : (
                  <div className="w-full h-64 sm:h-72 bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
-                   <Gamepad2 className="w-20 h-20 text-stone-300" strokeWidth={1.5} />
+                   <img src="/images/LOGO.jpg" alt="Logo" className="w-32 h-32 object-contain opacity-20 grayscale" />
                  </div>
               )}
 

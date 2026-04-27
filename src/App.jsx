@@ -13,6 +13,7 @@ export default function App() {
     timeRange: '',
     category: '',
     tags: [],
+    onlyHot: false,
   });
 
   // 動態取得所有可用分類與標籤，並預先放入核心類別
@@ -90,6 +91,11 @@ export default function App() {
         if (!hasAllTags) {
           return false;
         }
+      }
+
+      // 5️⃣ 熱門遊戲過濾
+      if (filters.onlyHot && !game.isHot) {
+        return false;
       }
 
       return true;

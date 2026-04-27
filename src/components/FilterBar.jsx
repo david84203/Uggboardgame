@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers, ChevronDown, ChevronUp } from 'lucide-react';
+import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers, ChevronDown, ChevronUp, Flame } from 'lucide-react';
 
 const TIME_OPTIONS = [
   { label: '不限時間', value: '' },
@@ -10,7 +10,7 @@ const TIME_OPTIONS = [
 ];
 
 export default function FilterBar({ filters, onFilterChange, availableCategories = [], availableTags = [] }) {
-  const { searchQuery, playerCount, timeRange, category, tags = [] } = filters;
+  const { searchQuery, playerCount, timeRange, category, tags = [], onlyHot } = filters;
   const [isTagsExpanded, setIsTagsExpanded] = useState(false);
   const [isCatsExpanded, setIsCatsExpanded] = useState(false);
 
@@ -20,7 +20,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
   };
 
   const handleReset = () => {
-    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [] });
+    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [], onlyHot: false });
   };
 
   const toggleTag = (tag) => {
@@ -35,7 +35,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
     onFilterChange({ ...filters, category: newCat });
   };
 
-  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0;
+  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0 || onlyHot;
 
   return (
     <div className="sticky top-[53px] z-40 bg-white/80 backdrop-blur-lg border-b border-stone-100 shadow-sm">
@@ -104,6 +104,33 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
               </svg>
             </div>
           </div>
+
+          <button
+            onClick={() => {
+              const nextOnlyHot = !onlyHot;
+              if (nextOnlyHot) {
+                // If turning ON, clear other specific filters to show all hot games directly
+                onFilterChange({ 
+                  ...filters, 
+                  onlyHot: true,
+                  playerCount: '',
+                  timeRange: '',
+                  category: '',
+                  tags: []
+                });
+              } else {
+                onFilterChange({ ...filters, onlyHot: false });
+              }
+            }}
+            className={`flex items-center gap-1.5 px-3 h-9 rounded-xl text-sm font-bold transition-all shrink-0 cursor-pointer border ${
+              onlyHot 
+                ? 'bg-red-500 text-white border-red-500 shadow-md shadow-red-200' 
+                : 'bg-white text-red-500 border-red-100 hover:bg-red-50'
+            }`}
+          >
+            <Flame className={`w-4 h-4 ${onlyHot ? 'fill-white' : 'fill-red-500'}`} />
+            <span>店內熱門</span>
+          </button>
 
           {/* Reset Button */}
           {hasActiveFilter && (
