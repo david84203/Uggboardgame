@@ -33,6 +33,11 @@ export default function App() {
    */
   const filteredGames = useMemo(() => {
     return games.filter((game) => {
+      // 🔴 熱門遊戲過濾 (優先檢查)
+      if (filters.onlyHot && !game.isHot) {
+        return false;
+      }
+
       // 0️⃣ 搜尋列過濾 (包含字元即可)
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
@@ -91,11 +96,6 @@ export default function App() {
         if (!hasAllTags) {
           return false;
         }
-      }
-
-      // 5️⃣ 熱門遊戲過濾
-      if (filters.onlyHot && !game.isHot) {
-        return false;
       }
 
       return true;

@@ -114,7 +114,8 @@ export default function useGoogleSheet() {
 
         Papa.parse(cleanedCsv, {
           header: true,
-          skipEmptyLines: false,
+          skipEmptyLines: 'greedy',
+          transformHeader: (header) => header.trim(),
           complete: (results) => {
             // 🔍 Debug: 印出第一筆原始資料，方便確認 key 名稱
             if (results.data.length > 0) {
@@ -172,8 +173,10 @@ export default function useGoogleSheet() {
                     row[FIELD_MAP.tag2]?.trim(),
                     row[FIELD_MAP.tag3]?.trim(),
                   ].filter((t) => t && t !== ''),
-                  isHot: row[FIELD_MAP.isHot]?.trim()?.toLowerCase() === 'v',
-                  hasImage: row[FIELD_MAP.image]?.trim()?.toLowerCase() === 'v',
+                  isHot: row[FIELD_MAP.isHot]?.toString().trim().toLowerCase() === 'v' || 
+                         row[FIELD_MAP.isHot]?.toString().trim() === '1',
+                  hasImage: row[FIELD_MAP.image]?.toString().trim().toLowerCase() === 'v' ||
+                            row[FIELD_MAP.image]?.toString().trim() === '1',
                 };
               });
 
