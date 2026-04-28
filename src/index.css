@@ -41,17 +41,68 @@ html {
 }
 
 body {
-  background-color: var(--color-surface);
   color: var(--color-text-primary);
   min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, #FFEDD5 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 30%, #FEF3C7 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, #FFE4E6 0%, transparent 55%),
+    linear-gradient(180deg, #FFF8F0 0%, #FAF7F2 50%, #FFF4E6 100%);
+  background-attachment: fixed;
 }
 
 #root {
   max-width: 480px;
   margin: 0 auto;
   min-height: 100dvh;
-  background-color: var(--color-surface);
+  background-color: rgba(255, 255, 255, 0.45);
   position: relative;
+}
+
+/* On larger screens, lift the content container with a subtle shadow */
+@media (min-width: 520px) {
+  #root {
+    box-shadow:
+      0 1px 2px rgba(28, 25, 23, 0.04),
+      0 8px 32px rgba(28, 25, 23, 0.06),
+      0 0 0 1px rgba(28, 25, 23, 0.03);
+  }
+}
+
+/* ============================
+   Ambient Background Decoration
+   ============================ */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-bg::before,
+.ambient-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.35;
+}
+
+.ambient-bg::before {
+  width: 28rem;
+  height: 28rem;
+  top: -8rem;
+  left: -6rem;
+  background: radial-gradient(circle, #FB923C 0%, transparent 70%);
+}
+
+.ambient-bg::after {
+  width: 32rem;
+  height: 32rem;
+  bottom: -10rem;
+  right: -8rem;
+  background: radial-gradient(circle, #FBBF24 0%, transparent 70%);
 }
 
 /* ============================
