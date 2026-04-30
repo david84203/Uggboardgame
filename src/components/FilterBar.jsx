@@ -3,10 +3,10 @@ import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers, ChevronDown,
 
 const TIME_OPTIONS = [
   { label: '不限時間', value: '' },
-  { label: '15 分鐘內', value: '15' },
-  { label: '30 分鐘內', value: '30' },
-  { label: '1 小時內', value: '60' },
-  { label: '超過 1 小時', value: '61' },
+  { label: '15 分鐘內', value: '0-15' },
+  { label: '15 分鐘至 30 分鐘', value: '15-30' },
+  { label: '30 分鐘至 1 小時', value: '30-60' },
+  { label: '1 小時以上', value: '60+' },
 ];
 
 export default function FilterBar({ filters, onFilterChange, availableCategories = [], availableTags = [] }) {

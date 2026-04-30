@@ -58,28 +58,26 @@ export default function App() {
         }
       }
 
-      // 2️⃣ 時間過濾
+      // 2️⃣ 時間過濾：依 minTime 互斥分配，每款遊戲只會出現在一個區間
+      // 邊界規則（左開右閉）：15→「15分鐘內」、30→「15-30」、60→「30-60」、>60→「1小時以上」
       if (filters.timeRange) {
-        const timeVal = Number(filters.timeRange);
-        
-        if (timeVal <= 60) {
-          // "15分鐘內", "30分鐘內", "1小時內"
-          // 遊戲的最小時間應該 <= 選擇的時間上限
-          if (game.minTime !== null) {
-            if (game.minTime > timeVal) return false;
-          } else {
-            return false; // 沒有時間資料的不顯示
-          }
-        } else {
-          // "超過1小時" (value = 61)
-          // 遊戲的最大時間或最小時間 > 60
-          if (game.maxTime !== null) {
-            if (game.maxTime <= 60) return false;
-          } else if (game.minTime !== null) {
-            if (game.minTime <= 60) return false;
-          } else {
-            return false;
-          }
+        if (game.minTime === null) return false;
+        const t = game.minTime;
+        switch (filters.timeRange) {
+          case '0-15':
+            if (t > 15) return false;
+            break;
+          case '15-30':
+            if (t <= 15 || t > 30) return false;
+            break;
+          case '30-60':
+            if (t <= 30 || t > 60) return false;
+            break;
+          case '60+':
+            if (t <= 60) return false;
+            break;
+          default:
+            break;
         }
       }
 
@@ -103,11 +101,12 @@ export default function App() {
   }, [games, filters]);
 
   return (
-    <div className="min-h-dvh bg-stone-50">
+    <div className="min-h-dvh">
+      <div className="ambient-bg" aria-hidden="true" />
       <Header />
-      <FilterBar 
-        filters={filters} 
-        onFilterChange={setFilters} 
+      <FilterBar
+        filters={filters}
+        onFilterChange={setFilters}
         availableCategories={availableCategories}
         availableTags={availableTags}
       />
