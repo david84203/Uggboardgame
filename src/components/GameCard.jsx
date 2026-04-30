@@ -36,7 +36,25 @@ export default function GameCard({ game }) {
     category,
     tags,
     isHot,
+    sticker,
   } = game;
+
+  const STICKER_COLORS = {
+    '紅色': '#ef4444',
+    '綠色': '#22c55e',
+    '黃色': '#eab308',
+    '藍色': '#3b82f6',
+    '橘色': '#f97316',
+    '紫色': '#a855f7',
+    '粉色': '#ec4899',
+  };
+  const STICKER_LABELS = {
+    '綠色': '平易近人的規則，適合新手玩家',
+    '黃色': '假日不提供教學服務',
+    '紅色': '不提供教學，需自行研究規則',
+  };
+  const stickerColor = sticker ? STICKER_COLORS[sticker] || null : null;
+  const stickerLabel = sticker ? (STICKER_LABELS[sticker] || sticker) : null;
 
   // Extract BGG ID from BGG link
   const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame\/(\d+)/);
@@ -116,8 +134,15 @@ export default function GameCard({ game }) {
         {/* Card Body */}
         <div className="flex flex-col flex-1">
           {/* Title */}
-          <h3 className="text-base sm:text-lg font-bold text-stone-800 leading-snug mb-1 truncate" id={`game-name-${game.id}`}>
-            {name}
+          <h3 className="text-base sm:text-lg font-bold text-stone-800 leading-snug mb-1 flex items-center gap-1.5 truncate" id={`game-name-${game.id}`}>
+            {stickerColor && (
+              <span
+                className="inline-block shrink-0 w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: stickerColor }}
+                title={stickerLabel}
+              />
+            )}
+            <span className="truncate">{name}</span>
           </h3>
           
           {/* Subtitle / Description (English Name) */}
@@ -195,7 +220,14 @@ export default function GameCard({ game }) {
                 <div className="mb-6">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
-                      <h2 className="text-2xl font-extrabold text-stone-900 leading-tight">
+                      <h2 className="text-2xl font-extrabold text-stone-900 leading-tight flex items-center gap-2">
+                        {stickerColor && (
+                          <span
+                            className="inline-block shrink-0 w-3 h-3 rounded-full"
+                            style={{ backgroundColor: stickerColor }}
+                            title={stickerLabel}
+                          />
+                        )}
                         {name}
                       </h2>
                       {englishName && englishName !== 'N/A' && (
@@ -224,6 +256,16 @@ export default function GameCard({ game }) {
                       <span className="text-sm font-bold uppercase tracking-wider">{language || '中文版'}</span>
                     </div>
                   </div>
+                  {/* Sticker Notice */}
+                  {stickerColor && stickerLabel && (
+                    <div
+                      className="flex items-center gap-2.5 mt-4 px-3 py-2.5 rounded-xl text-sm font-medium"
+                      style={{ backgroundColor: `${stickerColor}18`, border: `1.5px solid ${stickerColor}40`, color: '#44403c' }}
+                    >
+                      <span className="inline-block shrink-0 w-2.5 h-2.5 rounded-full" style={{ backgroundColor: stickerColor }} />
+                      {stickerLabel}
+                    </div>
+                  )}
                 </div>
 
                 {/* Info Grid (Detailed) */}
