@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame } from 'lucide-react';
 
 export default function GameCard({ game }) {
-  const [imgError, setImgError] = useState(false);
-  const [useFallback, setUseFallback] = useState(false);
+  const [imgSrcIndex, setImgSrcIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Prevent background scrolling when modal is open
@@ -60,19 +59,18 @@ export default function GameCard({ game }) {
   const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame\/(\d+)/);
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
 
-  // Initial image source (BGG ID or CSV index fallback)
-  const bggImg = bggId ? `/images/${bggId}.jpg` : null;
-  const rowImg = `/images/row-${id}.jpg`;
-  
-  const imgSrc = !useFallback ? (bggImg || rowImg) : rowImg;
+  // Image sources to try in order: bggId.jpg → bggId.webp → row-{id}.jpg → row-{id}.webp
+  const imgSources = [
+    bggId ? `/images/${bggId}.jpg` : null,
+    bggId ? `/images/${bggId}.webp` : null,
+    `/images/row-${id}.jpg`,
+    `/images/row-${id}.webp`,
+  ].filter(Boolean);
 
-  const handleImgError = () => {
-    if (!useFallback && bggId) {
-      setUseFallback(true);
-    } else {
-      setImgError(true);
-    }
-  };
+  const imgSrc = imgSources[imgSrcIndex] ?? null;
+  const imgError = imgSrcIndex >= imgSources.length;
+
+  const handleImgError = () => setImgSrcIndex(i => i + 1);
 
   // 格式化人數顯示
   const playersDisplay = playersRaw || `${minPlayers}${maxPlayers && maxPlayers !== minPlayers ? `-${maxPlayers}` : ''} 人`;
