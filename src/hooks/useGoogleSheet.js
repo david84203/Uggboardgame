@@ -42,6 +42,8 @@ const FIELD_MAP = {
   isHot: '店內熱門',
   image: '圖片',
   sticker: '貼紙',
+  price: '定價',
+  rental: '租金',
 };
 
 /**
@@ -179,6 +181,8 @@ export default function useGoogleSheet() {
                   hasImage: row[FIELD_MAP.image]?.toString().trim().toLowerCase() === 'v' ||
                             row[FIELD_MAP.image]?.toString().trim() === '1',
                   sticker: row[FIELD_MAP.sticker]?.trim() || '',
+                  price: row[FIELD_MAP.price]?.trim() || '',
+                  rental: row[FIELD_MAP.rental]?.trim() || '',
                 };
               });
 

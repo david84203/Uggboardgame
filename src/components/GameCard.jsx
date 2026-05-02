@@ -36,6 +36,8 @@ export default function GameCard({ game }) {
     tags,
     isHot,
     sticker,
+    price,
+    rental,
   } = game;
 
   const STICKER_COLORS = {
@@ -165,16 +167,23 @@ export default function GameCard({ game }) {
             </div>
           </div>
 
-          {/* Badges / Tags (Bottom) */}
-          <div className="flex flex-wrap gap-1.5 mt-auto pt-2 border-t border-stone-100/50">
-            {allBadges.map((badge, idx) => (
-              <span
-                key={idx}
-                className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#f0e6c8] text-[#8c7335]"
-              >
-                {badge}
+          {/* Badges / Tags + 租金 (Bottom) */}
+          <div className="flex items-center justify-between gap-1.5 mt-auto pt-2 border-t border-stone-100/50">
+            <div className="flex flex-wrap gap-1.5">
+              {allBadges.map((badge, idx) => (
+                <span
+                  key={idx}
+                  className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#f0e6c8] text-[#8c7335]"
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
+            {rental && (
+              <span className="shrink-0 text-[12px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap">
+                租 ${rental}
               </span>
-            ))}
+            )}
           </div>
         </div>
       </div>
@@ -318,6 +327,34 @@ export default function GameCard({ game }) {
                     </div>
                   )}
                 </div>
+
+                {/* 定價 & 租金 */}
+                {(price || rental) && (
+                  <div className="flex gap-3 mb-6">
+                    {price && (
+                      <div className="flex-1 flex items-center gap-3 p-3 bg-rose-50/50 border border-rose-100/50 rounded-xl">
+                        <div className="p-2 bg-white rounded-lg shadow-sm text-rose-500">
+                          <span className="text-lg leading-none block">🏷️</span>
+                        </div>
+                        <div>
+                          <p className="text-[11px] text-stone-500 font-medium mb-0.5">定價</p>
+                          <p className="text-sm font-bold text-stone-800">NT$ {price}</p>
+                        </div>
+                      </div>
+                    )}
+                    {rental && (
+                      <div className="flex-1 flex items-center gap-3 p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl">
+                        <div className="p-2 bg-white rounded-lg shadow-sm text-emerald-500">
+                          <span className="text-lg leading-none block">🎮</span>
+                        </div>
+                        <div>
+                          <p className="text-[11px] text-stone-500 font-medium mb-0.5">租金</p>
+                          <p className="text-sm font-bold text-emerald-700">NT$ {rental}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Categories and Tags */}
                 {(displayCategories.length > 0 || tags?.length > 0) && (
