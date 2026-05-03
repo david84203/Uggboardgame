@@ -1,11 +1,14 @@
 import { useState, useMemo } from 'react';
 import Header from './components/Header';
+import NavTabs from './components/NavTabs';
 import FilterBar from './components/FilterBar';
 import GameList from './components/GameList';
+import PlaceholderPage from './components/PlaceholderPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
 export default function App() {
   const { games, loading, error } = useGoogleSheet();
+  const [activeTab, setActiveTab] = useState('gamelist');
 
   const [filters, setFilters] = useState({
     searchQuery: '',
@@ -16,7 +19,6 @@ export default function App() {
     onlyHot: false,
   });
 
-  // 動態取得所有可用分類與標籤，並預先放入核心類別
   const availableCategories = useMemo(() => {
     const baseCats = ['派對', '陣營', '小品', '兒童', '策略', '雙人', '紙筆', '解謎', '抽象', 'RPG'];
     const sheetCats = games.map((g) => g.category).filter((c) => c && c !== '');
@@ -28,94 +30,86 @@ export default function App() {
     return Array.from(new Set(allTags));
   }, [games]);
 
-  /**
-   * 過濾邏輯
-   */
   const filteredGames = useMemo(() => {
     return games.filter((game) => {
-      // 🔴 熱門遊戲過濾 (優先檢查)
-      if (filters.onlyHot && !game.isHot) {
-        return false;
-      }
+      if (filters.onlyHot && !game.isHot) return false;
 
-      // 0️⃣ 搜尋列過濾 (包含字元即可)
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
         const matchName = game.name.toLowerCase().includes(query);
         const matchEnglish = game.englishName.toLowerCase().includes(query);
-        if (!matchName && !matchEnglish) {
-          return false;
-        }
+        if (!matchName && !matchEnglish) return false;
       }
 
-      // 1️⃣ 人數過濾: 輸入人數必須在 minPlayers ~ maxPlayers 之間
       if (filters.playerCount) {
         const count = Number(filters.playerCount);
         if (game.minPlayers !== null && game.maxPlayers !== null) {
-          if (count < game.minPlayers || count > game.maxPlayers) {
-            return false;
-          }
+          if (count < game.minPlayers || count > game.maxPlayers) return false;
         }
       }
 
-      // 2️⃣ 時間過濾：依 minTime 互斥分配，每款遊戲只會出現在一個區間
-      // 邊界規則（左開右閉）：15→「15分鐘內」、30→「15-30」、60→「30-60」、>60→「1小時以上」
       if (filters.timeRange) {
         if (game.minTime === null) return false;
         const t = game.minTime;
         switch (filters.timeRange) {
-          case '0-15':
-            if (t > 15) return false;
-            break;
-          case '15-30':
-            if (t <= 15 || t > 30) return false;
-            break;
-          case '30-60':
-            if (t <= 30 || t > 60) return false;
-            break;
-          case '60+':
-            if (t <= 60) return false;
-            break;
-          default:
-            break;
+          case '0-15':  if (t > 15) return false; break;
+          case '15-30': if (t <= 15 || t > 30) return false; break;
+          case '30-60': if (t <= 30 || t > 60) return false; break;
+          case '60+':   if (t <= 60) return false; break;
+          default: break;
         }
       }
 
-      // 3️⃣ 分類過濾 (單選)
-      if (filters.category) {
-        if (game.category !== filters.category) {
-          return false;
-        }
-      }
+      if (filters.category && game.category !== filters.category) return false;
 
-      // 4️⃣ 標籤過濾 (多選 - 交集)
       if (filters.tags && filters.tags.length > 0) {
-        const hasAllTags = filters.tags.every(selectedTag => game.tags.includes(selectedTag));
-        if (!hasAllTags) {
-          return false;
-        }
+        if (!filters.tags.every(tag => game.tags.includes(tag))) return false;
       }
 
       return true;
     });
   }, [games, filters]);
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'consume':
+        return <PlaceholderPage title="店內消費方式" icon="💳" />;
+      case 'food':
+        return <PlaceholderPage title="餐點服務" icon="🍽️" />;
+      case 'rent':
+        return <PlaceholderPage title="租借遊戲規章" icon="📋" />;
+      case 'gamelist':
+        return (
+          <>
+            <FilterBar
+              filters={filters}
+              onFilterChange={setFilters}
+              availableCategories={availableCategories}
+              availableTags={availableTags}
+            />
+            <GameList
+              games={filteredGames}
+              loading={loading}
+              error={error}
+              totalCount={games.length}
+            />
+          </>
+        );
+      case 'environment':
+        return <PlaceholderPage title="環境介紹" icon="🏠" />;
+      case 'member':
+        return <PlaceholderPage title="會員專區" icon="⭐" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="min-h-dvh">
       <div className="ambient-bg" aria-hidden="true" />
       <Header />
-      <FilterBar
-        filters={filters}
-        onFilterChange={setFilters}
-        availableCategories={availableCategories}
-        availableTags={availableTags}
-      />
-      <GameList
-        games={filteredGames}
-        loading={loading}
-        error={error}
-        totalCount={games.length}
-      />
+      <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
+      {renderContent()}
     </div>
   );
 }
