@@ -26,6 +26,17 @@ export default function RentRulesPage() {
         <p className="mt-2 text-sm text-stone-500">租借遊戲服務限定會員使用</p>
       </div>
 
+      {/* 會員資格 */}
+      <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
+        <span className="text-xl shrink-0">🪪</span>
+        <div>
+          <h2 className="font-bold text-red-700 text-sm mb-1">會員資格限定</h2>
+          <p className="text-red-600 text-sm leading-relaxed">
+            租借遊戲服務<span className="font-bold">限定本店會員</span>使用。非會員請先至櫃台辦理入會，方可進行租借。
+          </p>
+        </div>
+      </div>
+
       {/* 押金說明 */}
       <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-2">
