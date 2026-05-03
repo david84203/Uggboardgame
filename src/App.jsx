@@ -4,6 +4,7 @@ import NavTabs from './components/NavTabs';
 import FilterBar from './components/FilterBar';
 import GameList from './components/GameList';
 import PlaceholderPage from './components/PlaceholderPage';
+import RentRulesPage from './components/pages/RentRulesPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
 export default function App() {
@@ -77,7 +78,7 @@ export default function App() {
       case 'food':
         return <PlaceholderPage title="餐點服務" icon="🍽️" />;
       case 'rent':
-        return <PlaceholderPage title="租借遊戲規章" icon="📋" />;
+        return <RentRulesPage />;
       case 'gamelist':
         return (
           <>
