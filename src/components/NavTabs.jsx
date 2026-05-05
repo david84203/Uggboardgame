@@ -20,7 +20,7 @@ export default function NavTabs({ activeTab, onTabChange }) {
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`
-                py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200
+                py-2 px-1 rounded-lg text-sm font-medium transition-all duration-200
                 text-center leading-tight min-h-[2.4rem] flex items-center justify-center
                 ${isActive
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sm shadow-orange-200'
