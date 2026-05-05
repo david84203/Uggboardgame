@@ -4,6 +4,8 @@ import NavTabs from './components/NavTabs';
 import FilterBar from './components/FilterBar';
 import GameList from './components/GameList';
 import PlaceholderPage from './components/PlaceholderPage';
+import ConsumePage from './components/pages/ConsumePage';
+import FoodPage from './components/pages/FoodPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
@@ -74,9 +76,9 @@ export default function App() {
   const renderContent = () => {
     switch (activeTab) {
       case 'consume':
-        return <PlaceholderPage title="店內消費方式" icon="💳" />;
+        return <ConsumePage />;
       case 'food':
-        return <PlaceholderPage title="餐點服務" icon="🍽️" />;
+        return <FoodPage />;
       case 'rent':
         return <RentRulesPage />;
       case 'gamelist':
