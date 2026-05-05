@@ -6,6 +6,7 @@ import GameList from './components/GameList';
 import PlaceholderPage from './components/PlaceholderPage';
 import ConsumePage from './components/pages/ConsumePage';
 import FoodPage from './components/pages/FoodPage';
+import EscapeRoomPage from './components/pages/EscapeRoomPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
@@ -102,6 +103,10 @@ export default function App() {
         return <PlaceholderPage title="環境介紹" icon="🏠" />;
       case 'member':
         return <PlaceholderPage title="會員專區" icon="⭐" />;
+      case 'helper':
+        return <PlaceholderPage title="實用桌遊輔助app" icon="📱" />;
+      case 'escape':
+        return <EscapeRoomPage />;
       default:
         return null;
     }

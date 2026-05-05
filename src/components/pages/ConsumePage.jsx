@@ -234,9 +234,17 @@ export default function ConsumePage() {
 
       {/* ===== 5. 密室逃脫 ===== */}
       <CollapsibleSection icon="🔐" title="密室逃脫">
-        <div className="flex flex-col items-center justify-center py-6 text-center">
-          <span className="text-4xl mb-3">🚧</span>
-          <p className="text-stone-400 text-base">內容建置中，敬請期待</p>
+        <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 flex items-start gap-3">
+          <span className="text-xl shrink-0">🚪</span>
+          <div>
+            <p className="text-stone-600 text-base leading-relaxed">
+              5F系列密室逃脫的主題與收費資訊，請參考
+              <span className="font-bold text-purple-700">「密室逃脫專區」</span>頁面。
+            </p>
+            <p className="text-sm text-stone-400 mt-1.5">
+              可從上方導覽列「密室逃脫專區」進入查看完整介紹
+            </p>
+          </div>
         </div>
       </CollapsibleSection>
 
