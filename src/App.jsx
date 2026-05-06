@@ -7,12 +7,15 @@ import PlaceholderPage from './components/PlaceholderPage';
 import ConsumePage from './components/pages/ConsumePage';
 import FoodPage from './components/pages/FoodPage';
 import EscapeRoomPage from './components/pages/EscapeRoomPage';
+import AgricolaScoreCalculator from './components/pages/AgricolaScoreCalculator';
+import HelperMenuPage from './components/pages/HelperMenuPage';
+import ChessClockPage from './components/pages/ChessClockPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
 export default function App() {
   const { games, loading, error } = useGoogleSheet();
-  const [activeTab, setActiveTab] = useState('gamelist');
+  const [activeTab, setActiveTab] = useState('home');
 
   const [filters, setFilters] = useState({
     searchQuery: '',
@@ -103,8 +106,12 @@ export default function App() {
         return <PlaceholderPage title="環境介紹" icon="🏠" />;
       case 'member':
         return <PlaceholderPage title="會員專區" icon="⭐" />;
-      case 'helper':
-        return <PlaceholderPage title="實用桌遊輔助app" icon="📱" />;
+      case 'helper-menu':
+        return <HelperMenuPage onSelect={setActiveTab} />;
+      case 'helper-agricola':
+        return <AgricolaScoreCalculator />;
+      case 'helper-clock':
+        return <ChessClockPage />;
       case 'escape':
         return <EscapeRoomPage />;
       default:
@@ -112,12 +119,28 @@ export default function App() {
     }
   };
 
+  const handleBack = () => {
+    if (activeTab === 'helper-agricola' || activeTab === 'helper-clock') {
+      setActiveTab('helper-menu');
+    } else {
+      setActiveTab('home');
+    }
+  };
+
   return (
     <div className="min-h-dvh">
       <div className="ambient-bg" aria-hidden="true" />
-      <Header />
-      <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
-      {renderContent()}
+      <Header 
+        showBackButton={activeTab !== 'home'} 
+        onBack={handleBack} 
+      />
+      {activeTab === 'home' ? (
+        <div className="pt-8 px-2 pb-10">
+          <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        </div>
+      ) : (
+        renderContent()
+      )}
     </div>
   );
 }
