@@ -43,7 +43,7 @@ export default function ChessClockPage() {
 
   // 處理計時邏輯
   useEffect(() => {
-    if (!isRunning) return;
+    if (!isRunning || timeLeft === 0) return;
 
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -52,14 +52,13 @@ export default function ChessClockPage() {
           playBeep(false); // 短嗶聲
         } else if (next === 0) {
           playBeep(true);  // 長嗶聲
-          clearInterval(timerRef.current);
         }
         return next;
       });
     }, 1000);
 
     return () => clearInterval(timerRef.current);
-  }, [isRunning]);
+  }, [isRunning, timeLeft === 0]);
 
   const handleStartSetup = () => {
     if (totalSeconds === 0) {
@@ -73,13 +72,14 @@ export default function ChessClockPage() {
   };
 
   const handleBigButtonClick = () => {
-    if (!isRunning) {
+    if (!isRunning && timeLeft === totalSeconds) {
       // 第一次點擊：開始計時
       setIsRunning(true);
     } else {
-      // 計時中點擊：換下一位玩家並重置時間
+      // 計時中點擊，或時間到後點擊：換下一位玩家並重置時間
       setCurrentPlayer(prev => (prev % playerCount) + 1);
       setTimeLeft(totalSeconds);
+      setIsRunning(true); // 確保時間到後點擊也能重新開始
     }
   };
 
@@ -196,40 +196,40 @@ export default function ChessClockPage() {
       </div>
 
       {/* 點擊區域 (超大按鈕) */}
-      <div className="flex-1 p-3 flex items-stretch justify-center pb-4">
-        <button 
-          onClick={handleBigButtonClick}
-          className={`w-full h-full rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-4 transition-all duration-150 flex flex-col items-center justify-center group active:scale-[0.98] ${
-            isTimeUp 
-              ? 'bg-red-500 border-red-600 text-white' 
-              : !isRunning && timeLeft === totalSeconds
-                ? 'bg-amber-400 border-amber-500 text-amber-900'
-                : 'bg-white border-stone-200 text-stone-800'
-          }`}
-        >
+      <button 
+        onClick={handleBigButtonClick}
+        className={`flex-1 mx-4 mb-4 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-4 transition-all duration-150 flex flex-col items-center justify-center group active:scale-[0.98] overflow-hidden ${
+          isTimeUp 
+            ? 'bg-red-500 border-red-600 text-white' 
+            : !isRunning && timeLeft === totalSeconds
+              ? 'bg-amber-400 border-amber-500 text-amber-900'
+              : 'bg-white border-stone-200 text-stone-800'
+        }`}
+      >
+        <div className="rotate-90 flex flex-col items-center justify-center w-max">
           {isTimeUp ? (
             <div className="text-center animate-pulse">
-              <div className="text-7xl font-black mb-4">時間到</div>
-              <div className="text-xl font-bold opacity-80">點擊換下一位玩家</div>
+              <div className="text-8xl font-black mb-4 tracking-widest">時間到</div>
+              <div className="text-3xl font-bold opacity-80">點擊換下一位</div>
             </div>
           ) : !isRunning && timeLeft === totalSeconds ? (
             <div className="text-center">
-              <div className="text-3xl font-black mb-4 opacity-80">準備就緒</div>
-              <PlayCircle size={80} className="mx-auto mb-4 opacity-90" />
-              <div className="text-2xl font-bold">點擊開始</div>
+              <div className="text-4xl font-black mb-6 opacity-80 tracking-widest">準備就緒</div>
+              <PlayCircle size={100} className="mx-auto mb-6 opacity-90" />
+              <div className="text-3xl font-bold tracking-widest">點擊開始</div>
             </div>
           ) : (
-            <div className="text-center">
-              <div className="text-[7rem] font-black leading-none tracking-tighter tabular-nums drop-shadow-sm">
+            <div className="text-center flex flex-col items-center">
+              <div className="text-[25vh] font-black leading-none tracking-tighter tabular-nums drop-shadow-sm">
                 {formatTime(timeLeft)}
               </div>
-              <div className="text-xl font-bold opacity-40 mt-4 tracking-widest uppercase">
+              <div className="text-3xl font-bold opacity-40 mt-4 tracking-widest uppercase">
                 {isRunning ? 'Tap to Next' : 'Paused'}
               </div>
             </div>
           )}
-        </button>
-      </div>
+        </div>
+      </button>
 
       {/* 底部控制列 */}
       <div className="flex-none p-6 pt-0 flex gap-4">
