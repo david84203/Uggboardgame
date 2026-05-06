@@ -19,18 +19,47 @@ export default function ChessClockPage() {
   
   const totalSeconds = minutes * 60 + seconds;
 
+  const playBeep = (isLong = false) => {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      oscillator.type = isLong ? 'square' : 'sine';
+      oscillator.frequency.setValueAtTime(isLong ? 500 : 880, audioCtx.currentTime); 
+      
+      gainNode.gain.setValueAtTime(isLong ? 0.3 : 0.1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (isLong ? 1.0 : 0.2));
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + (isLong ? 1.0 : 0.2));
+    } catch (e) {
+      console.warn('Audio play failed', e);
+    }
+  };
+
   // 處理計時邏輯
   useEffect(() => {
-    if (isRunning && timeLeft > 0) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      clearInterval(timerRef.current);
-    }
-    
+    if (!isRunning) return;
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        const next = prev - 1;
+        if (next <= 10 && next > 0) {
+          playBeep(false); // 短嗶聲
+        } else if (next === 0) {
+          playBeep(true);  // 長嗶聲
+          clearInterval(timerRef.current);
+        }
+        return next;
+      });
+    }, 1000);
+
     return () => clearInterval(timerRef.current);
-  }, [isRunning, timeLeft]);
+  }, [isRunning]);
 
   const handleStartSetup = () => {
     if (totalSeconds === 0) {
@@ -72,7 +101,7 @@ export default function ChessClockPage() {
 
   if (isSetup) {
     return (
-      <div className="max-w-lg mx-auto p-6 min-h-[calc(100vh-60px)] flex flex-col bg-[#F5F2EB]">
+      <div className="max-w-lg mx-auto p-6 pb-24 min-h-[calc(100vh-60px)] flex flex-col bg-[#F5F2EB]">
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-stone-200 mt-4">
           <h2 className="text-2xl font-bold text-stone-800 mb-8 text-center">桌遊棋鐘設定</h2>
           
@@ -143,7 +172,7 @@ export default function ChessClockPage() {
 
             <button 
               onClick={handleStartSetup}
-              className="w-full mt-6 py-4 bg-teal-600 hover:bg-teal-700 text-white rounded-2xl font-bold text-xl shadow-md transition-colors flex items-center justify-center gap-2"
+              className="w-full mt-6 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl font-bold text-xl shadow-md transition-colors flex items-center justify-center gap-2"
             >
               <Play fill="currentColor" />
               確認並準備開始
@@ -167,10 +196,10 @@ export default function ChessClockPage() {
       </div>
 
       {/* 點擊區域 (超大按鈕) */}
-      <div className="flex-1 p-6 flex items-stretch justify-center">
+      <div className="flex-1 p-3 flex items-stretch justify-center pb-4">
         <button 
           onClick={handleBigButtonClick}
-          className={`w-full h-full max-h-[60vh] rounded-[3rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-4 transition-all duration-150 flex flex-col items-center justify-center group active:scale-[0.98] ${
+          className={`w-full h-full rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-4 transition-all duration-150 flex flex-col items-center justify-center group active:scale-[0.98] ${
             isTimeUp 
               ? 'bg-red-500 border-red-600 text-white' 
               : !isRunning && timeLeft === totalSeconds
