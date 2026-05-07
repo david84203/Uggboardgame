@@ -112,13 +112,23 @@ class AmbientMusic {
     this.playing = true;
   }
 
-  setVolume(v) { if (this.masterGain && this.ctx) this.masterGain.gain.linearRampToValueAtTime(v, this.ctx.currentTime + 0.3); }
+  setVolume(v) { 
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
+      this.masterGain.gain.linearRampToValueAtTime(v, this.ctx.currentTime + 0.3); 
+    }
+  }
   pause() { this.ctx?.suspend(); }
   resume() { this.ctx?.resume(); }
 
   stop() {
     if (!this.playing) return;
-    this.masterGain?.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 1);
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
+      this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 1);
+    }
     setTimeout(() => { this.nodes.forEach(n => { try { n.stop(); } catch {} }); this.nodes = []; this.ctx?.close(); this.ctx = null; this.masterGain = null; }, 1200);
     this.playing = false;
   }
