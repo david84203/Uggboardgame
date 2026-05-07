@@ -146,7 +146,7 @@ export default function App() {
         onBack={handleBack} 
       />
       {activeTab === 'home' ? (
-        <div className="pt-8 px-2 pb-10">
+      <div className="pt-4 pb-10">
           <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
       ) : (

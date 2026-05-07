@@ -273,7 +273,7 @@ export default function StarPlayerPage() {
               請所有人將手指<br />長按在螢幕上
             </div>
             <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, marginTop: 12 }}>
-              支援最多 12 人
+              支援最多 8 人
             </div>
           </div>
         )}
