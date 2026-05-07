@@ -34,6 +34,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* 確保輸入框在 iOS 可正常點擊彈出鍵盤 */
+input, textarea, select {
+  touch-action: manipulation;
+  font-size: 16px; /* 防止 iOS Safari 自動縮放 */
+}
+
 html {
   font-family: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;

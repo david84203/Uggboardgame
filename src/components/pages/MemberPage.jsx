@@ -29,7 +29,8 @@ function LoginForm({ onLogin, loading, error }) {
               value={name}
               onChange={e => setName(e.target.value)}
               placeholder="請輸入姓名"
-              className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
+              className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-base text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
+              style={{ touchAction: 'manipulation' }}
             />
           </div>
           <div>
@@ -39,7 +40,8 @@ function LoginForm({ onLogin, loading, error }) {
               value={phone}
               onChange={e => setPhone(e.target.value)}
               placeholder="請輸入手機號碼"
-              className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
+              className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-base text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
+              style={{ touchAction: 'manipulation' }}
             />
           </div>
 
