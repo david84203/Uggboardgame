@@ -3,13 +3,25 @@ import { Play, Pause, RotateCcw, Volume2, VolumeX, Users, Music } from 'lucide-r
 
 /* ───── 語音工具 ───── */
 function speak(text, lang = 'zh-TW') {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (!window.speechSynthesis) { resolve(); return; }
+    
+    // 防抷：語音引擎發生錯誤時，給 10 秒超時作為保险掌
+    const timeout = setTimeout(() => resolve(), 10000);
+    
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang; u.rate = 0.9; u.pitch = 1;
-    u.onend = resolve; u.onerror = reject;
+    u.onend = () => { clearTimeout(timeout); resolve(); };
+    // 錯誤也語音完成後 resolve，而不是 reject——保證遊戲永遠不會因語音卡死
+    u.onerror = () => { clearTimeout(timeout); resolve(); };
     window.speechSynthesis.speak(u);
   });
+}
+
+// 取消語音後稍微等待、避免瀏覽器把取消動作套用到下一句
+function cancelAndWait(ms = 120) {
+  window.speechSynthesis.cancel();
+  return new Promise(r => setTimeout(r, ms));
 }
 
 function createDelay(ms, signal) {
@@ -161,7 +173,7 @@ export default function CheeseThiefPage() {
     await checkPause();
     if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
     setSubtitle(text);
-    window.speechSynthesis.cancel();
+    await cancelAndWait(120); // 取消上一句並稍待，避免瀏覽器 bug
     musicRef.current.setVolume(0.1);
     await speak(text);
     musicRef.current.setVolume(0.3);
@@ -173,7 +185,7 @@ export default function CheeseThiefPage() {
       await checkPause();
       if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
       setCountdown(s);
-      window.speechSynthesis.cancel();
+      await cancelAndWait(100); // 取消前一句並稍待
       musicRef.current.setVolume(0.1);
       await speak(String(s));
       musicRef.current.setVolume(0.3);
