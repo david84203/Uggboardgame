@@ -42,7 +42,7 @@ export default function HelperMenuPage({ onSelect }) {
             <Calculator className="text-orange-600" size={28} />
           </div>
           <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">農家樂計分器</h3>
-          <p className="text-stone-500 text-xs leading-relaxed">農家樂 Agricola 專用計分表支援五人</p>
+          <p className="text-stone-500 text-xs leading-relaxed">Agricola 專用計分表支援五人</p>
         </button>
 
         {/* 數位計分紙 */}
@@ -78,7 +78,7 @@ export default function HelperMenuPage({ onSelect }) {
             <Bell className="text-red-600" size={28} />
           </div>
           <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">搶答鈴</h3>
-          <p className="text-stone-500 text-xs leading-relaxed">德國心臟病必備，內建多種搶答音效</p>
+          <p className="text-stone-500 text-xs leading-relaxed">反應遊戲必備，內建多種搶答音效</p>
         </button>
 
         {/* 數位沙漏 */}
@@ -113,7 +113,7 @@ export default function HelperMenuPage({ onSelect }) {
           <div className="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center shrink-0 group-hover:bg-rose-100 transition-colors mb-3">
             <Flower2 className="text-rose-600" size={28} />
           </div>
-          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">血與刃白薔薇</h3>
+          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">血與刃的白薔薇旁白</h3>
           <p className="text-stone-500 text-xs leading-relaxed">Blades &amp; Rose 自動語音主持</p>
         </button>
 
