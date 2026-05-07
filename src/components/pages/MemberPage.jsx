@@ -310,21 +310,32 @@ export default function MemberPage() {
   async function handleLogin(name, phone) {
     setLoading(true)
     setError('')
+    // 格式化手機號碼：去除空格、連字符、括號
+    const normalizedPhone = phone.replace(/[\s\-\(\)]/g, '').trim()
     try {
+      // 先用 name 單條件撈，避免複合索引問題
       const q = query(
         collection(db, 'members'),
-        where('name', '==', name),
-        where('phone', '==', phone)
+        where('name', '==', name)
       )
       const snap = await getDocs(q)
       if (snap.empty) {
-        setError('找不到符合的會員，請確認姓名與手機號碼')
+        setError('找不到此姓名的會員，請確認姓名是否正確')
+        return
+      }
+      // 前端比對 phone（容錯格式）
+      const matched = snap.docs.find(doc => {
+        const dbPhone = (doc.data().phone || '').replace(/[\s\-\(\)]/g, '').trim()
+        return dbPhone === normalizedPhone
+      })
+      if (!matched) {
+        setError('手機號碼不符，請確認輸入的號碼')
       } else {
-        saveMember({ id: snap.docs[0].id, ...snap.docs[0].data() })
+        saveMember({ id: matched.id, ...matched.data() })
       }
     } catch (err) {
-      setError('查詢失敗，請稍後再試')
-      console.error(err)
+      console.error('Firestore error:', err)
+      setError(`查詢失敗：${err?.message || '請稍後再試'}`)
     } finally {
       setLoading(false)
     }
