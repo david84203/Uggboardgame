@@ -2,20 +2,40 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Users, Music } from 'lucide-react';
 
 /* ───── 語音工具 ───── */
-function speak(text, lang = 'zh-TW') {
-  return new Promise((resolve) => {
+
+// 尋找最適合的中文語音（支援 Android、iOS 各種平台）
+function getBestChineseVoice() {
+  const voices = window.speechSynthesis?.getVoices() || [];
+  // 優先順序：zh-TW > zh-HK > zh-CN > zh > 任何中文
+  const preferred = ['zh-TW', 'zh-HK', 'zh-CN', 'zh'];
+  for (const lang of preferred) {
+    const v = voices.find(v => v.lang === lang || v.lang.startsWith(lang));
+    if (v) return v;
+  }
+  // 找不到中文語音就用預設（動作仍然可能發生，只是語音不對）
+  return null;
+}
+
+function speak(text) {
+  // 依字數估算最短等待時間（每字約 200ms，最短 2 秒）
+  // 防止語音引擎發生錯誤時遊戲百米衝過所有步驟
+  const minMs = Math.max(2000, text.length * 200);
+  const speechPromise = new Promise((resolve) => {
     if (!window.speechSynthesis) { resolve(); return; }
-    
-    // 防抷：語音引擎發生錯誤時，給 10 秒超時作為保险掌
-    const timeout = setTimeout(() => resolve(), 10000);
-    
+    const timeout = setTimeout(() => resolve(), minMs + 5000);
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang; u.rate = 0.9; u.pitch = 1;
+    // 動態尋找語音，確保 Android 上能用到中文音色
+    const voice = getBestChineseVoice();
+    if (voice) u.voice = voice;
+    u.lang = voice?.lang || 'zh-TW';
+    u.rate = 0.85; u.pitch = 1;
     u.onend = () => { clearTimeout(timeout); resolve(); };
-    // 錯誤也語音完成後 resolve，而不是 reject——保證遊戲永遠不會因語音卡死
     u.onerror = () => { clearTimeout(timeout); resolve(); };
     window.speechSynthesis.speak(u);
   });
+  // 即使語音失敗，也保證最短等待，避免遊戲流程瞬間衝死
+  const minDelayPromise = new Promise(r => setTimeout(r, minMs));
+  return Promise.all([speechPromise, minDelayPromise]);
 }
 
 // 取消語音後稍微等待、避免瀏覽器把取消動作套用到下一句
@@ -34,11 +54,11 @@ function createDelay(ms, signal) {
 /* ───── BGM 音軌定義 ───── */
 // 設計原則：音量低、和諧、緩慢飄移，讓旁白說話不會太乾也不會太鬧
 const BGM_TRACKS = [
-  { id: 'night',  name: '溫柔夜空', icon: '🌙', chords: [220.00, 261.63, 329.63, 440.00], waveType: 'sine',     driftSec: 12, noiseType: 'highpass', noiseFreq: 5000, noiseVolume: 0.012 },
-  { id: 'rain',   name: '窗外細雨', icon: '🌧️', chords: [261.63, 392.00],                 waveType: 'sine',     driftSec: 18, noiseType: 'bandpass', noiseFreq: 1000, noiseVolume: 0.14  },
-  { id: 'lounge', name: '輕爵士風', icon: '🎷', chords: [261.63, 329.63, 392.00, 493.88], waveType: 'triangle', driftSec: 15, noiseType: 'highpass', noiseFreq: 6000, noiseVolume: 0.006 },
-  { id: 'forest', name: '林間微風', icon: '🌿', chords: [196.00, 293.66, 392.00],          waveType: 'sine',     driftSec: 20, noiseType: 'bandpass', noiseFreq: 700,  noiseVolume: 0.10  },
-  { id: 'space',  name: '浮光山嵐', icon: '⛰️', chords: [174.61, 220.00, 261.63, 349.23], waveType: 'sine',     driftSec: 25, noiseType: 'lowpass',  noiseFreq: 350,  noiseVolume: 0.04  },
+  { id: 'night',  available: true, name: '溫柔夜空', icon: '🌙', chords: [220.00, 261.63, 329.63, 440.00], waveType: 'sine',     driftSec: 12, noiseType: 'highpass', noiseFreq: 5000, noiseVolume: 0.012 },
+  { id: 'rain',   available: true, name: '窗外細雨', icon: '🌧️', chords: [261.63, 392.00],                 waveType: 'sine',     driftSec: 18, noiseType: 'bandpass', noiseFreq: 1000, noiseVolume: 0.14  },
+  { id: 'lounge', available: true, name: '輕爵士風', icon: '🎷', chords: [261.63, 329.63, 392.00, 493.88], waveType: 'triangle', driftSec: 15, noiseType: 'highpass', noiseFreq: 6000, noiseVolume: 0.006 },
+  { id: 'forest', available: true, name: '林間微風', icon: '🌿', chords: [196.00, 293.66, 392.00],          waveType: 'sine',     driftSec: 20, noiseType: 'bandpass', noiseFreq: 700,  noiseVolume: 0.10  },
+  { id: 'space',  available: true, name: '浮光山嵐', icon: '⛰️', chords: [174.61, 220.00, 261.63, 349.23], waveType: 'sine',     driftSec: 25, noiseType: 'lowpass',  noiseFreq: 350,  noiseVolume: 0.04  },
 ];
 
 /* ───── 背景音樂引擎 ───── */
