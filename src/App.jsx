@@ -10,7 +10,11 @@ import EscapeRoomPage from './components/pages/EscapeRoomPage';
 import AgricolaScoreCalculator from './components/pages/AgricolaScoreCalculator';
 import HelperMenuPage from './components/pages/HelperMenuPage';
 import ChessClockPage from './components/pages/ChessClockPage';
+import CheeseThiefPage from './components/pages/CheeseThiefPage';
+import BladesAndRosePage from './components/pages/BladesAndRosePage';
+import StarPlayerPage from './components/pages/StarPlayerPage';
 import RentRulesPage from './components/pages/RentRulesPage';
+import MemberPage from './components/pages/MemberPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
 export default function App() {
@@ -105,22 +109,29 @@ export default function App() {
       case 'environment':
         return <PlaceholderPage title="環境介紹" icon="🏠" />;
       case 'member':
-        return <PlaceholderPage title="會員專區" icon="⭐" />;
+        return <MemberPage />;
       case 'helper-menu':
         return <HelperMenuPage onSelect={setActiveTab} />;
       case 'helper-agricola':
         return <AgricolaScoreCalculator />;
       case 'helper-clock':
         return <ChessClockPage />;
+      case 'helper-cheese-thief':
+        return <CheeseThiefPage />;
+      case 'helper-blades-rose':
+        return <BladesAndRosePage />;
+      case 'helper-star-player':
+        return <StarPlayerPage />;
       case 'escape':
         return <EscapeRoomPage />;
+
       default:
         return null;
     }
   };
 
   const handleBack = () => {
-    if (activeTab === 'helper-agricola' || activeTab === 'helper-clock') {
+    if (activeTab === 'helper-agricola' || activeTab === 'helper-clock' || activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose' || activeTab === 'helper-star-player') {
       setActiveTab('helper-menu');
     } else {
       setActiveTab('home');
