@@ -10,6 +10,10 @@ import EscapeRoomPage from './components/pages/EscapeRoomPage';
 import AgricolaScoreCalculator from './components/pages/AgricolaScoreCalculator';
 import HelperMenuPage from './components/pages/HelperMenuPage';
 import ChessClockPage from './components/pages/ChessClockPage';
+import UniversalScorerPage from './components/pages/UniversalScorerPage';
+import ScoreSheetPage from './components/pages/ScoreSheetPage';
+import HourglassPage from './components/pages/HourglassPage';
+import ServiceBellPage from './components/pages/ServiceBellPage';
 import CheeseThiefPage from './components/pages/CheeseThiefPage';
 import BladesAndRosePage from './components/pages/BladesAndRosePage';
 import StarPlayerPage from './components/pages/StarPlayerPage';
@@ -116,6 +120,14 @@ export default function App() {
         return <AgricolaScoreCalculator />;
       case 'helper-clock':
         return <ChessClockPage />;
+      case 'helper-scorer':
+        return <UniversalScorerPage />;
+      case 'helper-scoresheet':
+        return <ScoreSheetPage />;
+      case 'helper-hourglass':
+        return <HourglassPage />;
+      case 'helper-service-bell':
+        return <ServiceBellPage />;
       case 'helper-cheese-thief':
         return <CheeseThiefPage />;
       case 'helper-blades-rose':
@@ -131,7 +143,7 @@ export default function App() {
   };
 
   const handleBack = () => {
-    if (activeTab === 'helper-agricola' || activeTab === 'helper-clock' || activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose' || activeTab === 'helper-star-player') {
+    if (activeTab === 'helper-agricola' || activeTab === 'helper-clock' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose' || activeTab === 'helper-star-player') {
       setActiveTab('helper-menu');
     } else {
       setActiveTab('home');
