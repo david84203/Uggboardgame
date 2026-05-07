@@ -32,95 +32,74 @@ function createDelay(ms, signal) {
 }
 
 /* ───── BGM 音軌定義 ───── */
+// 設計原則：音量低、和諧、緩慢飄移，讓旁白說話不會太乾也不會太鬧
 const BGM_TRACKS = [
-  { id: 'suspense', name: '午夜懸疑', icon: '🕵️', available: true, chords: [110.00, 130.81, 164.81, 196.00], noiseFreq: 300, waveType: 'sine', lfoRate: 0, lfoDepth: 0, noiseVolume: 0.15 },
-  { id: 'heartbeat', name: '心跳暗影', icon: '💓', available: true, chords: [87.31, 130.81], noiseFreq: 150, waveType: 'triangle', lfoRate: 1.2, lfoDepth: 0.8, noiseVolume: 0.08 },
-  { id: 'stealth', name: '潛行腳步', icon: '🐾', available: true, chords: [261.63, 311.13, 392.00], noiseFreq: 500, waveType: 'sine', lfoRate: 4.0, lfoDepth: 0.3, noiseVolume: 0.2 },
-  { id: 'eerie', name: '幽暗地窖', icon: '🕳️', available: true, chords: [98.00, 116.54, 138.59], noiseFreq: 600, waveType: 'triangle', lfoRate: 0.1, lfoDepth: 0.4, noiseVolume: 0.25 },
-  { id: 'clockwork', name: '發條危機', icon: '⚙️', available: true, chords: [196.00, 233.08, 293.66], noiseFreq: 200, waveType: 'sine', lfoRate: 8.0, lfoDepth: 0.6, noiseVolume: 0.1 },
+  { id: 'night',  name: '溫柔夜空', icon: '🌙', chords: [220.00, 261.63, 329.63, 440.00], waveType: 'sine',     driftSec: 12, noiseType: 'highpass', noiseFreq: 5000, noiseVolume: 0.012 },
+  { id: 'rain',   name: '窗外細雨', icon: '🌧️', chords: [261.63, 392.00],                 waveType: 'sine',     driftSec: 18, noiseType: 'bandpass', noiseFreq: 1000, noiseVolume: 0.14  },
+  { id: 'lounge', name: '輕爵士風', icon: '🎷', chords: [261.63, 329.63, 392.00, 493.88], waveType: 'triangle', driftSec: 15, noiseType: 'highpass', noiseFreq: 6000, noiseVolume: 0.006 },
+  { id: 'forest', name: '林間微風', icon: '🌿', chords: [196.00, 293.66, 392.00],          waveType: 'sine',     driftSec: 20, noiseType: 'bandpass', noiseFreq: 700,  noiseVolume: 0.10  },
+  { id: 'space',  name: '浮光山嵐', icon: '⛰️', chords: [174.61, 220.00, 261.63, 349.23], waveType: 'sine',     driftSec: 25, noiseType: 'lowpass',  noiseFreq: 350,  noiseVolume: 0.04  },
 ];
 
 /* ───── 背景音樂引擎 ───── */
 class AmbientMusic {
   constructor() { this.ctx = null; this.nodes = []; this.masterGain = null; this.playing = false; }
 
-  start(track, volume = 0.3) {
+  start(track, volume = 0.22) {
     if (this.playing) return;
     this.ctx = new (window.AudioContext || window.webkitAudioContext)();
     this.masterGain = this.ctx.createGain();
     this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
-    this.masterGain.gain.linearRampToValueAtTime(volume, this.ctx.currentTime + 2);
+    this.masterGain.gain.linearRampToValueAtTime(volume, this.ctx.currentTime + 3);
     this.masterGain.connect(this.ctx.destination);
 
-    const freqs = track?.chords || [55.00, 65.41, 82.41, 98.00];
-    const lfoRate = track?.lfoRate || 0;
-    const lfoDepth = track?.lfoDepth || 0;
+    const freqs = track?.chords || [261.63, 329.63, 392.00];
+    const driftSec = track?.driftSec || 15; // 幾秒完成一次完整的音色飄移
+    const now = this.ctx.currentTime;
 
-    let lfoGain = this.masterGain;
-    
-    // LFO 顫音節點 (Tremolo)
-    if (lfoRate > 0) {
-      const lfo = this.ctx.createOscillator();
-      lfo.type = 'sine';
-      lfo.frequency.value = lfoRate;
-      
-      const lfoAmp = this.ctx.createGain();
-      lfoAmp.gain.value = lfoDepth; 
-      lfo.connect(lfoAmp);
-      
-      const tremoloNode = this.ctx.createGain();
-      tremoloNode.gain.value = 1.0 - lfoDepth; // 確保不會爆音
-      lfoAmp.connect(tremoloNode.gain);
-      
-      tremoloNode.connect(this.masterGain);
-      lfoGain = tremoloNode;
-      
-      lfo.start();
-      this.nodes.push(lfo);
-    }
-
-    freqs.forEach(freq => {
-      const osc = this.ctx.createOscillator(); 
-      osc.type = track?.waveType || 'sine'; 
+    freqs.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      osc.type = track?.waveType || 'sine';
       osc.frequency.value = freq;
-      const g = this.ctx.createGain(); 
-      g.gain.value = 0.6;
-      osc.connect(g); 
-      g.connect(lfoGain); 
-      osc.start(); 
+
+      // 極緩慢的音色飄移（±6 cent），讓聲音有呼吸感而不是死板的正弦波
+      const phaseShift = (idx / freqs.length) * driftSec; // 每個音符相位錯開
+      osc.detune.setValueAtTime(-6, now);
+      osc.detune.linearRampToValueAtTime(6,  now + driftSec * 0.5 + phaseShift);
+      osc.detune.linearRampToValueAtTime(-6, now + driftSec       + phaseShift);
+
+      const g = this.ctx.createGain();
+      // 中間音符稍響，最高最低音符較輕
+      g.gain.value = (idx === 0 || idx === freqs.length - 1) ? 0.13 : 0.17;
+
+      osc.connect(g);
+      g.connect(this.masterGain);
+      osc.start();
       this.nodes.push(osc);
-      
-      const osc2 = this.ctx.createOscillator(); 
-      osc2.type = 'triangle'; 
-      osc2.frequency.value = freq * 1.5; // 五度音程增加懸疑感
-      const g2 = this.ctx.createGain(); 
-      g2.gain.value = 0.2;
-      osc2.connect(g2); 
-      g2.connect(lfoGain); 
-      osc2.start(); 
-      this.nodes.push(osc2);
     });
 
-    const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 2, this.ctx.sampleRate);
-    const d = buf.getChannelData(0); 
+    // 環境底噪（極輕）
+    const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 4, this.ctx.sampleRate);
+    const d = buf.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    const noise = this.ctx.createBufferSource(); 
-    noise.buffer = buf; 
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buf;
     noise.loop = true;
-    
-    const filt = this.ctx.createBiquadFilter(); 
-    filt.type = 'lowpass'; 
-    filt.frequency.value = track?.noiseFreq || 150;
-    
-    const ng = this.ctx.createGain(); 
-    ng.gain.value = track?.noiseVolume || 0.1;
-    
-    noise.connect(filt); 
-    filt.connect(ng); 
-    ng.connect(this.masterGain); 
-    noise.start(); 
+
+    const filt = this.ctx.createBiquadFilter();
+    filt.type = track?.noiseType || 'highpass';
+    filt.frequency.value = track?.noiseFreq || 5000;
+    filt.Q.value = 0.7;
+
+    const ng = this.ctx.createGain();
+    ng.gain.value = track?.noiseVolume ?? 0.012;
+
+    noise.connect(filt);
+    filt.connect(ng);
+    ng.connect(this.masterGain);
+    noise.start();
     this.nodes.push(noise);
-    
+
     this.playing = true;
   }
 
@@ -158,7 +137,7 @@ export default function CheeseThiefPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [countdown, setCountdown] = useState(null);
   const [bgmEnabled, setBgmEnabled] = useState(true);
-  const [bgmTrackId, setBgmTrackId] = useState('suspense');
+  const [bgmTrackId, setBgmTrackId] = useState('night');
 
   const abortRef = useRef(null);
   const pauseRef = useRef({ paused: false, resolve: null });
