@@ -165,7 +165,7 @@ export default function App() {
       case 'helper-voice-hub':
         return <VoiceNarrationHubPage onSelect={setActiveTab} />;
       case 'helper-scoring-hub':
-        return <ScoringHubPage onSelect={setActiveTab} />;
+        return <ScoringHubPage onSelect={setActiveTab} isLoggedIn={!!loggedInMember} />;
       case 'helper-star-player':
         return <StarPlayerPage />;
       case 'escape':
