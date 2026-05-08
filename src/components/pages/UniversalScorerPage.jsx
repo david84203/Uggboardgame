@@ -44,7 +44,6 @@ function ColorPicker({ currentKey, onSelect, onClose }) {
 function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onConfirm, onUnconfirm, rotated, onToggleRotate }) {
   const c = PALETTE[player.colorKey] || PALETTE.red;
   const isConfirmed = player.confirmed;
-  const recentHistory = player.history.slice(-3).reverse();
 
   const cardContent = (
     <div style={{ border:`2px solid ${c.border}`, borderRadius:16, overflow:'hidden', boxShadow:'0 2px 8px rgba(0,0,0,0.1)', opacity: isConfirmed ? 0.75 : 1, transition:'opacity 0.2s' }}>
