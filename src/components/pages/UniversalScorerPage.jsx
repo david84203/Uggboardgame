@@ -346,7 +346,23 @@ function SetupView({ onStart }) {
 }
 
 // ── 主元件 ────────────────────────────────────────
-export default function UniversalScorerPage() {
+export default function UniversalScorerPage({ onGoToMember }) {
+  const isLoggedIn = !!sessionStorage.getItem('ugg_member')
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
+        <div className="text-5xl mb-4">🔒</div>
+        <h2 className="text-xl font-bold text-stone-800 mb-2">會員專屬功能</h2>
+        <p className="text-sm text-stone-500 mb-6">萬用計分器僅限會員使用<br/>請先登入會員帳號來解鎖</p>
+        <button
+          onClick={onGoToMember}
+          className="px-6 py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold shadow-sm shadow-orange-200 hover:opacity-90 transition"
+        >
+          前往會員登入
+        </button>
+      </div>
+    )
+  }
   const [gameState, setGameState] = useState(null);
   const handleStart = (players, totalRounds, sortMode) => setGameState({ players, totalRounds, sortMode });
   const handleExit = () => { if (window.confirm('確定要結束遊戲並回到設定頁嗎？')) setGameState(null); };

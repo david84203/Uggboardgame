@@ -145,7 +145,7 @@ export default function App() {
       case 'helper-clock':
         return <ChessClockPage />;
       case 'helper-scorer':
-        return <UniversalScorerPage />;
+        return <UniversalScorerPage onGoToMember={() => setActiveTab('member')} />;
       case 'helper-scoresheet':
         return <ScoreSheetPage />;
       case 'helper-hourglass':
