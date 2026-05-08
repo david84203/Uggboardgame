@@ -17,7 +17,7 @@ const PALETTE = {
   milktea: { bg:'#c9a97a', border:'#a87d50', text:'#fff',     light:'#fdf8f0', name:'奶茶' },
 };
 const PALETTE_KEYS = Object.keys(PALETTE);
-const DEFAULT_COLORS = ['red','yellow','blue','green','orange','purple','pink','black'];
+const DEFAULT_COLORS = ['red','yellow','blue','green','orange','purple','pink','black','gray','brown','milktea','white'];
 const ADD_BUTTONS = [+1, +5, +10];
 const SUB_BUTTONS = [-1, -5, -10];
 
@@ -257,7 +257,7 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
 // ── 設定頁 ────────────────────────────────────────
 function SetupView({ onStart }) {
   const [playerCount, setPlayerCount] = useState(4);
-  const [names, setNames] = useState(Array(8).fill(''));
+  const [names, setNames] = useState(Array(12).fill(''));
   const [colors, setColors] = useState(DEFAULT_COLORS);
   const [totalRounds, setTotalRounds] = useState(1);
   const [pickerOpen, setPickerOpen] = useState(-1);
@@ -286,7 +286,7 @@ function SetupView({ onStart }) {
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#f5f5f4', borderRadius:12, padding:6, border:'1px solid #e5e7eb' }}>
           <button onClick={() => setPlayerCount(c => Math.max(2, c-1))} style={{ width:44, height:44, borderRadius:10, background:'#fff', border:'none', fontSize:20, fontWeight:700, color:'#57534e', cursor:'pointer' }}>−</button>
           <span style={{ fontSize:22, fontWeight:900, color:'#1c1917' }}>{playerCount} 人</span>
-          <button onClick={() => setPlayerCount(c => Math.min(8, c+1))} style={{ width:44, height:44, borderRadius:10, background:'#fff', border:'none', fontSize:20, fontWeight:700, color:'#57534e', cursor:'pointer' }}>＋</button>
+          <button onClick={() => setPlayerCount(c => Math.min(12, c+1))} style={{ width:44, height:44, borderRadius:10, background:'#fff', border:'none', fontSize:20, fontWeight:700, color:'#57534e', cursor:'pointer' }}>＋</button>
         </div>
       </div>
 
