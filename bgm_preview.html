@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧀 奶酪大盜 BGM 試聽</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  h1 { font-size: 1.6rem; margin-bottom: 0.4rem; }
+  .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 2rem; }
+
+  .tracks { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; max-width: 420px; }
+
+  .track-btn {
+    display: flex; align-items: center; gap: 1rem;
+    background: #1e293b; border: 1.5px solid #334155;
+    border-radius: 1rem; padding: 1rem 1.2rem;
+    cursor: pointer; color: #f1f5f9;
+    transition: all 0.2s;
+    font-size: 1rem;
+  }
+  .track-btn:hover { background: #273549; border-color: #6366f1; }
+  .track-btn.playing { background: #1e1b4b; border-color: #6366f1; box-shadow: 0 0 16px rgba(99,102,241,0.3); }
+  .track-btn .icon { font-size: 1.5rem; width: 2rem; text-align: center; }
+  .track-btn .name { font-weight: 600; flex: 1; text-align: left; }
+  .track-btn .status { font-size: 0.8rem; color: #818cf8; }
+
+  .vol-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    width: 100%; max-width: 420px; margin-top: 0.5rem;
+    color: #94a3b8; font-size: 0.9rem;
+  }
+  input[type=range] { flex: 1; accent-color: #6366f1; }
+
+  .stop-btn {
+    margin-top: 1rem;
+    background: #7f1d1d; border: none; border-radius: 0.75rem;
+    color: #fca5a5; padding: 0.75rem 2rem;
+    cursor: pointer; font-size: 1rem; font-weight: 600;
+    transition: all 0.2s;
+    width: 100%; max-width: 420px;
+  }
+  .stop-btn:hover { background: #991b1b; }
+
+  .note {
+    margin-top: 1.5rem; background: #1e293b; border: 1px solid #334155;
+    border-radius: 0.75rem; padding: 1rem 1.2rem;
+    font-size: 0.82rem; color: #94a3b8; max-width: 420px;
+    line-height: 1.6;
+  }
+  .note strong { color: #f1f5f9; }
+</style>
+</head>
+<body>
+
+<h1>🧀 奶酪大盜 BGM 試聽</h1>
+<p class="subtitle">點擊音軌按鈕試聽，再點一次或按停止</p>
+
+<div class="tracks" id="tracks"></div>
+
+<div class="vol-row">
+  🔈 音量
+  <input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.22">
+  🔊
+</div>
+
+<button class="stop-btn" onclick="stopAll()">⏹ 停止播放</button>
+
+<div class="note">
+  <strong>這是「現有程式碼」的音效引擎</strong>（完整複製自 CheeseThiefPage.jsx）<br>
+  如果聽起來只是「幾個長音拉在一起」，就確認了問題所在。<br>
+  你可以對比五個音軌，看看差異大不大。
+</div>
+
+<script>
+// ── 完全複製自 CheeseThiefPage.jsx 的 BGM 引擎 ──
+const BGM_TRACKS = [
+  { id: 'night',  name: '溫柔夜空', icon: '🌙', chords: [220.00, 261.63, 329.63, 440.00], waveType: 'sine',     driftSec: 12, noiseType: 'highpass', noiseFreq: 5000, noiseVolume: 0.012 },
+  { id: 'rain',   name: '窗外細雨', icon: '🌧️', chords: [261.63, 392.00],                 waveType: 'sine',     driftSec: 18, noiseType: 'bandpass', noiseFreq: 1000, noiseVolume: 0.14  },
+  { id: 'lounge', name: '輕爵士風', icon: '🎷', chords: [261.63, 329.63, 392.00, 493.88], waveType: 'triangle', driftSec: 15, noiseType: 'highpass', noiseFreq: 6000, noiseVolume: 0.006 },
+  { id: 'forest', name: '林間微風', icon: '🌿', chords: [196.00, 293.66, 392.00],          waveType: 'sine',     driftSec: 20, noiseType: 'bandpass', noiseFreq: 700,  noiseVolume: 0.10  },
+  { id: 'space',  name: '浮光山嵐', icon: '⛰️', chords: [174.61, 220.00, 261.63, 349.23], waveType: 'sine',     driftSec: 25, noiseType: 'lowpass',  noiseFreq: 350,  noiseVolume: 0.04  },
+];
+
+class AmbientMusic {
+  constructor() { this.ctx = null; this.nodes = []; this.masterGain = null; this.playing = false; }
+
+  start(track, volume = 0.22) {
+    if (this.playing) return;
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.masterGain = this.ctx.createGain();
+    this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
+    this.masterGain.gain.linearRampToValueAtTime(volume, this.ctx.currentTime + 3);
+    this.masterGain.connect(this.ctx.destination);
+
+    const freqs = track?.chords || [261.63, 329.63, 392.00];
+    const driftSec = track?.driftSec || 15;
+    const now = this.ctx.currentTime;
+
+    freqs.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      osc.type = track?.waveType || 'sine';
+      osc.frequency.value = freq;
+
+      const phaseShift = (idx / freqs.length) * driftSec;
+      osc.detune.setValueAtTime(-6, now);
+      osc.detune.linearRampToValueAtTime(6,  now + driftSec * 0.5 + phaseShift);
+      osc.detune.linearRampToValueAtTime(-6, now + driftSec       + phaseShift);
+
+      const g = this.ctx.createGain();
+      g.gain.value = (idx === 0 || idx === freqs.length - 1) ? 0.13 : 0.17;
+
+      osc.connect(g);
+      g.connect(this.masterGain);
+      osc.start();
+      this.nodes.push(osc);
+    });
+
+    // 環境底噪
+    const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 4, this.ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buf;
+    noise.loop = true;
+
+    const filt = this.ctx.createBiquadFilter();
+    filt.type = track?.noiseType || 'highpass';
+    filt.frequency.value = track?.noiseFreq || 5000;
+    filt.Q.value = 0.7;
+
+    const ng = this.ctx.createGain();
+    ng.gain.value = track?.noiseVolume ?? 0.012;
+
+    noise.connect(filt);
+    filt.connect(ng);
+    ng.connect(this.masterGain);
+    noise.start();
+    this.nodes.push(noise);
+
+    this.playing = true;
+  }
+
+  setVolume(v) {
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
+      this.masterGain.gain.linearRampToValueAtTime(v, this.ctx.currentTime + 0.3);
+    }
+  }
+
+  stop() {
+    if (!this.playing) return;
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
+      this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 1);
+    }
+    setTimeout(() => {
+      this.nodes.forEach(n => { try { n.stop(); } catch {} });
+      this.nodes = [];
+      this.ctx?.close();
+      this.ctx = null;
+      this.masterGain = null;
+    }, 1200);
+    this.playing = false;
+  }
+}
+
+// ── UI 邏輯 ──
+let currentMusic = null;
+let currentTrackId = null;
+
+function renderTracks() {
+  const container = document.getElementById('tracks');
+  BGM_TRACKS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'track-btn';
+    btn.id = `btn-${t.id}`;
+    btn.innerHTML = `<span class="icon">${t.icon}</span><span class="name">${t.name}</span><span class="status" id="status-${t.id}">▶ 點擊試聽</span>`;
+    btn.onclick = () => toggleTrack(t);
+    container.appendChild(btn);
+  });
+}
+
+function toggleTrack(track) {
+  if (currentTrackId === track.id) {
+    stopAll();
+    return;
+  }
+  stopAll(false);
+  currentMusic = new AmbientMusic();
+  const vol = parseFloat(document.getElementById('volSlider').value);
+  currentMusic.start(track, vol);
+  currentTrackId = track.id;
+  document.getElementById(`btn-${track.id}`).classList.add('playing');
+  document.getElementById(`status-${track.id}`).textContent = '♪ 播放中...';
+}
+
+function stopAll(resetState = true) {
+  if (currentMusic) { currentMusic.stop(); currentMusic = null; }
+  if (resetState) currentTrackId = null;
+  document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
+  BGM_TRACKS.forEach(t => {
+    const s = document.getElementById(`status-${t.id}`);
+    if (s) s.textContent = '▶ 點擊試聽';
+  });
+}
+
+document.getElementById('volSlider').oninput = (e) => {
+  currentMusic?.setVolume(parseFloat(e.target.value));
+};
+
+renderTracks();
+</script>
+</body>
+</html>

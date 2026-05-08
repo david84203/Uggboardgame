@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Play, Pause, RotateCcw, Volume2 } from 'lucide-react';
+import { Play, Pause, RotateCcw, Volume2, Music } from 'lucide-react';
 
 /* ───── 語音工具 ───── */
 function speak(text, lang = 'zh-TW') {
@@ -28,6 +28,80 @@ function createDelay(ms, signal) {
 /* ───── 狀態 ───── */
 const STATUS = { IDLE: 'idle', RUNNING: 'running', PAUSED: 'paused', DONE: 'done' };
 
+/* ───── BGM 音軌定義 ───── */
+const BGM_TRACKS = [
+  { id: 'night',  available: true, name: '溫柔夜空', icon: '🌙', src: '/bgm/night.mp3' },
+  { id: 'rain',   available: true, name: '窗外細雨', icon: '🌧️', src: '/bgm/rain.mp3' },
+  { id: 'lounge', available: true, name: '輕爵士風', icon: '🎷', src: '/bgm/lounge.mp3' },
+  { id: 'forest', available: true, name: '林間微風', icon: '🌿', src: '/bgm/forest.mp3' },
+  { id: 'space',  available: true, name: '浮光山嵐', icon: '⛰️', src: '/bgm/calm.mp3' },
+];
+
+/* ───── 背景音樂引擎 (HTML5 Audio) ───── */
+class AmbientMusic {
+  constructor() {
+    this.audio = new Audio();
+    this.audio.loop = true;
+    this.playing = false;
+    this.fadeInterval = null;
+    this.targetVolume = 0.3;
+  }
+
+  start(track, volume = 0.3) {
+    if (this.playing || !track || !track.src) return;
+    this.audio.src = track.src;
+    this.audio.volume = 0;
+    this.targetVolume = volume;
+    this.audio.play().then(() => {
+      this.playing = true;
+      this.fadeTo(this.targetVolume, 2000);
+    }).catch(err => {
+      console.error("BGM 播放失敗:", err);
+    });
+  }
+
+  setVolume(v) {
+    this.targetVolume = v;
+    if (this.playing) {
+      this.fadeTo(v, 500);
+    }
+  }
+
+  pause() { if (this.playing) this.audio.pause(); }
+  resume() { if (this.playing) this.audio.play().catch(console.error); }
+
+  stop() {
+    if (!this.playing) return;
+    this.fadeTo(0, 1000).then(() => {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.playing = false;
+    });
+  }
+
+  fadeTo(targetVol, durationMs) {
+    return new Promise(resolve => {
+      if (this.fadeInterval) clearInterval(this.fadeInterval);
+      const steps = 20;
+      const stepTime = durationMs / steps;
+      const startVol = this.audio.volume;
+      const volDiff = targetVol - startVol;
+      let currentStep = 0;
+      this.fadeInterval = setInterval(() => {
+        currentStep++;
+        let newVol = startVol + (volDiff * (currentStep / steps));
+        newVol = Math.max(0, Math.min(1, newVol));
+        this.audio.volume = newVol;
+        if (currentStep >= steps) {
+          clearInterval(this.fadeInterval);
+          this.audio.volume = targetVol;
+          resolve();
+        }
+      }, stepTime);
+    });
+  }
+}
+
 /* ───── 腳本定義 ───── */
 const SCRIPT = [
   { key: 'dark',      text: '天黑請閉眼，所有人請閉上眼睛。' },
@@ -48,9 +122,12 @@ export default function BladesAndRosePage() {
   const [subtitle, setSubtitle] = useState('按下「開始遊戲」進入夜晚階段');
   const [countdown, setCountdown] = useState(null);
   const [countdownLabel, setCountdownLabel] = useState('');
+  const [bgmEnabled, setBgmEnabled] = useState(true);
+  const [bgmTrackId, setBgmTrackId] = useState('night');
 
   const abortRef = useRef(null);
   const pauseRef = useRef({ paused: false, resolve: null });
+  const musicRef = useRef(new AmbientMusic());
 
   const checkPause = useCallback(() => {
     if (!pauseRef.current.paused) return Promise.resolve();
@@ -101,6 +178,9 @@ export default function BladesAndRosePage() {
     setStatus(STATUS.RUNNING);
     pauseRef.current.paused = false;
 
+    const track = BGM_TRACKS.find(t => t.id === bgmTrackId);
+    if (bgmEnabled) musicRef.current.start(track, 0.15);
+
     try {
       /* 1. 天黑 */
       setDisplayText('🌙');
@@ -134,6 +214,7 @@ export default function BladesAndRosePage() {
       setDisplayText('☀️');
       await sayAndWait(SCRIPT[7].text, signal);
 
+      musicRef.current.stop();
       setStatus(STATUS.DONE);
       setSubtitle('本回合結束，可按重置再玩一輪');
     } catch (err) {
@@ -147,10 +228,12 @@ export default function BladesAndRosePage() {
     if (!pauseRef.current.paused) {
       pauseRef.current.paused = true;
       window.speechSynthesis.pause();
+      musicRef.current.pause();
       setStatus(STATUS.PAUSED);
     } else {
       pauseRef.current.paused = false;
       window.speechSynthesis.resume();
+      musicRef.current.resume();
       pauseRef.current.resolve?.();
       pauseRef.current.resolve = null;
       setStatus(STATUS.RUNNING);
@@ -161,6 +244,7 @@ export default function BladesAndRosePage() {
   const reset = useCallback(() => {
     abortRef.current?.abort();
     window.speechSynthesis.cancel();
+    musicRef.current.stop();
     pauseRef.current = { paused: false, resolve: null };
     setStatus(STATUS.IDLE);
     setDisplayText('🌹');
@@ -172,6 +256,7 @@ export default function BladesAndRosePage() {
   useEffect(() => () => {
     abortRef.current?.abort();
     window.speechSynthesis.cancel();
+    musicRef.current.stop();
   }, []);
 
   const isRunningOrPaused = status === STATUS.RUNNING || status === STATUS.PAUSED;
@@ -211,6 +296,36 @@ export default function BladesAndRosePage() {
             <DurationSlider label="確認身分時間" value={identifyDuration} onChange={setIdentifyDuration} />
             <div className="border-t border-slate-800" />
             <DurationSlider label="雙刃換牌時間" value={swapDuration} onChange={setSwapDuration} />
+            <div className="border-t border-slate-800" />
+            
+            {/* BGM 選擇 */}
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Music size={18} className="text-indigo-400" />
+                <span className="text-sm font-medium text-slate-300">背景音樂</span>
+                <button onClick={() => setBgmEnabled(!bgmEnabled)}
+                  className={`ml-auto w-12 h-7 rounded-full transition-all duration-200 relative ${bgmEnabled ? 'bg-indigo-500' : 'bg-slate-700'}`}>
+                  <div className={`w-5 h-5 rounded-full bg-white shadow absolute top-1 transition-all duration-200 ${bgmEnabled ? 'left-6' : 'left-1'}`} />
+                </button>
+              </div>
+              {bgmEnabled && (
+                <div className="grid gap-1.5">
+                  {BGM_TRACKS.map(t => (
+                    <button key={t.id} disabled={!t.available}
+                      onClick={() => t.available && setBgmTrackId(t.id)}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${
+                        !t.available ? 'bg-slate-800/40 text-slate-600 cursor-not-allowed'
+                        : bgmTrackId === t.id ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
+                        : 'bg-slate-800/40 text-slate-400 hover:bg-slate-700/60'}`}>
+                      <span className="text-lg">{t.icon}</span>
+                      <span className="font-medium">{t.name}</span>
+                      {!t.available && <span className="ml-auto text-xs text-slate-600">即將推出</span>}
+                      {t.available && bgmTrackId === t.id && <span className="ml-auto text-xs text-indigo-400">♪ 使用中</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
 

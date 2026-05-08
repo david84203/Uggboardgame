@@ -52,96 +52,93 @@ function createDelay(ms, signal) {
 }
 
 /* ───── BGM 音軌定義 ───── */
-// 設計原則：音量低、和諧、緩慢飄移，讓旁白說話不會太乾也不會太鬧
 const BGM_TRACKS = [
-  { id: 'night',  available: true, name: '溫柔夜空', icon: '🌙', chords: [220.00, 261.63, 329.63, 440.00], waveType: 'sine',     driftSec: 12, noiseType: 'highpass', noiseFreq: 5000, noiseVolume: 0.012 },
-  { id: 'rain',   available: true, name: '窗外細雨', icon: '🌧️', chords: [261.63, 392.00],                 waveType: 'sine',     driftSec: 18, noiseType: 'bandpass', noiseFreq: 1000, noiseVolume: 0.14  },
-  { id: 'lounge', available: true, name: '輕爵士風', icon: '🎷', chords: [261.63, 329.63, 392.00, 493.88], waveType: 'triangle', driftSec: 15, noiseType: 'highpass', noiseFreq: 6000, noiseVolume: 0.006 },
-  { id: 'forest', available: true, name: '林間微風', icon: '🌿', chords: [196.00, 293.66, 392.00],          waveType: 'sine',     driftSec: 20, noiseType: 'bandpass', noiseFreq: 700,  noiseVolume: 0.10  },
-  { id: 'space',  available: true, name: '浮光山嵐', icon: '⛰️', chords: [174.61, 220.00, 261.63, 349.23], waveType: 'sine',     driftSec: 25, noiseType: 'lowpass',  noiseFreq: 350,  noiseVolume: 0.04  },
+  { id: 'night',  available: true, name: '溫柔夜空', icon: '🌙', src: '/bgm/night.mp3' },
+  { id: 'rain',   available: true, name: '窗外細雨', icon: '🌧️', src: '/bgm/rain.mp3' },
+  { id: 'lounge', available: true, name: '輕爵士風', icon: '🎷', src: '/bgm/lounge.mp3' },
+  { id: 'forest', available: true, name: '林間微風', icon: '🌿', src: '/bgm/forest.mp3' },
+  { id: 'space',  available: true, name: '浮光山嵐', icon: '⛰️', src: '/bgm/calm.mp3' }, // fallback for space, using calm.mp3
 ];
 
-/* ───── 背景音樂引擎 ───── */
+/* ───── 背景音樂引擎 (HTML5 Audio) ───── */
 class AmbientMusic {
-  constructor() { this.ctx = null; this.nodes = []; this.masterGain = null; this.playing = false; }
-
-  start(track, volume = 0.22) {
-    if (this.playing) return;
-    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-    this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
-    this.masterGain.gain.linearRampToValueAtTime(volume, this.ctx.currentTime + 3);
-    this.masterGain.connect(this.ctx.destination);
-
-    const freqs = track?.chords || [261.63, 329.63, 392.00];
-    const driftSec = track?.driftSec || 15; // 幾秒完成一次完整的音色飄移
-    const now = this.ctx.currentTime;
-
-    freqs.forEach((freq, idx) => {
-      const osc = this.ctx.createOscillator();
-      osc.type = track?.waveType || 'sine';
-      osc.frequency.value = freq;
-
-      // 極緩慢的音色飄移（±6 cent），讓聲音有呼吸感而不是死板的正弦波
-      const phaseShift = (idx / freqs.length) * driftSec; // 每個音符相位錯開
-      osc.detune.setValueAtTime(-6, now);
-      osc.detune.linearRampToValueAtTime(6,  now + driftSec * 0.5 + phaseShift);
-      osc.detune.linearRampToValueAtTime(-6, now + driftSec       + phaseShift);
-
-      const g = this.ctx.createGain();
-      // 中間音符稍響，最高最低音符較輕
-      g.gain.value = (idx === 0 || idx === freqs.length - 1) ? 0.13 : 0.17;
-
-      osc.connect(g);
-      g.connect(this.masterGain);
-      osc.start();
-      this.nodes.push(osc);
-    });
-
-    // 環境底噪（極輕）
-    const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 4, this.ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buf;
-    noise.loop = true;
-
-    const filt = this.ctx.createBiquadFilter();
-    filt.type = track?.noiseType || 'highpass';
-    filt.frequency.value = track?.noiseFreq || 5000;
-    filt.Q.value = 0.7;
-
-    const ng = this.ctx.createGain();
-    ng.gain.value = track?.noiseVolume ?? 0.012;
-
-    noise.connect(filt);
-    filt.connect(ng);
-    ng.connect(this.masterGain);
-    noise.start();
-    this.nodes.push(noise);
-
-    this.playing = true;
+  constructor() {
+    this.audio = new Audio();
+    this.audio.loop = true;
+    this.playing = false;
+    this.fadeInterval = null;
+    this.targetVolume = 0.3;
   }
 
-  setVolume(v) { 
-    if (this.masterGain && this.ctx) {
-      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
-      this.masterGain.gain.linearRampToValueAtTime(v, this.ctx.currentTime + 0.3); 
+  start(track, volume = 0.3) {
+    if (this.playing || !track || !track.src) return;
+    
+    this.audio.src = track.src;
+    this.audio.volume = 0; // 開始時音量為 0，準備淡入
+    this.targetVolume = volume;
+    
+    this.audio.play().then(() => {
+      this.playing = true;
+      this.fadeTo(this.targetVolume, 2000); // 2秒淡入
+    }).catch(err => {
+      console.error("BGM 播放失敗:", err);
+    });
+  }
+
+  setVolume(v) {
+    this.targetVolume = v;
+    if (this.playing) {
+      this.fadeTo(v, 500); // 0.5秒平滑過渡
     }
   }
-  pause() { this.ctx?.suspend(); }
-  resume() { this.ctx?.resume(); }
+
+  pause() {
+    if (this.playing) {
+      this.audio.pause();
+    }
+  }
+
+  resume() {
+    if (this.playing) {
+      this.audio.play().catch(console.error);
+    }
+  }
 
   stop() {
     if (!this.playing) return;
-    if (this.masterGain && this.ctx) {
-      this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
-      this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 1);
-    }
-    setTimeout(() => { this.nodes.forEach(n => { try { n.stop(); } catch {} }); this.nodes = []; this.ctx?.close(); this.ctx = null; this.masterGain = null; }, 1200);
-    this.playing = false;
+    
+    // 淡出後停止
+    this.fadeTo(0, 1000).then(() => {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.playing = false;
+    });
+  }
+
+  fadeTo(targetVol, durationMs) {
+    return new Promise(resolve => {
+      if (this.fadeInterval) clearInterval(this.fadeInterval);
+      
+      const steps = 20;
+      const stepTime = durationMs / steps;
+      const startVol = this.audio.volume;
+      const volDiff = targetVol - startVol;
+      let currentStep = 0;
+
+      this.fadeInterval = setInterval(() => {
+        currentStep++;
+        let newVol = startVol + (volDiff * (currentStep / steps));
+        // 確保音量在合法範圍內 (0 到 1)
+        newVol = Math.max(0, Math.min(1, newVol));
+        this.audio.volume = newVol;
+
+        if (currentStep >= steps) {
+          clearInterval(this.fadeInterval);
+          this.audio.volume = targetVol;
+          resolve();
+        }
+      }, stepTime);
+    });
   }
 }
 
@@ -173,9 +170,7 @@ export default function CheeseThiefPage() {
     if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
     setSubtitle(text);
     await cancelAndWait(120); // 取消上一句並稍待，避免瀏覽器 bug
-    musicRef.current.setVolume(0.1);
     await speak(text);
-    musicRef.current.setVolume(0.3);
     await checkPause();
   }, [checkPause]);
 
@@ -185,9 +180,7 @@ export default function CheeseThiefPage() {
       if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
       setCountdown(s);
       await cancelAndWait(100); // 取消前一句並稍待
-      musicRef.current.setVolume(0.1);
       await speak(String(s));
-      musicRef.current.setVolume(0.3);
       await createDelay(300, signal);
     }
     setCountdown(null);
@@ -237,7 +230,7 @@ export default function CheeseThiefPage() {
     setStatus(STATUS.RUNNING); setCountdown(null); pauseRef.current.paused = false;
 
     const track = BGM_TRACKS.find(t => t.id === bgmTrackId);
-    if (bgmEnabled) musicRef.current.start(track, 0.3);
+    if (bgmEnabled) musicRef.current.start(track, 0.15);
 
     try {
       setDisplay('🌙'); setCurrentStep(0);

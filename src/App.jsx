@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Header from './components/Header';
 import NavTabs from './components/NavTabs';
 import FilterBar from './components/FilterBar';
@@ -16,10 +16,34 @@ import HourglassPage from './components/pages/HourglassPage';
 import ServiceBellPage from './components/pages/ServiceBellPage';
 import CheeseThiefPage from './components/pages/CheeseThiefPage';
 import BladesAndRosePage from './components/pages/BladesAndRosePage';
+import VoiceNarrationHubPage from './components/pages/VoiceNarrationHubPage';
 import StarPlayerPage from './components/pages/StarPlayerPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import MemberPage from './components/pages/MemberPage';
+import ScoringHubPage from './components/pages/ScoringHubPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div style={{padding: '20px', color: 'red', background: 'white'}}>
+        <h1>Something went wrong.</h1>
+        <pre>{this.state.error.toString()}</pre>
+        <pre>{this.state.error.stack}</pre>
+      </div>;
+    }
+    return this.props.children;
+  }
+}
 
 export default function App() {
   const { games, loading, error } = useGoogleSheet();
@@ -132,6 +156,10 @@ export default function App() {
         return <CheeseThiefPage />;
       case 'helper-blades-rose':
         return <BladesAndRosePage />;
+      case 'helper-voice-hub':
+        return <VoiceNarrationHubPage onSelect={setActiveTab} />;
+      case 'helper-scoring-hub':
+        return <ScoringHubPage onSelect={setActiveTab} />;
       case 'helper-star-player':
         return <StarPlayerPage />;
       case 'escape':
@@ -143,7 +171,11 @@ export default function App() {
   };
 
   const handleBack = () => {
-    if (activeTab === 'helper-agricola' || activeTab === 'helper-clock' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose' || activeTab === 'helper-star-player') {
+    if (activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose') {
+      setActiveTab('helper-voice-hub');
+    } else if (activeTab === 'helper-agricola' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet') {
+      setActiveTab('helper-scoring-hub');
+    } else if (activeTab === 'helper-clock' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-voice-hub' || activeTab === 'helper-scoring-hub' || activeTab === 'helper-star-player') {
       setActiveTab('helper-menu');
     } else {
       setActiveTab('home');
@@ -157,13 +189,15 @@ export default function App() {
         showBackButton={activeTab !== 'home'} 
         onBack={handleBack} 
       />
-      {activeTab === 'home' ? (
-      <div className="pt-4 pb-10">
-          <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
-        </div>
-      ) : (
-        renderContent()
-      )}
+      <ErrorBoundary>
+        {activeTab === 'home' ? (
+        <div className="pt-4 pb-10">
+            <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          </div>
+        ) : (
+          renderContent()
+        )}
+      </ErrorBoundary>
     </div>
   );
 }
