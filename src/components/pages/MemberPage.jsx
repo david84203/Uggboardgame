@@ -286,7 +286,7 @@ function MemberCard({ member, onLogout }) {
 
 const MEMBER_KEY = 'ugg_member'
 
-export default function MemberPage() {
+export default function MemberPage({ onMemberChange }) {
   const [member, setMember] = useState(() => {
     try {
       const saved = sessionStorage.getItem(MEMBER_KEY)
@@ -300,6 +300,7 @@ export default function MemberPage() {
 
   function saveMember(data) {
     setMember(data)
+    if (onMemberChange) onMemberChange(data)
     if (data) {
       sessionStorage.setItem(MEMBER_KEY, JSON.stringify(data))
     } else {

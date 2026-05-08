@@ -48,6 +48,12 @@ class ErrorBoundary extends React.Component {
 export default function App() {
   const { games, loading, error } = useGoogleSheet();
   const [activeTab, setActiveTab] = useState('home');
+  const [loggedInMember, setLoggedInMember] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('ugg_member')
+      return saved ? JSON.parse(saved) : null
+    } catch { return null }
+  });
 
   const [filters, setFilters] = useState({
     searchQuery: '',
@@ -137,7 +143,7 @@ export default function App() {
       case 'environment':
         return <PlaceholderPage title="環境介紹" icon="🏠" />;
       case 'member':
-        return <MemberPage />;
+        return <MemberPage onMemberChange={setLoggedInMember} />;
       case 'helper-menu':
         return <HelperMenuPage onSelect={setActiveTab} />;
       case 'helper-agricola':
@@ -145,7 +151,7 @@ export default function App() {
       case 'helper-clock':
         return <ChessClockPage />;
       case 'helper-scorer':
-        return <UniversalScorerPage onGoToMember={() => setActiveTab('member')} />;
+        return <UniversalScorerPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-scoresheet':
         return <ScoreSheetPage />;
       case 'helper-hourglass':

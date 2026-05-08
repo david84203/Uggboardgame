@@ -346,9 +346,8 @@ function SetupView({ onStart }) {
 }
 
 // ── 主元件 ────────────────────────────────────────
-export default function UniversalScorerPage({ onGoToMember }) {
+export default function UniversalScorerPage({ onGoToMember, isLoggedIn }) {
   const [gameState, setGameState] = useState(null);
-  const isLoggedIn = !!sessionStorage.getItem('ugg_member')
   const handleStart = (players, totalRounds, sortMode) => setGameState({ players, totalRounds, sortMode });
   const handleExit = () => { if (window.confirm('確定要結束遊戲並回到設定頁嗎？')) setGameState(null); };
   if (!isLoggedIn) {
