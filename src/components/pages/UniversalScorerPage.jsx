@@ -347,7 +347,10 @@ function SetupView({ onStart }) {
 
 // ── 主元件 ────────────────────────────────────────
 export default function UniversalScorerPage({ onGoToMember }) {
+  const [gameState, setGameState] = useState(null);
   const isLoggedIn = !!sessionStorage.getItem('ugg_member')
+  const handleStart = (players, totalRounds, sortMode) => setGameState({ players, totalRounds, sortMode });
+  const handleExit = () => { if (window.confirm('確定要結束遊戲並回到設定頁嗎？')) setGameState(null); };
   if (!isLoggedIn) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
@@ -363,9 +366,6 @@ export default function UniversalScorerPage({ onGoToMember }) {
       </div>
     )
   }
-  const [gameState, setGameState] = useState(null);
-  const handleStart = (players, totalRounds, sortMode) => setGameState({ players, totalRounds, sortMode });
-  const handleExit = () => { if (window.confirm('確定要結束遊戲並回到設定頁嗎？')) setGameState(null); };
   if (!gameState) return <SetupView onStart={handleStart} />;
   return <ScoringView initialPlayers={gameState.players} totalRounds={gameState.totalRounds} sortMode={gameState.sortMode} onExit={handleExit} />;
 }
