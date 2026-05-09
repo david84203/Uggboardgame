@@ -1,39 +1,55 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Square, RotateCcw, Pause, PlayCircle } from 'lucide-react';
+import { Play, Square, Pause, PlayCircle } from 'lucide-react';
 
 export default function ChessClockPage() {
   const [isSetup, setIsSetup] = useState(true);
-  
-  // 設定狀態
+
   const [playerCount, setPlayerCount] = useState(4);
+  const [playerNames, setPlayerNames] = useState(['', '', '', '']);
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(0);
-  
-  // 計時狀態
+
   const [currentPlayer, setCurrentPlayer] = useState(1);
-  const [timeLeft, setTimeLeft] = useState(60); // 總秒數
+  const [timeLeft, setTimeLeft] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
-  
-  // 使用 useRef 來儲存 setInterval ID，確保能正確清除
+
   const timerRef = useRef(null);
-  
+
   const totalSeconds = minutes * 60 + seconds;
+
+  function changePlayerCount(delta) {
+    const next = Math.min(10, Math.max(2, playerCount + delta));
+    setPlayerCount(next);
+    setPlayerNames(prev => {
+      const arr = [...prev];
+      while (arr.length < next) arr.push('');
+      return arr.slice(0, next);
+    });
+  }
+
+  function updatePlayerName(index, name) {
+    setPlayerNames(prev => prev.map((n, i) => i === index ? name : n));
+  }
+
+  function getDisplayName(index) {
+    return playerNames[index]?.trim() || `玩家 ${index + 1}`;
+  }
 
   const playBeep = (isLong = false) => {
     try {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
-      
+
       oscillator.type = isLong ? 'square' : 'sine';
-      oscillator.frequency.setValueAtTime(isLong ? 500 : 880, audioCtx.currentTime); 
-      
+      oscillator.frequency.setValueAtTime(isLong ? 500 : 880, audioCtx.currentTime);
+
       gainNode.gain.setValueAtTime(isLong ? 0.3 : 0.1, audioCtx.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (isLong ? 1.0 : 0.2));
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioCtx.destination);
-      
+
       oscillator.start();
       oscillator.stop(audioCtx.currentTime + (isLong ? 1.0 : 0.2));
     } catch (e) {
@@ -41,7 +57,6 @@ export default function ChessClockPage() {
     }
   };
 
-  // 處理計時邏輯
   useEffect(() => {
     if (!isRunning || timeLeft === 0) return;
 
@@ -49,9 +64,9 @@ export default function ChessClockPage() {
       setTimeLeft((prev) => {
         const next = prev - 1;
         if (next <= 10 && next > 0) {
-          playBeep(false); // 短嗶聲
+          playBeep(false);
         } else if (next === 0) {
-          playBeep(true);  // 長嗶聲
+          playBeep(true);
         }
         return next;
       });
@@ -67,19 +82,17 @@ export default function ChessClockPage() {
     }
     setCurrentPlayer(1);
     setTimeLeft(totalSeconds);
-    setIsRunning(false); // 進入畫面時先不計時
+    setIsRunning(false);
     setIsSetup(false);
   };
 
   const handleBigButtonClick = () => {
     if (!isRunning && timeLeft === totalSeconds) {
-      // 第一次點擊：開始計時
       setIsRunning(true);
     } else {
-      // 計時中點擊，或時間到後點擊：換下一位玩家並重置時間
       setCurrentPlayer(prev => (prev % playerCount) + 1);
       setTimeLeft(totalSeconds);
-      setIsRunning(true); // 確保時間到後點擊也能重新開始
+      setIsRunning(true);
     }
   };
 
@@ -104,25 +117,44 @@ export default function ChessClockPage() {
       <div className="max-w-lg mx-auto p-6 pb-24 min-h-[calc(100vh-60px)] flex flex-col bg-[#F5F2EB]">
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-stone-200 mt-4">
           <h2 className="text-2xl font-bold text-stone-800 mb-8 text-center">桌遊棋鐘設定</h2>
-          
+
           <div className="space-y-6">
             {/* 玩家人數設定 */}
             <div>
               <label className="block text-stone-600 font-bold mb-3">玩家人數</label>
               <div className="flex items-center justify-between bg-stone-50 rounded-2xl p-2 border border-stone-200">
-                <button 
-                  onClick={() => setPlayerCount(Math.max(2, playerCount - 1))}
+                <button
+                  onClick={() => changePlayerCount(-1)}
                   className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl font-bold text-stone-600 hover:bg-stone-100"
                 >
                   -
                 </button>
                 <span className="text-2xl font-black text-stone-800">{playerCount} 人</span>
-                <button 
-                  onClick={() => setPlayerCount(Math.min(10, playerCount + 1))}
+                <button
+                  onClick={() => changePlayerCount(1)}
                   className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl font-bold text-stone-600 hover:bg-stone-100"
                 >
                   +
                 </button>
+              </div>
+            </div>
+
+            {/* 玩家名字輸入 */}
+            <div>
+              <label className="block text-stone-600 font-bold mb-3">玩家名字（選填）</label>
+              <div className="space-y-2">
+                {Array.from({ length: playerCount }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="w-6 text-center text-sm font-bold text-stone-400">{i + 1}</span>
+                    <input
+                      type="text"
+                      value={playerNames[i] || ''}
+                      onChange={e => updatePlayerName(i, e.target.value)}
+                      placeholder={`玩家 ${i + 1}`}
+                      className="flex-1 bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-stone-800 text-sm focus:outline-none focus:border-orange-400"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -132,8 +164,8 @@ export default function ChessClockPage() {
               <div className="flex items-center gap-4">
                 <div className="flex-1 bg-stone-50 rounded-2xl p-4 border border-stone-200 flex flex-col items-center">
                   <span className="text-xs text-stone-400 font-bold mb-1">分鐘</span>
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     min="0" max="60"
                     value={minutes}
                     onChange={(e) => setMinutes(Number(e.target.value))}
@@ -143,8 +175,8 @@ export default function ChessClockPage() {
                 <span className="text-2xl font-bold text-stone-300">:</span>
                 <div className="flex-1 bg-stone-50 rounded-2xl p-4 border border-stone-200 flex flex-col items-center">
                   <span className="text-xs text-stone-400 font-bold mb-1">秒數</span>
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     min="0" max="59"
                     value={seconds}
                     onChange={(e) => setSeconds(Number(e.target.value))}
@@ -170,7 +202,7 @@ export default function ChessClockPage() {
               ))}
             </div>
 
-            <button 
+            <button
               onClick={handleStartSetup}
               className="w-full mt-6 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl font-bold text-xl shadow-md transition-colors flex items-center justify-center gap-2"
             >
@@ -183,24 +215,23 @@ export default function ChessClockPage() {
     );
   }
 
-  // 決定背景顏色（時間到時變紅）
   const isTimeUp = timeLeft === 0;
-  
+
   return (
     <div className="max-w-lg mx-auto min-h-[calc(100vh-60px)] flex flex-col bg-[#F5F2EB]">
       {/* 玩家標示 */}
       <div className="flex-none pt-8 pb-4 flex justify-center">
         <div className="px-8 py-3 bg-stone-800 text-white rounded-full text-2xl font-black shadow-md tracking-wider">
-          玩家 {currentPlayer}
+          {getDisplayName(currentPlayer - 1)}
         </div>
       </div>
 
       {/* 點擊區域 (超大按鈕) */}
-      <button 
+      <button
         onClick={handleBigButtonClick}
         className={`flex-1 mx-4 mb-4 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-4 transition-all duration-150 flex flex-col items-center justify-center group active:scale-[0.98] overflow-hidden ${
-          isTimeUp 
-            ? 'bg-red-500 border-red-600 text-white' 
+          isTimeUp
+            ? 'bg-red-500 border-red-600 text-white'
             : !isRunning && timeLeft === totalSeconds
               ? 'bg-amber-400 border-amber-500 text-amber-900'
               : 'bg-white border-stone-200 text-stone-800'
@@ -233,7 +264,7 @@ export default function ChessClockPage() {
 
       {/* 底部控制列 */}
       <div className="flex-none p-6 pt-0 flex gap-4">
-        <button 
+        <button
           onClick={handlePauseToggle}
           disabled={!isRunning && timeLeft === totalSeconds}
           className="flex-1 py-4 flex items-center justify-center gap-2 bg-stone-200 text-stone-700 rounded-2xl font-bold text-lg active:bg-stone-300 disabled:opacity-50 disabled:active:scale-100"
@@ -241,7 +272,7 @@ export default function ChessClockPage() {
           {isRunning ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}
           {isRunning ? '暫停' : '繼續'}
         </button>
-        <button 
+        <button
           onClick={handleExit}
           className="flex-1 py-4 flex items-center justify-center gap-2 bg-stone-800 text-white rounded-2xl font-bold text-lg active:bg-stone-900"
         >
