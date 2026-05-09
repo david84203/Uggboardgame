@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Square, Pause, PlayCircle } from 'lucide-react';
+import { Play, Square, Pause, PlayCircle, Volume2, VolumeX } from 'lucide-react';
 
 export default function ChessClockPage() {
   const [isSetup, setIsSetup] = useState(true);
@@ -9,12 +9,19 @@ export default function ChessClockPage() {
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(0);
 
+  // 聲音設定
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundType, setSoundType] = useState('beep'); // 'beep' | 'tick'
+  const [soundThreshold, setSoundThreshold] = useState(10);
+
+  // 計時狀態（帶入聲音設定的快照，避免設定變更影響進行中的計時）
+  const soundSettingsRef = useRef({ soundEnabled, soundType, soundThreshold });
+
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [timeLeft, setTimeLeft] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
 
   const timerRef = useRef(null);
-
   const totalSeconds = minutes * 60 + seconds;
 
   function changePlayerCount(delta) {
@@ -35,23 +42,39 @@ export default function ChessClockPage() {
     return playerNames[index]?.trim() || `玩家 ${index + 1}`;
   }
 
+  // 嗶嗶聲
   const playBeep = (isLong = false) => {
     try {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
-
       oscillator.type = isLong ? 'square' : 'sine';
       oscillator.frequency.setValueAtTime(isLong ? 500 : 880, audioCtx.currentTime);
-
-      gainNode.gain.setValueAtTime(isLong ? 0.3 : 0.1, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(isLong ? 0.3 : 0.12, audioCtx.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (isLong ? 1.0 : 0.2));
-
       oscillator.connect(gainNode);
       gainNode.connect(audioCtx.destination);
-
       oscillator.start();
       oscillator.stop(audioCtx.currentTime + (isLong ? 1.0 : 0.2));
+    } catch (e) {
+      console.warn('Audio play failed', e);
+    }
+  };
+
+  // 滴答聲
+  const playTick = () => {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(1100, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.07);
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.07);
     } catch (e) {
       console.warn('Audio play failed', e);
     }
@@ -63,10 +86,13 @@ export default function ChessClockPage() {
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         const next = prev - 1;
-        if (next <= 10 && next > 0) {
-          playBeep(false);
-        } else if (next === 0) {
-          playBeep(true);
+        const { soundEnabled: se, soundType: st, soundThreshold: sth } = soundSettingsRef.current;
+
+        if (next === 0) {
+          if (se) playBeep(true);
+        } else if (next <= sth && next > 0 && se) {
+          if (st === 'tick') playTick();
+          else playBeep(false);
         }
         return next;
       });
@@ -80,6 +106,7 @@ export default function ChessClockPage() {
       alert("請設定大於 0 的時間！");
       return;
     }
+    soundSettingsRef.current = { soundEnabled, soundType, soundThreshold };
     setCurrentPlayer(1);
     setTimeLeft(totalSeconds);
     setIsRunning(false);
@@ -96,9 +123,7 @@ export default function ChessClockPage() {
     }
   };
 
-  const handlePauseToggle = () => {
-    setIsRunning(!isRunning);
-  };
+  const handlePauseToggle = () => setIsRunning(!isRunning);
 
   const handleExit = () => {
     setIsRunning(false);
@@ -184,22 +209,84 @@ export default function ChessClockPage() {
                   />
                 </div>
               </div>
+              {/* 常用快速設定 */}
+              <div className="flex gap-2 justify-center mt-3">
+                {[30, 60, 90, 120].map(sec => (
+                  <button
+                    key={sec}
+                    onClick={() => {
+                      setMinutes(Math.floor(sec / 60));
+                      setSeconds(sec % 60);
+                    }}
+                    className="px-3 py-1.5 text-sm bg-stone-100 text-stone-600 rounded-lg hover:bg-stone-200 font-medium"
+                  >
+                    {sec}秒
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* 常用按鈕 (Quick Set) */}
-            <div className="flex gap-2 justify-center pt-2">
-              {[30, 60, 90, 120].map(sec => (
+            {/* 聲音設定 */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-stone-600 font-bold">倒數提示音</label>
                 <button
-                  key={sec}
-                  onClick={() => {
-                    setMinutes(Math.floor(sec / 60));
-                    setSeconds(sec % 60);
-                  }}
-                  className="px-3 py-1.5 text-sm bg-stone-100 text-stone-600 rounded-lg hover:bg-stone-200 font-medium"
+                  onClick={() => setSoundEnabled(v => !v)}
+                  className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-sm transition-colors ${
+                    soundEnabled
+                      ? 'bg-orange-100 text-orange-700 border border-orange-300'
+                      : 'bg-stone-100 text-stone-400 border border-stone-200'
+                  }`}
                 >
-                  {sec}秒
+                  {soundEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
+                  {soundEnabled ? '開啟' : '關閉'}
                 </button>
-              ))}
+              </div>
+
+              {soundEnabled && (
+                <div className="space-y-3 pl-1">
+                  {/* 聲音類型 */}
+                  <div className="flex gap-2">
+                    {[
+                      { value: 'beep', label: '嗶嗶聲', desc: '電子提示音' },
+                      { value: 'tick', label: '滴答聲', desc: '時鐘滴答音' },
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setSoundType(opt.value)}
+                        className={`flex-1 py-2.5 px-3 rounded-xl border-2 text-sm font-bold transition-colors ${
+                          soundType === opt.value
+                            ? 'border-orange-400 bg-orange-50 text-orange-700'
+                            : 'border-stone-200 bg-stone-50 text-stone-500 hover:bg-stone-100'
+                        }`}
+                      >
+                        <div>{opt.label}</div>
+                        <div className="text-xs font-normal opacity-70 mt-0.5">{opt.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* 從幾秒開始 */}
+                  <div>
+                    <p className="text-sm text-stone-500 mb-2">從最後幾秒開始提示</p>
+                    <div className="flex gap-2 flex-wrap">
+                      {[3, 5, 10, 15, 20].map(s => (
+                        <button
+                          key={s}
+                          onClick={() => setSoundThreshold(s)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-bold border transition-colors ${
+                            soundThreshold === s
+                              ? 'bg-orange-500 text-white border-orange-500'
+                              : 'bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200'
+                          }`}
+                        >
+                          {s} 秒
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <button
