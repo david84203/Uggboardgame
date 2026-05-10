@@ -231,10 +231,10 @@ export default function GameCard({ game }) {
                 <img
                   src={imgSrc}
                   alt={name}
-                  className="w-full h-64 sm:h-72 object-cover object-top"
+                  className="w-full object-contain bg-stone-50"
                 />
               ) : (
-                 <div className="w-full h-64 sm:h-72 bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
+                 <div className="w-full h-48 bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
                    <img src="/images/LOGO.jpg" alt="Logo" className="w-32 h-32 object-contain opacity-20 grayscale" />
                  </div>
               )}
