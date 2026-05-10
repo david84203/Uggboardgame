@@ -17,8 +17,8 @@ export const LEVELS = [
 export const EXP_RULES = [
   { icon: '🎮', label: '每次入場', exp: '+5 EXP' },
   { icon: '👥', label: '每帶一位朋友入場', exp: '+1 EXP' },
-  { icon: '📦', label: '每租借一款遊戲', exp: '+1 EXP' },
-  { icon: '🛒', label: '每購買 $500 桌遊', exp: '+4 EXP' },
+  { icon: '📦', label: '每租借一款遊戲', exp: '+2 EXP' },
+  { icon: '🛒', label: '累積消費每達 $500', exp: '+3 EXP' },
 ]
 
 export function calcLevel(exp) {
