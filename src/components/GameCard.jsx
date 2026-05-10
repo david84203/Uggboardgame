@@ -71,12 +71,14 @@ export default function GameCard({ game }) {
   const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame\/(\d+)/);
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
 
-  // Image sources to try in order: bggId.jpg → bggId.webp → row-{id}.jpg → row-{id}.webp
+  // Image sources to try in order: bggId.jpg → bggId.webp → bggId.png → row-{id}.jpg → row-{id}.webp → row-{id}.png
   const imgSources = [
     bggId ? `/images/${bggId}.jpg` : null,
     bggId ? `/images/${bggId}.webp` : null,
+    bggId ? `/images/${bggId}.png` : null,
     `/images/row-${id}.jpg`,
     `/images/row-${id}.webp`,
+    `/images/row-${id}.png`,
   ].filter(Boolean);
 
   const imgSrc = imgSources[imgSrcIndex] ?? null;
