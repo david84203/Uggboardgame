@@ -191,7 +191,7 @@ export default function GameCard({ game }) {
                 </span>
               ))}
               {youtubeId && (
-                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-red-50 text-red-600 border border-red-100">
+                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-purple-50 text-purple-600 border border-purple-100">
                   <PlayCircle className="w-3 h-3" />
                   教學
                 </span>
