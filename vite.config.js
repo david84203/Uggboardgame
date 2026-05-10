@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'images/LOGO.jpg'],
       manifest: {
-        name: '烏嘎嘎桌遊推薦系統',
+        name: '烏嘎嘎桌遊｜玩家指南',
         short_name: '烏嘎嘎桌遊',
-        description: '掃碼即可查詢店內桌遊，根據人數、時間、類型快速找到適合的遊戲！',
+        description: '消費方式、餐點、遊戲查詢、環境介紹、密室逃脫，一站搞定！',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
