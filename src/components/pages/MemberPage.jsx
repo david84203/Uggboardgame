@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS } from '../../utils/exp'
@@ -64,7 +64,6 @@ function LoginForm({ onLogin, loading, error }) {
 
 function getBirthdayCountdown(birthdayStr) {
   if (!birthdayStr) return null
-  // 支援 MM/DD 或 YYYY/MM/DD 或 MM-DD 或 YYYY-MM-DD
   const parts = birthdayStr.replace(/-/g, '/').split('/')
   let month, day
   if (parts.length === 3) {
@@ -81,12 +80,10 @@ function getBirthdayCountdown(birthdayStr) {
   const now = new Date()
   const thisYear = now.getFullYear()
   let nextBirthday = new Date(thisYear, month - 1, day)
-  // 如果今年生日已過，就算明年的
   if (nextBirthday <= now) {
     nextBirthday = new Date(thisYear + 1, month - 1, day)
   }
 
-  // 計算月份與天數差
   let diffMonths = (nextBirthday.getFullYear() - now.getFullYear()) * 12 + (nextBirthday.getMonth() - now.getMonth())
   let tempDate = new Date(now)
   tempDate.setMonth(tempDate.getMonth() + diffMonths)
@@ -112,33 +109,49 @@ function MemberCard({ member, onLogout }) {
   const birthdayCountdown = getBirthdayCountdown(member.birthday)
 
   const [showHistory, setShowHistory] = useState(false)
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0 })
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState('')
 
   async function fetchHistory() {
     if (historyLoaded) {
-      setShowHistory(!showHistory)
+      setShowHistory(v => !v)
       return
     }
     setHistoryLoading(true)
     setHistoryError('')
     try {
-      const q = query(
-        collection(db, 'sessions'),
-        where('memberDocId', '==', member.id)
-      )
-      const snap = await getDocs(q)
-      const records = snap.docs
+      const [sessionSnap, rentalSnap] = await Promise.all([
+        getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', member.id))),
+        getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', member.id))),
+      ])
+
+      const sessions = sessionSnap.docs
         .map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-      setHistory(records)
+
+      const rentals = rentalSnap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+
+      let friendCount = 0
+      try {
+        const prefix = member.name + ' 的朋友'
+        const friendSnap = await getDocs(query(
+          collection(db, 'sessions'),
+          where('name', '>=', prefix),
+          where('name', '<=', prefix + '')
+        ))
+        friendCount = friendSnap.docs.length
+      } catch (_) {}
+
+      setHistory({ sessions, rentals, friendCount })
       setHistoryLoaded(true)
       setShowHistory(true)
     } catch (err) {
       console.error(err)
-      setHistoryError('無法載入消費紀錄')
+      setHistoryError('無法載入紀錄')
     } finally {
       setHistoryLoading(false)
     }
@@ -220,57 +233,91 @@ function MemberCard({ member, onLogout }) {
         </div>
       </div>
 
-      {/* 消費紀錄按鈕 */}
+      {/* 紀錄按鈕 */}
       <button
         onClick={fetchHistory}
         disabled={historyLoading}
         className="w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm shadow-sm shadow-orange-200 hover:opacity-90 transition disabled:opacity-40 mb-3"
       >
-        {historyLoading ? '載入中…' : showHistory ? '收起消費紀錄' : '📋 查看消費紀錄'}
+        {historyLoading ? '載入中…' : showHistory ? '收起紀錄' : '📋 查看紀錄'}
       </button>
 
       {historyError && (
         <p className="text-sm text-red-500 text-center bg-red-50 rounded-xl py-2 px-4 mb-3">{historyError}</p>
       )}
 
-      {/* 消費紀錄列表 */}
       {showHistory && (
-        <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-4 mb-4">
-          <div className="text-sm font-bold text-stone-500 mb-3">消費紀錄（共 {history.length} 筆）</div>
-          {history.length === 0 ? (
-            <p className="text-sm text-stone-400 text-center py-4">目前沒有消費紀錄</p>
-          ) : (
-            <div className="space-y-3 max-h-[60vh] overflow-y-auto">
-              {history.map(s => {
-                const total = (s.finalFee || 0) + (s.foodTotal || 0) + (s.purchaseTotal || 0)
-                return (
-                  <div key={s.id} className="border border-stone-100 rounded-2xl p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-bold text-stone-700 text-sm">📅 {s.date}</span>
-                      <span className="font-bold text-orange-500 text-sm">${total}</span>
-                    </div>
-                    <div className="grid grid-cols-3 gap-1 text-xs text-stone-500">
-                      <div className="bg-stone-50 rounded-lg py-1.5 text-center">
-                        <div className="text-stone-400">入場費</div>
-                        <div className="font-medium text-stone-700">${s.finalFee || 0}</div>
-                      </div>
-                      <div className="bg-stone-50 rounded-lg py-1.5 text-center">
-                        <div className="text-stone-400">餐點</div>
-                        <div className="font-medium text-stone-700">${s.foodTotal || 0}</div>
-                      </div>
-                      <div className="bg-stone-50 rounded-lg py-1.5 text-center">
-                        <div className="text-stone-400">桌遊購買</div>
-                        <div className="font-medium text-stone-700">${s.purchaseTotal || 0}</div>
-                      </div>
-                    </div>
-                    {s.status === 'in' && (
-                      <div className="mt-2 text-xs text-orange-500 font-medium text-center">🎮 目前在場中</div>
-                    )}
-                  </div>
-                )
-              })}
+        <div className="space-y-3 mb-4">
+
+          {/* 入場摘要 */}
+          <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
+            <div className="text-sm font-bold text-stone-500 mb-3">入場摘要</div>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="bg-orange-50 rounded-xl py-3">
+                <div className="text-xs text-stone-400 mb-1">總入場次數</div>
+                <div className="font-bold text-orange-500 text-lg">{history.sessions.length}</div>
+              </div>
+              <div className="bg-orange-50 rounded-xl py-3">
+                <div className="text-xs text-stone-400 mb-1">最後入場</div>
+                <div className="font-bold text-stone-700 text-xs leading-tight pt-1">
+                  {history.sessions[0]?.date || '--'}
+                </div>
+              </div>
+              <div className="bg-orange-50 rounded-xl py-3">
+                <div className="text-xs text-stone-400 mb-1">帶過朋友</div>
+                <div className="font-bold text-orange-500 text-lg">{history.friendCount}</div>
+              </div>
             </div>
-          )}
+          </div>
+
+          {/* 購買紀錄 */}
+          <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
+            <div className="text-sm font-bold text-stone-500 mb-3">🎲 購買紀錄</div>
+            {(() => {
+              const purchases = history.sessions
+                .flatMap(s => (s.purchases || []).map(p => ({ ...p, date: s.date })))
+                .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+              return purchases.length === 0 ? (
+                <p className="text-sm text-stone-300 text-center py-2">尚無購買紀錄</p>
+              ) : (
+                <div className="space-y-2">
+                  {purchases.map((p, i) => (
+                    <div key={i} className="flex items-center justify-between text-sm">
+                      <div>
+                        <span className="text-stone-700 font-medium">{p.description || '桌遊購買'}</span>
+                        <span className="text-stone-400 text-xs ml-2">{p.date}</span>
+                      </div>
+                      <span className="text-orange-500 font-bold">${p.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
+          </div>
+
+          {/* 租借紀錄 */}
+          <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
+            <div className="text-sm font-bold text-stone-500 mb-3">📦 租借紀錄</div>
+            {history.rentals.length === 0 ? (
+              <p className="text-sm text-stone-300 text-center py-2">尚無租借紀錄</p>
+            ) : (
+              <div className="space-y-2">
+                {history.rentals.map(r => (
+                  <div key={r.id} className="flex items-center justify-between text-sm">
+                    <div>
+                      <span className="text-stone-700 font-medium">{r.gameName || '（未填遊戲名）'}</span>
+                      <span className="text-stone-400 text-xs ml-2">{r.date}</span>
+                      {r.returnDate && (
+                        <span className="text-blue-400 text-xs ml-1">還：{r.returnDate}</span>
+                      )}
+                    </div>
+                    <span className="text-orange-500 font-bold">${r.amount}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
         </div>
       )}
 
@@ -311,20 +358,14 @@ export default function MemberPage({ onMemberChange }) {
   async function handleLogin(name, phone) {
     setLoading(true)
     setError('')
-    // 格式化手機號碼：去除空格、連字符、括號
     const normalizedPhone = phone.replace(/[\s\-\(\)]/g, '').trim()
     try {
-      // 先用 name 單條件撈，避免複合索引問題
-      const q = query(
-        collection(db, 'members'),
-        where('name', '==', name)
-      )
+      const q = query(collection(db, 'members'), where('name', '==', name))
       const snap = await getDocs(q)
       if (snap.empty) {
         setError('找不到此姓名的會員，請確認姓名是否正確')
         return
       }
-      // 前端比對 phone（容錯格式）
       const matched = snap.docs.find(doc => {
         const dbPhone = (doc.data().phone || '').replace(/[\s\-\(\)]/g, '').trim()
         return dbPhone === normalizedPhone
