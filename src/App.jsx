@@ -25,6 +25,9 @@ import ScoringHubPage from './components/pages/ScoringHubPage';
 import SevenWondersPage from './components/pages/SevenWondersPage';
 import WingspanPage from './components/pages/WingspanPage';
 import TerraformingMarsPage from './components/pages/TerraformingMarsPage';
+import WyrmspanPage from './components/pages/WyrmspanPage';
+import AkropolisPage from './components/pages/AkropolisPage';
+import ConcordiaPage from './components/pages/ConcordiaPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
 class ErrorBoundary extends React.Component {
@@ -182,6 +185,12 @@ export default function App() {
         return <WingspanPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-terraforming':
         return <TerraformingMarsPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+      case 'helper-wyrmspan':
+        return <WyrmspanPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+      case 'helper-akropolis':
+        return <AkropolisPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+      case 'helper-concordia':
+        return <ConcordiaPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-star-player':
         return <StarPlayerPage />;
       case 'escape':
@@ -196,7 +205,8 @@ export default function App() {
     if (activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose') {
       setActiveTab('helper-voice-hub');
     } else if (activeTab === 'helper-agricola' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet' ||
-               activeTab === 'helper-7wonders' || activeTab === 'helper-wingspan' || activeTab === 'helper-terraforming') {
+               activeTab === 'helper-7wonders' || activeTab === 'helper-wingspan' || activeTab === 'helper-terraforming' ||
+               activeTab === 'helper-wyrmspan' || activeTab === 'helper-akropolis' || activeTab === 'helper-concordia') {
       setActiveTab('helper-scoring-hub');
     } else if (activeTab === 'helper-clock' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-voice-hub' || activeTab === 'helper-scoring-hub' || activeTab === 'helper-star-player') {
       setActiveTab('helper-menu');
