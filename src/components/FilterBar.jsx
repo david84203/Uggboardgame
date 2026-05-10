@@ -48,7 +48,6 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
 
   const togglePlayerMode = (mode) => {
     onFilterChange({ ...filters, playerMode: mode });
-    setIsExpanded(false);
   };
 
   const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0 || onlyHot || playerMode;
