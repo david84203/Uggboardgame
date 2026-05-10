@@ -44,6 +44,8 @@ const FIELD_MAP = {
   sticker: '貼紙',
   price: '定價',
   rental: '租金',
+  youtubeLink: '教學',
+  source: '出處',
 };
 
 /**
@@ -183,6 +185,8 @@ export default function useGoogleSheet() {
                   sticker: row[FIELD_MAP.sticker]?.trim() || '',
                   price: row[FIELD_MAP.price]?.trim() || '',
                   rental: row[FIELD_MAP.rental]?.trim() || '',
+                  youtubeLink: row[FIELD_MAP.youtubeLink]?.trim() || '',
+                  source: row[FIELD_MAP.source]?.trim() || '',
                 };
               });
 
