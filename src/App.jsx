@@ -22,6 +22,9 @@ import StarPlayerPage from './components/pages/StarPlayerPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import MemberPage from './components/pages/MemberPage';
 import ScoringHubPage from './components/pages/ScoringHubPage';
+import SevenWondersPage from './components/pages/SevenWondersPage';
+import WingspanPage from './components/pages/WingspanPage';
+import TerraformingMarsPage from './components/pages/TerraformingMarsPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 
 class ErrorBoundary extends React.Component {
@@ -173,6 +176,12 @@ export default function App() {
         return <VoiceNarrationHubPage onSelect={setActiveTab} />;
       case 'helper-scoring-hub':
         return <ScoringHubPage onSelect={setActiveTab} isLoggedIn={!!loggedInMember} />;
+      case 'helper-7wonders':
+        return <SevenWondersPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+      case 'helper-wingspan':
+        return <WingspanPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+      case 'helper-terraforming':
+        return <TerraformingMarsPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-star-player':
         return <StarPlayerPage />;
       case 'escape':
@@ -186,7 +195,8 @@ export default function App() {
   const handleBack = () => {
     if (activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose') {
       setActiveTab('helper-voice-hub');
-    } else if (activeTab === 'helper-agricola' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet') {
+    } else if (activeTab === 'helper-agricola' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet' ||
+               activeTab === 'helper-7wonders' || activeTab === 'helper-wingspan' || activeTab === 'helper-terraforming') {
       setActiveTab('helper-scoring-hub');
     } else if (activeTab === 'helper-clock' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-voice-hub' || activeTab === 'helper-scoring-hub' || activeTab === 'helper-star-player') {
       setActiveTab('helper-menu');

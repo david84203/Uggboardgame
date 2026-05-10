@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, Trophy, TableProperties, Lock, Wheat } from 'lucide-react';
+import { Calculator, Trophy, TableProperties, Lock, Wheat, Landmark, Feather, Globe } from 'lucide-react';
 
 export default function ScoringHubPage({ onSelect, isLoggedIn }) {
   return (
@@ -47,7 +47,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
         </button>
 
         {/* 數位計分紙 */}
-        <button 
+        <button
           onClick={() => onSelect('helper-scoresheet')}
           className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
         >
@@ -56,6 +56,78 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
           </div>
           <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">數位計分紙</h3>
           <p className="text-stone-500 text-xs leading-relaxed">自訂項目與玩家，自動結算總分</p>
+        </button>
+
+        {/* 七大奇蹟（鎖會員） */}
+        <button
+          onClick={() => isLoggedIn ? onSelect('helper-7wonders') : alert('七大奇蹟計分器為會員專屬功能，請先登入會員！')}
+          className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
+        >
+          {!isLoggedIn && (
+            <div className="absolute inset-0 bg-stone-50/50 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="bg-stone-800 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
+                <Lock size={14} /> 會員專屬
+              </div>
+            </div>
+          )}
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 mb-3 ${isLoggedIn ? 'bg-amber-50 group-hover:bg-amber-100' : 'bg-stone-100 opacity-70'}`}>
+            <Landmark className={isLoggedIn ? 'text-amber-700' : 'text-stone-400'} size={28} />
+          </div>
+          <div className={`flex flex-col items-center ${!isLoggedIn && 'opacity-70'}`}>
+            <div className="flex items-center gap-1 mb-1">
+              <h3 className="text-base font-bold text-stone-800 leading-tight">七大奇蹟</h3>
+              {!isLoggedIn && <Lock size={14} className="text-stone-400" />}
+            </div>
+            <p className="text-stone-500 text-xs leading-relaxed">含科學牌最佳化計算與萬用牌</p>
+          </div>
+        </button>
+
+        {/* 展翅翱翔（鎖會員） */}
+        <button
+          onClick={() => isLoggedIn ? onSelect('helper-wingspan') : alert('展翅翱翔計分器為會員專屬功能，請先登入會員！')}
+          className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
+        >
+          {!isLoggedIn && (
+            <div className="absolute inset-0 bg-stone-50/50 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="bg-stone-800 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
+                <Lock size={14} /> 會員專屬
+              </div>
+            </div>
+          )}
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 mb-3 ${isLoggedIn ? 'bg-emerald-50 group-hover:bg-emerald-100' : 'bg-stone-100 opacity-70'}`}>
+            <Feather className={isLoggedIn ? 'text-emerald-700' : 'text-stone-400'} size={28} />
+          </div>
+          <div className={`flex flex-col items-center ${!isLoggedIn && 'opacity-70'}`}>
+            <div className="flex items-center gap-1 mb-1">
+              <h3 className="text-base font-bold text-stone-800 leading-tight">展翅翱翔</h3>
+              {!isLoggedIn && <Lock size={14} className="text-stone-400" />}
+            </div>
+            <p className="text-stone-500 text-xs leading-relaxed">六大計分類別一鍵結算</p>
+          </div>
+        </button>
+
+        {/* 殖民火星（鎖會員） */}
+        <button
+          onClick={() => isLoggedIn ? onSelect('helper-terraforming') : alert('殖民火星計分器為會員專屬功能，請先登入會員！')}
+          className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
+        >
+          {!isLoggedIn && (
+            <div className="absolute inset-0 bg-stone-50/50 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="bg-stone-800 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
+                <Lock size={14} /> 會員專屬
+              </div>
+            </div>
+          )}
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 mb-3 ${isLoggedIn ? 'bg-red-50 group-hover:bg-red-100' : 'bg-stone-100 opacity-70'}`}>
+            <Globe className={isLoggedIn ? 'text-red-700' : 'text-stone-400'} size={28} />
+          </div>
+          <div className={`flex flex-col items-center ${!isLoggedIn && 'opacity-70'}`}>
+            <div className="flex items-center gap-1 mb-1">
+              <h3 className="text-base font-bold text-stone-800 leading-tight">殖民火星</h3>
+              {!isLoggedIn && <Lock size={14} className="text-stone-400" />}
+            </div>
+            <p className="text-stone-500 text-xs leading-relaxed">TR、里程碑、獎項、板塊計分</p>
+          </div>
         </button>
       </div>
     </div>
