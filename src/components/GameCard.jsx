@@ -231,7 +231,7 @@ export default function GameCard({ game }) {
                 <img
                   src={imgSrc}
                   alt={name}
-                  className="w-full object-contain bg-stone-50"
+                  className="w-full max-h-52 sm:max-h-60 object-contain bg-stone-50"
                 />
               ) : (
                  <div className="w-full h-48 bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
