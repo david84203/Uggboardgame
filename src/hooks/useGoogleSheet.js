@@ -191,7 +191,7 @@ export default function useGoogleSheet() {
               });
 
             console.log(`✅ 成功載入 ${mapped.length} 款桌遊資料`);
-            setGames(mapped);
+            setGames(mapped.reverse());
             setLoading(false);
           },
           error: (err) => {
