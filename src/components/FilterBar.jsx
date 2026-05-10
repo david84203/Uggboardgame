@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers, ChevronDown, ChevronUp, Flame, SlidersHorizontal, X } from 'lucide-react';
+import { Users, Clock, Tag, RotateCcw, Minus, Plus, Search, Layers, ChevronDown, ChevronUp, Flame, SlidersHorizontal, X, PlayCircle } from 'lucide-react';
 
 const TIME_OPTIONS = [
   { label: '不限時間', value: '' },
@@ -32,7 +32,7 @@ const MODE_IDLE = {
 };
 
 export default function FilterBar({ filters, onFilterChange, availableCategories = [], availableTags = [] }) {
-  const { searchQuery, playerCount, timeRange, category, tags = [], onlyHot, playerMode = '' } = filters;
+  const { searchQuery, playerCount, timeRange, category, tags = [], onlyHot, onlyTutorial = false, playerMode = '' } = filters;
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTagsExpanded, setIsTagsExpanded] = useState(false);
   const [isCatsExpanded, setIsCatsExpanded] = useState(false);
@@ -43,15 +43,15 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
   };
 
   const handleReset = () => {
-    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [], onlyHot: false, playerMode: '' });
+    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [], onlyHot: false, onlyTutorial: false, playerMode: '' });
   };
 
   const togglePlayerMode = (mode) => {
     onFilterChange({ ...filters, playerMode: mode });
   };
 
-  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0 || onlyHot || playerMode;
-  const activeFilterCount = [playerMode, playerCount, timeRange, category, onlyHot].filter(Boolean).length + tags.length;
+  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0 || onlyHot || onlyTutorial || playerMode;
+  const activeFilterCount = [playerMode, playerCount, timeRange, category, onlyHot, onlyTutorial].filter(Boolean).length + tags.length;
 
   const activeChips = [
     playerMode && { label: PLAYER_MODES.find(m => m.value === playerMode)?.emoji + ' ' + playerMode, key: 'playerMode', onRemove: () => onFilterChange({ ...filters, playerMode: '' }) },
@@ -59,6 +59,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
     timeRange && { label: `⏱ ${TIME_LABELS[timeRange]}`, key: 'timeRange', onRemove: () => onFilterChange({ ...filters, timeRange: '' }) },
     category && { label: `🏷 ${category}`, key: 'category', onRemove: () => onFilterChange({ ...filters, category: '' }) },
     onlyHot && { label: '🔥 熱門', key: 'onlyHot', onRemove: () => onFilterChange({ ...filters, onlyHot: false }) },
+    onlyTutorial && { label: '▶ 教學', key: 'onlyTutorial', onRemove: () => onFilterChange({ ...filters, onlyTutorial: false }) },
     ...tags.map(tag => ({ label: tag, key: `tag-${tag}`, onRemove: () => onFilterChange({ ...filters, tags: tags.filter(t => t !== tag) }) })),
   ].filter(Boolean);
 
@@ -192,6 +193,16 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
               >
                 <Flame className={`w-4 h-4 ${onlyHot ? 'fill-white' : 'fill-red-500'}`} />
                 <span>熱門</span>
+              </button>
+
+              <button
+                onClick={() => onFilterChange({ ...filters, onlyTutorial: !onlyTutorial })}
+                className={`flex items-center gap-1 px-2.5 h-9 rounded-xl text-sm font-bold transition-all shrink-0 cursor-pointer border ${
+                  onlyTutorial ? 'bg-purple-500 text-white border-purple-500 shadow-md shadow-purple-200' : 'bg-white text-purple-500 border-purple-100 hover:bg-purple-50'
+                }`}
+              >
+                <PlayCircle className={`w-4 h-4 ${onlyTutorial ? 'fill-white text-purple-500' : 'text-purple-500'}`} />
+                <span>教學</span>
               </button>
 
               {hasActiveFilter && (
