@@ -14,6 +14,13 @@ export const LEVELS = [
   { level: 5, name: '烏嘎嘎傳奇', minExp: 450, benefits: ['升級時獲得 $500 購物金'] },
 ]
 
+export const EXP_RULES = [
+  { icon: '🎮', label: '每次入場', exp: '+5 EXP' },
+  { icon: '👥', label: '每帶一位朋友入場', exp: '+1 EXP' },
+  { icon: '📦', label: '每租借一款遊戲', exp: '+1 EXP' },
+  { icon: '🛒', label: '每購買 $500 桌遊', exp: '+4 EXP' },
+]
+
 export function calcLevel(exp) {
   for (let i = LEVELS.length - 1; i >= 0; i--) {
     if (exp >= LEVELS[i].minExp) return LEVELS[i]

@@ -1,7 +1,7 @@
 ﻿import { useState } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/config'
-import { calcLevel, calcNextLevel, LEVELS } from '../../utils/exp'
+import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 
 function LoginForm({ onLogin, loading, error }) {
   const [name, setName] = useState('')
@@ -220,14 +220,48 @@ function MemberCard({ member, onLogout }) {
         </div>
       )}
 
-      {/* 已解鎖福利 */}
+      {/* 等級福利總覽 */}
+      <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4">
+        <div className="text-sm font-bold text-stone-500 mb-3">等級福利總覽</div>
+        <div className="space-y-3">
+          {LEVELS.map(l => {
+            const unlocked = level.level >= l.level
+            return (
+              <div key={l.level} className={`rounded-2xl p-3 ${unlocked ? 'bg-orange-50 border border-orange-100' : 'bg-stone-50 border border-stone-100'}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${unlocked ? 'bg-orange-400 text-white' : 'bg-stone-300 text-white'}`}>
+                    Lv.{l.level}
+                  </span>
+                  <span className={`text-sm font-bold ${unlocked ? 'text-orange-700' : 'text-stone-400'}`}>{l.name}</span>
+                  <span className="text-xs text-stone-400 ml-auto">{l.minExp} EXP</span>
+                </div>
+                <div className="space-y-1">
+                  {l.benefits.map((b, i) => (
+                    <div key={i} className="flex items-start gap-1.5 text-xs">
+                      <span className={`mt-0.5 shrink-0 ${unlocked ? 'text-orange-400' : 'text-stone-300'}`}>
+                        {unlocked ? '✓' : '🔒'}
+                      </span>
+                      <span className={unlocked ? 'text-stone-700' : 'text-stone-400'}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* 如何累積經驗值 */}
       <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-6">
-        <div className="text-sm font-bold text-stone-500 mb-3">目前享有福利</div>
+        <div className="text-sm font-bold text-stone-500 mb-3">如何累積經驗值</div>
         <div className="space-y-2">
-          {unlockedBenefits.map((b, i) => (
-            <div key={i} className="flex items-start gap-2 text-sm text-stone-700">
-              <span className="text-orange-400 mt-0.5">✓</span>
-              <span>{b}</span>
+          {EXP_RULES.map((r, i) => (
+            <div key={i} className="flex items-center justify-between text-sm">
+              <div className="flex items-center gap-2">
+                <span>{r.icon}</span>
+                <span className="text-stone-600">{r.label}</span>
+              </div>
+              <span className="font-bold text-orange-500">{r.exp}</span>
             </div>
           ))}
         </div>
