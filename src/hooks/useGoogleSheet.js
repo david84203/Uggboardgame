@@ -46,6 +46,7 @@ const FIELD_MAP = {
   rental: '租金',
   youtubeLink: '教學',
   source: '出處',
+  playerMode: '玩家模式',
 };
 
 /**
@@ -187,6 +188,7 @@ export default function useGoogleSheet() {
                   rental: row[FIELD_MAP.rental]?.trim() || '',
                   youtubeLink: row[FIELD_MAP.youtubeLink]?.trim() || '',
                   source: row[FIELD_MAP.source]?.trim() || '',
+                  playerMode: row[FIELD_MAP.playerMode]?.trim() || '',
                 };
               });
 

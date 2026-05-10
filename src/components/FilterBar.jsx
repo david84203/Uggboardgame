@@ -9,8 +9,14 @@ const TIME_OPTIONS = [
   { label: '1 小時以上', value: '60+' },
 ];
 
+const PLAYER_MODES = [
+  { value: '輕鬆', emoji: '😊', desc: '派對 · 兒童', color: 'emerald' },
+  { value: '動腦', emoji: '🤔', desc: '陣營 · 解謎', color: 'blue' },
+  { value: '超燒腦', emoji: '🧠', desc: '策略 · 抽象', color: 'orange' },
+];
+
 export default function FilterBar({ filters, onFilterChange, availableCategories = [], availableTags = [] }) {
-  const { searchQuery, playerCount, timeRange, category, tags = [], onlyHot } = filters;
+  const { searchQuery, playerCount, timeRange, category, tags = [], onlyHot, playerMode = '' } = filters;
   const [isTagsExpanded, setIsTagsExpanded] = useState(false);
   const [isCatsExpanded, setIsCatsExpanded] = useState(false);
 
@@ -20,7 +26,11 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
   };
 
   const handleReset = () => {
-    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [], onlyHot: false });
+    onFilterChange({ searchQuery: '', playerCount: '', timeRange: '', category: '', tags: [], onlyHot: false, playerMode: '' });
+  };
+
+  const togglePlayerMode = (mode) => {
+    onFilterChange({ ...filters, playerMode: playerMode === mode ? '' : mode });
   };
 
   const toggleTag = (tag) => {
@@ -35,7 +45,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
     onFilterChange({ ...filters, category: newCat });
   };
 
-  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0 || onlyHot;
+  const hasActiveFilter = searchQuery || playerCount || timeRange || category || tags.length > 0 || onlyHot || playerMode;
 
   return (
     <div className="sticky top-[53px] z-40 bg-white/80 backdrop-blur-lg border-b border-stone-100 shadow-sm">
@@ -55,7 +65,36 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
           />
         </div>
 
-        {/* Row 2: Player count + Reset & Time */}
+        {/* Row 2: 玩家模式快速篩選 */}
+        <div className="grid grid-cols-3 gap-2">
+          {PLAYER_MODES.map(({ value, emoji, desc, color }) => {
+            const isActive = playerMode === value;
+            const colorMap = {
+              emerald: isActive
+                ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-200/60'
+                : 'bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50',
+              blue: isActive
+                ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-200/60'
+                : 'bg-white text-blue-700 border-blue-200 hover:bg-blue-50',
+              orange: isActive
+                ? 'bg-orange-500 text-white border-orange-500 shadow-md shadow-orange-200/60'
+                : 'bg-white text-orange-700 border-orange-200 hover:bg-orange-50',
+            };
+            return (
+              <button
+                key={value}
+                onClick={() => togglePlayerMode(value)}
+                className={`flex flex-col items-center justify-center gap-0.5 py-2 rounded-xl border font-semibold transition-all cursor-pointer ${colorMap[color]}`}
+              >
+                <span className="text-lg leading-none">{emoji}</span>
+                <span className="text-sm font-bold">{value}</span>
+                <span className={`text-[10px] font-medium ${isActive ? 'text-white/80' : 'text-stone-400'}`}>{desc}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Row 3: Player count + Reset & Time */}
         <div className="flex items-center gap-3">
           {/* Player Count */}
           <div className="flex items-center gap-2">

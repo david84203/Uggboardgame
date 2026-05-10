@@ -63,6 +63,7 @@ export default function App() {
     category: '',
     tags: [],
     onlyHot: false,
+    playerMode: '',
   });
 
   const availableCategories = useMemo(() => {
@@ -111,6 +112,8 @@ export default function App() {
       if (filters.tags && filters.tags.length > 0) {
         if (!filters.tags.every(tag => game.tags.includes(tag))) return false;
       }
+
+      if (filters.playerMode && game.playerMode !== filters.playerMode) return false;
 
       return true;
     });
