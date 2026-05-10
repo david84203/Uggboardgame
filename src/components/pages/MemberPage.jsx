@@ -332,7 +332,7 @@ export default function MemberPage({ onMemberChange }) {
       if (!matched) {
         setError('手機號碼不符，請確認輸入的號碼')
       } else {
-        saveMember({ id: matched.id, ...matched.data() })
+        saveMember({ ...matched.data(), id: matched.id })
       }
     } catch (err) {
       console.error('Firestore error:', err)
