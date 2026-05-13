@@ -46,6 +46,7 @@ export default function GameCard({ game }) {
     rental,
     youtubeLink,
     source,
+    description,
   } = game;
 
   const youtubeId = extractYoutubeId(youtubeLink);
@@ -292,6 +293,14 @@ export default function GameCard({ game }) {
                     </div>
                   )}
                 </div>
+
+                {/* 遊戲簡介 */}
+                {description && (
+                  <div className="mb-6 p-4 bg-stone-50 border border-stone-200 rounded-xl">
+                    <p className="text-xs text-stone-500 font-bold mb-2">遊戲簡介</p>
+                    <p className="text-sm text-stone-700 leading-relaxed whitespace-pre-line">{description}</p>
+                  </div>
+                )}
 
                 {/* Info Grid (Detailed) */}
                 <div className="grid grid-cols-2 gap-4 mb-6">

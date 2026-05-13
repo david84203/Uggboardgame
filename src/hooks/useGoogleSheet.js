@@ -47,6 +47,7 @@ const FIELD_MAP = {
   youtubeLink: '教學',
   source: '出處',
   playerMode: '玩家模式',
+  description: '遊戲簡介',
 };
 
 /**
@@ -189,6 +190,7 @@ export default function useGoogleSheet() {
                   youtubeLink: row[FIELD_MAP.youtubeLink]?.trim() || '',
                   source: row[FIELD_MAP.source]?.trim() || '',
                   playerMode: row[FIELD_MAP.playerMode]?.trim() || '',
+                  description: row[FIELD_MAP.description]?.trim() || '',
                 };
               });
 
