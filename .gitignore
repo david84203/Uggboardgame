@@ -16,6 +16,13 @@ dist-ssr
 .env
 .env.*
 
+# Google credentials (never commit)
+service-account.json
+sheets_token.json
+
+# Scraper cache (large, not needed in repo)
+*_cache.json
+
 # Claude Code settings
 .claude/
 
