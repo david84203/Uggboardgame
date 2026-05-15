@@ -76,12 +76,16 @@ export default function GameCard({ game }) {
   // Extract BGG ID from BGG link
   const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame\/(\d+)/);
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
+  const safeEnglishName = englishName ? englishName.replace(/[\\/:*?"<>|]/g, '-').trim() : null;
 
-  // Image sources to try in order: bggId.jpg → bggId.webp → bggId.png → row-{id}.jpg → row-{id}.webp → row-{id}.png
+  // Image sources to try in order: bggId -> englishName -> row-{id}
   const imgSources = [
     bggId ? `/images/${bggId}.jpg` : null,
     bggId ? `/images/${bggId}.webp` : null,
     bggId ? `/images/${bggId}.png` : null,
+    safeEnglishName ? `/images/${safeEnglishName}.jpg` : null,
+    safeEnglishName ? `/images/${safeEnglishName}.webp` : null,
+    safeEnglishName ? `/images/${safeEnglishName}.png` : null,
     `/images/row-${id}.jpg`,
     `/images/row-${id}.webp`,
     `/images/row-${id}.png`,

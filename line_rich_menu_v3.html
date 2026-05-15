@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>LINE 圖文選單 V3 - 烏嘎嘎桌遊</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: #1a1a2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: 1200px;
+      height: 810px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 0 80px rgba(0,0,0,0.7);
+    }
+
+    /* ───── A：左側大區塊 ───── */
+    .box-a {
+      width: 66.666%;
+      height: 100%;
+      background: #0F2027;
+      background: linear-gradient(145deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-right: 3px solid rgba(255,255,255,0.08);
+    }
+
+    /* 背景六邊形裝飾 */
+    .hex-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hex {
+      position: absolute;
+      border: 2px solid rgba(255,255,255,0.05);
+      width: 180px;
+      height: 180px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+    .hex:nth-child(1) { top: -50px; right: 60px; }
+    .hex:nth-child(2) { bottom: -40px; left: 20px; width: 140px; height: 140px; opacity: 0.6; }
+    .hex:nth-child(3) { top: 40%; right: -30px; width: 100px; height: 100px; opacity: 0.4; }
+
+    /* 圓形光圈 */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 210, 60, 0.15);
+    }
+    .ring-1 { width: 340px; height: 340px; }
+    .ring-2 { width: 480px; height: 480px; border-color: rgba(255,210,60,0.07); }
+
+    /* A 內容 */
+    .a-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    /* SVG icon wrapper - A */
+    .icon-a {
+      width: 130px;
+      height: 130px;
+      background: linear-gradient(135deg, #FFD23F, #FF9500);
+      border-radius: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 40px rgba(255, 180, 0, 0.45), 0 0 0 12px rgba(255,210,60,0.12);
+      margin-bottom: 8px;
+    }
+
+    .main-title-a {
+      font-size: 80px;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 6px;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      line-height: 1;
+    }
+
+    .sub-a {
+      font-size: 28px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 1px;
+      line-height: 1.6;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 210, 60, 0.18);
+      border: 1.5px solid rgba(255, 210, 60, 0.5);
+      border-radius: 40px;
+      padding: 8px 24px;
+      color: #FFD23F;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    /* ───── 右側直排 ───── */
+    .right-col {
+      width: 33.334%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ───── B：右上「我要預約」───── */
+    .box-b {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(140deg, #C94B4B, #4B134F);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-bottom: 3px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    /* 波浪裝飾 */
+    .wave-deco {
+      position: absolute;
+      bottom: -30px;
+      left: -40px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 40px solid rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+    .wave-deco-2 {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 30px solid rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    .bc-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* SVG icon wrapper - B, C */
+    .icon-bc {
+      width: 100px;
+      height: 100px;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+      margin-bottom: 4px;
+    }
+
+    .icon-b-bg {
+      background: linear-gradient(135deg, #FF6B6B, #EE0979);
+      box-shadow: 0 8px 28px rgba(238,9,121,0.45), 0 0 0 10px rgba(238,9,121,0.12);
+    }
+
+    .main-title-bc {
+      font-size: 60px;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 4px;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+      line-height: 1;
+    }
+
+    /* ───── C：右下「門市地址」───── */
+    .box-c {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(140deg, #134E5E, #71B280);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .icon-c-bg {
+      background: linear-gradient(135deg, #43E97B, #38F9D7);
+      box-shadow: 0 8px 28px rgba(67,233,123,0.45), 0 0 0 10px rgba(67,233,123,0.12);
+    }
+
+    /* ───── 品牌 Badge ───── */
+    .brand-badge {
+      position: absolute;
+      top: 26px;
+      left: 26px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 50px;
+      padding: 10px 24px;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .badge-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #FFD23F;
+      box-shadow: 0 0 8px #FFD23F;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 品牌標章 -->
+  <div class="brand-badge">
+    <div class="badge-dot"></div>
+    烏嘎嘎桌遊
+  </div>
+
+  <!-- ── A 左側大區塊 ── -->
+  <div class="box-a">
+    <div class="hex-bg">
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+    </div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-1"></div>
+
+    <div class="a-content">
+      <!-- 工具箱 SVG icon -->
+      <div class="icon-a">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 骰子主體 -->
+          <rect x="8" y="24" width="56" height="40" rx="8" fill="white" opacity="0.9"/>
+          <!-- 骰子把手 -->
+          <path d="M24 24V18C24 14 28 12 36 12C44 12 48 14 48 18V24" stroke="white" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.7"/>
+          <!-- 十字扣 -->
+          <rect x="33" y="20" width="6" height="8" rx="3" fill="rgba(255,150,0,0.9)"/>
+          <!-- 骰子點 -->
+          <circle cx="22" cy="38" r="4" fill="#FF9500"/>
+          <circle cx="36" cy="38" r="4" fill="#FF9500"/>
+          <circle cx="50" cy="38" r="4" fill="#FF9500"/>
+          <circle cx="22" cy="52" r="4" fill="#FF9500"/>
+          <circle cx="50" cy="52" r="4" fill="#FF9500"/>
+        </svg>
+      </div>
+      <div class="main-title-a">玩家工具箱</div>
+      <div class="pill">
+        遊戲查詢・計分・計時・會員
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 右側直排 ── -->
+  <div class="right-col">
+
+    <!-- B 我要預約 -->
+    <div class="box-b">
+      <div class="wave-deco"></div>
+      <div class="wave-deco-2"></div>
+      <div class="bc-content">
+        <!-- 日曆 SVG icon -->
+        <div class="icon-bc icon-b-bg">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="44" height="36" rx="7" fill="white" opacity="0.9"/>
+            <!-- 日曆頂欄 -->
+            <rect x="6" y="14" width="44" height="16" rx="7" fill="white" opacity="0.3"/>
+            <rect x="6" y="22" width="44" height="8" fill="white" opacity="0.3"/>
+            <!-- 掛鉤 -->
+            <rect x="16" y="6" width="6" height="14" rx="3" fill="white"/>
+            <rect x="34" y="6" width="6" height="14" rx="3" fill="white"/>
+            <!-- 日期方格 -->
+            <rect x="13" y="34" width="8" height="8" rx="3" fill="#EE0979" opacity="0.9"/>
+            <rect x="24" y="34" width="8" height="8" rx="3" fill="white" opacity="0.7"/>
+            <rect x="35" y="34" width="8" height="8" rx="3" fill="white" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="main-title-bc">我要預約</div>
+      </div>
+    </div>
+
+    <!-- C 門市地址 -->
+    <div class="box-c">
+      <div class="wave-deco"></div>
+      <div class="wave-deco-2"></div>
+      <div class="bc-content">
+        <!-- 地圖 SVG icon -->
+        <div class="icon-bc icon-c-bg">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 地圖圖釘 -->
+            <ellipse cx="28" cy="46" rx="8" ry="3" fill="rgba(0,0,0,0.2)"/>
+            <path d="M28 6C19.2 6 12 13.2 12 22C12 31.5 22 42 28 48C34 42 44 31.5 44 22C44 13.2 36.8 6 28 6Z" fill="white" opacity="0.95"/>
+            <circle cx="28" cy="22" r="7" fill="#134E5E"/>
+          </svg>
+        </div>
+        <div class="main-title-bc">門市地址</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>LINE 圖文選單 - 烏嘎嘎桌遊</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700;900&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #333; /* 外圍背景設定深色，方便截圖時辨識邊界 */
+    }
+
+    /* 確保尺寸絕對精準 */
+    .rich-menu-container {
+      width: 1200px;
+      height: 810px;
+      background-color: #FFF5E1; /* 溫暖的米黃色基底 */
+      display: flex;
+      position: relative;
+      /* 最外層邊框與分隔線顏色統一 */
+      border: 4px solid #5C3A21; 
+      overflow: hidden;
+    }
+
+    /* 左上角品牌標籤 */
+    .brand-tag {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background-color: #5C3A21;
+      color: #FFF5E1;
+      padding: 10px 24px;
+      font-size: 26px;
+      border-radius: 16px;
+      font-weight: 900;
+      box-shadow: 3px 5px 10px rgba(92, 58, 33, 0.3);
+      z-index: 10;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background: linear-gradient(135deg, #FFF9EB 0%, #FFE4B5 100%);
+    }
+
+    /* 內層卡片感設計 */
+    .inner-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 92%;
+      height: 90%;
+      border: 4px dashed rgba(92, 58, 33, 0.2);
+      border-radius: 40px;
+      background-color: rgba(255, 255, 255, 0.5);
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.8), 
+                  0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    .box-a {
+      width: 66.666%;
+      height: 100%;
+      border-right: 4px solid #5C3A21; /* 中間垂直分隔線 */
+    }
+
+    .right-col {
+      width: 33.334%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .box-b, .box-c {
+      width: 100%;
+      height: 50%;
+    }
+
+    .box-b {
+      border-bottom: 4px solid #5C3A21; /* 右側水平分隔線 */
+      background: linear-gradient(135deg, #FFF9EB 0%, #FFDAB9 100%); /* 稍微有些層次變化 */
+    }
+
+    .emoji {
+      font-size: 110px;
+      margin-bottom: 25px;
+      filter: drop-shadow(3px 6px 8px rgba(0,0,0,0.15));
+    }
+
+    .box-b .emoji, .box-c .emoji {
+      font-size: 90px;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: 72px;
+      color: #5C3A21; /* 深棕色 */
+      font-weight: 900;
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+      text-shadow: 2px 3px 0px rgba(255,255,255,0.9);
+    }
+
+    .box-b .title, .box-c .title {
+      font-size: 60px;
+      margin-bottom: 0;
+    }
+
+    .subtitle {
+      font-size: 32px;
+      color: #8D6E63; /* 較淺的木棕色 */
+      font-weight: 700;
+      padding: 12px 36px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 50px;
+      border: 3px solid #D7CCC8;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      letter-spacing: 1px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="rich-menu-container">
+    <!-- 品牌標籤 -->
+    <div class="brand-tag">🦉 烏嘎嘎桌遊</div>
+
+    <!-- 左側大區塊 (A) -->
+    <div class="box box-a">
+      <div class="inner-content">
+        <div class="emoji">🧰🎲</div>
+        <div class="title">玩家工具箱</div>
+        <div class="subtitle">遊戲查詢・計分・計時・會員</div>
+      </div>
+    </div>
+
+    <!-- 右側直行 -->
+    <div class="right-col">
+      <!-- 右上區塊 (B) -->
+      <div class="box box-b">
+        <div class="inner-content">
+          <div class="emoji">📅</div>
+          <div class="title">我要預約</div>
+        </div>
+      </div>
+
+      <!-- 右下區塊 (C) -->
+      <div class="box box-c">
+        <div class="inner-content">
+          <div class="emoji">🗺️</div>
+          <div class="title">門市地址</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

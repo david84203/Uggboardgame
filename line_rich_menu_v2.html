@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>LINE 圖文選單 V2 - 烏嘎嘎桌遊</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700;900&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #2a2a2a;
+    }
+
+    .rich-menu-container {
+      width: 1200px;
+      height: 810px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      border-radius: 0px;
+    }
+
+    /* ── 木紋質感底圖 ── */
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 木紋斜線紋理（純 CSS） */
+    .box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        125deg,
+        rgba(255,255,255,0.04) 0px,
+        rgba(255,255,255,0.04) 1px,
+        transparent 1px,
+        transparent 12px
+      );
+      pointer-events: none;
+    }
+
+    /* ── 左側大區塊 A ── */
+    .box-a {
+      width: 66.666%;
+      height: 100%;
+      background: linear-gradient(160deg, #6B3F1F 0%, #3E1F07 60%, #5C3017 100%);
+      border-right: 5px solid #9C6A3A;
+      flex-direction: column;
+    }
+
+    /* ── 右側直排 ── */
+    .right-col {
+      width: 33.334%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .box-b {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(160deg, #A0522D 0%, #7B3A1C 100%);
+      border-bottom: 5px solid #9C6A3A;
+    }
+
+    .box-c {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(160deg, #8B6914 0%, #5C4409 100%);
+    }
+
+    /* ── 發光圓形光暈 ── */
+    .glow-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .box-a .glow-circle {
+      width: 420px;
+      height: 420px;
+      background: #FFD580;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .box-b .glow-circle {
+      width: 260px;
+      height: 260px;
+      background: #FFBB77;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .box-c .glow-circle {
+      width: 260px;
+      height: 260px;
+      background: #FFE066;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ── 卡片內容區 ── */
+    .card-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    /* ── 品牌 Logo 橫幅 ── */
+    .brand-badge {
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      z-index: 10;
+      background: rgba(255, 220, 140, 0.18);
+      border: 2px solid rgba(255, 220, 140, 0.55);
+      backdrop-filter: blur(6px);
+      border-radius: 50px;
+      padding: 10px 26px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #FFE5A0;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    /* ── Emoji 圖示 ── */
+    .icon {
+      font-size: 96px;
+      line-height: 1;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.45));
+    }
+
+    .box-b .icon, .box-c .icon {
+      font-size: 78px;
+    }
+
+    /* ── 主標題 ── */
+    .main-title {
+      font-size: 72px;
+      font-weight: 900;
+      color: #FFF3D6;
+      letter-spacing: 5px;
+      text-shadow: 0 3px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.8);
+      line-height: 1.1;
+    }
+
+    .box-b .main-title, .box-c .main-title {
+      font-size: 58px;
+      letter-spacing: 4px;
+    }
+
+    /* ── 副標籤 ── */
+    .sub-tag {
+      background: rgba(255, 240, 180, 0.18);
+      border: 2px solid rgba(255, 240, 180, 0.4);
+      border-radius: 50px;
+      padding: 10px 28px;
+      color: #FFE8A8;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    /* ── 金色分隔短線 ── */
+    .divider {
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #FFD580, transparent);
+      border-radius: 2px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="rich-menu-container">
+
+    <!-- 品牌標章 -->
+    <div class="brand-badge">🦉 烏嘎嘎桌遊</div>
+
+    <!-- A：左側大區塊 -->
+    <div class="box box-a">
+      <div class="glow-circle"></div>
+      <div class="card-inner">
+        <div class="icon">🧰🎲</div>
+        <div class="main-title">玩家工具箱</div>
+        <div class="divider"></div>
+        <div class="sub-tag">遊戲查詢・計分・計時・會員</div>
+      </div>
+    </div>
+
+    <!-- 右側兩格 -->
+    <div class="right-col">
+
+      <!-- B：我要預約 -->
+      <div class="box box-b">
+        <div class="glow-circle"></div>
+        <div class="card-inner">
+          <div class="icon">📅</div>
+          <div class="main-title">我要預約</div>
+        </div>
+      </div>
+
+      <!-- C：門市地址 -->
+      <div class="box box-c">
+        <div class="glow-circle"></div>
+        <div class="card-inner">
+          <div class="icon">🗺️</div>
+          <div class="main-title">門市地址</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
