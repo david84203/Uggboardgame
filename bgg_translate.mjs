@@ -1,115 +1,83 @@
-/**
- * bgg_translate.mjs
- * 讀取 bgg_cache.json + Sheet → 輸出待翻譯 JSON → 寫入翻譯結果到 Sheet
- *
- * 用法：
- *   node bgg_translate.mjs export          ← 匯出待翻譯清單到 translate_work.json
- *   node bgg_translate.mjs write            ← 將翻譯結果寫入 Sheet
- */
-import { google } from 'googleapis';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { google } from 'googleapis'
+import { readFileSync, writeFileSync } from 'fs'
+import { createRequire } from 'module'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SHEET_ID = '1ihFg-9I9QBG9bXK3XtipsD9ymtPvlBcQJk4KA5YeMnw';
-const SHEET_GID = 540615026;
-const CACHE_PATH = path.join(__dirname, 'bgg_cache.json');
-const WORK_PATH = path.join(__dirname, 'translate_work.json');
-const MODE = process.argv[2];
+const require = createRequire(import.meta.url)
 
-async function getAuth() {
-  const keyPath = path.join(__dirname, 'service-account.json');
-  return new google.auth.GoogleAuth({ keyFile: keyPath, scopes: ['https://www.googleapis.com/auth/spreadsheets'] });
+const SHEET_ID = '1ihFg-9I9QBG9bXK3XtipsD9ymtPvlBcQJk4KA5YeMnw'
+const KEY_PATH = 'C:/Users/bboylu/Dropbox/service-account-ugg.json'
+const WORK_FILE = 'C:/Users/bboylu/Dropbox/Claude Memory/translate_work.json'
+
+async function getSheets() {
+  const key = JSON.parse(readFileSync(KEY_PATH, 'utf8'))
+  const auth = new google.auth.GoogleAuth({
+    credentials: key,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  })
+  const client = await auth.getClient()
+  return google.sheets({ version: 'v4', auth: client })
 }
 
-async function readSheet(auth) {
-  const sheets = google.sheets({ version: 'v4', auth });
-  const meta = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
-  const tab = meta.data.sheets.find(s => s.properties.sheetId === SHEET_GID) || meta.data.sheets[0];
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: SHEET_ID,
-    range: `${tab.properties.title}!A:Y`,
-    valueRenderOption: 'UNFORMATTED_VALUE',
-  });
-  return { rows: res.data.values || [], sheetName: tab.properties.title };
-}
+async function write() {
+  const data = JSON.parse(readFileSync(WORK_FILE, 'utf8'))
+  const toWrite = data.filter(d => d.zhDesc && d.zhDesc.trim() && d.rowNum)
 
-async function exportWork() {
-  const auth = await getAuth();
-  const { rows } = await readSheet(auth);
-  const cache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8'));
-
-  const headerIdx = rows.findIndex(r => r && r[0] === '中文名稱');
-  const work = [];
-
-  for (let i = headerIdx + 1; i < rows.length; i++) {
-    const row = rows[i] || [];
-    const zhName = String(row[0] || '').trim();
-    const enName = String(row[2] || '').trim();
-    const bggLink = String(row[10] || '').trim();
-    const descVal = String(row[24] || '').trim();
-    if (!zhName || descVal) continue;
-
-    const bggId = bggLink.match(/\/boardgame(?:expansion)?\/(\d+)/)?.[1];
-    if (!bggId) continue;
-
-    const cached = cache[bggId];
-    if (cached === undefined || cached === '' || cached === null) continue;
-
-    let enDesc = '';
-    if (typeof cached === 'object' && cached.desc) enDesc = cached.desc;
-    else if (typeof cached === 'string') enDesc = cached;
-    if (enDesc.length < 60) continue;
-
-    work.push({
-      rowNum: i + 1,
-      bggId,
-      zhName,
-      enName,
-      enDesc,
-      zhDesc: '',
-    });
+  if (toWrite.length === 0) {
+    console.log('沒有可寫入的翻譯')
+    return
   }
 
-  fs.writeFileSync(WORK_PATH, JSON.stringify(work, null, 2));
-  console.log(`匯出 ${work.length} 筆待翻譯到 translate_work.json`);
-}
+  const sheets = await getSheets()
 
-async function writeTranslations() {
-  if (!fs.existsSync(WORK_PATH)) { console.error('找不到 translate_work.json'); process.exit(1); }
-  const work = JSON.parse(fs.readFileSync(WORK_PATH, 'utf8'));
-  const done = work.filter(w => w.zhDesc && w.zhDesc.length >= 10);
+  // 批次寫入，每次最多 50 筆
+  const batchSize = 50
+  let written = 0
 
-  if (done.length === 0) {
-    console.log('沒有已翻譯的項目，請先將中文填入 zhDesc 欄位再執行 write');
-    return;
-  }
+  for (let i = 0; i < toWrite.length; i += batchSize) {
+    const batch = toWrite.slice(i, i + batchSize)
+    const data_values = batch.map(item => ({
+      range: `Y${item.rowNum}`,
+      values: [[item.zhDesc]],
+    }))
 
-  const auth = await getAuth();
-  const { sheetName } = await readSheet(auth);
-  const sheets = google.sheets({ version: 'v4', auth });
-
-  const batchData = done.map(w => ({
-    range: `${sheetName}!Y${w.rowNum}`,
-    values: [[w.zhDesc]],
-  }));
-
-  const CHUNK = 200;
-  for (let i = 0; i < batchData.length; i += CHUNK) {
     await sheets.spreadsheets.values.batchUpdate({
       spreadsheetId: SHEET_ID,
-      requestBody: { valueInputOption: 'USER_ENTERED', data: batchData.slice(i, i + CHUNK) },
-    });
-    console.log(`  已寫入 ${Math.min(i + CHUNK, batchData.length)} / ${batchData.length} 格`);
+      requestBody: {
+        valueInputOption: 'RAW',
+        data: data_values,
+      },
+    })
+
+    written += batch.length
+    console.log(`已寫入 ${written} / ${toWrite.length} 筆...`)
+
+    // 避免 API 限流
+    if (i + batchSize < toWrite.length) {
+      await new Promise(r => setTimeout(r, 1000))
+    }
   }
-  console.log(`完成！寫入 ${done.length} 格`);
+
+  console.log(`✅ 完成！共寫入 ${written} 筆到 Google Sheet Y 欄`)
 }
 
-async function main() {
-  if (MODE === 'export') await exportWork();
-  else if (MODE === 'write') await writeTranslations();
-  else console.log('請指定模式：export 或 write');
+async function status() {
+  const data = JSON.parse(readFileSync(WORK_FILE, 'utf8'))
+  const total = data.length
+  const done = data.filter(d => d.zhDesc && d.zhDesc.trim()).length
+  const todo = total - done
+  console.log(`📊 翻譯進度：${done} / ${total} 筆`)
+  console.log(`   已翻譯：${done} 筆`)
+  console.log(`   待翻譯：${todo} 筆`)
+  console.log(`   完成率：${Math.round(done / total * 100)}%`)
 }
 
-main().catch(console.error);
+const cmd = process.argv[2]
+if (cmd === 'write') {
+  write().catch(console.error)
+} else if (cmd === 'status') {
+  status()
+} else {
+  console.log('用法：')
+  console.log('  node bgg_translate.mjs status  → 查看翻譯進度')
+  console.log('  node bgg_translate.mjs write   → 將已翻譯內容寫入 Google Sheet')
+}

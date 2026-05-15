@@ -1,7 +1,8 @@
-﻿import { useState } from 'react'
-import { collection, query, where, getDocs } from 'firebase/firestore'
+﻿import { useState, useEffect } from 'react'
+import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
+import { getLiffProfile } from '../../utils/liff'
 
 function LoginForm({ onLogin, loading, error }) {
   const [name, setName] = useState('')
@@ -57,6 +58,56 @@ function LoginForm({ onLogin, loading, error }) {
             {loading ? '查詢中…' : '查詢會員資料'}
           </button>
         </form>
+      </div>
+    </div>
+  )
+}
+
+function LineBindingForm({ onBind, loading, error }) {
+  const [phone, setPhone] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (phone.trim()) onBind(phone.trim())
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-6">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <div className="text-4xl mb-3">🔗</div>
+          <h2 className="text-xl font-bold text-stone-800">綁定 LINE 帳號</h2>
+          <p className="text-sm text-stone-500 mt-1">輸入手機號碼完成一次性綁定</p>
+          <p className="text-xs text-stone-400 mt-1">綁定後下次開啟自動登入，不用再輸入任何資料</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-stone-600 mb-1.5">手機號碼</label>
+            <input
+              type="tel"
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+              placeholder="請輸入手機號碼"
+              className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-base text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
+              style={{ touchAction: 'manipulation' }}
+            />
+          </div>
+
+          {error && (
+            <p className="text-sm text-red-500 text-center bg-red-50 rounded-xl py-2 px-4">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            disabled={!phone.trim() || loading}
+            className="w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-base shadow-sm shadow-orange-200 hover:opacity-90 transition disabled:opacity-40"
+          >
+            {loading ? '綁定中…' : '完成綁定'}
+          </button>
+        </form>
+
+        <p className="text-center text-xs text-stone-400 mt-6">還不是會員？請至烏嘎嘎桌遊現場辦理</p>
       </div>
     </div>
   )
@@ -378,6 +429,9 @@ export default function MemberPage({ onMemberChange }) {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [liffChecking, setLiffChecking] = useState(/Line\//.test(navigator.userAgent))
+  const [liffUserId, setLiffUserId] = useState(null)
+  const [needsBinding, setNeedsBinding] = useState(false)
 
   function saveMember(data) {
     setMember(data)
@@ -386,6 +440,53 @@ export default function MemberPage({ onMemberChange }) {
       sessionStorage.setItem(MEMBER_KEY, JSON.stringify(data))
     } else {
       sessionStorage.removeItem(MEMBER_KEY)
+    }
+  }
+
+  useEffect(() => {
+    if (member) return
+    async function checkLiffLogin() {
+      try {
+        const profile = await getLiffProfile()
+        if (!profile) { setLiffChecking(false); return }
+        setLiffUserId(profile.userId)
+        const q = query(collection(db, 'members'), where('lineUserId', '==', profile.userId))
+        const snap = await getDocs(q)
+        if (!snap.empty) {
+          saveMember({ ...snap.docs[0].data(), id: snap.docs[0].id })
+        } else {
+          setNeedsBinding(true)
+        }
+      } catch (err) {
+        console.error('LIFF login error:', err)
+      } finally {
+        setLiffChecking(false)
+      }
+    }
+    checkLiffLogin()
+  }, [])
+
+  async function handleLineBind(phone) {
+    setLoading(true)
+    setError('')
+    const normalizedPhone = phone.replace(/[\s\-\(\)]/g, '').trim()
+    try {
+      const allSnap = await getDocs(collection(db, 'members'))
+      const matched = allSnap.docs.find(d => {
+        const dbPhone = (d.data().phone || '').replace(/[\s\-\(\)]/g, '').trim()
+        return dbPhone === normalizedPhone
+      })
+      if (!matched) {
+        setError('找不到此手機號碼的會員，請確認號碼或至現場辦理')
+        return
+      }
+      await updateDoc(doc(db, 'members', matched.id), { lineUserId: liffUserId })
+      saveMember({ ...matched.data(), id: matched.id })
+    } catch (err) {
+      console.error('Binding error:', err)
+      setError(`綁定失敗：${err?.message || '請稍後再試'}`)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -417,9 +518,15 @@ export default function MemberPage({ onMemberChange }) {
     }
   }
 
-  if (member) {
-    return <MemberCard member={member} onLogout={() => saveMember(null)} />
-  }
+  if (member) return <MemberCard member={member} onLogout={() => saveMember(null)} />
+
+  if (liffChecking) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <p className="text-stone-400 text-sm">載入中…</p>
+    </div>
+  )
+
+  if (needsBinding) return <LineBindingForm onBind={handleLineBind} loading={loading} error={error} />
 
   return <LoginForm onLogin={handleLogin} loading={loading} error={error} />
 }

@@ -1,17 +1,32 @@
 import React from 'react';
 import { Flower2 } from 'lucide-react';
+import { isInLIFF, openExternal } from '../../utils/liff';
+
+const BASE_URL = 'https://uggboardgame.vercel.app';
 
 export default function VoiceNarrationHubPage({ onSelect }) {
+  function handleSelect(tab) {
+    if (isInLIFF()) {
+      openExternal(`${BASE_URL}/?tab=${tab}`);
+    } else {
+      onSelect(tab);
+    }
+  }
+
   return (
     <div className="max-w-lg mx-auto p-4 pt-6">
       <h2 className="text-center text-stone-600 font-medium mb-6 tracking-wider text-lg">
         選擇語音旁白遊戲
       </h2>
-      
+
+      {isInLIFF() && (
+        <p className="text-center text-xs text-stone-400 mb-4">將以外部瀏覽器開啟，以支援語音功能</p>
+      )}
+
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {/* 奶酪大盜語音旁白 */}
-        <button 
-          onClick={() => onSelect('helper-cheese-thief')}
+        <button
+          onClick={() => handleSelect('helper-cheese-thief')}
           className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
         >
           <div className="w-14 h-14 rounded-full bg-yellow-50 flex items-center justify-center shrink-0 group-hover:bg-yellow-100 transition-colors mb-3">
@@ -23,7 +38,7 @@ export default function VoiceNarrationHubPage({ onSelect }) {
 
         {/* 血與刃的白薔薇語音旁白 */}
         <button
-          onClick={() => onSelect('helper-blades-rose')}
+          onClick={() => handleSelect('helper-blades-rose')}
           className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
         >
           <div className="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center shrink-0 group-hover:bg-rose-100 transition-colors mb-3">

@@ -37,3 +37,4 @@ auth.mjs
 *.njsproj
 *.sln
 *.sw?
+.vercel
