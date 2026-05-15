@@ -218,12 +218,22 @@ export default function App() {
     }
   };
 
+  const isLineWebView = /Line\//.test(navigator.userAgent)
+  const [showPwaTip, setShowPwaTip] = useState(
+    () => isLineWebView && !localStorage.getItem('pwa_tip_dismissed')
+  )
+
+  function dismissPwaTip() {
+    localStorage.setItem('pwa_tip_dismissed', '1')
+    setShowPwaTip(false)
+  }
+
   return (
     <div className="min-h-dvh">
       <div className="ambient-bg" aria-hidden="true" />
-      <Header 
-        showBackButton={activeTab !== 'home'} 
-        onBack={handleBack} 
+      <Header
+        showBackButton={activeTab !== 'home'}
+        onBack={handleBack}
       />
       <ErrorBoundary>
         {activeTab === 'home' ? (
@@ -234,6 +244,13 @@ export default function App() {
           renderContent()
         )}
       </ErrorBoundary>
+      {showPwaTip && (
+        <div className="fixed bottom-4 left-3 right-3 z-50 flex items-center gap-2 bg-stone-800 text-white text-xs rounded-2xl px-4 py-3 shadow-lg">
+          <span className="shrink-0">📌</span>
+          <span className="flex-1">想要全螢幕體驗？點右上角 <strong>⋮</strong> → 加到主畫面</span>
+          <button onClick={dismissPwaTip} className="shrink-0 text-stone-400 hover:text-white transition pl-1 text-base leading-none">✕</button>
+        </div>
+      )}
     </div>
   );
 }
