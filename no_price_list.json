@@ -1,0 +1,4052 @@
+[
+  {
+    "row": 19,
+    "name": "數羊",
+    "enName": "Shephy"
+  },
+  {
+    "row": 22,
+    "name": "骰寫特魯瓦",
+    "enName": "Troyes Dice"
+  },
+  {
+    "row": 25,
+    "name": "阿勒農場",
+    "enName": "Fields of Arle"
+  },
+  {
+    "row": 26,
+    "name": "塔羅說書人",
+    "enName": "Tarot Storia"
+  },
+  {
+    "row": 27,
+    "name": "夢中迷情",
+    "enName": "Onirim"
+  },
+  {
+    "row": 28,
+    "name": "九局下半",
+    "enName": "Bottom of the 9th"
+  },
+  {
+    "row": 29,
+    "name": "尼安德特人",
+    "enName": "Neanderthal"
+  },
+  {
+    "row": 30,
+    "name": "搗蛋喵喵",
+    "enName": "Cat-Astrophe"
+  },
+  {
+    "row": 31,
+    "name": "亡命之徒",
+    "enName": "Hit Z Road"
+  },
+  {
+    "row": 33,
+    "name": "貓與花毯",
+    "enName": "Calico"
+  },
+  {
+    "row": 34,
+    "name": "骰子城",
+    "enName": "Dice City"
+  },
+  {
+    "row": 35,
+    "name": "瘋王城堡：秘密擴充",
+    "enName": "Castles of Mad King Ludwig: Secrets"
+  },
+  {
+    "row": 36,
+    "name": "城區",
+    "enName": "Subdivision"
+  },
+  {
+    "row": 37,
+    "name": "總督",
+    "enName": "Viceroy"
+  },
+  {
+    "row": 38,
+    "name": "瘋王城堡",
+    "enName": "Castles of Mad King Ludwig"
+  },
+  {
+    "row": 40,
+    "name": "泰山",
+    "enName": "Mountain Tai"
+  },
+  {
+    "row": 41,
+    "name": "香港大停電",
+    "enName": "Blackout: Hong Kong"
+  },
+  {
+    "row": 42,
+    "name": "黑天使號",
+    "enName": "Black Angel"
+  },
+  {
+    "row": 44,
+    "name": "倫敦商會",
+    "enName": "Guilds of London"
+  },
+  {
+    "row": 45,
+    "name": "牛頓",
+    "enName": "Newton"
+  },
+  {
+    "row": 48,
+    "name": "XCOM: The Board Game",
+    "enName": "XCOM: The Board Game"
+  },
+  {
+    "row": 49,
+    "name": "花舍物語",
+    "enName": "Cottage Garden"
+  },
+  {
+    "row": 50,
+    "name": "暖秋物語",
+    "enName": "Indian Summer"
+  },
+  {
+    "row": 51,
+    "name": "玻璃之路",
+    "enName": "Glass Road"
+  },
+  {
+    "row": 58,
+    "name": "埃馬拉之冠",
+    "enName": "Crown of Emara"
+  },
+  {
+    "row": 59,
+    "name": "強國爭壩",
+    "enName": "Barrage"
+  },
+  {
+    "row": 60,
+    "name": "強國爭壩：利格沃特計劃擴充",
+    "enName": "Barrage: The Leeghwater Project"
+  },
+  {
+    "row": 61,
+    "name": "蓋亞計畫",
+    "enName": "Gaia Project"
+  },
+  {
+    "row": 62,
+    "name": "方塊方程式",
+    "enName": "BITS"
+  },
+  {
+    "row": 67,
+    "name": "國民經濟",
+    "enName": "National Economy"
+  },
+  {
+    "row": 68,
+    "name": "敦煌：絲路",
+    "enName": "Dunhuang: Pearl on the Silk Road"
+  },
+  {
+    "row": 69,
+    "name": "築夢計畫",
+    "enName": "Project Dreamscape"
+  },
+  {
+    "row": 70,
+    "name": "晝夜星",
+    "enName": "Solenia"
+  },
+  {
+    "row": 72,
+    "name": "香草花園",
+    "enName": "Herbaceous"
+  },
+  {
+    "row": 75,
+    "name": "聊齋",
+    "enName": "Ghost Stories"
+  },
+  {
+    "row": 76,
+    "name": "醫學之父",
+    "enName": "Hippocrates"
+  },
+  {
+    "row": 77,
+    "name": "極東之旅",
+    "enName": "Stroganov"
+  },
+  {
+    "row": 78,
+    "name": "月神",
+    "enName": "Luna"
+  },
+  {
+    "row": 79,
+    "name": "拉格蘭莊園",
+    "enName": "La Granjra"
+  },
+  {
+    "row": 81,
+    "name": "唐吉軻德",
+    "enName": "Don Quixote"
+  },
+  {
+    "row": 86,
+    "name": "矮人王國 寒霜凜冬",
+    "enName": "Dwar7s Winter"
+  },
+  {
+    "row": 88,
+    "name": "陰屍路",
+    "enName": "The Walking Dead Board Game"
+  },
+  {
+    "row": 90,
+    "name": "溫達克",
+    "enName": "Wendake"
+  },
+  {
+    "row": 91,
+    "name": "聖瑪莉亞號",
+    "enName": "Santa Maria"
+  },
+  {
+    "row": 92,
+    "name": "夢境之地",
+    "enName": "Dreamscape"
+  },
+  {
+    "row": 102,
+    "name": "里斯本",
+    "enName": "Lisboa"
+  },
+  {
+    "row": 104,
+    "name": "格陵蘭島",
+    "enName": "Greenland (Third Edition)"
+  },
+  {
+    "row": 110,
+    "name": "華麗開演",
+    "enName": "The Magnificent"
+  },
+  {
+    "row": 111,
+    "name": "四方之地：印加帝國",
+    "enName": "Tawantinsuyu: The Inca Empire"
+  },
+  {
+    "row": 118,
+    "name": "迷你花園",
+    "enName": "Mini Garden"
+  },
+  {
+    "row": 119,
+    "name": "蟲蟲拍拍",
+    "enName": "Prairie of Beetles"
+  },
+  {
+    "row": 120,
+    "name": "狗狗特技團",
+    "enName": "Doggy Go!"
+  },
+  {
+    "row": 121,
+    "name": "火柴盒系列 移柴接木",
+    "enName": "SixStix"
+  },
+  {
+    "row": 123,
+    "name": "忙碌廚房",
+    "enName": "Kitchen Rush"
+  },
+  {
+    "row": 124,
+    "name": "帝國拓荒者：北方帝國",
+    "enName": "Imperial Settlers: Empires of the North"
+  },
+  {
+    "row": 126,
+    "name": "瘋狂爆爆糖",
+    "enName": "Sugar Blast"
+  },
+  {
+    "row": 127,
+    "name": "加勒多尼亞氏族",
+    "enName": "Clans of Caledonia"
+  },
+  {
+    "row": 128,
+    "name": "五彩圖層",
+    "enName": "Layers"
+  },
+  {
+    "row": 133,
+    "name": "特奧蒂瓦坎：眾神之城",
+    "enName": "Teotihuacan: City of Gods"
+  },
+  {
+    "row": 134,
+    "name": "文藝復興大師",
+    "enName": "Masters of Renaissance"
+  },
+  {
+    "row": 135,
+    "name": "時間守望革新：深海計畫",
+    "enName": "TIME Stories Revolution: The Hadal Project"
+  },
+  {
+    "row": 136,
+    "name": "殖民火星：阿瑞斯探險隊－純卡牌版",
+    "enName": "Terraforming Mars: Ares Expedition"
+  },
+  {
+    "row": 137,
+    "name": "時間守望革新：復興",
+    "enName": "TIME Stories Revolution: Experience"
+  },
+  {
+    "row": 138,
+    "name": "捕鯨船",
+    "enName": "New Bedford"
+  },
+  {
+    "row": 143,
+    "name": "努斯峽灣",
+    "enName": "Nusfjord"
+  },
+  {
+    "row": 146,
+    "name": "巨龍峽谷",
+    "enName": "Dragon Canyon"
+  },
+  {
+    "row": 148,
+    "name": "路易斯與克拉克",
+    "enName": "Lewis & Clark"
+  },
+  {
+    "row": 149,
+    "name": "小小城鎮",
+    "enName": "Tiny Towns"
+  },
+  {
+    "row": 150,
+    "name": "漫威英雄套牌構築遊戲",
+    "enName": "Legendary: A Marvel Deck Building Game"
+  },
+  {
+    "row": 151,
+    "name": "殖民火星：序幕擴充",
+    "enName": "Terraforming Mars: Prelude"
+  },
+  {
+    "row": 152,
+    "name": "殖民火星：極樂世界地圖擴充",
+    "enName": "Terraforming Mars: Hellas and Elysium"
+  },
+  {
+    "row": 153,
+    "name": "殖民火星：下一站金星擴充",
+    "enName": "Terraforming Mars: Venus Next"
+  },
+  {
+    "row": 154,
+    "name": "聖瑪莉亞號：殖民美洲",
+    "enName": "Santa Maria: American Kingdoms"
+  },
+  {
+    "row": 155,
+    "name": "故宮",
+    "enName": "Gugong"
+  },
+  {
+    "row": 156,
+    "name": "殖民火星",
+    "enName": "Terraforming Mars"
+  },
+  {
+    "row": 157,
+    "name": "殖民火星：動盪擴充",
+    "enName": "Terraforming Mars: Turmoil"
+  },
+  {
+    "row": 160,
+    "name": "阿爾卑斯山小朋友",
+    "enName": "Alpenzian"
+  },
+  {
+    "row": 161,
+    "name": "文明繪卷",
+    "enName": "Tapestry"
+  },
+  {
+    "row": 162,
+    "name": "翻轉旅程",
+    "enName": "Globe Twister"
+  },
+  {
+    "row": 163,
+    "name": "小小鐵路帝國：紅色公司擴充",
+    "enName": "Small Railroad Empires: Red Company"
+  },
+  {
+    "row": 165,
+    "name": "火柴盒系列 眼明手快",
+    "enName": "StickUp"
+  },
+  {
+    "row": 167,
+    "name": "曼哈頓計畫：能源帝國",
+    "enName": "The Manhattan Project: Energy Empire"
+  },
+  {
+    "row": 171,
+    "name": "聖瑪利亞：美洲王國",
+    "enName": "Santa Maria: American Kingdoms"
+  },
+  {
+    "row": 172,
+    "name": "國家公園：自然之旅",
+    "enName": "PARKS"
+  },
+  {
+    "row": 174,
+    "name": "人體模型",
+    "enName": "N/A"
+  },
+  {
+    "row": 177,
+    "name": "這是我的戰爭",
+    "enName": "This War of Mine: The Board Game"
+  },
+  {
+    "row": 179,
+    "name": "沃塔棋",
+    "enName": "Vortex"
+  },
+  {
+    "row": 180,
+    "name": "矩陣密室—終極挑戰",
+    "enName": "Room 25"
+  },
+  {
+    "row": 182,
+    "name": "彈指艦隊",
+    "enName": "Pitch Fleet"
+  },
+  {
+    "row": 184,
+    "name": "口袋密室-時間測試",
+    "enName": "Deckscape-Test Time"
+  },
+  {
+    "row": 185,
+    "name": "口袋密室-威尼斯大劫案",
+    "enName": "Deckscape: Heist in Venice"
+  },
+  {
+    "row": 186,
+    "name": "口袋密室-埃爾多拉多",
+    "enName": "Deckscape: The Mystery of Eldorado"
+  },
+  {
+    "row": 187,
+    "name": "口袋密室-倫敦驚魂",
+    "enName": "Deckscape:The fate of London"
+  },
+  {
+    "row": 188,
+    "name": "歷史霸業",
+    "enName": "Historia"
+  },
+  {
+    "row": 189,
+    "name": "葡萄酒莊園：托斯卡尼",
+    "enName": "Tuscany: Expand the World of Viticulture"
+  },
+  {
+    "row": 191,
+    "name": "茂林源記：河岸擴展",
+    "enName": "Root: The Riverfolk Expansion"
+  },
+  {
+    "row": 192,
+    "name": "葡萄酒莊園：摩爾莊園",
+    "enName": "Viticulture: Moor Visitors Expansion"
+  },
+  {
+    "row": 193,
+    "name": "蒸汽時代",
+    "enName": "Age of Steam"
+  },
+  {
+    "row": 194,
+    "name": "鐮刀戰爭：風中的詭計",
+    "enName": "Scythe: The Wind Gambit"
+  },
+  {
+    "row": 195,
+    "name": "鐮刀戰爭：遠方入侵者",
+    "enName": "Scythe: Invaders from Afar"
+  },
+  {
+    "row": 196,
+    "name": "洞穴農夫",
+    "enName": "Caverna: The Cave Farmers"
+  },
+  {
+    "row": 197,
+    "name": "雙城之間",
+    "enName": "Between Two Cities"
+  },
+  {
+    "row": 198,
+    "name": "卡吞那",
+    "enName": "Cartoona"
+  },
+  {
+    "row": 199,
+    "name": "二人三築",
+    "enName": "Lift it!"
+  },
+  {
+    "row": 200,
+    "name": "矩陣密室—重啟輪迴",
+    "enName": "Room 25: Season 2"
+  },
+  {
+    "row": 201,
+    "name": "矩陣密室—逃離擴充",
+    "enName": "Room 25: Escape Room"
+  },
+  {
+    "row": 202,
+    "name": "拉斯維加斯合輯",
+    "enName": "Las Vegas"
+  },
+  {
+    "row": 203,
+    "name": "福爾摩斯探案集：最後召集",
+    "enName": "Sherlock: Last Call"
+  },
+  {
+    "row": 204,
+    "name": "福爾摩斯探案集：莊園殺機",
+    "enName": "Sherlock: Death on the 4th of July"
+  },
+  {
+    "row": 205,
+    "name": "拯救路",
+    "enName": "Salvation Road"
+  },
+  {
+    "row": 206,
+    "name": "色彩大作戰",
+    "enName": "Color Clash"
+  },
+  {
+    "row": 208,
+    "name": "福爾摩斯探案集：考古學家之墓",
+    "enName": "Sherlock: The Tomb of the Archaeologist"
+  },
+  {
+    "row": 209,
+    "name": "夏洛克福爾摩斯",
+    "enName": "Sherlock Holmes Consulting Detective"
+  },
+  {
+    "row": 211,
+    "name": "大車輪鐵棒君",
+    "enName": "Fantastic Gymnastics"
+  },
+  {
+    "row": 212,
+    "name": "瘋狂體操選手－馬鞍大挑戰",
+    "enName": "Fantastic Gymnastics Vault Challenge"
+  },
+  {
+    "row": 214,
+    "name": "殖民火星：殖民與貿易擴充",
+    "enName": "Terraforming Mars: Colonies"
+  },
+  {
+    "row": 216,
+    "name": "蜜蜂跌跌樂",
+    "enName": "Honey Comb"
+  },
+  {
+    "row": 217,
+    "name": "要塞",
+    "enName": "Stronghold (2nd edition)"
+  },
+  {
+    "row": 218,
+    "name": "妖精尾巴的旅店",
+    "enName": "Fairy Tale Inn"
+  },
+  {
+    "row": 219,
+    "name": "牽手",
+    "enName": "Twogether"
+  },
+  {
+    "row": 222,
+    "name": "塔雲軒",
+    "enName": "P:agoda"
+  },
+  {
+    "row": 223,
+    "name": "奧林帕斯戰場",
+    "enName": "Battlefields of Olympus"
+  },
+  {
+    "row": 224,
+    "name": "醬爆市場",
+    "enName": "Jambo"
+  },
+  {
+    "row": 225,
+    "name": "農家樂：更多大與小建築",
+    "enName": "Agricola: More Buildings Big and Small"
+  },
+  {
+    "row": 226,
+    "name": "農家樂：更多更多大與小建築",
+    "enName": "Agricola: Even More Buildings Big and Small"
+  },
+  {
+    "row": 231,
+    "name": "午茶之戰",
+    "enName": "Do Eat!"
+  },
+  {
+    "row": 232,
+    "name": "無網不立",
+    "enName": "Der Isses!"
+  },
+  {
+    "row": 235,
+    "name": "時間浪潮",
+    "enName": "Tides of Time"
+  },
+  {
+    "row": 241,
+    "name": "國王與刺客",
+    "enName": "King & Assassins"
+  },
+  {
+    "row": 242,
+    "name": "古戰陣",
+    "enName": "Battle Line"
+  },
+  {
+    "row": 245,
+    "name": "京都諜影",
+    "enName": "Shadows in Kyoto"
+  },
+  {
+    "row": 246,
+    "name": "阿頓神",
+    "enName": "Aton"
+  },
+  {
+    "row": 247,
+    "name": "開膛手傑克",
+    "enName": "Mr. Jack"
+  },
+  {
+    "row": 249,
+    "name": "七大奇蹟 對決：帕特農",
+    "enName": "7 Wonders Duel: Pantheon"
+  },
+  {
+    "row": 250,
+    "name": "蟲蟲攻防戰",
+    "enName": "Hive"
+  },
+  {
+    "row": 251,
+    "name": "農家樂：農夫與寵畜",
+    "enName": "Agricola: All Creatures Big and Small"
+  },
+  {
+    "row": 252,
+    "name": "小倉庫",
+    "enName": "Small Warehouse"
+  },
+  {
+    "row": 253,
+    "name": "地城對決",
+    "enName": "Dungeon duel"
+  },
+  {
+    "row": 254,
+    "name": "妖精的誘惑",
+    "enName": "N/A"
+  },
+  {
+    "row": 255,
+    "name": "封神",
+    "enName": "N/A"
+  },
+  {
+    "row": 258,
+    "name": "景公主",
+    "enName": "Princess Jing"
+  },
+  {
+    "row": 259,
+    "name": "幽靈棋",
+    "enName": "Good and Bad Ghosts"
+  },
+  {
+    "row": 262,
+    "name": "飛龍傳說",
+    "enName": "Kamisado"
+  },
+  {
+    "row": 270,
+    "name": "奇謀奪堡",
+    "enName": "Stratego Fortress"
+  },
+  {
+    "row": 271,
+    "name": "彈彈棋",
+    "enName": "SlingPuck"
+  },
+  {
+    "row": 273,
+    "name": "絕谷戰士",
+    "enName": "Warriors of Jogu: Feint"
+  },
+  {
+    "row": 274,
+    "name": "克蘇魯的呼喚：成長式純卡牌遊戲",
+    "enName": "Call of Cthulhu: The Card Game"
+  },
+  {
+    "row": 277,
+    "name": "精靈的邀請",
+    "enName": "N/A"
+  },
+  {
+    "row": 278,
+    "name": "發電廠",
+    "enName": "Hatsuden"
+  },
+  {
+    "row": 279,
+    "name": "蜜蜂戰爭",
+    "enName": "Line-Up Bees"
+  },
+  {
+    "row": 280,
+    "name": "口香糖桌遊－口袋拳皇",
+    "enName": "Pack O Game: TKO"
+  },
+  {
+    "row": 282,
+    "name": "晶石戰記",
+    "enName": "Crystal Clans"
+  },
+  {
+    "row": 283,
+    "name": "字母瘋火輪",
+    "enName": "Tapple"
+  },
+  {
+    "row": 284,
+    "name": "真心話不冒險2",
+    "enName": "Ask Anything"
+  },
+  {
+    "row": 288,
+    "name": "哞！豪華版",
+    "enName": "Mow"
+  },
+  {
+    "row": 291,
+    "name": "快樂農莊",
+    "enName": "Fun Farm"
+  },
+  {
+    "row": 295,
+    "name": "反轉Uno",
+    "enName": "Uno Flip!"
+  },
+  {
+    "row": 297,
+    "name": "時間到！兒童版",
+    "enName": "Time's up! Kids"
+  },
+  {
+    "row": 300,
+    "name": "矮人礦坑2",
+    "enName": "Saboteur 2"
+  },
+  {
+    "row": 302,
+    "name": "黑故事",
+    "enName": "Black Stories"
+  },
+  {
+    "row": 303,
+    "name": "Duel of Ages Set 1: Worldspanner",
+    "enName": "Duel of Ages Set 1: Worldspanner"
+  },
+  {
+    "row": 304,
+    "name": "Duel of Ages Set 2: Intensity",
+    "enName": "Duel of Ages Set 2: Intensity"
+  },
+  {
+    "row": 305,
+    "name": "DUEL OF AGES Master Addendum",
+    "enName": "DUEL OF AGES Master Addendum"
+  },
+  {
+    "row": 309,
+    "name": "口香糖桌遊－巴士之旅",
+    "enName": "Pack O Game: BUS"
+  },
+  {
+    "row": 311,
+    "name": "瑪莉歐驚險塔",
+    "enName": "Super Mario Balance Tower"
+  },
+  {
+    "row": 314,
+    "name": "生化奇兵：無限",
+    "enName": "BioShock Infinite: The Siege of Columbia"
+  },
+  {
+    "row": 315,
+    "name": "神秘大地－粉絲創作種族擴充",
+    "enName": ""
+  },
+  {
+    "row": 316,
+    "name": "亞美利哥",
+    "enName": "Amerigo"
+  },
+  {
+    "row": 317,
+    "name": "香水",
+    "enName": "Parfum"
+  },
+  {
+    "row": 318,
+    "name": "王國建築師",
+    "enName": "Kingdom builder"
+  },
+  {
+    "row": 319,
+    "name": "底比斯的遠方",
+    "enName": "Thebes"
+  },
+  {
+    "row": 321,
+    "name": "壁畫大師",
+    "enName": "Fresco"
+  },
+  {
+    "row": 322,
+    "name": "皇后的建築師",
+    "enName": "Queen's Architect"
+  },
+  {
+    "row": 323,
+    "name": "卓爾金曆：瑪雅曆法",
+    "enName": "Tzolk'in: The Mayan Calendar"
+  },
+  {
+    "row": 324,
+    "name": "煉金術師",
+    "enName": "Alchemists"
+  },
+  {
+    "row": 327,
+    "name": "夢想家園",
+    "enName": "Dream Home"
+  },
+  {
+    "row": 329,
+    "name": "骰子街：百萬富翁",
+    "enName": "Machi Koro: Millionaire's Row"
+  },
+  {
+    "row": 334,
+    "name": "花磚物語3：夏日行宮",
+    "enName": "Azul: Summer Pavilion"
+  },
+  {
+    "row": 337,
+    "name": "群星",
+    "enName": "Stellium"
+  },
+  {
+    "row": 340,
+    "name": "大阪商人",
+    "enName": "Traders of Osaka"
+  },
+  {
+    "row": 341,
+    "name": "四季物語",
+    "enName": "Seasons"
+  },
+  {
+    "row": 342,
+    "name": "圖爾奈",
+    "enName": "Tournay"
+  },
+  {
+    "row": 343,
+    "name": "慘劇",
+    "enName": "Tragedy Looper"
+  },
+  {
+    "row": 344,
+    "name": "特魯瓦",
+    "enName": "Troyes"
+  },
+  {
+    "row": 345,
+    "name": "人類起源",
+    "enName": "Origin"
+  },
+  {
+    "row": 346,
+    "name": "極樂世界",
+    "enName": "Elysium"
+  },
+  {
+    "row": 347,
+    "name": "萬能天神",
+    "enName": "Deus"
+  },
+  {
+    "row": 348,
+    "name": "恆河王侯",
+    "enName": "Rajas of the Ganges"
+  },
+  {
+    "row": 349,
+    "name": "五大部落",
+    "enName": "Five Tribes"
+  },
+  {
+    "row": 352,
+    "name": "夢幻樹屋",
+    "enName": "Best Treehouse Ever"
+  },
+  {
+    "row": 353,
+    "name": "快閃冰淇淋",
+    "enName": "Go Go Gelato"
+  },
+  {
+    "row": 354,
+    "name": "冰酷企鵝",
+    "enName": "Ice Cool"
+  },
+  {
+    "row": 356,
+    "name": "動物泛舟",
+    "enName": "Zoowaboo"
+  },
+  {
+    "row": 357,
+    "name": "綿羊爭牧場",
+    "enName": "Battle Sheep"
+  },
+  {
+    "row": 359,
+    "name": "水果莊園",
+    "enName": "Finca"
+  },
+  {
+    "row": 360,
+    "name": "時間守望：面具之下",
+    "enName": "T.I.M.E Stories: Under the Mask"
+  },
+  {
+    "row": 361,
+    "name": "時間守望：龍之預言",
+    "enName": "T.I.M.E Stories: A Prophecy of Dragons"
+  },
+  {
+    "row": 362,
+    "name": "時間守望：瑪茜疑案",
+    "enName": "T.I.M.E Stories: The Marcy Case"
+  },
+  {
+    "row": 365,
+    "name": "兩河流域",
+    "enName": "Tigris & Euphrates"
+  },
+  {
+    "row": 366,
+    "name": "方格都市：公共設施",
+    "enName": "Quadropolis: Public Services"
+  },
+  {
+    "row": 367,
+    "name": "方格都市",
+    "enName": "Quadropolis"
+  },
+  {
+    "row": 368,
+    "name": "翠嶼秘境",
+    "enName": "Inis"
+  },
+  {
+    "row": 369,
+    "name": "科英布拉",
+    "enName": "Coimbra"
+  },
+  {
+    "row": 370,
+    "name": "大西部之路",
+    "enName": "Great Western Trail"
+  },
+  {
+    "row": 371,
+    "name": "蒙巴薩",
+    "enName": "Mombasa"
+  },
+  {
+    "row": 373,
+    "name": "頭等艙列車",
+    "enName": "First Class"
+  },
+  {
+    "row": 374,
+    "name": "情迷穆拉諾",
+    "enName": "Murano"
+  },
+  {
+    "row": 375,
+    "name": "萬能天神：埃及",
+    "enName": "Deus: Egypt"
+  },
+  {
+    "row": 378,
+    "name": "奧地利大飯店",
+    "enName": "Grand Austria Hotel"
+  },
+  {
+    "row": 381,
+    "name": "橫濱紳商傳",
+    "enName": "Yokohama"
+  },
+  {
+    "row": 383,
+    "name": "跳跳猴大作戰",
+    "enName": "Tumblin' Monkeys"
+  },
+  {
+    "row": 384,
+    "name": "狗狗撿球大賽",
+    "enName": "Go Fetch!"
+  },
+  {
+    "row": 387,
+    "name": "狐狸脫褲走",
+    "enName": "Catch the Fox"
+  },
+  {
+    "row": 389,
+    "name": "矮人王國：多事之秋 帝國擴",
+    "enName": "Dwar7s Fall Empire Expansion"
+  },
+  {
+    "row": 390,
+    "name": "鼠疫危機",
+    "enName": "Rattus"
+  },
+  {
+    "row": 391,
+    "name": "矮人王國：多事之秋",
+    "enName": "Dwar7s Fall"
+  },
+  {
+    "row": 393,
+    "name": "文明帝國：新黎明",
+    "enName": "Civilization: A New Dawn"
+  },
+  {
+    "row": 394,
+    "name": "文明帝國",
+    "enName": "Sid Meier's Civilization: The Board Game"
+  },
+  {
+    "row": 395,
+    "name": "文明帝國：智慧與戰爭",
+    "enName": "Sid Meier's Civilization: The Board Game – Wisdom and Warfare"
+  },
+  {
+    "row": 396,
+    "name": "歷史巨輪：新的領袖和奇蹟",
+    "enName": "Through the Ages: New Leaders and Wonders"
+  },
+  {
+    "row": 398,
+    "name": "神秘谷",
+    "enName": "Mystic Vale"
+  },
+  {
+    "row": 399,
+    "name": "侍",
+    "enName": "Samurai"
+  },
+  {
+    "row": 400,
+    "name": "南極危機",
+    "enName": "Antarctica"
+  },
+  {
+    "row": 402,
+    "name": "拉密：旅行版",
+    "enName": "Rummikub Travel"
+  },
+  {
+    "row": 403,
+    "name": "格格不入",
+    "enName": "Blokus"
+  },
+  {
+    "row": 404,
+    "name": "拉密變臉版",
+    "enName": "Rummikub Twist"
+  },
+  {
+    "row": 405,
+    "name": "烏邦果立體版",
+    "enName": "Ubongo 3-D"
+  },
+  {
+    "row": 407,
+    "name": "大格鬥隨機UNO版",
+    "enName": "Blokus Shuffle UNO Edition"
+  },
+  {
+    "row": 408,
+    "name": "蘇丹尼亞",
+    "enName": "Sultaniya"
+  },
+  {
+    "row": 409,
+    "name": "山谷原人",
+    "enName": "Sapiens"
+  },
+  {
+    "row": 410,
+    "name": "大西部之路：北方鐵路",
+    "enName": "Great Western Trail: Rails to the North"
+  },
+  {
+    "row": 411,
+    "name": "糖果獵人",
+    "enName": "Candy Chaser"
+  },
+  {
+    "row": 413,
+    "name": "托斯卡尼城堡",
+    "enName": "The Castles of Tuscany"
+  },
+  {
+    "row": 414,
+    "name": "活在當下",
+    "enName": "Carpe Diem"
+  },
+  {
+    "row": 415,
+    "name": "布魯日",
+    "enName": "Bruges"
+  },
+  {
+    "row": 418,
+    "name": "梅林：亞瑟",
+    "enName": "Merlin: Arthur Expansion"
+  },
+  {
+    "row": 419,
+    "name": "圖拉真廣場",
+    "enName": "Forum Trajanum"
+  },
+  {
+    "row": 420,
+    "name": "圖拉真",
+    "enName": "Trajan"
+  },
+  {
+    "row": 421,
+    "name": "波拉波拉島",
+    "enName": "Bora Bora"
+  },
+  {
+    "row": 422,
+    "name": "神來之筆",
+    "enName": "Final Touch"
+  },
+  {
+    "row": 423,
+    "name": "文獻室",
+    "enName": "Biblios"
+  },
+  {
+    "row": 426,
+    "name": "迷霧島：金幣與榮耀",
+    "enName": "Ocracoke: Gold and Glory"
+  },
+  {
+    "row": 427,
+    "name": "神奈川學院",
+    "enName": "Kanagawa"
+  },
+  {
+    "row": 428,
+    "name": "星雲谷",
+    "enName": "Via Nebula"
+  },
+  {
+    "row": 430,
+    "name": "髒小豬擴充-小豬選美",
+    "enName": "Drecksau: Sauschön"
+  },
+  {
+    "row": 432,
+    "name": "瘋狂地下城",
+    "enName": "Dungeon Mayhem"
+  },
+  {
+    "row": 436,
+    "name": "歡迎來到地下城",
+    "enName": "Welcome to the Dungeon"
+  },
+  {
+    "row": 439,
+    "name": "動物反抗軍",
+    "enName": "ARGH"
+  },
+  {
+    "row": 440,
+    "name": "瘋魔口袋",
+    "enName": "Pocket Madness"
+  },
+  {
+    "row": 443,
+    "name": "城邦開拓",
+    "enName": "Emporion"
+  },
+  {
+    "row": 444,
+    "name": "聖光之城",
+    "enName": "Capital Lux"
+  },
+  {
+    "row": 448,
+    "name": "工讀生別裝了！",
+    "enName": "Why You Lying"
+  },
+  {
+    "row": 449,
+    "name": "五年五百億大亂鬥",
+    "enName": "Fight for 50- Billion"
+  },
+  {
+    "row": 453,
+    "name": "堆疊比賽",
+    "enName": "Chip up"
+  },
+  {
+    "row": 457,
+    "name": "推倒堤基",
+    "enName": "Tiki Topple"
+  },
+  {
+    "row": 460,
+    "name": "原木形色棋：旅行版",
+    "enName": "Qwirkle"
+  },
+  {
+    "row": 467,
+    "name": "光合作用",
+    "enName": "Photosynthesis"
+  },
+  {
+    "row": 468,
+    "name": "維京傳奇",
+    "enName": "Champions of Midgard"
+  },
+  {
+    "row": 470,
+    "name": "地城寵物",
+    "enName": "Dungeon Petz"
+  },
+  {
+    "row": 471,
+    "name": "魔法交易所",
+    "enName": "Mystic Market"
+  },
+  {
+    "row": 473,
+    "name": "邪馬台",
+    "enName": "Yamatai"
+  },
+  {
+    "row": 474,
+    "name": "水世界",
+    "enName": "AquaSphere"
+  },
+  {
+    "row": 475,
+    "name": "樂澀愛",
+    "enName": "ゲットスイートラブ"
+  },
+  {
+    "row": 476,
+    "name": "火鳳燎原",
+    "enName": "N/A"
+  },
+  {
+    "row": 477,
+    "name": "台灣愛玩客",
+    "enName": "Taiwan walker"
+  },
+  {
+    "row": 478,
+    "name": "圈叉棋",
+    "enName": "Quixo"
+  },
+  {
+    "row": 490,
+    "name": "狡兔三窟",
+    "enName": "Rabbit Hunt"
+  },
+  {
+    "row": 491,
+    "name": "福爾摩斯13",
+    "enName": "Sherlock 13"
+  },
+  {
+    "row": 493,
+    "name": "中世紀建築師",
+    "enName": "The Builders: Middle Ages"
+  },
+  {
+    "row": 496,
+    "name": "立體派",
+    "enName": "Cubist"
+  },
+  {
+    "row": 497,
+    "name": "神奈川學苑",
+    "enName": "Kanagawa"
+  },
+  {
+    "row": 498,
+    "name": "古物有限公司",
+    "enName": "Artifacts, Inc."
+  },
+  {
+    "row": 503,
+    "name": "微米形量色",
+    "enName": "Iota"
+  },
+  {
+    "row": 504,
+    "name": "智行棋",
+    "enName": "SHIBUYA"
+  },
+  {
+    "row": 505,
+    "name": "十字連環棋",
+    "enName": "MOD X"
+  },
+  {
+    "row": 506,
+    "name": "Blox",
+    "enName": "Blox"
+  },
+  {
+    "row": 508,
+    "name": "礦業大王",
+    "enName": "Rockwell"
+  },
+  {
+    "row": 509,
+    "name": "暴走彈彈獸",
+    "enName": "Terror in Meeple City"
+  },
+  {
+    "row": 510,
+    "name": "塔樓",
+    "enName": "Talo"
+  },
+  {
+    "row": 511,
+    "name": "衝向黃金城",
+    "enName": "The Quest for El Dorado"
+  },
+  {
+    "row": 514,
+    "name": "內科港",
+    "enName": "A Pleasant Journey to Neko"
+  },
+  {
+    "row": 515,
+    "name": "盛譽學院",
+    "enName": "Alma Mater"
+  },
+  {
+    "row": 519,
+    "name": "蓮花",
+    "enName": "Lotus"
+  },
+  {
+    "row": 521,
+    "name": "璀璨寶石",
+    "enName": "Splendor"
+  },
+  {
+    "row": 522,
+    "name": "CV人生履歷",
+    "enName": "CV"
+  },
+  {
+    "row": 525,
+    "name": "首都華沙",
+    "enName": "Capital"
+  },
+  {
+    "row": 526,
+    "name": "璀璨寶石：城市擴充",
+    "enName": "Splendor Expansion:City of Splendor"
+  },
+  {
+    "row": 535,
+    "name": "狼與獵犬",
+    "enName": "Wolf & Hound"
+  },
+  {
+    "row": 536,
+    "name": "逃離太空站",
+    "enName": "Survive: Space Attack!"
+  },
+  {
+    "row": 537,
+    "name": "史詩渡假村",
+    "enName": "Epic Resort"
+  },
+  {
+    "row": 538,
+    "name": "古代",
+    "enName": "Antiquity"
+  },
+  {
+    "row": 539,
+    "name": "皇后的項鍊",
+    "enName": "Queen's Necklace"
+  },
+  {
+    "row": 540,
+    "name": "格格不入六角版",
+    "enName": "Blokus Trigon"
+  },
+  {
+    "row": 541,
+    "name": "皇輿爭霸",
+    "enName": "Dominion"
+  },
+  {
+    "row": 542,
+    "name": "皇輿爭霸：海國圖誌",
+    "enName": "Dominion: Seaside"
+  },
+  {
+    "row": 545,
+    "name": "脈衝星2849",
+    "enName": "Pulsar 2849"
+  },
+  {
+    "row": 549,
+    "name": "海盜幣",
+    "enName": "Piratoons"
+  },
+  {
+    "row": 550,
+    "name": "熊熊公園：灰熊大進擊擴充",
+    "enName": "Barenpark: The Bad News Bears"
+  },
+  {
+    "row": 551,
+    "name": "秦",
+    "enName": "Qin"
+  },
+  {
+    "row": 553,
+    "name": "歐提斯：海淵",
+    "enName": "OTYS"
+  },
+  {
+    "row": 555,
+    "name": "愛因斯坦",
+    "enName": "Einstein: His Amazing Life and Incomparable Science"
+  },
+  {
+    "row": 557,
+    "name": "世博１８９３",
+    "enName": "World's Fair 1893"
+  },
+  {
+    "row": 559,
+    "name": "迷你文明",
+    "enName": "CIV: Carta Impera Victoria"
+  },
+  {
+    "row": 560,
+    "name": "ScrumBrawl",
+    "enName": "ScrumBrawl"
+  },
+  {
+    "row": 561,
+    "name": "Covert",
+    "enName": "Covert"
+  },
+  {
+    "row": 563,
+    "name": "拉密：字母版",
+    "enName": "Word Rummikub"
+  },
+  {
+    "row": 565,
+    "name": "形色咚咚",
+    "enName": "Drop It"
+  },
+  {
+    "row": 566,
+    "name": "鏡像圍城",
+    "enName": "Control V"
+  },
+  {
+    "row": 567,
+    "name": "功夫動物園",
+    "enName": "Kung Fu Zoo"
+  },
+  {
+    "row": 568,
+    "name": "鼠來堡",
+    "enName": "The Castle of Appenzell"
+  },
+  {
+    "row": 571,
+    "name": "GLUX",
+    "enName": "GLUX"
+  },
+  {
+    "row": 575,
+    "name": "方格都市",
+    "enName": "Quadropolis"
+  },
+  {
+    "row": 578,
+    "name": "天堂與酒",
+    "enName": "Heaven & Ale"
+  },
+  {
+    "row": 579,
+    "name": "洒紅節",
+    "enName": "holi"
+  },
+  {
+    "row": 580,
+    "name": "Night Clan",
+    "enName": "Night Clan"
+  },
+  {
+    "row": 581,
+    "name": "英雄國度",
+    "enName": "Hero Realms"
+  },
+  {
+    "row": 582,
+    "name": "公會：職業博覽會",
+    "enName": "Guildhall: Job Faire"
+  },
+  {
+    "row": 583,
+    "name": "女僕之心３",
+    "enName": "Tanto Cuore: Oktoberfest"
+  },
+  {
+    "row": 584,
+    "name": "DOG",
+    "enName": "DOG"
+  },
+  {
+    "row": 585,
+    "name": "大蒜與十字架",
+    "enName": "N/A"
+  },
+  {
+    "row": 591,
+    "name": "調皮小火龍",
+    "enName": "Dragon Battle"
+  },
+  {
+    "row": 595,
+    "name": "老鼠起司洞",
+    "enName": "GatenKaas"
+  },
+  {
+    "row": 597,
+    "name": "注意，施工中！",
+    "enName": "Caution, Under Construction!"
+  },
+  {
+    "row": 598,
+    "name": "幾隻羊",
+    "enName": "Sheep, Sheep and Sheep"
+  },
+  {
+    "row": 601,
+    "name": "口香糖桌遊－啪啪啪",
+    "enName": "Pack O Game: FLY"
+  },
+  {
+    "row": 603,
+    "name": "夢幻樹屋",
+    "enName": "Best Treehouse Ever"
+  },
+  {
+    "row": 605,
+    "name": "嘿!我的魚!",
+    "enName": "Hey!my fish!"
+  },
+  {
+    "row": 607,
+    "name": "口香糖桌遊－噓",
+    "enName": "Pack O Game: SHH"
+  },
+  {
+    "row": 608,
+    "name": "口香糖桌遊－寶石達人",
+    "enName": "Pack O Game: GEM"
+  },
+  {
+    "row": 609,
+    "name": "口香糖桌遊－泰姬陵",
+    "enName": "Pack O Game: TAJ"
+  },
+  {
+    "row": 610,
+    "name": "金魚撈撈",
+    "enName": "Fish Scooping"
+  },
+  {
+    "row": 614,
+    "name": "義大利貴族",
+    "enName": "Signorie"
+  },
+  {
+    "row": 616,
+    "name": "茂林源記：森林的權力之戰",
+    "enName": "Root"
+  },
+  {
+    "row": 617,
+    "name": "王道",
+    "enName": "Wangdo"
+  },
+  {
+    "row": 618,
+    "name": "龍灣尋禮",
+    "enName": "Dragon Market"
+  },
+  {
+    "row": 620,
+    "name": "記帳城市",
+    "enName": "Fortune City"
+  },
+  {
+    "row": 621,
+    "name": "爆珠發明",
+    "enName": "Gizmos"
+  },
+  {
+    "row": 622,
+    "name": "Palazzo",
+    "enName": "Palazzo"
+  },
+  {
+    "row": 623,
+    "name": "鵜鶘灣",
+    "enName": "Pelican Bay"
+  },
+  {
+    "row": 625,
+    "name": "北海掠奪者",
+    "enName": "Raiders of the North Sea"
+  },
+  {
+    "row": 628,
+    "name": "特拉馬拉",
+    "enName": "Terramara"
+  },
+  {
+    "row": 632,
+    "name": "樂可多",
+    "enName": "Ligretto"
+  },
+  {
+    "row": 633,
+    "name": "考古學家紙牌版",
+    "enName": "Archaeology: The Card Game"
+  },
+  {
+    "row": 635,
+    "name": "公會：職業博覽會",
+    "enName": "Guildhall: Job Faire"
+  },
+  {
+    "row": 636,
+    "name": "石陣物語",
+    "enName": "Tuki"
+  },
+  {
+    "row": 637,
+    "name": "地產大亨：馬利歐冒險大挑戰",
+    "enName": "Monopoly Gamer"
+  },
+  {
+    "row": 639,
+    "name": "收納達人",
+    "enName": "Get Packing"
+  },
+  {
+    "row": 640,
+    "name": "地產大亨：瑪利歐賽車",
+    "enName": "Monopoly Gamer: Mario Kart"
+  },
+  {
+    "row": 641,
+    "name": "維京山谷 滾球大賽",
+    "enName": "Valley of the Vikings"
+  },
+  {
+    "row": 643,
+    "name": "步步高陞",
+    "enName": "Stack-A-Biddi"
+  },
+  {
+    "row": 644,
+    "name": "生態連線",
+    "enName": "Eco-Links"
+  },
+  {
+    "row": 645,
+    "name": "比薩快遞",
+    "enName": "Papà Paolo"
+  },
+  {
+    "row": 646,
+    "name": "LA STANZA",
+    "enName": "LA STANZA"
+  },
+  {
+    "row": 647,
+    "name": "礦井人生",
+    "enName": "Haspelknecht"
+  },
+  {
+    "row": 649,
+    "name": "第九號交響曲",
+    "enName": "Symphony No.9"
+  },
+  {
+    "row": 650,
+    "name": "快樂舞蛋",
+    "enName": "Dancing Eggs"
+  },
+  {
+    "row": 651,
+    "name": "翻滾路易",
+    "enName": "Loopin' Louie"
+  },
+  {
+    "row": 653,
+    "name": "歡樂彈跳球",
+    "enName": "Bounce off"
+  },
+  {
+    "row": 654,
+    "name": "貓街",
+    "enName": "Cat Town"
+  },
+  {
+    "row": 655,
+    "name": "雲海",
+    "enName": "Sea of Clouds"
+  },
+  {
+    "row": 656,
+    "name": "曼哈頓",
+    "enName": "Manhattan"
+  },
+  {
+    "row": 657,
+    "name": "豐收",
+    "enName": "Harvest"
+  },
+  {
+    "row": 658,
+    "name": "黃金時代",
+    "enName": "The Golden Ages"
+  },
+  {
+    "row": 659,
+    "name": "邪馬臺",
+    "enName": "Yamatai"
+  },
+  {
+    "row": 661,
+    "name": "鐵路革命：鐵路革新",
+    "enName": "Railroad Revolution: Railroad Evolution"
+  },
+  {
+    "row": 662,
+    "name": "厭世動物園：動物大逃殺",
+    "enName": "N/A"
+  },
+  {
+    "row": 663,
+    "name": "夢工廠",
+    "enName": "Dream Factory"
+  },
+  {
+    "row": 664,
+    "name": "柯南",
+    "enName": "Conan"
+  },
+  {
+    "row": 665,
+    "name": "純屬巧合",
+    "enName": "It Happens.."
+  },
+  {
+    "row": 666,
+    "name": "洛可可",
+    "enName": "Rococo"
+  },
+  {
+    "row": 667,
+    "name": "卓爾金曆：瑪雅曆法－部落與預言",
+    "enName": "Tzolk'in: The Mayan Calendar – Tribes & Prophecies"
+  },
+  {
+    "row": 671,
+    "name": "鐵道任務：歐洲",
+    "enName": "Ticket to Ride: Europe"
+  },
+  {
+    "row": 672,
+    "name": "村莊：酒館",
+    "enName": "Village Inn"
+  },
+  {
+    "row": 673,
+    "name": "村莊：港口",
+    "enName": "Village port"
+  },
+  {
+    "row": 675,
+    "name": "圓樓",
+    "enName": "Round House"
+  },
+  {
+    "row": 676,
+    "name": "太陽神",
+    "enName": "RA"
+  },
+  {
+    "row": 678,
+    "name": "地底小世界",
+    "enName": "Small World: Underground"
+  },
+  {
+    "row": 679,
+    "name": "重力邊緣",
+    "enName": "GRAVITY'S EDGE"
+  },
+  {
+    "row": 681,
+    "name": "城主大盒版",
+    "enName": "El Grande Big Box"
+  },
+  {
+    "row": 682,
+    "name": "雲南",
+    "enName": "Yunnan"
+  },
+  {
+    "row": 683,
+    "name": "快餐連鎖大亨",
+    "enName": "Food Chain Magnate"
+  },
+  {
+    "row": 686,
+    "name": "柑橘園物語",
+    "enName": "Citrus"
+  },
+  {
+    "row": 687,
+    "name": "斯陶芬王朝",
+    "enName": "The Staufer Dynasty"
+  },
+  {
+    "row": 691,
+    "name": "逃走中",
+    "enName": "ＴＨＥ　ボードゲーム"
+  },
+  {
+    "row": 692,
+    "name": "文明帝國：名與利",
+    "enName": "Sid Meier's Civilization: The Board Game – Fame and Fortune"
+  },
+  {
+    "row": 693,
+    "name": "新鮮魚市場",
+    "enName": "Fresh fish"
+  },
+  {
+    "row": 699,
+    "name": "大爆格",
+    "enName": "Blockers!"
+  },
+  {
+    "row": 701,
+    "name": "縱橫股海擴充",
+    "enName": "Stockpile: Continuing Corruption"
+  },
+  {
+    "row": 702,
+    "name": "國王堡傳奇",
+    "enName": "Kingsburg"
+  },
+  {
+    "row": 708,
+    "name": "深海探險",
+    "enName": "OCEANOS"
+  },
+  {
+    "row": 709,
+    "name": "縱橫股海",
+    "enName": "Stockpile"
+  },
+  {
+    "row": 714,
+    "name": "熱舞大賽",
+    "enName": "Dance Battle"
+  },
+  {
+    "row": 715,
+    "name": "龍焰",
+    "enName": "DragonFlame"
+  },
+  {
+    "row": 718,
+    "name": "求婚大作戰",
+    "enName": "In Love and War"
+  },
+  {
+    "row": 719,
+    "name": "巨獸競技場",
+    "enName": "Colossal Arena"
+  },
+  {
+    "row": 720,
+    "name": "瞻前顧後",
+    "enName": "Flip Out"
+  },
+  {
+    "row": 721,
+    "name": "垃圾山",
+    "enName": "Ab in die Tonne"
+  },
+  {
+    "row": 722,
+    "name": "方舟",
+    "enName": "Noah"
+  },
+  {
+    "row": 724,
+    "name": "虎口拔鬚",
+    "enName": "Fuzzy Tiger"
+  },
+  {
+    "row": 725,
+    "name": "八分鐘帝國",
+    "enName": "Eight minute  empure"
+  },
+  {
+    "row": 727,
+    "name": "特攻神諜",
+    "enName": "Specter Ops"
+  },
+  {
+    "row": 728,
+    "name": "銀河卡車司機：大擴充",
+    "enName": "Galaxy Trucker: The Big Expansion"
+  },
+  {
+    "row": 729,
+    "name": "銀河卡車司機：另一個大擴充",
+    "enName": "Galaxy Trucker: Another Big Expansion"
+  },
+  {
+    "row": 730,
+    "name": "聖彼得堡",
+    "enName": "Saint Petersburg"
+  },
+  {
+    "row": 731,
+    "name": "騎士精神",
+    "enName": "Chivalry"
+  },
+  {
+    "row": 734,
+    "name": "斯凱島:德魯伊擴充",
+    "enName": "Isle of Skye: Druids"
+  },
+  {
+    "row": 735,
+    "name": "斯凱島",
+    "enName": "Isle of Skye: From Chieftain to King"
+  },
+  {
+    "row": 736,
+    "name": "斯凱島:旅人擴充",
+    "enName": "Isle of Skye: Journeyman"
+  },
+  {
+    "row": 739,
+    "name": "爆走企鵝",
+    "enName": "Zany Penguins"
+  },
+  {
+    "row": 740,
+    "name": "否決權",
+    "enName": "Nyet!"
+  },
+  {
+    "row": 742,
+    "name": "撰寫文明史",
+    "enName": "Cvlizations"
+  },
+  {
+    "row": 744,
+    "name": "古巴",
+    "enName": "Cuba"
+  },
+  {
+    "row": 745,
+    "name": "叢林探險",
+    "enName": "Costa Rica"
+  },
+  {
+    "row": 746,
+    "name": "哈達拉",
+    "enName": "Hadara"
+  },
+  {
+    "row": 747,
+    "name": "紅樹林傳說",
+    "enName": "Mangrovia"
+  },
+  {
+    "row": 748,
+    "name": "歐洲航線",
+    "enName": "Airlines Europe"
+  },
+  {
+    "row": 749,
+    "name": "毛塵寶寶",
+    "enName": "Sticky Stickz"
+  },
+  {
+    "row": 754,
+    "name": "玫瑰之名",
+    "enName": "The Name of the Rose"
+  },
+  {
+    "row": 756,
+    "name": "東海道",
+    "enName": "Tokaido"
+  },
+  {
+    "row": 757,
+    "name": "東海道：節慶",
+    "enName": "Tokaido: Matsuri"
+  },
+  {
+    "row": 758,
+    "name": "東海道：十字路口",
+    "enName": "Tokaido: Crossroads"
+  },
+  {
+    "row": 760,
+    "name": "西班牙鐵路",
+    "enName": "Iberian Rails"
+  },
+  {
+    "row": 761,
+    "name": "卡卡頌：星際大戰",
+    "enName": "Carcassonne: Star Wars"
+  },
+  {
+    "row": 763,
+    "name": "時光當鋪",
+    "enName": "The Time Pawnshop"
+  },
+  {
+    "row": 764,
+    "name": "卡卡頌：亞馬遜",
+    "enName": "Carcassonne: Amazonas"
+  },
+  {
+    "row": 765,
+    "name": "王國軼聞錄",
+    "enName": "Paper Tales"
+  },
+  {
+    "row": 766,
+    "name": "大航海家",
+    "enName": "Navegador"
+  },
+  {
+    "row": 767,
+    "name": "病毒",
+    "enName": "Viral"
+  },
+  {
+    "row": 768,
+    "name": "瘋狂建築工",
+    "enName": "Men at Work"
+  },
+  {
+    "row": 770,
+    "name": "動物園大亨",
+    "enName": "Zooloretto"
+  },
+  {
+    "row": 771,
+    "name": "蝶旅花香",
+    "enName": "Mariposas"
+  },
+  {
+    "row": 773,
+    "name": "慢車小鎮",
+    "enName": "Whistle Stop"
+  },
+  {
+    "row": 775,
+    "name": "皇家風暴",
+    "enName": "Royals"
+  },
+  {
+    "row": 776,
+    "name": "方塊鳥",
+    "enName": "Cubird"
+  },
+  {
+    "row": 777,
+    "name": "Pralaya",
+    "enName": "Pralaya"
+  },
+  {
+    "row": 778,
+    "name": "黏黏變色龍",
+    "enName": "Sticky Chameleons"
+  },
+  {
+    "row": 780,
+    "name": "沉睡皇后",
+    "enName": "Sleeping Queens"
+  },
+  {
+    "row": 781,
+    "name": "給我餅乾",
+    "enName": "Me Want Cookies"
+  },
+  {
+    "row": 785,
+    "name": "口香糖桌遊－拚色大師",
+    "enName": "Pack O Game: HUE"
+  },
+  {
+    "row": 787,
+    "name": "咕啾咕啾",
+    "enName": "guju guju"
+  },
+  {
+    "row": 790,
+    "name": "聖鳥之城",
+    "enName": "Quetzal"
+  },
+  {
+    "row": 793,
+    "name": "搶尾刀",
+    "enName": "Absacker"
+  },
+  {
+    "row": 795,
+    "name": "埃及考古：新旅程",
+    "enName": "Archaeology: The New Expedition"
+  },
+  {
+    "row": 798,
+    "name": "晦暗世界：童話版",
+    "enName": "Fairytale Gloom"
+  },
+  {
+    "row": 800,
+    "name": "妖精奇潭",
+    "enName": "Fairy Tale"
+  },
+  {
+    "row": 801,
+    "name": "密碼777",
+    "enName": "Code 777"
+  },
+  {
+    "row": 802,
+    "name": "寺廟巧匠",
+    "enName": "Mottainai"
+  },
+  {
+    "row": 803,
+    "name": "地產大亨紙牌交易遊戲",
+    "enName": "Monopoly Deal Card Game"
+  },
+  {
+    "row": 805,
+    "name": "骰子大盜",
+    "enName": "Dice Heist"
+  },
+  {
+    "row": 806,
+    "name": "貴婦的遺產",
+    "enName": "Lady Richmond: Ein erzocktes Erbe"
+  },
+  {
+    "row": 807,
+    "name": "尋寶小精靈/七彩精靈",
+    "enName": "Korrigans"
+  },
+  {
+    "row": 808,
+    "name": "國王骰",
+    "enName": "To Court the King"
+  },
+  {
+    "row": 809,
+    "name": "動物大臨演",
+    "enName": "Histrio"
+  },
+  {
+    "row": 810,
+    "name": "蘭開斯特",
+    "enName": "Lancaster"
+  },
+  {
+    "row": 811,
+    "name": "體操骰",
+    "enName": "Tumblin-Dice Medium"
+  },
+  {
+    "row": 812,
+    "name": "寶藏獵人",
+    "enName": "Treasure Hunter"
+  },
+  {
+    "row": 813,
+    "name": "阿爾罕布拉宮",
+    "enName": "Alhambra"
+  },
+  {
+    "row": 815,
+    "name": "奧古斯都",
+    "enName": "Augustus"
+  },
+  {
+    "row": 816,
+    "name": "地城勇士",
+    "enName": "Dungeon Fighter"
+  },
+  {
+    "row": 817,
+    "name": "柯爾特快車",
+    "enName": "Colt Express"
+  },
+  {
+    "row": 818,
+    "name": "紐約之王",
+    "enName": "King of Newyork"
+  },
+  {
+    "row": 819,
+    "name": "辣椒之王",
+    "enName": "Scoville"
+  },
+  {
+    "row": 820,
+    "name": "過河拆橋",
+    "enName": "River Dragon"
+  },
+  {
+    "row": 821,
+    "name": "靠背畫家",
+    "enName": "Back to Back"
+  },
+  {
+    "row": 822,
+    "name": "糟了個糕！",
+    "enName": "Verflixxt"
+  },
+  {
+    "row": 824,
+    "name": "星蝕",
+    "enName": "Eclipse"
+  },
+  {
+    "row": 826,
+    "name": "你猜我猜",
+    "enName": "You Guessed It!"
+  },
+  {
+    "row": 827,
+    "name": "畫言巧語",
+    "enName": "Pictorail"
+  },
+  {
+    "row": 828,
+    "name": "聖符國度",
+    "enName": "Talisman"
+  },
+  {
+    "row": 833,
+    "name": "龍宮盜寶",
+    "enName": "Looterz"
+  },
+  {
+    "row": 845,
+    "name": "情書-無限手套",
+    "enName": "Infinity Gauntlet: A Love Letter Game"
+  },
+  {
+    "row": 848,
+    "name": "雙面間諜",
+    "enName": "Spywhere"
+  },
+  {
+    "row": 850,
+    "name": "一拍即呵",
+    "enName": "Clapping Party"
+  },
+  {
+    "row": 851,
+    "name": "壽司疊疊樂",
+    "enName": "Maki Stack"
+  },
+  {
+    "row": 852,
+    "name": "泳池派對",
+    "enName": "Pool Party"
+  },
+  {
+    "row": 853,
+    "name": "環遊世界80天",
+    "enName": "Around The World In 80 Days"
+  },
+  {
+    "row": 854,
+    "name": "靈能偵探",
+    "enName": "Paranormal Detectives"
+  },
+  {
+    "row": 855,
+    "name": "套利",
+    "enName": "Acquire"
+  },
+  {
+    "row": 860,
+    "name": "得分沙拉",
+    "enName": "Point Salad"
+  },
+  {
+    "row": 864,
+    "name": "從前從前",
+    "enName": "Once Upon a Time: The Storytelling Card Game"
+  },
+  {
+    "row": 866,
+    "name": "開心滑水梯樂園",
+    "enName": "Slide Blast"
+  },
+  {
+    "row": 868,
+    "name": "夜市人參",
+    "enName": "Yes! Ginseng"
+  },
+  {
+    "row": 872,
+    "name": "人魚公主",
+    "enName": "Mermaid Rain"
+  },
+  {
+    "row": 873,
+    "name": "食人魚與派德羅",
+    "enName": "Piranha Pedro"
+  },
+  {
+    "row": 874,
+    "name": "霸業2030",
+    "enName": "Imperial 2030"
+  },
+  {
+    "row": 875,
+    "name": "地下鐵",
+    "enName": "METRO"
+  },
+  {
+    "row": 878,
+    "name": "繼續，繼續，成交！",
+    "enName": "Going, Going, GONE!"
+  },
+  {
+    "row": 881,
+    "name": "這就是我的立場",
+    "enName": "Here I Stand"
+  },
+  {
+    "row": 882,
+    "name": "童貞女王",
+    "enName": "Virgin Queen"
+  },
+  {
+    "row": 883,
+    "name": "恐龍派對",
+    "enName": "Dino Party"
+  },
+  {
+    "row": 884,
+    "name": "跑跑針鼴鼠",
+    "enName": "Echidna Shuffle"
+  },
+  {
+    "row": 885,
+    "name": "鯊魚博士",
+    "enName": "Dr. Shark"
+  },
+  {
+    "row": 888,
+    "name": "卡卡頌：公主與火龍擴充",
+    "enName": "Carcassonne: Expansion 3 – The Princess & The Dragon"
+  },
+  {
+    "row": 889,
+    "name": "卡卡頌：星際大戰擴充",
+    "enName": "Carcassonne: Star Wars – Erweiterung 1"
+  },
+  {
+    "row": 890,
+    "name": "卡卡頌：帳篷之下",
+    "enName": "Carcassonne: Expansion 10 – Under the Big Top"
+  },
+  {
+    "row": 891,
+    "name": "牙買加：船員擴充",
+    "enName": "Jamaica: The Crew"
+  },
+  {
+    "row": 893,
+    "name": "城市之鑰：倫敦",
+    "enName": "Key to the City: London"
+  },
+  {
+    "row": 900,
+    "name": "醜娃娃",
+    "enName": "Uglydoll"
+  },
+  {
+    "row": 901,
+    "name": "茶丸子",
+    "enName": "Cha Dango"
+  },
+  {
+    "row": 903,
+    "name": "小小賽車手",
+    "enName": "Monza"
+  },
+  {
+    "row": 906,
+    "name": "最後衝刺",
+    "enName": "Photofinish: The Final Rush"
+  },
+  {
+    "row": 907,
+    "name": "捉迷藏起司",
+    "enName": "Got you"
+  },
+  {
+    "row": 908,
+    "name": "蜥蓋",
+    "enName": "The Battle of Lizard"
+  },
+  {
+    "row": 913,
+    "name": "拾貓鍋",
+    "enName": "Cat 10"
+  },
+  {
+    "row": 914,
+    "name": "口香糖桌遊－猜猜看",
+    "enName": "Pack O Game: LIE"
+  },
+  {
+    "row": 915,
+    "name": "火柴盒系列-神算達人",
+    "enName": "MatchMaster"
+  },
+  {
+    "row": 916,
+    "name": "誰是放屁王",
+    "enName": "Gas Out"
+  },
+  {
+    "row": 918,
+    "name": "色彩麻吉",
+    "enName": "Match Me"
+  },
+  {
+    "row": 924,
+    "name": "地產大亨：愛台客走跳台灣電子版",
+    "enName": "無"
+  },
+  {
+    "row": 925,
+    "name": "走過台灣2.0",
+    "enName": "Voyage with Taiwan"
+  },
+  {
+    "row": 926,
+    "name": "芝加哥特快車",
+    "enName": "Chicago Express"
+  },
+  {
+    "row": 928,
+    "name": "旅館謀殺案",
+    "enName": "Mord im Arosa"
+  },
+  {
+    "row": 929,
+    "name": "迷你都市",
+    "enName": "Micropolis"
+  },
+  {
+    "row": 931,
+    "name": "魔數大師",
+    "enName": "Master of Mathemagicain"
+  },
+  {
+    "row": 932,
+    "name": "七大奇蹟包",
+    "enName": "7 Wonders: Wonder Pack"
+  },
+  {
+    "row": 933,
+    "name": "七大奇蹟：領袖",
+    "enName": "7 Wonders: Leaders"
+  },
+  {
+    "row": 935,
+    "name": "第一類接觸",
+    "enName": "First Contact"
+  },
+  {
+    "row": 938,
+    "name": "兇煞迴廊",
+    "enName": "Fearsome Floor"
+  },
+  {
+    "row": 939,
+    "name": "未命名農場生物",
+    "enName": "Unnamed Farm Organisms"
+  },
+  {
+    "row": 940,
+    "name": "寂靜迷航",
+    "enName": "Not Alone"
+  },
+  {
+    "row": 941,
+    "name": "富饒之城新版",
+    "enName": "Citadels"
+  },
+  {
+    "row": 943,
+    "name": "從前從前：動物王國",
+    "enName": "Once Upon a Time: Animal Tales"
+  },
+  {
+    "row": 944,
+    "name": "終極戰士",
+    "enName": "Ultimate Warriorz"
+  },
+  {
+    "row": 945,
+    "name": "七大奇蹟：城邦",
+    "enName": "7 Wonders: Cities"
+  },
+  {
+    "row": 947,
+    "name": "說謊小8",
+    "enName": "8 the Liar"
+  },
+  {
+    "row": 948,
+    "name": "裝龍作啞",
+    "enName": "On a Scale of One to T-Rex"
+  },
+  {
+    "row": 949,
+    "name": "尋夢旅程",
+    "enName": "Dream on"
+  },
+  {
+    "row": 951,
+    "name": "機密代號",
+    "enName": "Codenames"
+  },
+  {
+    "row": 953,
+    "name": "高顫塔",
+    "enName": "Panic Tower"
+  },
+  {
+    "row": 956,
+    "name": "彈指賽車",
+    "enName": "PitchCar Mini"
+  },
+  {
+    "row": 958,
+    "name": "皮影戲大師",
+    "enName": "Picture Show"
+  },
+  {
+    "row": 959,
+    "name": "猜心俱樂部",
+    "enName": "Guess Club"
+  },
+  {
+    "row": 960,
+    "name": "多米諾骨牌",
+    "enName": "Dominoes"
+  },
+  {
+    "row": 961,
+    "name": "成雙成對",
+    "enName": "Pairs"
+  },
+  {
+    "row": 962,
+    "name": "卡卡頌：2014大盒版",
+    "enName": "Carcassonne Big Box 5"
+  },
+  {
+    "row": 963,
+    "name": "貓咪比薩捲餅羊",
+    "enName": "Taco Cat Goat Cheese Pizza"
+  },
+  {
+    "row": 969,
+    "name": "富饒之城",
+    "enName": "Citadels"
+  },
+  {
+    "row": 970,
+    "name": "烙跑修女",
+    "enName": "Nuns on the Run"
+  },
+  {
+    "row": 971,
+    "name": "機密代號圖片版",
+    "enName": "Codenames: Pictures"
+  },
+  {
+    "row": 972,
+    "name": "小短手的星期天",
+    "enName": "Tyrannosaurus' Holiday"
+  },
+  {
+    "row": 973,
+    "name": "滿腦子番茄!",
+    "enName": "Alles Tomate"
+  },
+  {
+    "row": 975,
+    "name": "火線急救室",
+    "enName": "Doctor Panic"
+  },
+  {
+    "row": 976,
+    "name": "星蝕：遠古的崛起",
+    "enName": "Eclipse: Rise of the Ancients"
+  },
+  {
+    "row": 977,
+    "name": "黑骷髏島",
+    "enName": "Black Skull Island"
+  },
+  {
+    "row": 980,
+    "name": "漫遊世界",
+    "enName": "Co-Mix"
+  },
+  {
+    "row": 983,
+    "name": "一夜終極狼人",
+    "enName": "One Night Ultimate Werewolf"
+  },
+  {
+    "row": 986,
+    "name": "一夜抵抗組織",
+    "enName": "One Night Revolution"
+  },
+  {
+    "row": 988,
+    "name": "說書人：奧德賽",
+    "enName": "Dixit: Odyssey"
+  },
+  {
+    "row": 989,
+    "name": "驢橋",
+    "enName": "Eselsbrücke"
+  },
+  {
+    "row": 991,
+    "name": "間諜危機2",
+    "enName": "Spyfall 2"
+  },
+  {
+    "row": 994,
+    "name": "非常嫌疑犯",
+    "enName": "Unusual Suspects"
+  },
+  {
+    "row": 995,
+    "name": "黑船來襲",
+    "enName": "BLACK FLEET"
+  },
+  {
+    "row": 996,
+    "name": "炎魔的數字試煉",
+    "enName": "Game of Suspicion"
+  },
+  {
+    "row": 998,
+    "name": "大商人",
+    "enName": "Master Merchant"
+  },
+  {
+    "row": 999,
+    "name": "殭屍塔3D",
+    "enName": "Zombie Tower 3D"
+  },
+  {
+    "row": 1002,
+    "name": "巴巴羅薩",
+    "enName": "Barbarossa"
+  },
+  {
+    "row": 1003,
+    "name": "豪賭風雲",
+    "enName": "Gambler × Gamble!"
+  },
+  {
+    "row": 1004,
+    "name": "什麼不見啦",
+    "enName": "Something Is Missing"
+  },
+  {
+    "row": 1006,
+    "name": "迷霧島:金幣與榮耀",
+    "enName": "OCRACOKE"
+  },
+  {
+    "row": 1007,
+    "name": "孔雀宴會",
+    "enName": "Pikoko"
+  },
+  {
+    "row": 1010,
+    "name": "現代藝術：台灣版",
+    "enName": "Modern Art"
+  },
+  {
+    "row": 1011,
+    "name": "星際探索",
+    "enName": "Ad Astra"
+  },
+  {
+    "row": 1013,
+    "name": "羅馬競技場",
+    "enName": "Colosseum"
+  },
+  {
+    "row": 1014,
+    "name": "貴族圈",
+    "enName": "Among Nobles"
+  },
+  {
+    "row": 1015,
+    "name": "鬱金香泡沫",
+    "enName": "Tulip Bubble"
+  },
+  {
+    "row": 1016,
+    "name": "奮進號",
+    "enName": "Endeavor"
+  },
+  {
+    "row": 1017,
+    "name": "阿奎利亞城",
+    "enName": "Aquileia"
+  },
+  {
+    "row": 1018,
+    "name": "一根香腸",
+    "enName": "The Eng Chiang"
+  },
+  {
+    "row": 1022,
+    "name": "出租英雄",
+    "enName": "Rent a Hero"
+  },
+  {
+    "row": 1023,
+    "name": "龍牙勇者",
+    "enName": "Dragon Teeth Washer"
+  },
+  {
+    "row": 1024,
+    "name": "狩獵季",
+    "enName": "Hunting Fever"
+  },
+  {
+    "row": 1027,
+    "name": "勇者不過是個ATM",
+    "enName": "N/A"
+  },
+  {
+    "row": 1028,
+    "name": "雪之時",
+    "enName": "Snow Time"
+  },
+  {
+    "row": 1029,
+    "name": "量化寬鬆",
+    "enName": "Q.E."
+  },
+  {
+    "row": 1030,
+    "name": "席迪特戰記",
+    "enName": "Lords of Xidit"
+  },
+  {
+    "row": 1032,
+    "name": "實話實說2",
+    "enName": "Straight Talk 2"
+  },
+  {
+    "row": 1033,
+    "name": "進擊地下城",
+    "enName": "Dungeon Busters"
+  },
+  {
+    "row": 1034,
+    "name": "袋中菲力貓",
+    "enName": "Felicity: The Cat in the Sack"
+  },
+  {
+    "row": 1038,
+    "name": "職場地下城",
+    "enName": "My Dungeon Boss: Never Lie"
+  },
+  {
+    "row": 1039,
+    "name": "唐人街",
+    "enName": "Chinatown"
+  },
+  {
+    "row": 1040,
+    "name": "銀河遭遇戰",
+    "enName": "Cosmic Encounter"
+  },
+  {
+    "row": 1041,
+    "name": "宇宙衝突",
+    "enName": "Cosmic Encounter: 42nd Anniversary Edition"
+  },
+  {
+    "row": 1042,
+    "name": "產業巨頭",
+    "enName": "Captains of Industry"
+  },
+  {
+    "row": 1045,
+    "name": "愛麗絲號",
+    "enName": "Lady Alice"
+  },
+  {
+    "row": 1046,
+    "name": "箱女",
+    "enName": "Hako Onna"
+  },
+  {
+    "row": 1047,
+    "name": "旭日戰魂錄",
+    "enName": "Rising Sun"
+  },
+  {
+    "row": 1048,
+    "name": "查理檢查哨",
+    "enName": "Checkpoint Charlie"
+  },
+  {
+    "row": 1049,
+    "name": "CINECITTA 1937",
+    "enName": "CINECITTA 1937"
+  },
+  {
+    "row": 1050,
+    "name": "Argoat",
+    "enName": "Argoat"
+  },
+  {
+    "row": 1052,
+    "name": "果盜檸檸七",
+    "enName": "Fruit Spy 007"
+  },
+  {
+    "row": 1053,
+    "name": "火柴盒系列 禪宗大師",
+    "enName": "Zen Master"
+  },
+  {
+    "row": 1054,
+    "name": "老師敬服",
+    "enName": "Master of Respect"
+  },
+  {
+    "row": 1055,
+    "name": "波多黎各",
+    "enName": "Puerto Rico"
+  },
+  {
+    "row": 1059,
+    "name": "迷你鐵道王",
+    "enName": "Mini Rails"
+  },
+  {
+    "row": 1060,
+    "name": "唉唷天呀！",
+    "enName": "Great Scott!"
+  },
+  {
+    "row": 1061,
+    "name": "盜賊市集",
+    "enName": "Thief's Market"
+  },
+  {
+    "row": 1062,
+    "name": "瘋狂山脈",
+    "enName": "Mountains of Madness"
+  },
+  {
+    "row": 1063,
+    "name": "曖昧",
+    "enName": "Eye My Favorite Things"
+  },
+  {
+    "row": 1064,
+    "name": "萊伯塔利海盜",
+    "enName": "Libertalia"
+  },
+  {
+    "row": 1068,
+    "name": "宇宙怪獸",
+    "enName": "Mochiju"
+  },
+  {
+    "row": 1070,
+    "name": "依樣畫葫蘆",
+    "enName": "Dekalko"
+  },
+  {
+    "row": 1072,
+    "name": "5秒定律",
+    "enName": "5 Second Rule"
+  },
+  {
+    "row": 1074,
+    "name": "巴巴羅薩新版",
+    "enName": "Dohdles!"
+  },
+  {
+    "row": 1075,
+    "name": "七彩之城",
+    "enName": "La Boca"
+  },
+  {
+    "row": 1078,
+    "name": "快樂鮭魚",
+    "enName": "Happy Salmon"
+  },
+  {
+    "row": 1085,
+    "name": "舞星",
+    "enName": "Mai-Star"
+  },
+  {
+    "row": 1092,
+    "name": "Dragon draft",
+    "enName": "Dragon draft"
+  },
+  {
+    "row": 1093,
+    "name": "寶石獵人",
+    "enName": "Crossing"
+  },
+  {
+    "row": 1095,
+    "name": "動物朋友",
+    "enName": "Animals Friend"
+  },
+  {
+    "row": 1097,
+    "name": "花市",
+    "enName": "Flower Market"
+  },
+  {
+    "row": 1098,
+    "name": "殭屍商場",
+    "enName": "Mall of Horror"
+  },
+  {
+    "row": 1103,
+    "name": "政變：起義G54",
+    "enName": "Coup Rebellion G54"
+  },
+  {
+    "row": 1104,
+    "name": "香蕉共和國",
+    "enName": "Junta: Las Cartas"
+  },
+  {
+    "row": 1105,
+    "name": "運氣加倍大戰",
+    "enName": "Double or Nothing"
+  },
+  {
+    "row": 1106,
+    "name": "妙探尋兇",
+    "enName": "Clue: Discover the Secrets"
+  },
+  {
+    "row": 1107,
+    "name": "一知半解古董市",
+    "enName": "Zooscape"
+  },
+  {
+    "row": 1108,
+    "name": "毒藥",
+    "enName": "Poison"
+  },
+  {
+    "row": 1109,
+    "name": "Miraris",
+    "enName": "Miraris"
+  },
+  {
+    "row": 1110,
+    "name": "暑假日記",
+    "enName": "Natsumemo"
+  },
+  {
+    "row": 1112,
+    "name": "Moo斯密碼",
+    "enName": "Moo's Code"
+  },
+  {
+    "row": 1113,
+    "name": "泥巴大戰",
+    "enName": "Matschig"
+  },
+  {
+    "row": 1115,
+    "name": "神機妙算",
+    "enName": "Wizard"
+  },
+  {
+    "row": 1116,
+    "name": "爆彈寶箱",
+    "enName": "Bomb & Treasure"
+  },
+  {
+    "row": 1119,
+    "name": "極簡大師",
+    "enName": "Leg los!"
+  },
+  {
+    "row": 1120,
+    "name": "貓與巧克力：鬼屋篇",
+    "enName": "Cat & Chocolate"
+  },
+  {
+    "row": 1121,
+    "name": "貓與巧克力：商業篇",
+    "enName": "Cat & Chocolate: Business Is Business"
+  },
+  {
+    "row": 1122,
+    "name": "貓與巧克力：校園篇",
+    "enName": "Cat & Chocolate: Blooming Days"
+  },
+  {
+    "row": 1123,
+    "name": "結印魔法師",
+    "enName": "Dungeons & Dragons: Rock Paper Wizard"
+  },
+  {
+    "row": 1125,
+    "name": "貓與巧克力：日常篇",
+    "enName": "Cat and Chocolate: Nichijou Arc"
+  },
+  {
+    "row": 1126,
+    "name": "七大奇蹟：通天塔",
+    "enName": "7 Wonders: Babel"
+  },
+  {
+    "row": 1127,
+    "name": "七大奇蹟：艦隊",
+    "enName": "7 Wonders: Armada"
+  },
+  {
+    "row": 1129,
+    "name": "禮物",
+    "enName": "No Thanks!"
+  },
+  {
+    "row": 1131,
+    "name": "一夜終極狼人：破曉",
+    "enName": "One Night Ultimate Werewolf Daybreak"
+  },
+  {
+    "row": 1133,
+    "name": "Gangster Paradise",
+    "enName": "Gangster Paradise"
+  },
+  {
+    "row": 1135,
+    "name": "咖啡萬歲",
+    "enName": "VivaJava: The Coffee Game"
+  },
+  {
+    "row": 1137,
+    "name": "印地安吹牛",
+    "enName": "Pow Wow"
+  },
+  {
+    "row": 1138,
+    "name": "雙胞胎",
+    "enName": "Twins"
+  },
+  {
+    "row": 1139,
+    "name": "同感",
+    "enName": "Feelinks"
+  },
+  {
+    "row": 1141,
+    "name": "黃牌",
+    "enName": "Yellow Cards"
+  },
+  {
+    "row": 1142,
+    "name": "送禮高手",
+    "enName": "GiftTrap"
+  },
+  {
+    "row": 1143,
+    "name": "名謎偵探",
+    "enName": "mei-mei-tantei"
+  },
+  {
+    "row": 1145,
+    "name": "眾裡尋他",
+    "enName": "Profiler"
+  },
+  {
+    "row": 1149,
+    "name": "截碼戰：光碟播放器擴充",
+    "enName": "Decrypto: Expansion #01 – Laserdrive"
+  },
+  {
+    "row": 1151,
+    "name": "點子狂想",
+    "enName": "Ideastorm"
+  },
+  {
+    "row": 1152,
+    "name": "舞動魔咒",
+    "enName": "Abra Kazam"
+  },
+  {
+    "row": 1153,
+    "name": "駱駝大賽2020年版",
+    "enName": "Camel Up 2.0"
+  },
+  {
+    "row": 1154,
+    "name": "瑪雅",
+    "enName": "MAYA!"
+  },
+  {
+    "row": 1155,
+    "name": "圓桌武士：梅林",
+    "enName": "Shadows over Camelot: Merlin's Company"
+  },
+  {
+    "row": 1158,
+    "name": "間諜危機",
+    "enName": "Spyfall"
+  },
+  {
+    "row": 1160,
+    "name": "百萬美金",
+    "enName": "Millions of Dollars"
+  },
+  {
+    "row": 1162,
+    "name": "搶杯王",
+    "enName": "CUP-A-CUP"
+  },
+  {
+    "row": 1163,
+    "name": "風聲黑名單",
+    "enName": "The Blacklist"
+  },
+  {
+    "row": 1166,
+    "name": "葡萄酒莊",
+    "enName": "Vinhos"
+  },
+  {
+    "row": 1167,
+    "name": "姫騎士快逃",
+    "enName": "Himekishi Nigete"
+  },
+  {
+    "row": 1169,
+    "name": "說夢人",
+    "enName": "When I Dream"
+  },
+  {
+    "row": 1170,
+    "name": "有口難言",
+    "enName": "Taboo"
+  },
+  {
+    "row": 1171,
+    "name": "限時快猜",
+    "enName": "Hint"
+  },
+  {
+    "row": 1176,
+    "name": "今晚要吃誰！",
+    "enName": "Who Should We Eat?"
+  },
+  {
+    "row": 1178,
+    "name": "誰是臥底",
+    "enName": "Who Is The Spy"
+  },
+  {
+    "row": 1179,
+    "name": "誰是臥底之舌尖上的臥底",
+    "enName": "Who Is The Spy"
+  },
+  {
+    "row": 1180,
+    "name": "心靈共感",
+    "enName": "Wavelength"
+  },
+  {
+    "row": 1183,
+    "name": "搖滾節奏",
+    "enName": "We will rock you"
+  },
+  {
+    "row": 1184,
+    "name": "時間到!家庭版",
+    "enName": "Time's up! Family"
+  },
+  {
+    "row": 1189,
+    "name": "鼻畫大師",
+    "enName": "Pencil Nose"
+  },
+  {
+    "row": 1190,
+    "name": "進擊的巨獸",
+    "enName": "Attack on Monster"
+  },
+  {
+    "row": 1191,
+    "name": "星杯傳說",
+    "enName": "Asteriated Grail"
+  },
+  {
+    "row": 1193,
+    "name": "駭浪求生",
+    "enName": "Lifeboat"
+  },
+  {
+    "row": 1194,
+    "name": "空想世界",
+    "enName": "Fantasy World"
+  },
+  {
+    "row": 1196,
+    "name": "海格力士的12試煉",
+    "enName": "The Labours of Hercules"
+  },
+  {
+    "row": 1197,
+    "name": "天生絕配",
+    "enName": "Compatibility"
+  },
+  {
+    "row": 1199,
+    "name": "畫外之意",
+    "enName": "Subtext"
+  },
+  {
+    "row": 1203,
+    "name": "手造奇觀：波蘭版",
+    "enName": "Hand Made Wonders"
+  },
+  {
+    "row": 1206,
+    "name": "狼來了",
+    "enName": "Wooolf!!"
+  },
+  {
+    "row": 1207,
+    "name": "嗚嘎嘎建築師",
+    "enName": "Ugg-Tect"
+  },
+  {
+    "row": 1210,
+    "name": "驚魂巴哈馬",
+    "enName": "Bahamas"
+  },
+  {
+    "row": 1211,
+    "name": "暗影獵人",
+    "enName": "Shadow Hunters"
+  },
+  {
+    "row": 1214,
+    "name": "追捕艾德勒",
+    "enName": "Get Adler! Deduction Card Game"
+  },
+  {
+    "row": 1217,
+    "name": "點陣圖",
+    "enName": "PIX"
+  },
+  {
+    "row": 1218,
+    "name": "隆重登場",
+    "enName": "Tadaaam"
+  },
+  {
+    "row": 1219,
+    "name": "權皇",
+    "enName": "N/A"
+  },
+  {
+    "row": 1220,
+    "name": "揭密鳳凰會",
+    "enName": "Secret Hitler"
+  },
+  {
+    "row": 1221,
+    "name": "諜戰特工",
+    "enName": "Crossfire"
+  },
+  {
+    "row": 1222,
+    "name": "阿瓦隆馬來西亞版",
+    "enName": "The Resistance: Avalon Promos"
+  },
+  {
+    "row": 1223,
+    "name": "抵抗組織：阿瓦隆",
+    "enName": "The Resistance: Avalon"
+  },
+  {
+    "row": 1224,
+    "name": "天堂，我要進來了！",
+    "enName": "Heaven, Here I Come!"
+  },
+  {
+    "row": 1225,
+    "name": "阿瓦隆Ｑ版",
+    "enName": "The Resistance: Avalon"
+  },
+  {
+    "row": 1226,
+    "name": "喵喵咪呀",
+    "enName": "MeowMeow Mia"
+  },
+  {
+    "row": 1227,
+    "name": "揭密希特勒",
+    "enName": "Secret Hitler"
+  },
+  {
+    "row": 1229,
+    "name": "醉不可能的任務",
+    "enName": "N/A"
+  },
+  {
+    "row": 1230,
+    "name": "忍者魂",
+    "enName": "Ninja Soul"
+  },
+  {
+    "row": 1231,
+    "name": "殺手賽局",
+    "enName": "Dead Last"
+  },
+  {
+    "row": 1232,
+    "name": "教父風雲",
+    "enName": "Mafia de Cuba"
+  },
+  {
+    "row": 1233,
+    "name": "血契獵殺",
+    "enName": "Blood Bound"
+  },
+  {
+    "row": 1234,
+    "name": "兩室一彈",
+    "enName": "Two Rooms and A Boom"
+  },
+  {
+    "row": 1235,
+    "name": "古董局中局",
+    "enName": "The Deception of Antiques: 12 Chinese Zodiac Bronze Heads"
+  },
+  {
+    "row": 1238,
+    "name": "聖堂騎士的陰謀",
+    "enName": "Templar Intrigue"
+  },
+  {
+    "row": 1239,
+    "name": "海霸",
+    "enName": "Coiding Ocean"
+  },
+  {
+    "row": 1240,
+    "name": "火柴盒系列 順手牽柴",
+    "enName": "Helvetiq Colorfox"
+  },
+  {
+    "row": 1241,
+    "name": "維京傳奇：黑暗峻嶺+英靈殿雙擴充",
+    "enName": "Champions of Midgard: The Dark Mountains+Champions of Midgard: Valhalla"
+  },
+  {
+    "row": 1242,
+    "name": "宮殿",
+    "enName": "Pallazo"
+  },
+  {
+    "row": 1244,
+    "name": "大搜查！01",
+    "enName": "Unlock!"
+  },
+  {
+    "row": 1245,
+    "name": "大搜查！英勇冒險 05",
+    "enName": "Unlock! Heroic Adventure"
+  },
+  {
+    "row": 1248,
+    "name": "大搜查！神話冒險 08",
+    "enName": "Unlock!: Mythic Adventures"
+  },
+  {
+    "row": 1249,
+    "name": "大搜查！絕密冒險 03",
+    "enName": "Unlock!: Secret Adventures"
+  },
+  {
+    "row": 1250,
+    "name": "大搜查！異域冒險 04",
+    "enName": "Unlock!: Exotic Adventures"
+  },
+  {
+    "row": 1252,
+    "name": "留里克王朝：基輔的黎明",
+    "enName": "Rurik: Dawn of Kiev"
+  },
+  {
+    "row": 1253,
+    "name": "疊人塔",
+    "enName": "Castell"
+  },
+  {
+    "row": 1254,
+    "name": "奇幻藏書",
+    "enName": "Ex Libris"
+  },
+  {
+    "row": 1255,
+    "name": "木鹿：絲路之心",
+    "enName": "Merv: The Heart of the Silk Road"
+  },
+  {
+    "row": 1261,
+    "name": "樹木園",
+    "enName": "Arboretum"
+  },
+  {
+    "row": 1262,
+    "name": "林中狐",
+    "enName": "The Fox in the Forest Duet"
+  },
+  {
+    "row": 1263,
+    "name": "林中狐 二重奏",
+    "enName": "The Fox in the Forest Duet"
+  },
+  {
+    "row": 1265,
+    "name": "雲遊",
+    "enName": "Roam"
+  },
+  {
+    "row": 1267,
+    "name": "蒸汽",
+    "enName": "Steam"
+  },
+  {
+    "row": 1268,
+    "name": "字字轉機─臉紅心跳",
+    "enName": "Anomia X"
+  },
+  {
+    "row": 1271,
+    "name": "世界上有兩種人",
+    "enName": "There are two kinds of people"
+  },
+  {
+    "row": 1272,
+    "name": "狂熱獨角獸",
+    "enName": "Unicorn Fever"
+  },
+  {
+    "row": 1276,
+    "name": "花磚物語4：花園宮殿",
+    "enName": "Azul: Queen's Garden"
+  },
+  {
+    "row": 1287,
+    "name": "寄情花語",
+    "enName": "Tussie Mussie"
+  },
+  {
+    "row": 1293,
+    "name": "卡斯卡迪亞之旅",
+    "enName": "Cascadia"
+  },
+  {
+    "row": 1297,
+    "name": "重裝上陣-榮譽之戰 企業冠名戰隊包1擴充",
+    "enName": "Reload- Fight for Fame"
+  },
+  {
+    "row": 1298,
+    "name": "重裝上陣-榮譽之戰 奪旗賽擴充",
+    "enName": "Reload- Fight for Fame"
+  },
+  {
+    "row": 1299,
+    "name": "重裝上陣-榮譽之戰 轟隆鳴動擴充",
+    "enName": "Reload- Fight for Fame"
+  },
+  {
+    "row": 1300,
+    "name": "瞄準！開砲！霹靂投石車",
+    "enName": "Catapult kingdoms"
+  },
+  {
+    "row": 1303,
+    "name": "卡內基",
+    "enName": "Carnegie"
+  },
+  {
+    "row": 1304,
+    "name": "傀儡魔像",
+    "enName": "Golem"
+  },
+  {
+    "row": 1305,
+    "name": "十二生肖",
+    "enName": "12 Chinese Zodiac"
+  },
+  {
+    "row": 1306,
+    "name": "希望樂園",
+    "enName": "Wishland"
+  },
+  {
+    "row": 1310,
+    "name": "墨西加",
+    "enName": "Mexica"
+  },
+  {
+    "row": 1311,
+    "name": "蒂卡爾古城",
+    "enName": "Tikal"
+  },
+  {
+    "row": 1312,
+    "name": "庫斯科",
+    "enName": "Cuzco"
+  },
+  {
+    "row": 1314,
+    "name": "左右難題",
+    "enName": "Left Right Dilemma"
+  },
+  {
+    "row": 1316,
+    "name": "大搜查！傳奇冒險 09",
+    "enName": "Unlock!: Legendary Adventures"
+  },
+  {
+    "row": 1317,
+    "name": "大搜查！鐵面人之謎",
+    "enName": "Unlock!: The Escape Room Game – In Pursuit of the Iron Mask"
+  },
+  {
+    "row": 1318,
+    "name": "彩虹數列",
+    "enName": "TEN"
+  },
+  {
+    "row": 1321,
+    "name": "漢堡堆堆",
+    "enName": "N/A"
+  },
+  {
+    "row": 1323,
+    "name": "爆炸貓-災難食譜",
+    "enName": "Exploding Kittens: Recipes for Disaster"
+  },
+  {
+    "row": 1324,
+    "name": "數字大格鬥",
+    "enName": "Expanders"
+  },
+  {
+    "row": 1325,
+    "name": "電梯前",
+    "enName": "In Front of the Elevators"
+  },
+  {
+    "row": 1326,
+    "name": "客人到之前",
+    "enName": "Before the Guests Arrive"
+  },
+  {
+    "row": 1332,
+    "name": "藝妓之道",
+    "enName": "Geisha's Road"
+  },
+  {
+    "row": 1343,
+    "name": "政變疑雲：擴充合集",
+    "enName": "Coup: Reformation"
+  },
+  {
+    "row": 1344,
+    "name": "文明時代",
+    "enName": "Age of Civilization"
+  },
+  {
+    "row": 1366,
+    "name": "坦帕尼主題樂園",
+    "enName": "Tenpenny Parks"
+  },
+  {
+    "row": 1367,
+    "name": "咻咻蹦蹦",
+    "enName": "Shooting Bang"
+  },
+  {
+    "row": 1369,
+    "name": "人勞",
+    "enName": "Jinrou"
+  },
+  {
+    "row": 1372,
+    "name": "拚動奇蹟",
+    "enName": "Animals Gathering"
+  },
+  {
+    "row": 1376,
+    "name": "藍星",
+    "enName": "Earth"
+  },
+  {
+    "row": 1377,
+    "name": "毒逗魔藥師",
+    "enName": "Whirling Witchcraft"
+  },
+  {
+    "row": 1379,
+    "name": "阿瑞斯探險隊：發現",
+    "enName": "Terraforming Mars: Ares Expedition – Discovery"
+  },
+  {
+    "row": 1380,
+    "name": "阿瑞斯探險隊：基礎建設",
+    "enName": "Terraforming Mars: Ares Expedition – Foundations"
+  },
+  {
+    "row": 1381,
+    "name": "阿瑞斯探險隊：危機",
+    "enName": "Terraforming Mars: Ares Expedition – Crisis"
+  },
+  {
+    "row": 1383,
+    "name": "圖騰師",
+    "enName": "Baruka"
+  },
+  {
+    "row": 1384,
+    "name": "橡樹秘境",
+    "enName": "Oak"
+  },
+  {
+    "row": 1385,
+    "name": "瓦萊利亞之暗影王國",
+    "enName": "Shadow Kingdoms of Valeria"
+  },
+  {
+    "row": 1386,
+    "name": "瓦萊利亞之暗影王國：泰坦崛起",
+    "enName": "Shadow Kingdoms of Valeria: Rise of Titans"
+  },
+  {
+    "row": 1389,
+    "name": "阿納克遺跡-探險隊長擴",
+    "enName": "Lost Ruins of Arnak: Expedition Leaders"
+  },
+  {
+    "row": 1392,
+    "name": "掘跡藍星",
+    "enName": "Excavation Earth"
+  },
+  {
+    "row": 1393,
+    "name": "掘跡藍星-第二波",
+    "enName": "Excavation Earth: Second Wave"
+  },
+  {
+    "row": 1394,
+    "name": "掘跡藍星-銀河博物館",
+    "enName": "Excavation Earth: It Belongs in a Museum"
+  },
+  {
+    "row": 1395,
+    "name": "掘跡藍星: 漂亮盒子",
+    "enName": "Excavation Earth: Pretty Boxes & Ancient Artefacts"
+  },
+  {
+    "row": 1396,
+    "name": "掘跡藍星: 垃圾金屬",
+    "enName": "Excavation Earth: Junk Tiles Promo Pack"
+  },
+  {
+    "row": 1402,
+    "name": "雅典衛城",
+    "enName": "Akropolis"
+  },
+  {
+    "row": 1416,
+    "name": "送報員",
+    "enName": "Newsboys"
+  },
+  {
+    "row": 1417,
+    "name": "揚帆遠航",
+    "enName": "Come sail away"
+  },
+  {
+    "row": 1420,
+    "name": "百鬼夜行：神祇崛起",
+    "enName": "Night Parade of a Hundred Yokai: Kami Rising"
+  },
+  {
+    "row": 1421,
+    "name": "百鬼夜行：月下低吟",
+    "enName": "Night Parade of a Hundred Yokai: Moonlight Whispers"
+  },
+  {
+    "row": 1422,
+    "name": "百鬼夜行：咒怨王座",
+    "enName": "Night Parade of a Hundred Yokai: Cursed Throne Expansion"
+  },
+  {
+    "row": 1423,
+    "name": "百鬼夜行：美猴王",
+    "enName": "Night Parade of a Hundred Yokai: Monkey King Expansion"
+  },
+  {
+    "row": 1431,
+    "name": "就這樣我成為了聖劍王",
+    "enName": "In this way I become an Excalibur King"
+  },
+  {
+    "row": 1434,
+    "name": "就算是無雙勇者也怕遇到這款豬隊友",
+    "enName": "N/A"
+  },
+  {
+    "row": 1436,
+    "name": "英雄止步：會長的復仇",
+    "enName": "Keep the Heroes Out!: Guild Master's Revenge Expansion"
+  },
+  {
+    "row": 1437,
+    "name": "英雄止步：偉大的沉眠者",
+    "enName": "Keep the Heroes Out!: The Great Dreamer Expansion"
+  },
+  {
+    "row": 1442,
+    "name": "ＰＡＳＳ",
+    "enName": "PASS"
+  },
+  {
+    "row": 1443,
+    "name": "臆斷推理殺人事件：福澤家的落日",
+    "enName": "あてずっぽ殺人事件 ～福澤家の落日～(Aimless Murder Case: Sunset of the Fukuzawa Family)"
+  },
+  {
+    "row": 1458,
+    "name": "DELTA",
+    "enName": "DELTA"
+  },
+  {
+    "row": 1465,
+    "name": "世界奇觀：夢都",
+    "enName": "World Wonders: Mundo Wonders Pack"
+  },
+  {
+    "row": 1473,
+    "name": "Oink-Town 77",
+    "enName": "Oink-Town 77"
+  },
+  {
+    "row": 1475,
+    "name": "號外！動物日報",
+    "enName": "Fit to Print"
+  },
+  {
+    "row": 1478,
+    "name": "仙境幽谷：遠方海岸",
+    "enName": "Everdell Farshore"
+  },
+  {
+    "row": 1479,
+    "name": "妖怪 百奇八光",
+    "enName": "Yokai Hyakkiyako"
+  },
+  {
+    "row": 1485,
+    "name": "Oink-假面聯盟",
+    "enName": "Oink-Maskmen"
+  },
+  {
+    "row": 1497,
+    "name": "胡鬧咖啡廳：甜點時間",
+    "enName": "Coffee Rush: Piece of Cake"
+  },
+  {
+    "row": 1500,
+    "name": "死灰之冠豪華版",
+    "enName": "Crown of Ash"
+  },
+  {
+    "row": 1505,
+    "name": "大不里士豪華版",
+    "enName": "Tabriz"
+  },
+  {
+    "row": 1507,
+    "name": "狼人殺-魔幻科技",
+    "enName": "N/A"
+  },
+  {
+    "row": 1514,
+    "name": "江南",
+    "enName": "Jiangnan: Life of Gentry"
+  },
+  {
+    "row": 1515,
+    "name": "阿姆利則－金光聖廟",
+    "enName": "Amritsar: The Golden Temple"
+  },
+  {
+    "row": 1518,
+    "name": "Mind up !",
+    "enName": "Mind up !"
+  },
+  {
+    "row": 1519,
+    "name": "影子家族：揭密時刻",
+    "enName": "Shadow House: The Code"
+  },
+  {
+    "row": 1521,
+    "name": "一線勝機",
+    "enName": "Line-it"
+  },
+  {
+    "row": 1528,
+    "name": "蜜語工坊",
+    "enName": "Honey Buzz"
+  },
+  {
+    "row": 1529,
+    "name": "蜜語工坊：秋味擴充",
+    "enName": "Honey Buzz: Fall Flavors"
+  },
+  {
+    "row": 1530,
+    "name": "漫步山野：約翰．繆爾之道",
+    "enName": "Trailblazer: The John Muir Trail"
+  },
+  {
+    "row": 1533,
+    "name": "五皇牌",
+    "enName": "Five Crowns"
+  },
+  {
+    "row": 1534,
+    "name": "猜拆畫畫",
+    "enName": "DOODLE PUZZLE"
+  },
+  {
+    "row": 1536,
+    "name": "天鵝數字牌：旅行版",
+    "enName": "Rummy"
+  },
+  {
+    "row": 1538,
+    "name": "小市場",
+    "enName": "Small Market"
+  },
+  {
+    "row": 1563,
+    "name": "核子激盪：澳大利亞擴充",
+    "enName": "Nucleum: Australia ("
+  },
+  {
+    "row": 1564,
+    "name": "核子激盪：皇室政戰擴",
+    "enName": "Nucleum: Court of Progress"
+  },
+  {
+    "row": 1565,
+    "name": "核子激盪：贊助者擴",
+    "enName": "Nucleum: Patrons Set"
+  },
+  {
+    "row": 1567,
+    "name": "木藝花境",
+    "enName": "Intarsia"
+  },
+  {
+    "row": 1568,
+    "name": "鐵板廚王：火熱朝天",
+    "enName": "Hibachi"
+  },
+  {
+    "row": 1573,
+    "name": "超擠停車場",
+    "enName": "Overparked"
+  },
+  {
+    "row": 1595,
+    "name": "回憶三重奏",
+    "enName": "Trio"
+  },
+  {
+    "row": 1602,
+    "name": "星靈王座",
+    "enName": ""
+  },
+  {
+    "row": 1615,
+    "name": "奪座金環",
+    "enName": "GYGES"
+  },
+  {
+    "row": 1620,
+    "name": "孟非斯傳奇",
+    "enName": "Men-Nefer"
+  },
+  {
+    "row": 1629,
+    "name": "樂骰天堂",
+    "enName": "Paradice"
+  },
+  {
+    "row": 1633,
+    "name": "蓋亞計畫：失落的艦隊",
+    "enName": "Gaia Project: The Lost Fleet"
+  }
+]

@@ -42,72 +42,27 @@ async function readSheet(auth) {
   return { rows: res.data.values || [], sheetName: tab.properties.title };
 }
 
-// === 從 BGG 頁面文字擷取英文描述 ===
-function extractDesc(bodyText) {
-  const descIdx = bodyText.indexOf('Description');
-  if (descIdx === -1) return '';
-
-  const section = bodyText.slice(descIdx);
-  const metaEndMatch = section.match(/\+\s*\d+\s+more\s*\n/);
-  let startIdx = metaEndMatch ? metaEndMatch.index + metaEndMatch[0].length : 0;
-  const contentAfterMeta = section.slice(startIdx);
-
-  const stopPatterns = [
-    '•••', 'OFFICIAL LINKS', 'COMMUNITY STATS', 'ADDITIONAL SUGGESTIONS',
-    'BGG Item ID', 'Shopping', 'We may earn', 'No necessary in-game', 'Show Community Stats',
-  ];
-
-  const lines = contentAfterMeta.split('\n');
-  const proseLines = [];
-  let foundStart = false;
-
-  for (const line of lines) {
-    const t = line.trim();
-    if (!t) { if (foundStart) proseLines.push(''); continue; }
-
-    const isStop = stopPatterns.some(p => t.toUpperCase().startsWith(p.toUpperCase()));
-    if (isStop) break;
-    if (/^[\+\-] More$/i.test(t) || /^[\+\-] Less$/i.test(t)) break;
-
-    if (!foundStart) {
-      if (/^(Strategy|Thematic|War|Abstract|Family|Children|Party|Customizable|Wargame|N\/A)$/i.test(t)) continue;
-      if (/^(Deck|Memory|Push|Solo|Once|Variable|Dice|Hand|Open|Secret|Team|Cooperative|Area|Action|Card|Set|Tile|Worker|Roll|Player|Grid|Pattern|Network|Pick|Rock|Paper|Scissors|Trick|Betting|Bingo|Chit|Crayon|Line|Simulation|Storytelling|Acting|Miniatures|Modular|Campaign|Legacy|Turn|Time|Point|Income|Loans|Auction|Bidding|Commodity|Stock|Ownership|Trading|Negotiation|Alliances|Voting|Traitor|Hidden|Roles|Deduction|Bluffing|Race|Puzzle|Real|Wargame)$/i.test(t)) continue;
-      if (/^\d+ Players$/.test(t) || /^\d+-\d+ Min$/.test(t) || /^Age:/.test(t) || /^Weight:/.test(t)) continue;
-      if (/^\[/.test(t) || /^View poll/.test(t) || /^Edit$/i.test(t)) continue;
-      if (/^Digital Implementations/i.test(t) || /^Components?:/i.test(t) || /^Reimplemented By/i.test(t)) continue;
-      if (/^(Alternate Names|Designer|Artist|Publisher)/i.test(t)) continue;
-      if (/^(Game Information|Game Credits)$/i.test(t)) continue;
-      if (/^(Number of Players|Play Time|Suggested Age|Complexity)$/i.test(t)) continue;
-      if (/^\d+ Ratings/.test(t) || /^\d+ Comments/.test(t) || /^Community:/.test(t) || /^GeekBuddy Analysis/.test(t)) continue;
-      if (/^(Playing Time|Complexity Rating|'Complexity' Rating|Results)$/i.test(t)) continue;
-      if (/^Learn more about/i.test(t) || /^See Full Credits/i.test(t)) continue;
-      if (/^(My rating|Buy|Sleeve|Add To Collection|Log Play|Subscribe|Settings|Share|Fan)/i.test(t)) continue;
-      if (/^\d+$/.test(t)) continue;
-      if (/^Admin:/i.test(t) || /^Game description from/i.test(t)) continue;
-      if (t.length < 30) continue;
-      foundStart = true;
-      proseLines.push(t);
-    } else {
-      proseLines.push(t);
-    }
-  }
-
-  while (proseLines.length > 0 && proseLines[proseLines.length - 1] === '') proseLines.pop();
-  let desc = proseLines.join('\n').trim();
-  if (desc.length < 60) return '';
-  return desc.replace(/\n{4,}/g, '\n\n').trim();
+// === 從 BGG 頁面擷取 og:description meta ===
+function extractDesc(text) {
+  // og:description 已從 meta tag 直接取到，這裡做清理
+  if (!text || text.length < 60) return '';
+  // 去掉多餘空白與換行
+  return text.replace(/\s+/g, ' ').trim();
 }
 
-// === Puppeteer 抓取 ===
+// === Puppeteer 抓取（使用 og:description meta） ===
 async function scrapeBGG(browser, bggUrl) {
   const page = await browser.newPage();
   try {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
     await page.setExtraHTTPHeaders({ 'Accept-Language': 'en-US,en;q=0.9' });
-    await page.goto(bggUrl, { waitUntil: 'networkidle2', timeout: 25000 });
+    await page.goto(bggUrl, { waitUntil: 'domcontentloaded', timeout: 25000 });
     await new Promise(r => setTimeout(r, 2000));
-    const bodyText = await page.evaluate(() => document.body.innerText);
-    return extractDesc(bodyText);
+    const ogDesc = await page.evaluate(() => {
+      const meta = document.querySelector('meta[property="og:description"]');
+      return meta ? meta.getAttribute('content') : '';
+    });
+    return extractDesc(ogDesc);
   } finally {
     await page.close();
   }
@@ -175,9 +130,11 @@ async function main() {
     for (let idx = 0; idx < targets.length; idx++) {
       const { zhName, bggLink, bggId } = targets[idx];
 
-      if (cache[bggId] !== undefined) {
+      const cachedEntry = cache[bggId];
+      const cachedDesc = typeof cachedEntry === 'string' ? cachedEntry : cachedEntry?.desc;
+      if (cachedDesc && cachedDesc.length >= 60) {
         cached++;
-        if (cache[bggId] && cache[bggId].length >= 60) found++;
+        found++;
         process.stdout.write(`\r  ${idx + 1}/${targets.length} ✓${found}找到 ⬡${cached}快取`);
         continue;
       }
