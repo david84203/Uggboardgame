@@ -54,7 +54,10 @@ class ErrorBoundary extends React.Component {
 
 export default function App() {
   const { games, loading, error } = useGoogleSheet();
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('tab') || 'home';
+  });
   const [loggedInMember, setLoggedInMember] = useState(() => {
     try {
       const saved = sessionStorage.getItem('ugg_member')
