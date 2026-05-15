@@ -19,6 +19,7 @@ dist-ssr
 # Google credentials (never commit)
 service-account.json
 sheets_token.json
+auth.mjs
 
 # Scraper cache (large, not needed in repo)
 *_cache.json

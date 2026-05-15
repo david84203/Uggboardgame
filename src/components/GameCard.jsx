@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame, PlayCircle } from 'lucide-react';
 
-function extractYoutubeId(url) {
-  if (!url) return null;
-  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-  return match ? match[1] : null;
+function extractYoutubeIds(urlString) {
+  if (!urlString) return [];
+  return urlString
+    .split('\n')
+    .map(url => {
+      const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      return match ? match[1] : null;
+    })
+    .filter(Boolean);
 }
 
 export default function GameCard({ game }) {
@@ -49,7 +54,7 @@ export default function GameCard({ game }) {
     description,
   } = game;
 
-  const youtubeId = extractYoutubeId(youtubeLink);
+  const youtubeIds = extractYoutubeIds(youtubeLink);
 
   const STICKER_COLORS = {
     '紅色': '#ef4444',
@@ -106,12 +111,10 @@ export default function GameCard({ game }) {
   const weightLabel = getWeightLabel(weight);
   
   const displayCategories = category ? [category] : [];
-  // All tags combined for the bottom row, prioritizing Hot badge
   const allBadges = [
-    ...(isHot ? ['🔥 熱門'] : []),
-    ...displayCategories, 
+    ...displayCategories,
     ...(tags || [])
-  ].slice(0, 4); // Max 4 badges to prevent overflow
+  ].slice(0, 4);
 
   return (
     <>
@@ -191,7 +194,7 @@ export default function GameCard({ game }) {
                   {badge}
                 </span>
               ))}
-              {youtubeId && (
+              {youtubeIds.length > 0 && (
                 <span className="flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-purple-50 text-purple-600 border border-purple-100">
                   <PlayCircle className="w-3 h-3" />
                   教學
@@ -414,21 +417,23 @@ export default function GameCard({ game }) {
                 )}
 
                 {/* YouTube 教學影片 */}
-                {youtubeId && (
+                {youtubeIds.length > 0 && (
                   <div className="mb-6">
                     <p className="text-xs text-stone-500 font-bold mb-2 flex items-center gap-1.5">
                       <PlayCircle className="w-4 h-4 text-red-500" />
-                      教學影片
+                      教學影片{youtubeIds.length > 1 && ` (${youtubeIds.length})`}
                     </p>
-                    <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingTop: '56.25%' }}>
-                      <iframe
-                        className="absolute inset-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${youtubeId}`}
-                        title={`${name} 教學影片`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
+                    {youtubeIds.map((id, idx) => (
+                      <div key={id} className={`relative w-full rounded-xl overflow-hidden bg-black ${idx > 0 ? 'mt-3' : ''}`} style={{ paddingTop: '56.25%' }}>
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src={`https://www.youtube.com/embed/${id}`}
+                          title={`${name} 教學影片${youtubeIds.length > 1 ? ` ${idx + 1}` : ''}`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    ))}
                     {source && (
                       <p className="text-[11px] text-stone-400 mt-2 text-right">
                         出處：{source}

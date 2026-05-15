@@ -61,34 +61,68 @@ export default function NavTabs({ activeTab, onTabChange }) {
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`
-                w-full flex items-center gap-4 px-5 py-4 rounded-2xl
-                text-left transition-all duration-200 active:scale-[0.98]
-                ${isActive
-                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-200'
-                  : 'bg-white text-stone-700 shadow-sm border border-stone-100 hover:shadow-md hover:border-orange-200'}
-              `}
+              className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-left transition-all duration-200 active:scale-[0.98]"
+              style={isActive ? {
+                background: 'var(--theme-card-active-gradient)',
+                color: 'var(--theme-active-text)',
+                boxShadow: 'var(--theme-card-active-shadow)',
+                border: '1px solid transparent',
+              } : {
+                background: 'var(--theme-card-bg)',
+                color: 'var(--theme-text-secondary)',
+                boxShadow: 'var(--theme-card-shadow)',
+                border: `1px solid var(--theme-card-border)`,
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.borderColor = 'var(--theme-card-hover-border)';
+                  e.currentTarget.style.boxShadow = 'var(--theme-card-hover-shadow)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.borderColor = 'var(--theme-card-border)';
+                  e.currentTarget.style.boxShadow = 'var(--theme-card-shadow)';
+                }
+              }}
             >
               {/* Icon */}
-              <div className={`
-                text-3xl w-12 h-12 rounded-xl flex items-center justify-center shrink-0
-                ${isActive ? 'bg-white/20' : 'bg-stone-50'}
-              `}>
+              <div
+                className="text-3xl w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                style={{
+                  background: isActive ? 'var(--theme-card-active-icon-bg)' : 'var(--theme-card-icon-bg)',
+                }}
+              >
                 {tab.icon}
               </div>
 
               {/* 文字 */}
               <div className="flex-1 min-w-0">
-                <div className={`text-base font-bold leading-snug ${isActive ? 'text-white' : 'text-stone-800'}`}>
+                <div
+                  className="text-base font-bold leading-snug"
+                  style={{
+                    color: isActive ? 'var(--theme-active-text)' : 'var(--theme-card-label)',
+                  }}
+                >
                   {tab.label}
                 </div>
-                <div className={`text-sm mt-0.5 ${isActive ? 'text-white/80' : 'text-stone-400'}`}>
+                <div
+                  className="text-sm mt-0.5"
+                  style={{
+                    color: isActive ? 'var(--theme-active-desc)' : 'var(--theme-card-desc)',
+                  }}
+                >
                   {tab.desc}
                 </div>
               </div>
 
               {/* 箭頭 */}
-              <div className={`text-lg shrink-0 ${isActive ? 'text-white/70' : 'text-stone-300'}`}>
+              <div
+                className="text-lg shrink-0"
+                style={{
+                  color: isActive ? 'var(--theme-active-arrow)' : 'var(--theme-arrow)',
+                }}
+              >
                 ›
               </div>
             </button>
