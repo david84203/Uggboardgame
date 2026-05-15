@@ -36,3 +36,4 @@ sheets_token.json
 *.njsproj
 *.sln
 *.sw?
+.vercel
