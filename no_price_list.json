@@ -5,11 +5,6 @@
     "enName": "Shephy"
   },
   {
-    "row": 22,
-    "name": "骰寫特魯瓦",
-    "enName": "Troyes Dice"
-  },
-  {
     "row": 25,
     "name": "阿勒農場",
     "enName": "Fields of Arle"
@@ -23,11 +18,6 @@
     "row": 27,
     "name": "夢中迷情",
     "enName": "Onirim"
-  },
-  {
-    "row": 28,
-    "name": "九局下半",
-    "enName": "Bottom of the 9th"
   },
   {
     "row": 29,
@@ -45,24 +35,9 @@
     "enName": "Hit Z Road"
   },
   {
-    "row": 33,
-    "name": "貓與花毯",
-    "enName": "Calico"
-  },
-  {
-    "row": 34,
-    "name": "骰子城",
-    "enName": "Dice City"
-  },
-  {
     "row": 35,
     "name": "瘋王城堡：秘密擴充",
     "enName": "Castles of Mad King Ludwig: Secrets"
-  },
-  {
-    "row": 36,
-    "name": "城區",
-    "enName": "Subdivision"
   },
   {
     "row": 37,
@@ -85,29 +60,9 @@
     "enName": "Blackout: Hong Kong"
   },
   {
-    "row": 42,
-    "name": "黑天使號",
-    "enName": "Black Angel"
-  },
-  {
-    "row": 44,
-    "name": "倫敦商會",
-    "enName": "Guilds of London"
-  },
-  {
     "row": 45,
     "name": "牛頓",
     "enName": "Newton"
-  },
-  {
-    "row": 48,
-    "name": "XCOM: The Board Game",
-    "enName": "XCOM: The Board Game"
-  },
-  {
-    "row": 49,
-    "name": "花舍物語",
-    "enName": "Cottage Garden"
   },
   {
     "row": 50,
@@ -115,59 +70,9 @@
     "enName": "Indian Summer"
   },
   {
-    "row": 51,
-    "name": "玻璃之路",
-    "enName": "Glass Road"
-  },
-  {
-    "row": 58,
-    "name": "埃馬拉之冠",
-    "enName": "Crown of Emara"
-  },
-  {
-    "row": 59,
-    "name": "強國爭壩",
-    "enName": "Barrage"
-  },
-  {
-    "row": 60,
-    "name": "強國爭壩：利格沃特計劃擴充",
-    "enName": "Barrage: The Leeghwater Project"
-  },
-  {
-    "row": 61,
-    "name": "蓋亞計畫",
-    "enName": "Gaia Project"
-  },
-  {
     "row": 62,
     "name": "方塊方程式",
     "enName": "BITS"
-  },
-  {
-    "row": 67,
-    "name": "國民經濟",
-    "enName": "National Economy"
-  },
-  {
-    "row": 68,
-    "name": "敦煌：絲路",
-    "enName": "Dunhuang: Pearl on the Silk Road"
-  },
-  {
-    "row": 69,
-    "name": "築夢計畫",
-    "enName": "Project Dreamscape"
-  },
-  {
-    "row": 70,
-    "name": "晝夜星",
-    "enName": "Solenia"
-  },
-  {
-    "row": 72,
-    "name": "香草花園",
-    "enName": "Herbaceous"
   },
   {
     "row": 75,
@@ -243,11 +148,6 @@
     "row": 111,
     "name": "四方之地：印加帝國",
     "enName": "Tawantinsuyu: The Inca Empire"
-  },
-  {
-    "row": 118,
-    "name": "迷你花園",
-    "enName": "Mini Garden"
   },
   {
     "row": 119,
