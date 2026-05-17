@@ -164,6 +164,30 @@ function MemberCard({ member, onLogout }) {
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState('')
+  const [activeSession, setActiveSession] = useState(null)
+  const [sessionFriendCount, setSessionFriendCount] = useState(0)
+  const [activeRentals, setActiveRentals] = useState([])
+
+  useEffect(() => {
+    Promise.all([
+      getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', member.id), where('status', '==', 'in'))),
+      getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', member.id), where('status', '==', 'rented'))),
+    ]).then(([sessionSnap, rentalSnap]) => {
+      const session = sessionSnap.empty ? null : { id: sessionSnap.docs[0].id, ...sessionSnap.docs[0].data() }
+      setActiveSession(session)
+      setActiveRentals(rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+
+      if (session) {
+        const prefix = member.name + ' 的朋友'
+        getDocs(query(
+          collection(db, 'sessions'),
+          where('status', '==', 'in'),
+          where('name', '>=', prefix),
+          where('name', '<=', prefix + '')
+        )).then(snap => setSessionFriendCount(snap.size))
+      }
+    })
+  }, [member.id, member.name])
 
   async function fetchHistory() {
     if (historyLoaded) {
@@ -268,6 +292,60 @@ function MemberCard({ member, onLogout }) {
             <span className="font-medium text-stone-700">購物金</span>
           </div>
           <span className="text-xl font-bold text-orange-500">${member.shoppingCredit}</span>
+        </div>
+      )}
+
+      {/* 目前在場中 */}
+      {activeSession && (
+        <div className="bg-white rounded-3xl shadow-sm border border-green-100 p-5 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2 h-2 rounded-full bg-green-400 inline-block animate-pulse"></span>
+            <span className="text-sm font-bold text-green-600">目前在場中</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            <div className="bg-green-50 rounded-2xl p-3">
+              <div className="text-xs text-stone-400 mb-1">入場時間</div>
+              <div className="font-medium text-stone-700">
+                {activeSession.checkInTime?.seconds
+                  ? (() => {
+                      const d = new Date(activeSession.checkInTime.seconds * 1000)
+                      return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`
+                    })()
+                  : '--'}
+              </div>
+            </div>
+            <div className="bg-green-50 rounded-2xl p-3">
+              <div className="text-xs text-stone-400 mb-1">同行朋友</div>
+              <div className="font-medium text-stone-700">{sessionFriendCount} 人</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 租借中的遊戲 */}
+      {activeRentals.length > 0 && (
+        <div className="bg-white rounded-3xl shadow-sm border border-orange-100 p-5 mb-4">
+          <div className="text-sm font-bold text-orange-500 mb-3">📦 租借中的遊戲</div>
+          <div className="space-y-3">
+            {activeRentals.map(r => {
+              const today = new Date().toISOString().slice(0, 10)
+              const overdue = r.returnDate && r.returnDate < today
+              return (
+                <div key={r.id} className={`rounded-2xl p-3 ${overdue ? 'bg-red-50 border border-red-100' : 'bg-orange-50 border border-orange-100'}`}>
+                  <div className="font-medium text-stone-800 mb-2">{r.gameName || '（未填遊戲名）'}</div>
+                  <div className="grid grid-cols-2 gap-1 text-xs">
+                    <div className="text-stone-500">出租日：<span className="text-stone-700">{r.date}</span></div>
+                    <div className={overdue ? 'text-red-500 font-medium' : 'text-stone-500'}>
+                      歸還日：<span className={overdue ? 'text-red-500 font-medium' : 'text-stone-700'}>{r.returnDate || '未填寫'}</span>
+                      {overdue && ' ⚠️'}
+                    </div>
+                    <div className="text-stone-500">押金：<span className="text-stone-700">${r.totalPrice || 0}</span></div>
+                    <div className="text-stone-500">租金：<span className="text-orange-500 font-bold">${r.amount || 0}</span></div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       )}
 
