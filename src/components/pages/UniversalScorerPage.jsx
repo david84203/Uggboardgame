@@ -41,7 +41,7 @@ function ColorPicker({ currentKey, onSelect, onClose }) {
 }
 
 // ── 計分頁 - 單張卡片 ─────────────────────────────
-function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onConfirm, onUnconfirm, rotated, onToggleRotate }) {
+function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onConfirm, onUnconfirm, rotated, onToggleRotate, isTableMode }) {
   const c = PALETTE[player.colorKey] || PALETTE.red;
   const isConfirmed = player.confirmed;
 
@@ -126,17 +126,75 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
   );
 
   return (
-    <div style={{ marginBottom:12, transform: rotated ? 'rotate(180deg)' : 'none', transition:'transform 0.3s' }}>
+    <div style={{ 
+      marginBottom: isTableMode ? 0 : 12, 
+      width: isTableMode ? 340 : '100%',
+      transform: rotated ? 'rotate(180deg)' : 'none', 
+      transition:'transform 0.3s' 
+    }}>
       {cardContent}
     </div>
   );
 }
+
+const getTablePositions = (count) => {
+  const getStyle = (cx, cy, rot, scale) => ({
+    position: 'absolute',
+    top: `${cy}%`,
+    left: `${cx}%`,
+    width: 340,
+    transform: `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`,
+    transformOrigin: 'center center',
+  });
+
+  const S_LARGE = 0.85;
+  const S_MID = 0.70;
+  const S_SMALL = 0.60;
+  const S_TINY = 0.55;
+
+  if (count === 3) {
+    return [
+      getStyle(18, 25, 90, S_LARGE),
+      getStyle(18, 75, 90, S_LARGE),
+      getStyle(82, 50, -90, S_LARGE),
+    ];
+  }
+  if (count === 4) {
+    return [
+      getStyle(18, 25, 90, S_LARGE),
+      getStyle(18, 75, 90, S_LARGE),
+      getStyle(82, 25, -90, S_LARGE),
+      getStyle(82, 75, -90, S_LARGE),
+    ];
+  }
+  if (count === 5) {
+    return [
+      getStyle(15, 22, 90, S_MID),
+      getStyle(15, 62, 90, S_MID),
+      getStyle(85, 22, -90, S_MID),
+      getStyle(85, 62, -90, S_MID),
+      getStyle(50, 88, 0, S_MID),
+    ];
+  }
+  if (count >= 6) {
+    return [
+      getStyle(15, 22, 90, S_SMALL),
+      getStyle(15, 62, 90, S_SMALL),
+      getStyle(85, 22, -90, S_SMALL),
+      getStyle(85, 62, -90, S_SMALL),
+      getStyle(25, 90, 0, S_TINY),
+      getStyle(75, 90, 0, S_TINY),
+    ];
+  }
+  return Array.from({length: count}).map((_, i) => getStyle(50, 20 + i*20, 0, S_MID));
+};
 
 // ── 計分頁主體 ────────────────────────────────────
 function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
   const [players, setPlayers] = useState(initialPlayers);
   const [currentRound, setCurrentRound] = useState(1);
   const [rotatedIds, setRotatedIds] = useState(new Set());
+  const [layoutMode, setLayoutMode] = useState('list'); // 'list' | 'table'
 
   // 排名只在全員確認時更新
   const [cardOrder, setCardOrder] = useState(() => initialPlayers.map(p => p.id));
@@ -226,30 +284,64 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
           {totalRounds === 1 ? '無限制回合' : `第 ${currentRound} / ${totalRounds} 回合`}
         </span>
         {allConfirmed && totalRounds === 1 && <span style={{ fontSize:12, color:'#fcd34d' }} className="animate-pulse">所有人已確認！</span>}
-        <button onClick={onExit} style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>結束遊戲</button>
+        <div style={{ display:'flex', gap: 8 }}>
+          <button onClick={() => setLayoutMode(m => m === 'list' ? 'table' : 'list')}
+            style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>
+            {layoutMode === 'list' ? '桌邊排版' : '列表排版'}
+          </button>
+          <button onClick={onExit} style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>結束遊戲</button>
+        </div>
       </div>
-      <div style={{ padding:12 }}>
-        {cardOrder.map(id => {
-          const player = getPlayerById(id);
-          if (!player) return null;
-          return (
-            <PlayerCard
-              key={id}
-              player={player}
-              rank={displayRanks[id] ?? 1}
-              currentRound={currentRound}
-              onScore={handleScore}
-              onUndo={handleUndo}
-              onReset={handleReset}
-              onConfirm={handleConfirm}
-              onUnconfirm={handleUnconfirm}
-              rotated={rotatedIds.has(id)}
-              onToggleRotate={() => handleToggleRotate(id)}
-              onColorChange={handleColorChange}
-            />
-          );
-        })}
-      </div>
+      {layoutMode === 'table' ? (
+        <div style={{ position: 'relative', width: '100%', height: 'calc(100vh - 120px)', overflow: 'hidden' }}>
+          {players.map((p, index) => {
+            const pos = getTablePositions(players.length)[index];
+            if (!pos) return null;
+            return (
+              <div key={p.id} style={{ ...pos, transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)', zIndex: p.confirmed ? 1 : 10 }}>
+                <PlayerCard
+                  player={p}
+                  rank={displayRanks[p.id] ?? 1}
+                  currentRound={currentRound}
+                  onScore={handleScore}
+                  onUndo={handleUndo}
+                  onReset={handleReset}
+                  onConfirm={handleConfirm}
+                  onUnconfirm={handleUnconfirm}
+                  rotated={rotatedIds.has(p.id)}
+                  onToggleRotate={() => handleToggleRotate(p.id)}
+                  onColorChange={handleColorChange}
+                  isTableMode={true}
+                />
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div style={{ padding:12 }}>
+          {cardOrder.map(id => {
+            const player = getPlayerById(id);
+            if (!player) return null;
+            return (
+              <PlayerCard
+                key={id}
+                player={player}
+                rank={displayRanks[id] ?? 1}
+                currentRound={currentRound}
+                onScore={handleScore}
+                onUndo={handleUndo}
+                onReset={handleReset}
+                onConfirm={handleConfirm}
+                onUnconfirm={handleUnconfirm}
+                rotated={rotatedIds.has(id)}
+                onToggleRotate={() => handleToggleRotate(id)}
+                onColorChange={handleColorChange}
+                isTableMode={false}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
