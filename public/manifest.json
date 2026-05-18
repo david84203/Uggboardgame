@@ -1,0 +1,17 @@
+{
+  "name": "烏嘎嘎桌遊 APP",
+  "short_name": "桌遊APP",
+  "description": "烏嘎嘎桌遊玩家指南，遊戲搜尋、詳情、BGG 連結",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
