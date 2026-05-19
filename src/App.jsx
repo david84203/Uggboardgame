@@ -65,6 +65,10 @@ export default function App() {
     } catch { return null }
   });
 
+  // 本機開發模式：自動視為已登入，方便測試會員功能
+  const isDev = window.location.hostname === 'localhost';
+  const effectivelyLoggedIn = isDev || !!loggedInMember;
+
   const [filters, setFilters] = useState({
     searchQuery: '',
     playerCount: '',
@@ -167,7 +171,7 @@ export default function App() {
       case 'helper-clock':
         return <ChessClockPage />;
       case 'helper-scorer':
-        return <UniversalScorerPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <UniversalScorerPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-scoresheet':
         return <ScoreSheetPage />;
       case 'helper-hourglass':
@@ -181,19 +185,19 @@ export default function App() {
       case 'helper-voice-hub':
         return <VoiceNarrationHubPage onSelect={setActiveTab} />;
       case 'helper-scoring-hub':
-        return <ScoringHubPage onSelect={setActiveTab} isLoggedIn={!!loggedInMember} />;
+        return <ScoringHubPage onSelect={setActiveTab} isLoggedIn={effectivelyLoggedIn} />;
       case 'helper-7wonders':
-        return <SevenWondersPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <SevenWondersPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-wingspan':
-        return <WingspanPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <WingspanPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-terraforming':
-        return <TerraformingMarsPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <TerraformingMarsPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-wyrmspan':
-        return <WyrmspanPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <WyrmspanPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-akropolis':
-        return <AkropolisPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <AkropolisPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-concordia':
-        return <ConcordiaPage isLoggedIn={!!loggedInMember} onGoToMember={() => setActiveTab('member')} />;
+        return <ConcordiaPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-star-player':
         return <StarPlayerPage />;
       case 'escape':

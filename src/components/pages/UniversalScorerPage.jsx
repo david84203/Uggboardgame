@@ -83,19 +83,36 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
             <div style={{ background:'#fff', borderRadius:12, padding:'8px 6px', textAlign:'center', border:'1px solid #e5e7eb', boxShadow:'inset 0 1px 3px rgba(0,0,0,0.06)' }}>
               <div style={{ fontSize:30, fontWeight:900, color:'#1c1917', fontVariantNumeric:'tabular-nums', lineHeight:1 }}>{player.score}</div>
             </div>
-            <div style={{ fontSize:11, color:'#78716c', lineHeight:1.6, paddingLeft:2 }}>
-              {(player.roundHistory && player.roundHistory.length > 0) ? (
-                <div>
-                  {[...(player.roundHistory)].reverse().slice(0,3).reverse().map((delta, i, arr) => (
-                    <span key={i}>
-                      {i > 0 && <span style={{ color:'#d6d3d1', margin:'0 2px' }}>|</span>}
-                      <span style={{ fontWeight:700, color: delta >= 0 ? '#16a34a' : '#dc2626' }}>
-                        {delta >= 0 ? '+':''}{delta}
-                      </span>
-                    </span>
-                  ))}
-                </div>
-              ) : <span style={{ color:'#d6d3d1' }}>—</span>}
+            <div style={{ paddingLeft:2 }}>
+              {(player.roundHistory && player.roundHistory.length > 0) ? (() => {
+                const N = player.roundHistory.length;
+                // 每 3 筆為一單位，最多保留兩單位 (6筆)
+                const startIndex = Math.max(0, Math.floor((N - 1) / 3) * 3 - 3);
+                const items = player.roundHistory.slice(startIndex, startIndex + 6);
+                const col1 = items.slice(0, 3);
+                const col2 = items.slice(3, 6);
+                
+                return (
+                  <div style={{ display: 'flex', gap: 16, fontSize: 13, lineHeight: 1.5 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      {col1.map((delta, i) => (
+                        <span key={startIndex + i} style={{ fontWeight: 800, color: delta >= 0 ? '#16a34a' : '#dc2626' }}>
+                          {delta >= 0 ? '+' : ''}{delta}
+                        </span>
+                      ))}
+                    </div>
+                    {col2.length > 0 && (
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        {col2.map((delta, i) => (
+                          <span key={startIndex + 3 + i} style={{ fontWeight: 800, color: delta >= 0 ? '#16a34a' : '#dc2626' }}>
+                            {delta >= 0 ? '+' : ''}{delta}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })() : null}
             </div>
           </div>
 
@@ -115,10 +132,14 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
                 {v}
               </button>
             ))}
-            {/* 第三列：歸零 ｜ 確認/取消 ｜ 復原 */}
+            {/* 第三列：歸零 ｜ 復原 ｜ 確認/取消 */}
             <button disabled={isConfirmed} onClick={() => onReset(player.id)}
               style={{ padding:'10px 0', borderRadius:10, background:'rgba(255,255,255,0.7)', border:'1px solid #e5e7eb', color:'#a8a29e', fontSize:12, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', gap:3, cursor:'pointer', opacity: isConfirmed ? 0.5 : 1 }}>
               <RotateCcw size={12} />歸零
+            </button>
+            <button disabled={isConfirmed || !(player.undoStack && player.undoStack.length > 0)} onClick={() => onUndo(player.id)}
+              style={{ padding:'10px 0', borderRadius:10, background:'#7dd3fc', border:'none', color:'#1c1917', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.1)', opacity: (isConfirmed || !(player.undoStack && player.undoStack.length > 0)) ? 0.4 : 1 }}>
+              <Undo2 size={15} />
             </button>
             {isConfirmed ? (
               <button onClick={() => onUnconfirm(player.id)}
@@ -131,10 +152,6 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
                 <CornerDownLeft size={17} />
               </button>
             )}
-            <button disabled={isConfirmed || !(player.undoStack && player.undoStack.length > 0)} onClick={() => onUndo(player.id)}
-              style={{ padding:'10px 0', borderRadius:10, background:'#7dd3fc', border:'none', color:'#1c1917', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.1)', opacity: (isConfirmed || !(player.undoStack && player.undoStack.length > 0)) ? 0.4 : 1 }}>
-              <Undo2 size={15} />
-            </button>
           </div>
         </div>
       </div>
@@ -155,14 +172,38 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
 
 const getTablePositions = (count, containerW) => {
   const CARD_W = 340;
-  // 動態縮放：確保旋轉後的卡片水平寬度不超過容器一半（各留 4px 邊距）
-  const halfW = (containerW || window.innerWidth) / 2;
-  const S_SIDE = Math.min((halfW - 8) / CARD_W, 0.80);
-  // 底部卡片（不旋轉）縮放：寬度不超過容器 42%
-  const S_BOTTOM = Math.min(((containerW || window.innerWidth) * 0.42) / CARD_W, 0.72);
+  // 旋轉 90° 後，卡片水平佔寬 = 卡片原始高度（實際測量約 215px）
+  const CARD_H_EST = 215;
+  const cW = containerW || window.innerWidth;
+  const halfW = cW / 2;
 
-  const L = 25; // 左欄中心 %
-  const R = 75; // 右欄中心 %
+  // 縮放：最高可放大至 1.15，左右最少留 8px，乘以 0.93 微調大小避免上下重疊
+  const S_SIDE = Math.min((halfW - 8) / CARD_H_EST, 1.15) * 0.93;
+
+  // 動態計算欄位中心：讓兩欄卡片的內緣在容器中心各留 5px（共 10px 中間間隙）
+  const CENTER_GAP_HALF = 5; // 每欄距中心的距離
+  const cardHalfW = (CARD_H_EST * S_SIDE) / 2;
+  const L_abs = halfW - cardHalfW - CENTER_GAP_HALF;
+  const L = (L_abs / cW) * 100; // 轉為 %
+  const R = 100 - L;
+
+  // 5 人與 6 人的統一縮放比例（為了統一大小且不重疊，整體縮小）
+  const S_5P = S_SIDE * 0.79;
+  const cardHalfW_5 = (CARD_H_EST * S_5P) / 2;
+  const L_5 = ((halfW - cardHalfW_5 - CENTER_GAP_HALF) / cW) * 100;
+  const R_5 = 100 - L_5;
+
+  // 6 人的統一縮放比例（為了底部能塞兩張，必須以容器一半的寬度為基準來縮小）
+  const S_6P = Math.min((cW * 0.48) / CARD_W, S_SIDE);
+  const cardHalfW_6 = (CARD_H_EST * S_6P) / 2;
+  const L_6 = ((halfW - cardHalfW_6 - CENTER_GAP_HALF) / cW) * 100;
+  const R_6 = 100 - L_6;
+
+  // 根據要求，將 6 人排版兩側的 4 張卡片獨立放大 20% (1.15 再放大約 5%)
+  const S_6P_SIDE = S_6P * 1.20;
+  const cardHalfW_6_SIDE = (CARD_H_EST * S_6P_SIDE) / 2;
+  const L_6_SIDE = ((halfW - cardHalfW_6_SIDE - CENTER_GAP_HALF) / cW) * 100;
+  const R_6_SIDE = 100 - L_6_SIDE;
 
   const getStyle = (cx, cy, rot, s) => ({
     position: 'absolute',
@@ -175,8 +216,8 @@ const getTablePositions = (count, containerW) => {
 
   if (count === 3) {
     return [
-      getStyle(L, 28, 90, S_SIDE),
-      getStyle(L, 72, 90, S_SIDE),
+      getStyle(L, 25, 90, S_SIDE),
+      getStyle(L, 75, 90, S_SIDE),
       getStyle(R, 50, -90, S_SIDE),
     ];
   }
@@ -190,21 +231,21 @@ const getTablePositions = (count, containerW) => {
   }
   if (count === 5) {
     return [
-      getStyle(L, 22, 90, S_SIDE),
-      getStyle(L, 64, 90, S_SIDE),
-      getStyle(R, 22, -90, S_SIDE),
-      getStyle(R, 64, -90, S_SIDE),
-      getStyle(50, 90, 0, S_BOTTOM),
+      getStyle(L_5, 20, 90, S_5P),
+      getStyle(L_5, 58, 90, S_5P),
+      getStyle(R_5, 20, -90, S_5P),
+      getStyle(R_5, 58, -90, S_5P),
+      getStyle(50, 88.5, 0, S_5P), // 底部置中
     ];
   }
   if (count >= 6) {
     return [
-      getStyle(L, 22, 90, S_SIDE),
-      getStyle(L, 64, 90, S_SIDE),
-      getStyle(R, 22, -90, S_SIDE),
-      getStyle(R, 64, -90, S_SIDE),
-      getStyle(28, 91, 0, S_BOTTOM),
-      getStyle(72, 91, 0, S_BOTTOM),
+      getStyle(L_6_SIDE, 20, 90, S_6P_SIDE),
+      getStyle(L_6_SIDE, 59.5, 90, S_6P_SIDE),
+      getStyle(R_6_SIDE, 20, -90, S_6P_SIDE),
+      getStyle(R_6_SIDE, 59.5, -90, S_6P_SIDE),
+      getStyle(25.5, 89, 0, S_6P), // 底部左 (微調往右一點點)
+      getStyle(74.5, 89, 0, S_6P), // 底部右 (微調往左一點點)
     ];
   }
   return Array.from({length: count}).map((_, i) => getStyle(50, 20 + i * 20, 0, S_SIDE));
@@ -270,24 +311,31 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
 
   const handleConfirm = useCallback((id) => {
     setPlayers(prev => {
-      const next = prev.map(p => {
-        if (p.id !== id) return p;
-        const delta = p.pendingDelta || 0;
-        const newRoundHistory = delta !== 0 ? [...(p.roundHistory||[]), delta] : (p.roundHistory||[]);
-        return { ...p, confirmed: true, roundHistory: newRoundHistory, pendingDelta: 0, undoStack: [] };
-      });
+      // 1. 只更新該玩家的確認狀態，先不寫入歷史紀錄
+      const next = prev.map(p => p.id === id ? { ...p, confirmed: true } : p);
+      
       const allConfirmed = next.every(p => p.confirmed);
       if (allConfirmed) {
+        // 2. 當所有人都確認時，才把 pendingDelta 結算進 roundHistory
+        const finalPlayers = next.map(p => {
+          const delta = p.pendingDelta || 0;
+          const newRoundHistory = [...(p.roundHistory||[]), delta];
+          return { ...p, roundHistory: newRoundHistory, pendingDelta: 0, undoStack: [] };
+        });
+
         const isLast = totalRounds > 1 && currentRound >= totalRounds;
-        const { order, ranks } = computeRanks(next);
+        const { order, ranks } = computeRanks(finalPlayers);
         if (order) setCardOrder(order); // 只在有排序模式時才重排
         setDisplayRanks(ranks);
+        
         if (isLast) {
-          const winner = [...next].sort((a, b) => b.score - a.score)[0];
+          const winner = [...finalPlayers].sort((a, b) => b.score - a.score)[0];
           alert(`遊戲結束！第一名：${winner.name} 🎉`);
+          return finalPlayers; // 保持已確認狀態
         } else {
           setCurrentRound(r => r + 1);
-          return next.map(p => ({ ...p, confirmed: false }));
+          // 進入下一回合，所有人解除確認
+          return finalPlayers.map(p => ({ ...p, confirmed: false }));
         }
       }
       return next;
@@ -296,7 +344,7 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
 
   const handleUnconfirm = useCallback((id) => {
     setPlayers(prev => prev.map(p =>
-      p.id === id ? { ...p, confirmed: false, roundHistory: (p.roundHistory||[]).slice(0, -1) } : p
+      p.id === id ? { ...p, confirmed: false } : p
     ));
   }, []);
 
