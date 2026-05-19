@@ -99,14 +99,27 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
             </div>
           </div>
 
-          {/* 右：按鈕 */}
-          <div style={{ flex:1, display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:4 }}>
+          {/* 右：按鈕 — 改為 3 欄，歸零/確認/復原共用最後一列 */}
+          <div style={{ flex:1, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:4 }}>
+            {/* 第一列：加分 */}
             {ADD_BUTTONS.map(v => (
               <button key={v} disabled={isConfirmed} onClick={() => onScore(player.id, v)}
                 style={{ padding:'10px 0', borderRadius:10, background:'#fde047', border:'none', fontWeight:700, fontSize:14, color:'#1c1917', cursor:'pointer', boxShadow:'0 1px 3px rgba(0,0,0,0.1)', opacity: isConfirmed ? 0.4 : 1 }}>
                 +{v}
               </button>
             ))}
+            {/* 第二列：減分 */}
+            {SUB_BUTTONS.map(v => (
+              <button key={v} disabled={isConfirmed} onClick={() => onScore(player.id, v)}
+                style={{ padding:'10px 0', borderRadius:10, background:'#7dd3fc', border:'none', fontWeight:700, fontSize:14, color:'#1c1917', cursor:'pointer', boxShadow:'0 1px 3px rgba(0,0,0,0.1)', opacity: isConfirmed ? 0.4 : 1 }}>
+                {v}
+              </button>
+            ))}
+            {/* 第三列：歸零 ｜ 確認/取消 ｜ 復原 */}
+            <button disabled={isConfirmed} onClick={() => onReset(player.id)}
+              style={{ padding:'10px 0', borderRadius:10, background:'rgba(255,255,255,0.7)', border:'1px solid #e5e7eb', color:'#a8a29e', fontSize:12, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', gap:3, cursor:'pointer', opacity: isConfirmed ? 0.5 : 1 }}>
+              <RotateCcw size={12} />歸零
+            </button>
             {isConfirmed ? (
               <button onClick={() => onUnconfirm(player.id)}
                 style={{ padding:'10px 0', borderRadius:10, background:'#f59e0b', border:'none', fontWeight:700, fontSize:12, color:'#fff', cursor:'pointer', boxShadow:'0 1px 3px rgba(0,0,0,0.1)' }}>
@@ -118,22 +131,12 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
                 <CornerDownLeft size={17} />
               </button>
             )}
-            {SUB_BUTTONS.map(v => (
-              <button key={v} disabled={isConfirmed} onClick={() => onScore(player.id, v)}
-                style={{ padding:'10px 0', borderRadius:10, background:'#7dd3fc', border:'none', fontWeight:700, fontSize:14, color:'#1c1917', cursor:'pointer', boxShadow:'0 1px 3px rgba(0,0,0,0.1)', opacity: isConfirmed ? 0.4 : 1 }}>
-                {v}
-              </button>
-            ))}
             <button disabled={isConfirmed || !(player.undoStack && player.undoStack.length > 0)} onClick={() => onUndo(player.id)}
               style={{ padding:'10px 0', borderRadius:10, background:'#7dd3fc', border:'none', color:'#1c1917', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 1px 3px rgba(0,0,0,0.1)', opacity: (isConfirmed || !(player.undoStack && player.undoStack.length > 0)) ? 0.4 : 1 }}>
               <Undo2 size={15} />
             </button>
           </div>
         </div>
-        <button disabled={isConfirmed} onClick={() => onReset(player.id)}
-          style={{ marginTop:6, width:'100%', padding:'6px 0', borderRadius:10, background:'rgba(255,255,255,0.7)', border:'1px solid #e5e7eb', color:'#a8a29e', fontSize:12, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', gap:4, cursor:'pointer', opacity: isConfirmed ? 0.5 : 1 }}>
-          <RotateCcw size={12} />歸零
-        </button>
       </div>
     </div>
   );
@@ -150,56 +153,61 @@ function PlayerCard({ player, rank, currentRound, onScore, onUndo, onReset, onCo
   );
 }
 
-const getTablePositions = (count) => {
-  const getStyle = (cx, cy, rot, scale) => ({
+const getTablePositions = (count, containerW) => {
+  const CARD_W = 340;
+  // 動態縮放：確保旋轉後的卡片水平寬度不超過容器一半（各留 4px 邊距）
+  const halfW = (containerW || window.innerWidth) / 2;
+  const S_SIDE = Math.min((halfW - 8) / CARD_W, 0.80);
+  // 底部卡片（不旋轉）縮放：寬度不超過容器 42%
+  const S_BOTTOM = Math.min(((containerW || window.innerWidth) * 0.42) / CARD_W, 0.72);
+
+  const L = 25; // 左欄中心 %
+  const R = 75; // 右欄中心 %
+
+  const getStyle = (cx, cy, rot, s) => ({
     position: 'absolute',
     top: `${cy}%`,
     left: `${cx}%`,
-    width: 340,
-    transform: `translate(-50%, -50%) rotate(${rot}deg) scale(${scale})`,
+    width: CARD_W,
+    transform: `translate(-50%, -50%) rotate(${rot}deg) scale(${s})`,
     transformOrigin: 'center center',
   });
 
-  const S_LARGE = 0.85;
-  const S_MID = 0.70;
-  const S_SMALL = 0.60;
-  const S_TINY = 0.55;
-
   if (count === 3) {
     return [
-      getStyle(18, 25, 90, S_LARGE),
-      getStyle(18, 75, 90, S_LARGE),
-      getStyle(82, 50, -90, S_LARGE),
+      getStyle(L, 28, 90, S_SIDE),
+      getStyle(L, 72, 90, S_SIDE),
+      getStyle(R, 50, -90, S_SIDE),
     ];
   }
   if (count === 4) {
     return [
-      getStyle(18, 25, 90, S_LARGE),
-      getStyle(18, 75, 90, S_LARGE),
-      getStyle(82, 25, -90, S_LARGE),
-      getStyle(82, 75, -90, S_LARGE),
+      getStyle(L, 25, 90, S_SIDE),
+      getStyle(L, 75, 90, S_SIDE),
+      getStyle(R, 25, -90, S_SIDE),
+      getStyle(R, 75, -90, S_SIDE),
     ];
   }
   if (count === 5) {
     return [
-      getStyle(15, 22, 90, S_MID),
-      getStyle(15, 62, 90, S_MID),
-      getStyle(85, 22, -90, S_MID),
-      getStyle(85, 62, -90, S_MID),
-      getStyle(50, 88, 0, S_MID),
+      getStyle(L, 22, 90, S_SIDE),
+      getStyle(L, 64, 90, S_SIDE),
+      getStyle(R, 22, -90, S_SIDE),
+      getStyle(R, 64, -90, S_SIDE),
+      getStyle(50, 90, 0, S_BOTTOM),
     ];
   }
   if (count >= 6) {
     return [
-      getStyle(15, 22, 90, S_SMALL),
-      getStyle(15, 62, 90, S_SMALL),
-      getStyle(85, 22, -90, S_SMALL),
-      getStyle(85, 62, -90, S_SMALL),
-      getStyle(25, 90, 0, S_TINY),
-      getStyle(75, 90, 0, S_TINY),
+      getStyle(L, 22, 90, S_SIDE),
+      getStyle(L, 64, 90, S_SIDE),
+      getStyle(R, 22, -90, S_SIDE),
+      getStyle(R, 64, -90, S_SIDE),
+      getStyle(28, 91, 0, S_BOTTOM),
+      getStyle(72, 91, 0, S_BOTTOM),
     ];
   }
-  return Array.from({length: count}).map((_, i) => getStyle(50, 20 + i*20, 0, S_MID));
+  return Array.from({length: count}).map((_, i) => getStyle(50, 20 + i * 20, 0, S_SIDE));
 };
 
 // ── 計分頁主體 ────────────────────────────────────
@@ -208,6 +216,18 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
   const [currentRound, setCurrentRound] = useState(1);
   const [rotatedIds, setRotatedIds] = useState(new Set());
   const [layoutMode, setLayoutMode] = useState('list'); // 'list' | 'table'
+  const tableContainerRef = useRef(null);
+  const [containerW, setContainerW] = useState(window.innerWidth);
+
+  useEffect(() => {
+    if (!tableContainerRef.current) return;
+    const obs = new ResizeObserver(entries => {
+      const w = entries[0].contentRect.width;
+      if (w > 0) setContainerW(w);
+    });
+    obs.observe(tableContainerRef.current);
+    return () => obs.disconnect();
+  }, [layoutMode]);
 
   // 排名只在全員確認時更新
   const [cardOrder, setCardOrder] = useState(() => initialPlayers.map(p => p.id));
@@ -306,9 +326,9 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
         </div>
       </div>
       {layoutMode === 'table' ? (
-        <div style={{ position: 'relative', width: '100%', height: 'calc(100vh - 120px)', overflow: 'hidden' }}>
+        <div ref={tableContainerRef} style={{ position: 'relative', width: '100%', height: 'calc(100vh - 120px)', overflow: 'hidden' }}>
           {players.map((p, index) => {
-            const pos = getTablePositions(players.length)[index];
+            const pos = getTablePositions(players.length, containerW)[index];
             if (!pos) return null;
             return (
               <div key={p.id} style={{ ...pos, transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)', zIndex: p.confirmed ? 1 : 10 }}>
