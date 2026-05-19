@@ -22,16 +22,29 @@ const ADD_BUTTONS = [+1, +5, +10];
 const SUB_BUTTONS = [-1, -5, -10];
 
 // ── 顏色選擇器 ────────────────────────────────────
-function ColorPicker({ currentKey, onSelect, onClose }) {
+function ColorPicker({ currentKey, onSelect, onClose, triggerRef }) {
   const ref = useRef(null);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    if (triggerRef?.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const pw = 200;
+      let left = rect.left;
+      if (left + pw > window.innerWidth - 8) left = Math.max(8, window.innerWidth - pw - 8);
+      setPos({ top: rect.bottom + 6, left });
+    }
+  }, []);
+
   useEffect(() => {
     const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) onClose(); };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
     return () => { document.removeEventListener('mousedown', handler); document.removeEventListener('touchstart', handler); };
   }, [onClose]);
+
   return (
-    <div ref={ref} style={{ position:'absolute', top:'100%', right:0, zIndex:50, background:'#fff', borderRadius:16, padding:10, boxShadow:'0 8px 30px rgba(0,0,0,0.2)', display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6, minWidth:192 }}>
+    <div ref={ref} style={{ position:'fixed', top: pos.top, left: pos.left, zIndex:1000, background:'#fff', borderRadius:16, padding:10, boxShadow:'0 8px 30px rgba(0,0,0,0.2)', display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6, width:192 }}>
       {PALETTE_KEYS.map(k => (
         <button key={k} onClick={() => { onSelect(k); onClose(); }} title={PALETTE[k].name}
           style={{ width:28, height:28, borderRadius:'50%', background:PALETTE[k].bg, border: k === currentKey ? '3px solid #1c1917' : '2px solid #fff', boxShadow:'0 1px 4px rgba(0,0,0,0.2)', cursor:'pointer' }} />
@@ -354,6 +367,7 @@ function SetupView({ onStart }) {
   const [totalRounds, setTotalRounds] = useState(1);
   const [pickerOpen, setPickerOpen] = useState(-1);
   const [sortMode, setSortMode] = useState('none'); // 'none' | 'desc' | 'asc'
+  const pickerBtnRefs = useRef([]);
 
   const handleStart = () => {
     const players = Array.from({ length: playerCount }, (_, i) => ({
@@ -390,10 +404,11 @@ function SetupView({ onStart }) {
             <div key={i} style={{ display:'flex', alignItems:'center', gap:8, position:'relative' }}>
               {/* 顏色選取 */}
               <div style={{ position:'relative' }}>
-                <button onClick={() => setPickerOpen(pickerOpen === i ? -1 : i)}
+                <button ref={el => pickerBtnRefs.current[i] = el}
+                  onClick={() => setPickerOpen(pickerOpen === i ? -1 : i)}
                   style={{ width:28, height:28, borderRadius:'50%', background: PALETTE[colors[i]]?.bg || '#ef4444', border: '2px solid #fff', boxShadow:'0 1px 4px rgba(0,0,0,0.2)', cursor:'pointer', flexShrink:0 }} />
                 {pickerOpen === i && (
-                  <ColorPicker currentKey={colors[i]} onSelect={(k) => { setColors(prev => { const n=[...prev]; n[i]=k; return n; }); }} onClose={() => setPickerOpen(-1)} />
+                  <ColorPicker currentKey={colors[i]} onSelect={(k) => { setColors(prev => { const n=[...prev]; n[i]=k; return n; }); }} onClose={() => setPickerOpen(-1)} triggerRef={{ current: pickerBtnRefs.current[i] }} />
                 )}
               </div>
               <input type="text" maxLength={10} placeholder={`玩家 ${i+1}`} value={names[i]}
