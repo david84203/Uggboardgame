@@ -52,6 +52,7 @@ export default function GameCard({ game }) {
     youtubeLink,
     source,
     description,
+    isNew,
   } = game;
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
@@ -126,6 +127,12 @@ export default function GameCard({ game }) {
         className="game-card animate-fade-in-up bg-white rounded-[14px] shadow-sm border-2 border-[#e6d9b6] p-3 hover:shadow-md transition-shadow duration-300 flex flex-col h-full cursor-pointer relative group"
         onClick={() => setIsModalOpen(true)}
       >
+        {/* New Badge Absolute */}
+        {isNew && (
+          <div className="absolute -top-2 -left-2 z-10 px-2 py-1 bg-orange-500 text-white rounded-full shadow-md">
+            <span className="text-[10px] font-bold tracking-wider">NEW</span>
+          </div>
+        )}
         {/* Hot Badge Absolute */}
         {isHot && (
           <div className="absolute -top-2 -right-2 z-10 flex items-center gap-0.5 px-2 py-1 bg-red-500 text-white rounded-full shadow-md">

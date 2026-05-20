@@ -48,7 +48,17 @@ const FIELD_MAP = {
   source: '出處',
   playerMode: '玩家模式',
   description: '遊戲簡介',
+  arrivalDate: '到貨日',
 };
+
+function isWithinThreeMonths(dateStr) {
+  if (!dateStr || !dateStr.trim()) return false;
+  const arrival = new Date(dateStr.trim());
+  if (isNaN(arrival.getTime())) return false;
+  const expiry = new Date(arrival);
+  expiry.setMonth(expiry.getMonth() + 3);
+  return new Date() < expiry;
+}
 
 /**
  * 解析人數欄位 "2-4" → { min: 2, max: 4 }
@@ -191,6 +201,8 @@ export default function useGoogleSheet() {
                   source: row[FIELD_MAP.source]?.trim() || '',
                   playerMode: row[FIELD_MAP.playerMode]?.trim() || '',
                   description: row[FIELD_MAP.description]?.trim() || '',
+                  arrivalDate: row[FIELD_MAP.arrivalDate]?.trim() || '',
+                  isNew: isWithinThreeMonths(row[FIELD_MAP.arrivalDate]),
                 };
               });
 
