@@ -75,7 +75,7 @@ export default function GameCard({ game }) {
   const stickerLabel = sticker ? (STICKER_LABELS[sticker] || sticker) : null;
 
   // Extract BGG ID from BGG link
-  const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame\/(\d+)/);
+  const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame(?:expansion)?\/(\d+)/);
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
   const safeEnglishName = englishName ? englishName.replace(/[\\/:*?"<>|]/g, '-').trim() : null;
 
