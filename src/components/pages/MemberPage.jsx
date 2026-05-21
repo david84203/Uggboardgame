@@ -6,13 +6,29 @@ import { getLiffProfile } from '../../utils/liff'
 import { Star, Calendar, ChevronDown, ChevronUp } from 'lucide-react'
 
 // ── 登入表單 ──────────────────────────────────────────────────────────────────
+const GM_MEMBER = {
+  id: 'gm-admin',
+  name: 'GM',
+  nickname: '管理員',
+  memberId: '0000',
+  phone: 'GM_NO_PHONE',
+  birthday: '',
+  exp: 9999,
+  shoppingCredit: 0,
+  isGM: true,
+}
+
 function LoginForm({ onLogin, loading, error }) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const isGM = name.trim().toUpperCase() === 'GM'
+
   function handleSubmit(e) {
     e.preventDefault()
+    if (isGM) { onLogin('GM', ''); return }
     if (name.trim() && phone.trim()) onLogin(name.trim(), phone.trim())
   }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-6">
       <div className="w-full max-w-sm">
@@ -28,16 +44,21 @@ function LoginForm({ onLogin, loading, error }) {
               className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-base text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
               style={{ touchAction: 'manipulation' }} />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-stone-600 mb-1.5">手機號碼</label>
-            <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="請輸入手機號碼"
-              className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-base text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
-              style={{ touchAction: 'manipulation' }} />
-          </div>
+          {!isGM && (
+            <div>
+              <label className="block text-sm font-medium text-stone-600 mb-1.5">手機號碼</label>
+              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="請輸入手機號碼"
+                className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-base text-stone-800 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition"
+                style={{ touchAction: 'manipulation' }} />
+            </div>
+          )}
+          {isGM && (
+            <p className="text-xs text-center text-orange-400">🔑 管理員模式，無需手機號碼</p>
+          )}
           {error && <p className="text-sm text-red-500 text-center bg-red-50 rounded-xl py-2 px-4">{error}</p>}
-          <button type="submit" disabled={!name.trim() || !phone.trim() || loading}
+          <button type="submit" disabled={(!isGM && (!name.trim() || !phone.trim())) || loading}
             className="w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-base shadow-sm shadow-orange-200 hover:opacity-90 transition disabled:opacity-40">
-            {loading ? '查詢中…' : '查詢會員資料'}
+            {loading ? '查詢中…' : isGM ? '🎮 管理員登入' : '查詢會員資料'}
           </button>
         </form>
       </div>
@@ -699,6 +720,26 @@ export default function MemberPage({ onMemberChange }) {
 
   async function handleLogin(name, phone) {
     setLoading(true); setError('')
+
+    // GM 管理員免密碼登入
+    if (name === 'GM') {
+      try {
+        const q = query(collection(db, 'members'), where('name', '==', 'GM'))
+        const snap = await getDocs(q)
+        if (!snap.empty) {
+          saveMember({ ...snap.docs[0].data(), id: snap.docs[0].id })
+        } else {
+          // Firestore 還沒建 GM 帳號時，用本地預設值
+          saveMember(GM_MEMBER)
+        }
+      } catch {
+        saveMember(GM_MEMBER)
+      } finally {
+        setLoading(false)
+      }
+      return
+    }
+
     const normalized = phone.replace(/[\s\-\(\)]/g, '').trim()
     try {
       const q = query(collection(db, 'members'), where('name', '==', name))
