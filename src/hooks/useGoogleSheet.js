@@ -192,8 +192,14 @@ export default function useGoogleSheet() {
                   ].filter((t) => t && t !== ''),
                   isHot: row[FIELD_MAP.isHot]?.toString().trim().toLowerCase() === 'v' ||
                          row[FIELD_MAP.isHot]?.toString().trim() === '1',
-                  hasImage: row[FIELD_MAP.image]?.toString().trim().toLowerCase() === 'v' ||
-                            row[FIELD_MAP.image]?.toString().trim() === '1',
+                  hasImage: (() => {
+                    const img = row[FIELD_MAP.image]?.toString().trim() || ''
+                    return img.toLowerCase() === 'v' || img === '1' || img.startsWith('http')
+                  })(),
+                  imageUrl: (() => {
+                    const img = row[FIELD_MAP.image]?.toString().trim() || ''
+                    return img.startsWith('http') ? img : ''
+                  })(),
                   sticker: row[FIELD_MAP.sticker]?.trim() || '',
                   price: row[FIELD_MAP.price]?.trim() || '',
                   rental: row[FIELD_MAP.rental]?.trim() || '',

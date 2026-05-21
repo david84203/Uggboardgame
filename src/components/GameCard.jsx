@@ -53,6 +53,7 @@ export default function GameCard({ game }) {
     source,
     description,
     isNew,
+    imageUrl,
   } = game;
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
@@ -79,8 +80,9 @@ export default function GameCard({ game }) {
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
   const safeEnglishName = englishName ? englishName.replace(/[\\/:*?"<>|]/g, '-').trim() : null;
 
-  // Image sources to try in order: bggId -> englishName -> row-{id}
+  // Image sources to try in order: Firebase URL -> bggId -> englishName -> row-{id}
   const imgSources = [
+    imageUrl || null,
     bggId ? `/images/${bggId}.jpg` : null,
     bggId ? `/images/${bggId}.webp` : null,
     bggId ? `/images/${bggId}.png` : null,
