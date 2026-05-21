@@ -1,52 +1,14 @@
 const TABS = [
-  {
-    id: 'consume',
-    label: '店內消費方式',
-    icon: '💳',
-    desc: '計時制方案與費用說明',
-  },
-  {
-    id: 'food',
-    label: '餐點服務',
-    icon: '🍜',
-    desc: '飲料、輕食與餐點選擇',
-  },
-  {
-    id: 'rent',
-    label: '租借遊戲規章',
-    icon: '📋',
-    desc: '遊戲外借規則與注意事項',
-  },
-  {
-    id: 'gamelist',
-    label: '店內開盒遊戲列表',
-    icon: '🎲',
-    desc: '搜尋、篩選所有在架桌遊',
-  },
-  {
-    id: 'environment',
-    label: '環境介紹',
-    icon: '🏠',
-    desc: '場地空間與設施一覽',
-  },
-  {
-    id: 'escape',
-    label: '密室逃脫專區',
-    icon: '🔐',
-    desc: '主題密室資訊與預約',
-  },
-  {
-    id: 'helper-menu',
-    label: '實用桌遊輔助 APP',
-    icon: '🛠️',
-    desc: '計分、語音旁白、抽籤工具',
-  },
-  {
-    id: 'member',
-    label: '會員專區',
-    icon: '👤',
-    desc: '查詢會員資料與消費紀錄',
-  },
+  { id: 'consume',      label: '店內消費方式',      icon: '💳',  desc: '計時制方案與費用說明' },
+  { id: 'food',         label: '餐點服務',           icon: '🍜',  desc: '飲料、輕食與餐點選擇' },
+  { id: 'rent',         label: '租借遊戲規章',       icon: '📋',  desc: '遊戲外借規則與注意事項' },
+  { id: 'gamelist',     label: '店內開盒遊戲列表',   icon: '🎲',  desc: '搜尋、篩選所有在架桌遊' },
+  { id: 'group-board',  label: '揪團看板',           icon: '🎯',  desc: '找玩伴，一起玩更好玩' },
+  { id: 'event-board',  label: '活動看板',           icon: '🗓️', desc: '最新賽事、新遊戲與優惠公告' },
+  { id: 'environment',  label: '環境介紹',           icon: '🏠',  desc: '場地空間與設施一覽' },
+  { id: 'escape',       label: '密室逃脫專區',       icon: '🔐',  desc: '主題密室資訊與預約' },
+  { id: 'helper-menu',  label: '實用桌遊輔助 APP',   icon: '🛠️', desc: '計分、語音旁白、抽籤工具' },
+  { id: 'member',       label: '會員專區',           icon: '👤',  desc: '查詢資料、預約桌位、玩過紀錄' },
 ];
 
 export { TABS };

@@ -1,4 +1,5 @@
-import { SearchX, Frown } from 'lucide-react';
+import { useMemo } from 'react';
+import { SearchX, Frown, Sparkles } from 'lucide-react';
 import GameCard from './GameCard';
 
 function SkeletonCard() {
@@ -19,8 +20,32 @@ function SkeletonCard() {
   );
 }
 
-export default function GameList({ games, loading, error, totalCount }) {
-  // Loading State
+export default function GameList({ games, loading, error, totalCount, memberId, memberGames, onToggle, onRate, allGames }) {
+
+  // 遊戲推薦（根據玩過 / 想玩的 category + tags）
+  const recommended = useMemo(() => {
+    if (!memberId || !memberGames?.length || !allGames?.length) return []
+    const playedIds = new Set(memberGames.map(g => g.gameId))
+    const likedCats = new Set(memberGames.map(g => g.gameCategory).filter(Boolean))
+    const likedTags = new Set(memberGames.flatMap(g => g.gameTags || []))
+    if (!likedCats.size && !likedTags.size) return []
+
+    return allGames
+      .filter(g => !playedIds.has(g.id))
+      .map(g => {
+        let score = 0
+        if (likedCats.has(g.category)) score += 2
+        ;(g.tags || []).forEach(t => { if (likedTags.has(t)) score++ })
+        return { ...g, _score: score }
+      })
+      .filter(g => g._score > 0)
+      .sort((a, b) => b._score - a._score)
+      .slice(0, 6)
+  }, [memberId, memberGames, allGames])
+
+  const getStatus = (gameId) => memberGames?.find(g => g.gameId === gameId)?.status || null
+  const getRecord = (gameId) => memberGames?.find(g => g.gameId === gameId) || null
+
   if (loading) {
     return (
       <div className="px-3 sm:px-4 py-4">
@@ -29,15 +54,12 @@ export default function GameList({ games, loading, error, totalCount }) {
           <span className="text-sm text-stone-400 font-medium">正在載入桌遊資料...</span>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <SkeletonCard key={i} />
-          ))}
+          {[1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)}
         </div>
       </div>
     );
   }
 
-  // Error State
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-6">
@@ -50,7 +72,6 @@ export default function GameList({ games, loading, error, totalCount }) {
     );
   }
 
-  // Empty State
   if (games.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-6">
@@ -63,8 +84,27 @@ export default function GameList({ games, loading, error, totalCount }) {
     );
   }
 
+  const cardProps = { memberId, getStatus, getRecord, onToggle, onRate }
+
   return (
     <div className="px-3 sm:px-4 py-4">
+      {/* 推薦區塊 */}
+      {recommended.length > 0 && (
+        <div className="mb-5">
+          <div className="flex items-center gap-1.5 mb-3">
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <span className="text-sm font-bold text-stone-700">根據你的喜好推薦</span>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+            {recommended.map(game => (
+              <div key={game.id} className="w-40 shrink-0">
+                <GameCard game={game} {...cardProps} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Results Count */}
       <div className="flex items-center justify-between mb-3">
         <p className="text-xs text-stone-400 font-medium">
@@ -75,11 +115,10 @@ export default function GameList({ games, loading, error, totalCount }) {
       {/* Game Cards Grid */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {games.map((game) => (
-          <GameCard key={`${game.name}-${game.id}`} game={game} />
+          <GameCard key={`${game.name}-${game.id}`} game={game} {...cardProps} />
         ))}
       </div>
 
-      {/* Bottom Spacer */}
       <div className="h-8" />
     </div>
   );

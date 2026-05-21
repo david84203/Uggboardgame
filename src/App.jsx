@@ -29,6 +29,9 @@ import WyrmspanPage from './components/pages/WyrmspanPage';
 import AkropolisPage from './components/pages/AkropolisPage';
 import ConcordiaPage from './components/pages/ConcordiaPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
+import useMemberGames from './hooks/useMemberGames';
+import GroupBoardPage from './components/pages/GroupBoardPage';
+import EventBoardPage from './components/pages/EventBoardPage';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -68,6 +71,8 @@ export default function App() {
   // 本機開發模式：自動視為已登入，方便測試會員功能
   const isDev = window.location.hostname === 'localhost';
   const effectivelyLoggedIn = isDev || !!loggedInMember;
+
+  const { memberGames, getStatus, getRecord, toggleStatus, updateRating } = useMemberGames(loggedInMember?.id);
 
   const [filters, setFilters] = useState({
     searchQuery: '',
@@ -157,6 +162,13 @@ export default function App() {
               loading={loading}
               error={error}
               totalCount={games.length}
+              allGames={games}
+              memberId={effectivelyLoggedIn ? loggedInMember?.id : null}
+              memberGames={memberGames}
+              getStatus={getStatus}
+              getRecord={getRecord}
+              onToggle={toggleStatus}
+              onRate={updateRating}
             />
           </>
         );
@@ -202,6 +214,10 @@ export default function App() {
         return <StarPlayerPage />;
       case 'escape':
         return <EscapeRoomPage />;
+      case 'group-board':
+        return <GroupBoardPage member={loggedInMember} />;
+      case 'event-board':
+        return <EventBoardPage />;
 
       default:
         return null;
@@ -221,6 +237,7 @@ export default function App() {
       setActiveTab('home');
     }
   };
+
 
   const isLineWebView = /Line\//.test(navigator.userAgent)
   const [showPwaTip, setShowPwaTip] = useState(

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame, PlayCircle } from 'lucide-react';
+import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame, PlayCircle, Heart, CheckCircle } from 'lucide-react';
 
 function extractYoutubeIds(urlString) {
   if (!urlString) return [];
@@ -12,9 +12,30 @@ function extractYoutubeIds(urlString) {
     .filter(Boolean);
 }
 
-export default function GameCard({ game }) {
+function StarRatingPopup({ onRate, onClose }) {
+  const [hover, setHover] = useState(0)
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-xl p-5 w-64 text-center" onClick={e => e.stopPropagation()}>
+        <p className="font-bold text-stone-800 mb-1">這款遊戲怎麼樣？</p>
+        <p className="text-xs text-stone-400 mb-4">給個評分吧（可略過）</p>
+        <div className="flex justify-center gap-2 mb-4">
+          {[1,2,3,4,5].map(i => (
+            <button key={i} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(0)} onClick={() => onRate(i)}>
+              <Star className={`w-8 h-8 transition-colors ${i <= hover ? 'fill-amber-400 text-amber-400' : 'text-stone-200'}`} />
+            </button>
+          ))}
+        </div>
+        <button onClick={() => onRate(null)} className="text-xs text-stone-400 underline">略過</button>
+      </div>
+    </div>
+  )
+}
+
+export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate }) {
   const [imgSrcIndex, setImgSrcIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showRating, setShowRating] = useState(false);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -200,28 +221,53 @@ export default function GameCard({ game }) {
           <div className="flex items-center justify-between gap-1.5 mt-auto pt-2 border-t border-stone-100/50">
             <div className="flex flex-wrap gap-1.5">
               {allBadges.map((badge, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#f0e6c8] text-[#8c7335]"
-                >
-                  {badge}
-                </span>
+                <span key={idx} className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#f0e6c8] text-[#8c7335]">{badge}</span>
               ))}
               {youtubeIds.length > 0 && (
                 <span className="flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-purple-50 text-purple-600 border border-purple-100">
-                  <PlayCircle className="w-3 h-3" />
-                  教學
+                  <PlayCircle className="w-3 h-3" />教學
                 </span>
               )}
             </div>
-            {rental && (
-              <span className="shrink-0 text-[12px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap">
-                租 ${rental}
-              </span>
-            )}
+            <div className="flex items-center gap-1.5 shrink-0">
+              {rental && (
+                <span className="text-[12px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap">
+                  租 ${rental}
+                </span>
+              )}
+              {/* 會員快速標記 */}
+              {memberId && (
+                <div className="flex gap-1" onClick={e => e.stopPropagation()}>
+                  <button
+                    title="玩過"
+                    onClick={() => {
+                      onToggle(game, 'played')
+                      if (getStatus(game.id) !== 'played') setShowRating(true)
+                    }}
+                    className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${getStatus(game.id) === 'played' ? 'bg-green-500 text-white' : 'bg-stone-100 text-stone-400 hover:bg-green-100 hover:text-green-500'}`}
+                  >
+                    <CheckCircle className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    title="想玩"
+                    onClick={() => onToggle(game, 'wishlist')}
+                    className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${getStatus(game.id) === 'wishlist' ? 'bg-rose-500 text-white' : 'bg-stone-100 text-stone-400 hover:bg-rose-100 hover:text-rose-500'}`}
+                  >
+                    <Heart className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {showRating && (
+        <StarRatingPopup
+          onRate={(r) => { if (r) onRate?.(game.id, r); setShowRating(false) }}
+          onClose={() => setShowRating(false)}
+        />
+      )}
 
       {/* Detail Modal Overlay */}
       {isModalOpen && (
@@ -455,15 +501,46 @@ export default function GameCard({ game }) {
                   </div>
                 )}
 
+                {/* 會員互動：玩過 / 想玩 / 評分 */}
+                {memberId && (
+                  <div className="mb-4 pt-4 border-t border-stone-100">
+                    <p className="text-xs text-stone-400 font-medium mb-2">我的紀錄</p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => { onToggle(game, 'played'); if (getStatus(game.id) !== 'played') setShowRating(true) }}
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-bold transition-all ${getStatus(game.id) === 'played' ? 'bg-green-500 text-white' : 'bg-stone-100 text-stone-500 hover:bg-green-50 hover:text-green-600'}`}
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        {getStatus(game.id) === 'played' ? '玩過 ✓' : '標記玩過'}
+                      </button>
+                      <button
+                        onClick={() => onToggle(game, 'wishlist')}
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-bold transition-all ${getStatus(game.id) === 'wishlist' ? 'bg-rose-500 text-white' : 'bg-stone-100 text-stone-500 hover:bg-rose-50 hover:text-rose-600'}`}
+                      >
+                        <Heart className="w-4 h-4" />
+                        {getStatus(game.id) === 'wishlist' ? '想玩 ♡' : '加入想玩'}
+                      </button>
+                    </div>
+                    {getRecord(game.id)?.rating && (
+                      <div className="flex items-center gap-1 mt-2 justify-center">
+                        <span className="text-xs text-stone-400">我的評分：</span>
+                        {[1,2,3,4,5].map(i => (
+                          <Star key={i} className={`w-4 h-4 ${i <= getRecord(game.id).rating ? 'fill-amber-400 text-amber-400' : 'text-stone-200'}`} />
+                        ))}
+                        <button onClick={() => setShowRating(true)} className="text-xs text-stone-400 underline ml-1">改</button>
+                      </div>
+                    )}
+                    {getStatus(game.id) === 'played' && !getRecord(game.id)?.rating && (
+                      <button onClick={() => setShowRating(true)} className="w-full mt-2 text-xs text-amber-500 underline text-center">給個評分？</button>
+                    )}
+                  </div>
+                )}
+
                 {/* Bottom Action */}
                 {bggLink && bggLink !== 'N/A' && (
-                  <div className="pt-6 border-t border-stone-100">
-                    <a
-                      href={bggLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl font-bold transition-colors"
-                    >
+                  <div className="pt-4 border-t border-stone-100">
+                    <a href={bggLink} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl font-bold transition-colors">
                       前往 BGG 查看完整頁面
                       <ExternalLink className="w-4 h-4" />
                     </a>
