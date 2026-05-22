@@ -199,7 +199,7 @@ export default function App() {
       case 'helper-voice-hub':
         return <VoiceNarrationHubPage onSelect={setActiveTab} />;
       case 'helper-scoring-hub':
-        return <ScoringHubPage onSelect={setActiveTab} isLoggedIn={effectivelyLoggedIn} />;
+        return <ScoringHubPage onSelect={setActiveTab} isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-7wonders':
         return <SevenWondersPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} />;
       case 'helper-wingspan':

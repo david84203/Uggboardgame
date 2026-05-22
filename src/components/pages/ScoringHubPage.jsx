@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Calculator, Trophy, TableProperties, Lock, Wheat, Landmark, Feather, Globe, Layers, ScrollText } from 'lucide-react';
 
-export default function ScoringHubPage({ onSelect, isLoggedIn }) {
+export default function ScoringHubPage({ onSelect, isLoggedIn, onGoToMember }) {
+  const [showPrompt, setShowPrompt] = useState(false)
+
   return (
     <div className="max-w-lg mx-auto p-4 pt-6">
       <h2 className="text-center text-stone-600 font-medium mb-6 tracking-wider text-lg">
@@ -11,7 +13,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {/* 萬用計分器 (已鎖定) */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-scorer') : alert('萬用計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-scorer') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -60,7 +62,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
 
         {/* 七大奇蹟（鎖會員） */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-7wonders') : alert('七大奇蹟計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-7wonders') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -84,7 +86,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
 
         {/* 展翅翱翔（鎖會員） */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-wingspan') : alert('展翅翱翔計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-wingspan') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -108,7 +110,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
 
         {/* 殖民火星（鎖會員） */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-terraforming') : alert('殖民火星計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-terraforming') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -131,7 +133,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
         </button>
         {/* 龍翼翱翔（鎖會員） */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-wyrmspan') : alert('龍翼翱翔計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-wyrmspan') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -155,7 +157,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
 
         {/* 雅典衛城（鎖會員） */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-akropolis') : alert('雅典衛城計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-akropolis') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -179,7 +181,7 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
 
         {/* 和諧羅馬（鎖會員） */}
         <button
-          onClick={() => isLoggedIn ? onSelect('helper-concordia') : alert('和諧羅馬計分器為會員專屬功能，請先登入會員！')}
+          onClick={() => isLoggedIn ? onSelect('helper-concordia') : setShowPrompt(true)}
           className={`relative flex flex-col items-center p-4 rounded-2xl shadow-sm border border-stone-200 transition-all group overflow-hidden text-center h-full ${isLoggedIn ? 'bg-white hover:shadow-md hover:-translate-y-1' : 'bg-white/60'}`}
         >
           {!isLoggedIn && (
@@ -201,6 +203,30 @@ export default function ScoringHubPage({ onSelect, isLoggedIn }) {
           </div>
         </button>
       </div>
+
+      {showPrompt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6"
+          onClick={() => setShowPrompt(false)}>
+          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-6"
+            onClick={e => e.stopPropagation()}>
+            <div className="text-center mb-4">
+              <div className="text-3xl mb-2">🔒</div>
+              <h3 className="font-bold text-stone-800 text-base">此功能為會員專屬</h3>
+              <p className="text-sm text-stone-400 mt-1">登入會員即可解鎖所有計分工具</p>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setShowPrompt(false)}
+                className="flex-1 py-2.5 rounded-2xl border border-stone-200 text-stone-500 text-sm font-medium hover:bg-stone-50 transition">
+                沒有會員
+              </button>
+              <button onClick={() => { setShowPrompt(false); onGoToMember?.() }}
+                className="flex-1 py-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-sm font-bold shadow-sm shadow-orange-200 hover:opacity-90 transition">
+                登入會員
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
