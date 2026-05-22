@@ -31,7 +31,6 @@ import ConcordiaPage from './components/pages/ConcordiaPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 import useMemberGames from './hooks/useMemberGames';
 import useActiveRentals from './hooks/useActiveRentals';
-import GroupBoardPage from './components/pages/GroupBoardPage';
 import EventBoardPage from './components/pages/EventBoardPage';
 
 class ErrorBoundary extends React.Component {
@@ -217,8 +216,6 @@ export default function App() {
         return <StarPlayerPage />;
       case 'escape':
         return <EscapeRoomPage />;
-      case 'group-board':
-        return <GroupBoardPage member={loggedInMember} />;
       case 'event-board':
         return <EventBoardPage />;
 

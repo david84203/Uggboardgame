@@ -3,7 +3,6 @@ const TABS = [
   { id: 'food',         label: '餐點服務',           icon: '🍜',  desc: '飲料、輕食與餐點選擇' },
   { id: 'rent',         label: '租借遊戲規章',       icon: '📋',  desc: '遊戲外借規則與注意事項' },
   { id: 'gamelist',     label: '店內開盒遊戲列表',   icon: '🎲',  desc: '搜尋、篩選所有在架桌遊' },
-  { id: 'group-board',  label: '揪團看板',           icon: '🎯',  desc: '找玩伴，一起玩更好玩' },
   { id: 'event-board',  label: '活動看板',           icon: '🗓️', desc: '最新賽事、新遊戲與優惠公告' },
   { id: 'environment',  label: '環境介紹',           icon: '🏠',  desc: '場地空間與設施一覽' },
   { id: 'escape',       label: '密室逃脫專區',       icon: '🔐',  desc: '主題密室資訊與預約' },
