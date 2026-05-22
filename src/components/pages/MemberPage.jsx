@@ -140,96 +140,6 @@ function getBirthdayInfo(birthdayStr) {
   return { inWindow: false, countdown: `還有 ${diffMonths} 個月 ${diffD} 天` }
 }
 
-// ── 預約表單 Modal ─────────────────────────────────────────────────────────────
-function ReservationModal({ member, onClose, onSuccess }) {
-  const today = new Date().toISOString().slice(0, 10)
-  const [form, setForm] = useState({ date: today, timeSlot: '晚場 18:00-22:00', playerCount: 2, note: '' })
-  const [loading, setLoading] = useState(false)
-  const [done, setDone] = useState(false)
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
-
-  async function handleSubmit() {
-    setLoading(true)
-    try {
-      const data = {
-        memberId: member.id, memberName: member.name, phone: member.phone || '',
-        ...form, status: 'pending', createdAt: new Date().toISOString()
-      }
-      await addDoc(collection(db, 'reservations'), data)
-
-      // Telegram 通知給小管
-      fetch('https://ai-assistant-sage-xi.vercel.app/api/notify/reservation', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }).catch(() => {})
-
-      setDone(true)
-      setTimeout(() => { onClose(); onSuccess?.() }, 2000)
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm p-4"
-      onClick={onClose}>
-      <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-5 pb-8"
-        onClick={e => e.stopPropagation()}>
-        {done ? (
-          <div className="text-center py-8">
-            <div className="text-4xl mb-3">✅</div>
-            <p className="font-bold text-stone-800">預約送出成功！</p>
-            <p className="text-sm text-stone-400 mt-1">老闆確認後會通知你</p>
-          </div>
-        ) : (
-          <>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-stone-800 text-lg">📅 預約桌位</h3>
-              <button onClick={onClose} className="text-stone-300 hover:text-stone-500 text-xl">✕</button>
-            </div>
-            <div className="space-y-3">
-              <div>
-                <label className="text-xs font-medium text-stone-500 mb-1 block">日期</label>
-                <input type="date" value={form.date} min={today}
-                  onChange={e => set('date', e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-orange-400" />
-              </div>
-              <div>
-                <label className="text-xs font-medium text-stone-500 mb-1 block">時段</label>
-                <select value={form.timeSlot} onChange={e => set('timeSlot', e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-orange-400 bg-white">
-                  <option>午場 11:00-17:00</option>
-                  <option>晚場 18:00-22:00</option>
-                  <option>全天（跨場）</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-stone-500 mb-1 block">人數</label>
-                <select value={form.playerCount} onChange={e => set('playerCount', Number(e.target.value))}
-                  className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-orange-400 bg-white">
-                  {[1,2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n} 人</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-stone-500 mb-1 block">備注（想玩什麼、有無需求…）</label>
-                <textarea value={form.note} rows={2}
-                  onChange={e => set('note', e.target.value)}
-                  placeholder="例：想玩密室類、有帶小孩、慶生派對…"
-                  className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-orange-400 resize-none" />
-              </div>
-              <button onClick={handleSubmit} disabled={loading}
-                className="w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold shadow-sm shadow-orange-200 hover:opacity-90 transition disabled:opacity-40">
-                {loading ? '送出中…' : '送出預約'}
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  )
-}
 
 // ── 會員卡主體 ─────────────────────────────────────────────────────────────────
 function MemberCard({ member, onLogout }) {
@@ -256,10 +166,6 @@ function MemberCard({ member, onLogout }) {
   const [showGames, setShowGames] = useState(false)
   const [gamesTab, setGamesTab] = useState('played')
 
-  // 預約
-  const [showReservation, setShowReservation] = useState(false)
-  const [myReservations, setMyReservations] = useState([])
-  const [showResvList, setShowResvList] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -309,19 +215,10 @@ function MemberCard({ member, onLogout }) {
     } catch (e) { console.error(e) }
   }
 
-  async function loadReservations() {
-    try {
-      const q = query(collection(db, 'reservations'), where('memberId', '==', member.id))
-      const snap = await getDocs(q)
-      setMyReservations(snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.createdAt?.localeCompare(a.createdAt)))
-      setShowResvList(true)
-    } catch (e) { console.error(e) }
-  }
 
   const playedGames = memberGames.filter(g => g.status === 'played')
   const wishGames = memberGames.filter(g => g.status === 'wishlist')
 
-  const STATUS_LABELS = { pending: '待確認 ⏳', confirmed: '已確認 ✅', cancelled: '已取消 ✗' }
 
   return (
     <div className="px-4 py-6 max-w-md mx-auto">
@@ -440,38 +337,6 @@ function MemberCard({ member, onLogout }) {
         </div>
       )}
 
-      {/* ── 預約桌位 ─────────────────────────────────────────────── */}
-      <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">📅</span>
-            <span className="font-medium text-stone-700">桌位預約</span>
-          </div>
-          <div className="flex gap-2">
-            {showResvList ? null : (
-              <button onClick={loadReservations}
-                className="text-xs text-stone-400 underline">查看紀錄</button>
-            )}
-            <button onClick={() => setShowReservation(true)}
-              className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold shadow-sm shadow-orange-200">
-              新增預約
-            </button>
-          </div>
-        </div>
-
-        {showResvList && myReservations.length > 0 && (
-          <div className="mt-3 space-y-2">
-            {myReservations.slice(0, 3).map(r => (
-              <div key={r.id} className="flex items-center justify-between text-xs bg-stone-50 rounded-xl px-3 py-2">
-                <span className="text-stone-600">{r.date} {r.timeSlot} · {r.playerCount}人</span>
-                <span className={`font-medium ${r.status === 'confirmed' ? 'text-green-500' : r.status === 'cancelled' ? 'text-red-400' : 'text-amber-500'}`}>
-                  {STATUS_LABELS[r.status] || r.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* ── 在場中 ──────────────────────────────────────────────── */}
       {activeSession && (
@@ -678,9 +543,6 @@ function MemberCard({ member, onLogout }) {
         登出
       </button>
 
-      {showReservation && (
-        <ReservationModal member={member} onClose={() => setShowReservation(false)} />
-      )}
     </div>
   )
 }
