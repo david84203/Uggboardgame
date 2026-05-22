@@ -20,7 +20,7 @@ function SkeletonCard() {
   );
 }
 
-export default function GameList({ games, loading, error, totalCount, memberId, memberGames, onToggle, onRate, allGames }) {
+export default function GameList({ games, loading, error, totalCount, memberId, memberGames, onToggle, onRate, allGames, isRented }) {
 
   // 遊戲推薦（根據玩過 / 想玩的 category + tags）
   const recommended = useMemo(() => {
@@ -84,7 +84,7 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
     );
   }
 
-  const cardProps = { memberId, getStatus, getRecord, onToggle, onRate }
+  const cardProps = { memberId, getStatus, getRecord, onToggle, onRate, isRented }
 
   return (
     <div className="px-3 sm:px-4 py-4">

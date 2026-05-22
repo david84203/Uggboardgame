@@ -30,6 +30,7 @@ import AkropolisPage from './components/pages/AkropolisPage';
 import ConcordiaPage from './components/pages/ConcordiaPage';
 import useGoogleSheet from './hooks/useGoogleSheet';
 import useMemberGames from './hooks/useMemberGames';
+import useActiveRentals from './hooks/useActiveRentals';
 import GroupBoardPage from './components/pages/GroupBoardPage';
 import EventBoardPage from './components/pages/EventBoardPage';
 
@@ -73,6 +74,7 @@ export default function App() {
   const effectivelyLoggedIn = isDev || !!loggedInMember;
 
   const { memberGames, getStatus, getRecord, toggleStatus, updateRating } = useMemberGames(loggedInMember?.id);
+  const { isRented } = useActiveRentals();
 
   const [filters, setFilters] = useState({
     searchQuery: '',
@@ -169,6 +171,7 @@ export default function App() {
               getRecord={getRecord}
               onToggle={toggleStatus}
               onRate={updateRating}
+              isRented={isRented}
             />
           </>
         );

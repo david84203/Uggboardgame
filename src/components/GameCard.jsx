@@ -32,7 +32,7 @@ function StarRatingPopup({ onRate, onClose }) {
   )
 }
 
-export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate }) {
+export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate, isRented }) {
   const [imgSrcIndex, setImgSrcIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showRating, setShowRating] = useState(false);
@@ -78,6 +78,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   } = game;
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
+  const gameIsRented = isRented?.(game) ?? false;
 
   const STICKER_COLORS = {
     '紅色': '#ef4444',
@@ -170,13 +171,20 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
             <img
               src={imgSrc}
               alt={name}
-              className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+              className={`absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ${gameIsRented ? 'opacity-50 grayscale' : ''}`}
               loading="lazy"
               onError={handleImgError}
             />
           ) : (
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-stone-50">
               <img src="/images/LOGO.jpg" alt="Logo" className="w-16 h-16 object-contain opacity-20 grayscale" />
+            </div>
+          )}
+          {gameIsRented && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="bg-stone-800/80 text-white text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">
+                租借中
+              </span>
             </div>
           )}
         </div>
@@ -318,6 +326,11 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                         )}
                         {name}
                       </h2>
+                      {gameIsRented && (
+                        <span className="inline-flex items-center gap-1 mt-1 px-2.5 py-1 bg-stone-100 text-stone-500 text-xs font-bold rounded-full">
+                          📦 目前租借中
+                        </span>
+                      )}
                       {englishName && englishName !== 'N/A' && (
                         <p className="text-stone-500 font-medium mt-1">
                           {englishName}
