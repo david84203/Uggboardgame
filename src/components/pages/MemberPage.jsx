@@ -233,7 +233,9 @@ function ReservationModal({ member, onClose, onSuccess }) {
 
 // ── 會員卡主體 ─────────────────────────────────────────────────────────────────
 function MemberCard({ member, onLogout }) {
-  const exp = member.exp || 0
+  const realExp = member.exp || 0
+  const [previewLevel, setPreviewLevel] = useState(null)
+  const exp = (member.isGM && previewLevel !== null) ? LEVELS[previewLevel].minExp : realExp
   const level = calcLevel(exp)
   const nextLevel = calcNextLevel(exp)
   const progress = nextLevel ? ((exp - level.minExp) / (nextLevel.minExp - level.minExp)) * 100 : 100
@@ -367,6 +369,21 @@ function MemberCard({ member, onLogout }) {
           </div>
         </div>
         <p className="text-xs text-stone-400 mb-4">※ 如需更改基本資料請至烏嘎嘎櫃台</p>
+
+        {/* ── GM 等級預覽 ──────────────────────────────────── */}
+        {member.isGM && (
+          <div className="mb-3">
+            <p className="text-xs text-stone-400 mb-1.5">🎮 GM 等級預覽</p>
+            <div className="flex gap-1.5 flex-wrap">
+              {LEVELS.map((l, i) => (
+                <button key={l.level} onClick={() => setPreviewLevel(previewLevel === i ? null : i)}
+                  className={`text-xs px-2.5 py-1 rounded-full border transition font-medium ${previewLevel === i ? 'bg-orange-500 text-white border-orange-500' : 'bg-white text-stone-500 border-stone-200 hover:border-orange-300'}`}>
+                  Lv.{l.level} {l.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* ── EXP 進度條（升級版） ─────────────────────────── */}
         <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-4 border border-orange-100">
