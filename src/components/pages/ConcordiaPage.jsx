@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { RotateCcw } from 'lucide-react'
+import { RotateCcw, Upload } from 'lucide-react'
+import ScoreUploadModal from '../ScoreUploadModal'
 
 // Concordia gods and their scoring rules
 const GODS = [
@@ -92,12 +93,13 @@ function calcTotal(s) {
   return godsTotal + concordia
 }
 
-export default function ConcordiaPage({ isLoggedIn, onGoToMember }) {
+export default function ConcordiaPage({ isLoggedIn, onGoToMember, games }) {
   const [step, setStep] = useState('setup')
   const [count, setCount] = useState(3)
   const [names, setNames] = useState(Array(5).fill('').map((_, i) => `玩家${i + 1}`))
   const [scores, setScores] = useState(Array(5).fill(null).map(() => ({ ...BLANK })))
   const [active, setActive] = useState(0)
+  const [showUpload, setShowUpload] = useState(false)
 
   if (!isLoggedIn) return (
     <div className="flex flex-col items-center justify-center min-h-[60dvh] px-6 text-center">
@@ -248,29 +250,53 @@ export default function ConcordiaPage({ isLoggedIn, onGoToMember }) {
           </div>
         </div>
       ) : (
-        <div className="bg-stone-900 border border-amber-700 rounded-2xl overflow-hidden">
-          <div className="bg-stone-800 px-4 py-2.5 border-b border-amber-800">
-            <span className="text-amber-200 font-bold text-sm">🏆 最終排名</span>
-          </div>
-          {ranked.map((p, rank) => {
-            const s = scores[p.i]
-            return (
-              <div key={p.i} className={`px-4 py-3 border-b border-stone-800 last:border-0 ${rank === 0 ? 'bg-stone-800' : ''}`}>
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{['🥇', '🥈', '🥉'][rank] || `${rank + 1}.`}</span>
-                    <span className="font-bold text-amber-200">{p.name}</span>
+        <div>
+          <div className="bg-stone-900 border border-amber-700 rounded-2xl overflow-hidden">
+            <div className="bg-stone-800 px-4 py-2.5 border-b border-amber-800">
+              <span className="text-amber-200 font-bold text-sm">🏆 最終排名</span>
+            </div>
+            {ranked.map((p, rank) => {
+              const s = scores[p.i]
+              return (
+                <div key={p.i} className={`px-4 py-3 border-b border-stone-800 last:border-0 ${rank === 0 ? 'bg-stone-800' : ''}`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{['🥇', '🥈', '🥉'][rank] || `${rank + 1}.`}</span>
+                      <span className="font-bold text-amber-200">{p.name}</span>
+                    </div>
+                    <span className="text-xl font-black text-amber-400">{p.total}</span>
                   </div>
-                  <span className="text-xl font-black text-amber-400">{p.total}</span>
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-500">
+                    {GODS.map(g => <span key={g.key}>{g.icon}{godScore(s, g)}</span>)}
+                    {parseInt(s.concordia) > 0 && <span>📜7</span>}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-500">
-                  {GODS.map(g => <span key={g.key}>{g.icon}{godScore(s, g)}</span>)}
-                  {parseInt(s.concordia) > 0 && <span>📜7</span>}
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+          <button onClick={() => setShowUpload(true)}
+            className="w-full mt-3 py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
+            <Upload size={15} />上傳計分卡到排行榜
+          </button>
         </div>
+      )}
+      {showUpload && (
+        <ScoreUploadModal
+          result={{
+            players: Array.from({ length: count }, (_, i) => ({
+              name: names[i] || `玩家${i + 1}`,
+              total: calcTotal(scores[i]),
+              categories: Object.fromEntries([
+                ...GODS.map(g => [g.label, godScore(scores[i], g)]),
+                ...(parseInt(scores[i].concordia) > 0 ? [['📜 Concordia 牌', 7]] : []),
+              ]),
+            })),
+            source: 'concordia',
+          }}
+          games={games}
+          defaultGameName="和諧羅馬"
+          onClose={() => setShowUpload(false)}
+        />
       )}
     </div>
   )

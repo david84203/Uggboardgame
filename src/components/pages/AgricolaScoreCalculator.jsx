@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GiWoodenFence, GiWheat, GiCarrot, GiSheep, GiBoar, GiCow, GiHut, GiBrickWall, GiStoneWall, GiMeepleGroup, GiCardPlay, GiRoundStar, GiCardDiscard } from 'react-icons/gi';
-import { SquareDashed, Rows4, RotateCcw, BarChart2 } from 'lucide-react';
+import { SquareDashed, Rows4, RotateCcw, BarChart2, Upload } from 'lucide-react';
+import ScoreUploadModal from '../ScoreUploadModal';
 
 const SCORE_RULES = {
   fields:     (q) => q <= 1 ? -1 : (q >= 5 ? 4 : q - 1),
@@ -163,10 +164,11 @@ function RankingView({ players }) {
 }
 
 // ── 主元件 ────────────────────────────────────────────────
-export default function AgricolaScoreCalculator() {
+export default function AgricolaScoreCalculator({ games }) {
   const [activeTab, setActiveTab] = useState('white');
   const [players, setPlayers] = useState(DEFAULT_PLAYERS);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('agricola_scores');
@@ -229,7 +231,30 @@ export default function AgricolaScoreCalculator() {
 
       {/* 結算總表 */}
       {isRanking ? (
-        <RankingView players={players} />
+        <>
+          <RankingView players={players} />
+          <div className="px-4 pb-4">
+            <button onClick={() => setShowUpload(true)}
+              className="w-full py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
+              <Upload size={15} />上傳計分卡到排行榜
+            </button>
+          </div>
+          {showUpload && (
+            <ScoreUploadModal
+              result={{
+                players: COLORS.map(c => ({
+                  name: players[c.id].name || c.label,
+                  total: calcTotal(players[c.id].scores),
+                  categories: Object.fromEntries(ITEMS.map(item => [item.zh, SCORE_RULES[item.id](players[c.id].scores[item.id])])),
+                })).filter(p => p.total !== calcTotal(DEFAULT_STATE)),
+                source: 'agricola',
+              }}
+              games={games}
+              defaultGameName="農家樂"
+              onClose={() => setShowUpload(false)}
+            />
+          )}
+        </>
       ) : (
         <>
           {/* 資訊摘要區 */}

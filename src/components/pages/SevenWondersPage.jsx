@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { RotateCcw } from 'lucide-react'
+import { RotateCcw, Upload } from 'lucide-react'
+import ScoreUploadModal from '../ScoreUploadModal'
 
 // ── Science wildcard optimization ──
 function calcScience(compass, gear, tablet, wildcards) {
@@ -119,12 +120,13 @@ function PlayerPanel({ name, s, onChange }) {
   )
 }
 
-export default function SevenWondersPage({ isLoggedIn, onGoToMember }) {
+export default function SevenWondersPage({ isLoggedIn, onGoToMember, games }) {
   const [step, setStep] = useState('setup')
   const [count, setCount] = useState(3)
   const [names, setNames] = useState(Array(7).fill('').map((_,i)=>`玩家${i+1}`))
   const [scores, setScores] = useState(Array(7).fill(null).map(()=>({...BLANK})))
   const [active, setActive] = useState(0)
+  const [showUpload, setShowUpload] = useState(false)
 
   if (!isLoggedIn) return (
     <div className="flex flex-col items-center justify-center min-h-[60dvh] px-6 text-center">
@@ -223,34 +225,58 @@ export default function SevenWondersPage({ isLoggedIn, onGoToMember }) {
           <PlayerPanel name={names[active]} s={scores[active]} onChange={(k,v)=>updateScore(active,k,v)} />
         </div>
       ) : (
-        <div className="bg-white border border-amber-200 rounded-2xl overflow-hidden">
-          <div className="bg-amber-800 px-4 py-2.5">
-            <span className="text-amber-100 font-bold text-sm">🏆 最終排名</span>
-          </div>
-          {ranked.map((p, rank) => {
-            const d = calcTotal(scores[p.i])
-            return (
-              <div key={p.i} className={`px-4 py-3 border-b border-amber-100 last:border-0 ${rank===0?'bg-amber-50':''}`}>
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{['🥇','🥈','🥉'][rank]||`${rank+1}.`}</span>
-                    <span className="font-bold text-stone-800">{p.name}</span>
+        <div>
+          <div className="bg-white border border-amber-200 rounded-2xl overflow-hidden">
+            <div className="bg-amber-800 px-4 py-2.5">
+              <span className="text-amber-100 font-bold text-sm">🏆 最終排名</span>
+            </div>
+            {ranked.map((p, rank) => {
+              const d = calcTotal(scores[p.i])
+              return (
+                <div key={p.i} className={`px-4 py-3 border-b border-amber-100 last:border-0 ${rank===0?'bg-amber-50':''}`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{['🥇','🥈','🥉'][rank]||`${rank+1}.`}</span>
+                      <span className="font-bold text-stone-800">{p.name}</span>
+                    </div>
+                    <span className="text-xl font-black text-amber-700">{p.total}</span>
                   </div>
-                  <span className="text-xl font-black text-amber-700">{p.total}</span>
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
+                    <span>⚔️{d.military}</span>
+                    <span>🪙{d.treasury}</span>
+                    <span>🏛️{d.wonders}</span>
+                    <span>🟦{d.civilian}</span>
+                    <span>🟨{d.commercial}</span>
+                    <span>🟪{d.guilds}</span>
+                    <span>🔬{d.science}</span>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
-                  <span>⚔️{d.military}</span>
-                  <span>🪙{d.treasury}</span>
-                  <span>🏛️{d.wonders}</span>
-                  <span>🟦{d.civilian}</span>
-                  <span>🟨{d.commercial}</span>
-                  <span>🟪{d.guilds}</span>
-                  <span>🔬{d.science}</span>
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+          <button onClick={() => setShowUpload(true)}
+            className="w-full mt-3 py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
+            <Upload size={15} />上傳計分卡到排行榜
+          </button>
         </div>
+      )}
+      {showUpload && (
+        <ScoreUploadModal
+          result={{
+            players: Array.from({ length: count }, (_, i) => {
+              const d = calcTotal(scores[i])
+              return {
+                name: names[i] || `玩家${i + 1}`,
+                total: d.total,
+                categories: { '⚔️ 軍事': d.military, '🪙 金幣': d.treasury, '🏛️ 奇蹟': d.wonders, '🟦 文明': d.civilian, '🟨 商業': d.commercial, '🟪 公會': d.guilds, '🔬 科技': d.science },
+              }
+            }),
+            source: '7wonders',
+          }}
+          games={games}
+          defaultGameName="七大奇蹟"
+          onClose={() => setShowUpload(false)}
+        />
       )}
     </div>
   )

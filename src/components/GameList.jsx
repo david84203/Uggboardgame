@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { SearchX, Frown, Sparkles } from 'lucide-react';
 import GameCard from './GameCard';
+import useRentalCounts from '../hooks/useRentalCounts';
 
 function SkeletonCard() {
   return (
@@ -21,6 +22,7 @@ function SkeletonCard() {
 }
 
 export default function GameList({ games, loading, error, totalCount, memberId, memberGames, onToggle, onRate, allGames, isRented }) {
+  const { getRentalCount } = useRentalCounts()
 
   // 遊戲推薦（根據玩過 / 想玩的 category + tags）
   const recommended = useMemo(() => {
@@ -84,7 +86,7 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
     );
   }
 
-  const cardProps = { memberId, getStatus, getRecord, onToggle, onRate, isRented }
+  const cardProps = { memberId, getStatus, getRecord, onToggle, onRate, isRented, getRentalCount }
 
   return (
     <div className="px-3 sm:px-4 py-4">

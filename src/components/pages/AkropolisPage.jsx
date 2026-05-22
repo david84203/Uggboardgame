@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { RotateCcw } from 'lucide-react'
+import { RotateCcw, Upload } from 'lucide-react'
+import ScoreUploadModal from '../ScoreUploadModal'
 
 // ── 地區定義 ──────────────────────────────────────────────
 const DISTRICTS = [
@@ -82,13 +83,14 @@ function calcTotal(s, advanced) {
   return distTotal + stones
 }
 
-export default function AkropolisPage({ isLoggedIn, onGoToMember }) {
+export default function AkropolisPage({ isLoggedIn, onGoToMember, games }) {
   const [step, setStep] = useState('setup')
   const [count, setCount] = useState(3)
   const [names, setNames] = useState(Array(4).fill('').map((_, i) => `玩家${i + 1}`))
   const [scores, setScores] = useState(Array(4).fill(null).map(() => makeBlank()))
   const [active, setActive] = useState(0)
   const [advanced, setAdvanced] = useState(false)
+  const [showUpload, setShowUpload] = useState(false)
 
   if (!isLoggedIn) return (
     <div className="flex flex-col items-center justify-center min-h-[60dvh] px-6 text-center">
@@ -310,31 +312,52 @@ export default function AkropolisPage({ isLoggedIn, onGoToMember }) {
           </div>
         </div>
       ) : (
-        <div className="bg-white border border-blue-200 rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-sky-700 to-blue-800 px-4 py-2.5">
-            <span className="text-white font-bold text-sm">🏆 最終排名</span>
-          </div>
-          {ranked.map((p, rank) => {
-            const s = scores[p.i]
-            return (
-              <div key={p.i} className={`px-4 py-3 border-b border-blue-50 last:border-0 ${rank === 0 ? 'bg-blue-50' : ''}`}>
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{['🥇', '🥈', '🥉'][rank] || `${rank + 1}.`}</span>
-                    <span className="font-bold text-stone-800">{p.name}</span>
+        <div>
+          <div className="bg-white border border-blue-200 rounded-2xl overflow-hidden">
+            <div className="bg-gradient-to-r from-sky-700 to-blue-800 px-4 py-2.5">
+              <span className="text-white font-bold text-sm">🏆 最終排名</span>
+            </div>
+            {ranked.map((p, rank) => {
+              const s = scores[p.i]
+              return (
+                <div key={p.i} className={`px-4 py-3 border-b border-blue-50 last:border-0 ${rank === 0 ? 'bg-blue-50' : ''}`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{['🥇', '🥈', '🥉'][rank] || `${rank + 1}.`}</span>
+                      <span className="font-bold text-stone-800">{p.name}</span>
+                    </div>
+                    <span className="text-xl font-black text-blue-700">{p.total}</span>
                   </div>
-                  <span className="text-xl font-black text-blue-700">{p.total}</span>
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
+                    {DISTRICTS.map(d => (
+                      <span key={d.key}>{d.label.split(' ')[0]}{districtScore(s, d.key, advanced)}</span>
+                    ))}
+                    {(parseInt(s.stones) || 0) > 0 && <span>🪨{parseInt(s.stones)}</span>}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
-                  {DISTRICTS.map(d => (
-                    <span key={d.key}>{d.label.split(' ')[0]}{districtScore(s, d.key, advanced)}</span>
-                  ))}
-                  {(parseInt(s.stones) || 0) > 0 && <span>🪨{parseInt(s.stones)}</span>}
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+          <button onClick={() => setShowUpload(true)}
+            className="w-full mt-3 py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
+            <Upload size={15} />上傳計分卡到排行榜
+          </button>
         </div>
+      )}
+      {showUpload && (
+        <ScoreUploadModal
+          result={{
+            players: Array.from({ length: count }, (_, i) => ({
+              name: names[i] || `玩家${i + 1}`,
+              total: calcTotal(scores[i], advanced),
+              categories: Object.fromEntries(DISTRICTS.map(d => [d.label, districtScore(scores[i], d.key, advanced)])),
+            })),
+            source: 'akropolis',
+          }}
+          games={games}
+          defaultGameName="雅典衛城"
+          onClose={() => setShowUpload(false)}
+        />
       )}
     </div>
   )

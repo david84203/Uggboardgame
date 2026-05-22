@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { Plus, Minus, RotateCcw } from 'lucide-react';
+import { Plus, Minus, RotateCcw, Upload } from 'lucide-react';
+import ScoreUploadModal from '../ScoreUploadModal';
 
 const DEFAULT_PLAYERS = 4;
 const DEFAULT_ROWS = 5;
@@ -8,12 +9,13 @@ function makeGrid(rows, cols) {
   return Array.from({ length: rows }, () => Array(cols).fill(''));
 }
 
-export default function ScoreSheetPage() {
+export default function ScoreSheetPage({ games }) {
   const [playerCount, setPlayerCount] = useState(DEFAULT_PLAYERS);
   const [rowCount, setRowCount] = useState(DEFAULT_ROWS);
   const [playerNames, setPlayerNames] = useState(() => Array(8).fill(''));
   const [rowLabels, setRowLabels] = useState(() => Array(20).fill(''));
   const [cells, setCells] = useState(() => makeGrid(DEFAULT_ROWS, DEFAULT_PLAYERS));
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   // 同步格子大小
   const syncGrid = (newRows, newCols, oldCells) => {
@@ -116,7 +118,10 @@ export default function ScoreSheetPage() {
           <button onClick={handleAddRow} style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Plus size={14} /></button>
         </div>
 
-        <button onClick={handleReset} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fca5a5', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+        <button onClick={() => setShowUploadModal(true)} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fcd34d', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+          <Upload size={12} /> 上傳
+        </button>
+        <button onClick={handleReset} style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fca5a5', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
           <RotateCcw size={12} /> 清除
         </button>
       </div>
@@ -189,6 +194,26 @@ export default function ScoreSheetPage() {
       <p style={{ textAlign: 'center', fontSize: 12, color: '#a8a29e', marginTop: 8 }}>
         點擊任何欄位即可編輯・總計自動計算・最高分以金色標示
       </p>
+
+      {showUploadModal && (
+        <ScoreUploadModal
+          result={{
+            players: Array.from({ length: playerCount }, (_, c) => ({
+              name: playerNames[c] || `玩家${c + 1}`,
+              total: totals[c],
+              categories: Object.fromEntries(
+                Array.from({ length: rowCount }, (_, r) => [
+                  rowLabels[r] || `項目${r + 1}`,
+                  parseFloat(cells[r]?.[c]) || 0,
+                ])
+              ),
+            })),
+            source: 'scoresheet',
+          }}
+          games={games}
+          onClose={() => setShowUploadModal(false)}
+        />
+      )}
     </div>
   );
 }

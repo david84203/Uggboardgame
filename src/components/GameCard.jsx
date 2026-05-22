@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame, PlayCircle, Heart, CheckCircle } from 'lucide-react';
+import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame, PlayCircle, Heart, CheckCircle, TrendingUp } from 'lucide-react';
+import GameLeaderboard from './GameLeaderboard';
 
 function extractYoutubeIds(urlString) {
   if (!urlString) return [];
@@ -32,7 +33,7 @@ function StarRatingPopup({ onRate, onClose }) {
   )
 }
 
-export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate, isRented }) {
+export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate, isRented, getRentalCount }) {
   const [imgSrcIndex, setImgSrcIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showRating, setShowRating] = useState(false);
@@ -79,6 +80,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
   const gameIsRented = isRented?.(game) ?? false;
+  const rentalCount = getRentalCount?.(id) ?? 0;
 
   const STICKER_COLORS = {
     '紅色': '#ef4444',
@@ -430,6 +432,19 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                   )}
                 </div>
 
+                {/* 租借次數 */}
+                {rentalCount > 0 && (
+                  <div className="flex items-center gap-3 p-3 bg-amber-50/50 border border-amber-100/50 rounded-xl mb-6">
+                    <div className="p-2 bg-white rounded-lg shadow-sm text-amber-600">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] text-stone-500 font-medium mb-0.5">熱門租借</p>
+                      <p className="text-sm font-bold text-stone-800">已被租借 <span className="text-amber-600">{rentalCount}</span> 次</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* 定價 & 租金 */}
                 {(price || rental) && (
                   <div className="flex gap-3 mb-6">
@@ -548,6 +563,9 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                     )}
                   </div>
                 )}
+
+                {/* 歷史排行榜 */}
+                <GameLeaderboard gameName={name} />
 
                 {/* Bottom Action */}
                 {bggLink && bggLink !== 'N/A' && (

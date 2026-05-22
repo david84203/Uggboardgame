@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { RotateCcw } from 'lucide-react'
+import { RotateCcw, Upload } from 'lucide-react'
+import ScoreUploadModal from '../ScoreUploadModal'
 
 const CATEGORIES = [
   { key: 'birds',   label: '🐦 鳥卡分值',       hint: '每張鳥卡左上角的羽毛數字加總' },
@@ -16,12 +17,13 @@ function calcTotal(s) {
   return CATEGORIES.reduce((sum, c) => sum + (parseInt(s[c.key]) || 0), 0)
 }
 
-export default function WingspanPage({ isLoggedIn, onGoToMember }) {
+export default function WingspanPage({ isLoggedIn, onGoToMember, games }) {
   const [step, setStep] = useState('setup')
   const [count, setCount] = useState(3)
   const [names, setNames] = useState(Array(5).fill('').map((_, i) => `玩家${i + 1}`))
   const [scores, setScores] = useState(Array(5).fill(null).map(() => ({ ...BLANK })))
   const [active, setActive] = useState(0)
+  const [showUpload, setShowUpload] = useState(false)
 
   if (!isLoggedIn) return (
     <div className="flex flex-col items-center justify-center min-h-[60dvh] px-6 text-center">
@@ -134,33 +136,54 @@ export default function WingspanPage({ isLoggedIn, onGoToMember }) {
           ))}
         </div>
       ) : (
-        <div className="bg-white border border-emerald-200 rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-sky-700 to-emerald-700 px-4 py-2.5">
-            <span className="text-white font-bold text-sm">🏆 最終排名</span>
-          </div>
-          {ranked.map((p, rank) => {
-            const s = scores[p.i]
-            return (
-              <div key={p.i} className={`px-4 py-3 border-b border-emerald-50 last:border-0 ${rank === 0 ? 'bg-emerald-50' : ''}`}>
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{['🥇', '🥈', '🥉'][rank] || `${rank + 1}.`}</span>
-                    <span className="font-bold text-stone-800">{p.name}</span>
+        <div>
+          <div className="bg-white border border-emerald-200 rounded-2xl overflow-hidden">
+            <div className="bg-gradient-to-r from-sky-700 to-emerald-700 px-4 py-2.5">
+              <span className="text-white font-bold text-sm">🏆 最終排名</span>
+            </div>
+            {ranked.map((p, rank) => {
+              const s = scores[p.i]
+              return (
+                <div key={p.i} className={`px-4 py-3 border-b border-emerald-50 last:border-0 ${rank === 0 ? 'bg-emerald-50' : ''}`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{['🥇', '🥈', '🥉'][rank] || `${rank + 1}.`}</span>
+                      <span className="font-bold text-stone-800">{p.name}</span>
+                    </div>
+                    <span className="text-xl font-black text-emerald-700">{p.total}</span>
                   </div>
-                  <span className="text-xl font-black text-emerald-700">{p.total}</span>
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
+                    <span>🐦{parseInt(s.birds)||0}</span>
+                    <span>🎯{parseInt(s.goals)||0}</span>
+                    <span>🃏{parseInt(s.bonus)||0}</span>
+                    <span>🥚{parseInt(s.eggs)||0}</span>
+                    <span>🌿{parseInt(s.food)||0}</span>
+                    <span>📋{parseInt(s.tucked)||0}</span>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-400">
-                  <span>🐦{parseInt(s.birds)||0}</span>
-                  <span>🎯{parseInt(s.goals)||0}</span>
-                  <span>🃏{parseInt(s.bonus)||0}</span>
-                  <span>🥚{parseInt(s.eggs)||0}</span>
-                  <span>🌿{parseInt(s.food)||0}</span>
-                  <span>📋{parseInt(s.tucked)||0}</span>
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+          <button onClick={() => setShowUpload(true)}
+            className="w-full mt-3 py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
+            <Upload size={15} />上傳計分卡到排行榜
+          </button>
         </div>
+      )}
+      {showUpload && (
+        <ScoreUploadModal
+          result={{
+            players: Array.from({ length: count }, (_, i) => ({
+              name: names[i] || `玩家${i + 1}`,
+              total: calcTotal(scores[i]),
+              categories: Object.fromEntries(CATEGORIES.map(c => [c.label.replace(/^.*?\s/, ''), parseInt(scores[i][c.key]) || 0])),
+            })),
+            source: 'wingspan',
+          }}
+          games={games}
+          defaultGameName="展翅翱翔"
+          onClose={() => setShowUpload(false)}
+        />
       )}
     </div>
   )

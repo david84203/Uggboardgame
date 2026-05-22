@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { RotateCcw, Undo2, CornerDownLeft, RotateCw } from 'lucide-react';
+import { RotateCcw, Undo2, CornerDownLeft, RotateCw, Upload } from 'lucide-react';
+import ScoreUploadModal from '../ScoreUploadModal';
 
 // ── 顏色系統 ──────────────────────────────────────
 const PALETTE = {
@@ -252,8 +253,9 @@ const getTablePositions = (count, containerW) => {
 };
 
 // ── 計分頁主體 ────────────────────────────────────
-function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
+function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, onExit }) {
   const [players, setPlayers] = useState(initialPlayers);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
   const [rotatedIds, setRotatedIds] = useState(new Set());
   const [layoutMode, setLayoutMode] = useState('list'); // 'list' | 'table'
@@ -370,6 +372,11 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
             style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>
             {layoutMode === 'list' ? '桌邊排版' : '列表排版'}
           </button>
+          {gameInfo?.gameName && (
+            <button onClick={() => setShowUploadModal(true)} style={{ fontSize:12, background:'rgba(251,191,36,0.3)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fcd34d', cursor:'pointer', display:'flex', alignItems:'center', gap:4 }}>
+              <Upload size={12} />上傳
+            </button>
+          )}
           <button onClick={onExit} style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>結束遊戲</button>
         </div>
       </div>
@@ -423,12 +430,23 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, onExit }) {
           })}
         </div>
       )}
+      {showUploadModal && (
+        <ScoreUploadModal
+          result={{
+            players: players.map(p => ({ name: p.name, total: p.score })),
+            source: 'universal-scorer',
+          }}
+          games={games}
+          defaultGameName={gameInfo?.gameName || ''}
+          onClose={() => setShowUploadModal(false)}
+        />
+      )}
     </div>
   );
 }
 
 // ── 設定頁 ────────────────────────────────────────
-function SetupView({ onStart }) {
+function SetupView({ onStart, games }) {
   const [playerCount, setPlayerCount] = useState(4);
   const [names, setNames] = useState(Array(12).fill(''));
   const [colors, setColors] = useState(DEFAULT_COLORS);
@@ -436,23 +454,65 @@ function SetupView({ onStart }) {
   const [pickerOpen, setPickerOpen] = useState(-1);
   const [sortMode, setSortMode] = useState('none'); // 'none' | 'desc' | 'asc'
   const pickerBtnRefs = useRef([]);
+  const [gameSearch, setGameSearch] = useState('');
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [showGameDropdown, setShowGameDropdown] = useState(false);
+
+  const filteredGames = !selectedGame && gameSearch.trim()
+    ? (games || []).filter(g => g.name.includes(gameSearch) || (g.englishName && g.englishName.toLowerCase().includes(gameSearch.toLowerCase()))).slice(0, 6)
+    : [];
 
   const handleStart = () => {
     const players = Array.from({ length: playerCount }, (_, i) => ({
       id: i, name: names[i].trim() || `玩家 ${i+1}`,
       score: 0,
-      pendingDelta: 0,   // 本回合尚未確認的累積變化量
-      undoStack: [],     // 本回合全部按鈕操作（供復原用）
-      roundHistory: [],  // 確認實际記錄（展示用）
+      pendingDelta: 0,
+      undoStack: [],
+      roundHistory: [],
       confirmed: false,
       colorKey: colors[i] || DEFAULT_COLORS[i % DEFAULT_COLORS.length],
     }));
-    onStart(players, totalRounds, sortMode);
+    const gameInfo = selectedGame ? { gameId: selectedGame.id, gameName: selectedGame.name } : { gameId: null, gameName: gameSearch.trim() };
+    onStart(players, totalRounds, sortMode, gameInfo);
   };
 
   return (
     <div style={{ maxWidth:512, margin:'0 auto', padding:'16px 16px 100px', minHeight:'calc(100vh-60px)', background:'#F5F2EB' }}>
       <h2 style={{ textAlign:'center', fontSize:22, fontWeight:900, color:'#1c1917', margin:'16px 0 20px', letterSpacing:1 }}>萬用計分器</h2>
+
+      {/* 遊戲名稱 */}
+      <div style={{ background:'#fff', borderRadius:16, padding:20, marginBottom:12, border:'1px solid #e5e7eb' }}>
+        <div style={{ fontWeight:700, color:'#57534e', marginBottom:10 }}>遊戲名稱 <span style={{ fontWeight:400, fontSize:12, color:'#a8a29e' }}>（選填，計分後可上傳排行榜）</span></div>
+        {selectedGame ? (
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff7ed', border:'1px solid #fed7aa', borderRadius:12, padding:'10px 14px' }}>
+            <span style={{ fontWeight:600, color:'#1c1917' }}>{selectedGame.name}</span>
+            <button onClick={() => { setSelectedGame(null); setGameSearch(''); }} style={{ fontSize:12, color:'#ea580c', background:'none', border:'none', cursor:'pointer' }}>更換</button>
+          </div>
+        ) : (
+          <div style={{ position:'relative' }}>
+            <input
+              type="text"
+              placeholder="搜尋遊戲名稱…"
+              value={gameSearch}
+              onChange={e => { setGameSearch(e.target.value); setShowGameDropdown(true); }}
+              onFocus={() => setShowGameDropdown(true)}
+              onBlur={() => setTimeout(() => setShowGameDropdown(false), 150)}
+              style={{ width:'100%', border:'1px solid #e5e7eb', borderRadius:10, padding:'10px 14px', fontSize:14, color:'#1c1917', background:'#f5f5f4', outline:'none', boxSizing:'border-box' }}
+            />
+            {showGameDropdown && filteredGames.length > 0 && (
+              <div style={{ position:'absolute', top:'100%', left:0, right:0, background:'#fff', border:'1px solid #e5e7eb', borderRadius:10, boxShadow:'0 4px 12px rgba(0,0,0,0.1)', zIndex:50, maxHeight:180, overflowY:'auto', marginTop:4 }}>
+                {filteredGames.map(g => (
+                  <button key={g.id} onMouseDown={() => { setSelectedGame(g); setGameSearch(g.name); setShowGameDropdown(false); }}
+                    style={{ width:'100%', textAlign:'left', padding:'10px 14px', background:'none', border:'none', borderBottom:'1px solid #f5f5f4', cursor:'pointer', fontSize:14, color:'#1c1917' }}>
+                    {g.name}
+                    {g.englishName && g.englishName !== 'N/A' && <span style={{ color:'#a8a29e', fontSize:12, marginLeft:6 }}>{g.englishName}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* 玩家人數 */}
       <div style={{ background:'#fff', borderRadius:16, padding:20, marginBottom:12, border:'1px solid #e5e7eb' }}>
@@ -520,9 +580,9 @@ function SetupView({ onStart }) {
 }
 
 // ── 主元件 ────────────────────────────────────────
-export default function UniversalScorerPage({ onGoToMember, isLoggedIn }) {
+export default function UniversalScorerPage({ onGoToMember, isLoggedIn, games }) {
   const [gameState, setGameState] = useState(null);
-  const handleStart = (players, totalRounds, sortMode) => setGameState({ players, totalRounds, sortMode });
+  const handleStart = (players, totalRounds, sortMode, gameInfo) => setGameState({ players, totalRounds, sortMode, gameInfo });
   const handleExit = () => { if (window.confirm('確定要結束遊戲並回到設定頁嗎？')) setGameState(null); };
   if (!isLoggedIn) {
     return (
@@ -539,6 +599,6 @@ export default function UniversalScorerPage({ onGoToMember, isLoggedIn }) {
       </div>
     )
   }
-  if (!gameState) return <SetupView onStart={handleStart} />;
-  return <ScoringView initialPlayers={gameState.players} totalRounds={gameState.totalRounds} sortMode={gameState.sortMode} onExit={handleExit} />;
+  if (!gameState) return <SetupView onStart={handleStart} games={games} />;
+  return <ScoringView initialPlayers={gameState.players} totalRounds={gameState.totalRounds} sortMode={gameState.sortMode} gameInfo={gameState.gameInfo} games={games} onExit={handleExit} />;
 }
