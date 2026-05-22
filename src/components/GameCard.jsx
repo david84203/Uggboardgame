@@ -80,7 +80,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
   const gameIsRented = isRented?.(game) ?? false;
-  const rentalCount = getRentalCount?.(id) ?? 0;
+  const rentalCount = getRentalCount?.(id, name) ?? 0;
 
   const STICKER_COLORS = {
     '紅色': '#ef4444',
