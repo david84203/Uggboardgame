@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { Calendar, Tag, ChevronRight } from 'lucide-react'
 
@@ -21,11 +21,10 @@ export default function EventBoardPage() {
       try {
         const q = query(
           collection(db, 'events'),
-          where('active', '==', true),
-          orderBy('date', 'desc')
+          where('active', '==', true)
         )
         const snap = await getDocs(q)
-        setEvents(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+        setEvents(snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || '')))
       } catch (e) {
         console.error(e)
       } finally {
