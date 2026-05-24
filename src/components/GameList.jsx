@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { SearchX, Frown, Sparkles } from 'lucide-react';
 import GameCard from './GameCard';
+import GameListTips from './GameListTips';
 import useRentalCounts from '../hooks/useRentalCounts';
 
 function SkeletonCard() {
@@ -23,6 +24,7 @@ function SkeletonCard() {
 
 export default function GameList({ games, loading, error, totalCount, memberId, memberGames, onToggle, onRate, allGames, isRented }) {
   const { getRentalCount } = useRentalCounts()
+  const [showTips, setShowTips] = useState(false)
 
   // 遊戲推薦（根據玩過 / 想玩的 category + tags）
   const recommended = useMemo(() => {
@@ -112,7 +114,15 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
         <p className="text-xs text-stone-400 font-medium">
           顯示 <span className="text-orange-500 font-bold">{games.length}</span> / {totalCount} 款遊戲
         </p>
+        <button
+          onClick={() => setShowTips(v => !v)}
+          className="text-xs text-amber-600 font-medium flex items-center gap-1 px-2 py-1 rounded-lg bg-amber-50 border border-amber-200 active:scale-95 transition-transform"
+        >
+          使用說明
+          <span className={`transition-transform duration-200 ${showTips ? 'rotate-180' : ''}`}>▾</span>
+        </button>
       </div>
+      {showTips && <GameListTips onClose={() => setShowTips(false)} />}
 
       {/* Game Cards Grid */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
