@@ -21,16 +21,16 @@ export default function HelperMenuPage({ onSelect }) {
           <p className="text-stone-500 text-xs leading-relaxed">包含萬用計分、農家樂、數位計分紙</p>
         </button>
 
-        {/* 桌遊棋鐘 */}
-        <button 
-          onClick={() => onSelect('helper-clock')}
+        {/* Star Player 起始玩家選擇器 */}
+        <button
+          onClick={() => onSelect('helper-star-player')}
           className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
         >
-          <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors mb-3">
-            <Timer className="text-blue-600" size={28} />
+          <div className="w-14 h-14 rounded-full bg-yellow-50 flex items-center justify-center shrink-0 group-hover:bg-yellow-100 transition-colors mb-3">
+            <Star className="text-yellow-500" size={28} />
           </div>
-          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">桌遊回合棋鐘</h3>
-          <p className="text-stone-500 text-xs leading-relaxed">單回合固定時間倒數，一鍵換人</p>
+          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">起始玩家抽籤</h3>
+          <p className="text-stone-500 text-xs leading-relaxed">多點觸控抽籤，公平決定先手</p>
         </button>
 
         {/* 搶答鈴 */}
@@ -69,16 +69,16 @@ export default function HelperMenuPage({ onSelect }) {
           <p className="text-stone-500 text-xs leading-relaxed">多款陣營遊戲自動語音主持</p>
         </button>
 
-        {/* Star Player 起始玩家選擇器 */}
-        <button
-          onClick={() => onSelect('helper-star-player')}
+        {/* 桌遊棋鐘 */}
+        <button 
+          onClick={() => onSelect('helper-clock')}
           className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
         >
-          <div className="w-14 h-14 rounded-full bg-yellow-50 flex items-center justify-center shrink-0 group-hover:bg-yellow-100 transition-colors mb-3">
-            <Star className="text-yellow-500" size={28} />
+          <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors mb-3">
+            <Timer className="text-blue-600" size={28} />
           </div>
-          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">起始玩家抽籤</h3>
-          <p className="text-stone-500 text-xs leading-relaxed">多點觸控抽籤，公平決定先手</p>
+          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">桌遊回合棋鐘</h3>
+          <p className="text-stone-500 text-xs leading-relaxed">單回合固定時間倒數，一鍵換人</p>
         </button>
       </div>
     </div>
