@@ -103,8 +103,9 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame(?:expansion)?\/(\d+)/);
   const bggId = bggIdMatch ? bggIdMatch[1] : null;
   const safeEnglishName = englishName ? englishName.replace(/[\\/:*?"<>|]/g, '-').trim() : null;
+  const dashedEnglishName = safeEnglishName ? safeEnglishName.replace(/\s+/g, '-') : null;
 
-  // Image sources to try in order: Firebase URL -> bggId -> englishName -> row-{id}
+  // Image sources to try in order: Firebase URL -> bggId -> englishName (spaces) -> englishName (dashes) -> row-{id}
   const imgSources = [
     imageUrl || null,
     bggId ? `/images/${bggId}.jpg` : null,
@@ -113,6 +114,9 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
     safeEnglishName ? `/images/${safeEnglishName}.jpg` : null,
     safeEnglishName ? `/images/${safeEnglishName}.webp` : null,
     safeEnglishName ? `/images/${safeEnglishName}.png` : null,
+    dashedEnglishName ? `/images/${dashedEnglishName}.jpg` : null,
+    dashedEnglishName ? `/images/${dashedEnglishName}.webp` : null,
+    dashedEnglishName ? `/images/${dashedEnglishName}.png` : null,
     `/images/row-${id}.jpg`,
     `/images/row-${id}.webp`,
     `/images/row-${id}.png`,
