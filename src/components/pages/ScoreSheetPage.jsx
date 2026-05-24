@@ -9,7 +9,70 @@ function makeGrid(rows, cols) {
   return Array.from({ length: rows }, () => Array(cols).fill(''));
 }
 
+function SetupView({ onStart, games }) {
+  const [gameSearch, setGameSearch] = useState('');
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [showGameDropdown, setShowGameDropdown] = useState(false);
+
+  const filteredGames = !selectedGame && gameSearch.trim()
+    ? (games || []).filter(g => g.name.includes(gameSearch) || (g.englishName && g.englishName.toLowerCase().includes(gameSearch.toLowerCase()))).slice(0, 6)
+    : [];
+
+  const handleStart = () => {
+    const gameInfo = selectedGame ? { gameId: selectedGame.id, gameName: selectedGame.name } : { gameId: null, gameName: gameSearch.trim() };
+    onStart(gameInfo);
+  };
+
+  return (
+    <div style={{ maxWidth:512, margin:'0 auto', padding:'16px 16px 100px', minHeight:'calc(100vh-60px)', background:'#F5F2EB' }}>
+      <h2 style={{ textAlign:'center', fontSize:22, fontWeight:900, color:'#1c1917', margin:'16px 0 20px', letterSpacing:1 }}>數位計分紙</h2>
+
+      <div style={{ background:'#fff', borderRadius:16, padding:20, marginBottom:12, border:'1px solid #e5e7eb' }}>
+        <div style={{ fontWeight:700, color:'#57534e', marginBottom:10 }}>
+          遊戲名稱 <span style={{ fontWeight:400, fontSize:12, color:'#a8a29e' }}>（選填）</span>
+          <div style={{ fontSize: 12, color: '#ef4444', marginTop: 4, fontWeight: 400 }}>⚠️ 若未填寫遊戲名稱，計分後將無法上傳分數</div>
+        </div>
+        {selectedGame ? (
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff7ed', border:'1px solid #fed7aa', borderRadius:12, padding:'10px 14px' }}>
+            <span style={{ fontWeight:600, color:'#1c1917' }}>{selectedGame.name}</span>
+            <button onClick={() => { setSelectedGame(null); setGameSearch(''); }} style={{ fontSize:12, color:'#ea580c', background:'none', border:'none', cursor:'pointer' }}>更換</button>
+          </div>
+        ) : (
+          <div style={{ position:'relative' }}>
+            <input
+              type="text"
+              placeholder="搜尋遊戲名稱…"
+              value={gameSearch}
+              onChange={e => { setGameSearch(e.target.value); setShowGameDropdown(true); }}
+              onFocus={() => setShowGameDropdown(true)}
+              onBlur={() => setTimeout(() => setShowGameDropdown(false), 150)}
+              style={{ width:'100%', border:'1px solid #e5e7eb', borderRadius:10, padding:'10px 14px', fontSize:14, color:'#1c1917', background:'#f5f5f4', outline:'none', boxSizing:'border-box' }}
+            />
+            {showGameDropdown && filteredGames.length > 0 && (
+              <div style={{ position:'absolute', top:'100%', left:0, right:0, background:'#fff', border:'1px solid #e5e7eb', borderRadius:10, boxShadow:'0 4px 12px rgba(0,0,0,0.1)', zIndex:50, maxHeight:180, overflowY:'auto', marginTop:4 }}>
+                {filteredGames.map(g => (
+                  <button key={g.id} onMouseDown={() => { setSelectedGame(g); setGameSearch(g.name); setShowGameDropdown(false); }}
+                    style={{ width:'100%', textAlign:'left', padding:'10px 14px', background:'none', border:'none', borderBottom:'1px solid #f5f5f4', cursor:'pointer', fontSize:14, color:'#1c1917' }}>
+                    {g.name}
+                    {g.englishName && g.englishName !== 'N/A' && <span style={{ color:'#a8a29e', fontSize:12, marginLeft:6 }}>{g.englishName}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <button onClick={handleStart} style={{ width:'100%', padding:'16px 0', background:'#c2410c', border:'none', borderRadius:16, color:'#fff', fontWeight:700, fontSize:18, cursor:'pointer', boxShadow:'0 4px 12px rgba(0,0,0,0.15)' }}>
+        開始計分 →
+      </button>
+    </div>
+  );
+}
+
 export default function ScoreSheetPage({ games }) {
+  const [setupDone, setSetupDone] = useState(false);
+  const [gameInfo, setGameInfo] = useState(null);
   const [playerCount, setPlayerCount] = useState(DEFAULT_PLAYERS);
   const [rowCount, setRowCount] = useState(DEFAULT_ROWS);
   const [playerNames, setPlayerNames] = useState(() => Array(8).fill(''));
@@ -96,6 +159,10 @@ export default function ScoreSheetPage({ games }) {
     color: '#57534e', outline: 'none', padding: '0 8px',
   };
 
+  if (!setupDone) {
+    return <SetupView onStart={(info) => { setGameInfo(info); setSetupDone(true); }} games={games} />
+  }
+
   return (
     <div style={{ background: '#F5F2EB', minHeight: 'calc(100vh - 60px)', paddingBottom: 32 }}>
       {/* 頂部工具列 */}
@@ -118,8 +185,16 @@ export default function ScoreSheetPage({ games }) {
           <button onClick={handleAddRow} style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Plus size={14} /></button>
         </div>
 
-        <button onClick={() => setShowUploadModal(true)} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fcd34d', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
-          <Upload size={12} /> 上傳
+        <button onClick={() => {
+          if (gameInfo?.gameName) {
+            if (window.confirm('確定要結束計分，並將成績上傳至排行榜嗎？')) {
+              setShowUploadModal(true);
+            }
+          } else {
+            alert('已結束計分！\n（未指定遊戲名稱，無法上傳成績）');
+          }
+        }} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fcd34d', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+          結束計分
         </button>
         <button onClick={handleReset} style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fca5a5', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
           <RotateCcw size={12} /> 清除
@@ -211,6 +286,7 @@ export default function ScoreSheetPage({ games }) {
             source: 'scoresheet',
           }}
           games={games}
+          defaultGameName={gameInfo?.gameName || ''}
           onClose={() => setShowUploadModal(false)}
         />
       )}

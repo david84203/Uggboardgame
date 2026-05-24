@@ -332,7 +332,13 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, o
         
         if (isLast) {
           const winner = [...finalPlayers].sort((a, b) => b.score - a.score)[0];
-          alert(`遊戲結束！第一名：${winner.name} 🎉`);
+          if (gameInfo?.gameName) {
+            if (window.confirm(`遊戲結束！第一名：${winner.name} 🎉\n\n是否要將成績上傳至排行榜？`)) {
+              setTimeout(() => setShowUploadModal(true), 100);
+            }
+          } else {
+            alert(`遊戲結束！第一名：${winner.name} 🎉\n（未指定遊戲名稱，無法上傳成績）`);
+          }
           return finalPlayers; // 保持已確認狀態
         } else {
           setCurrentRound(r => r + 1);
@@ -482,7 +488,10 @@ function SetupView({ onStart, games }) {
 
       {/* 遊戲名稱 */}
       <div style={{ background:'#fff', borderRadius:16, padding:20, marginBottom:12, border:'1px solid #e5e7eb' }}>
-        <div style={{ fontWeight:700, color:'#57534e', marginBottom:10 }}>遊戲名稱 <span style={{ fontWeight:400, fontSize:12, color:'#a8a29e' }}>（選填，計分後可上傳排行榜）</span></div>
+        <div style={{ fontWeight:700, color:'#57534e', marginBottom:10 }}>
+          遊戲名稱 <span style={{ fontWeight:400, fontSize:12, color:'#a8a29e' }}>（選填）</span>
+          <div style={{ fontSize: 12, color: '#ef4444', marginTop: 4, fontWeight: 400 }}>⚠️ 若未填寫遊戲名稱，計分後將無法上傳分數</div>
+        </div>
         {selectedGame ? (
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff7ed', border:'1px solid #fed7aa', borderRadius:12, padding:'10px 14px' }}>
             <span style={{ fontWeight:600, color:'#1c1917' }}>{selectedGame.name}</span>
