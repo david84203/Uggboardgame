@@ -5,7 +5,7 @@ const TABS = [
   { id: 'gamelist',     label: '店內開盒遊戲列表',   icon: '🎲',  desc: '搜尋、篩選所有在架桌遊' },
   { id: 'event-board',  label: '活動看板',           icon: '🗓️', desc: '最新賽事、新遊戲與優惠公告' },
   { id: 'environment',  label: '環境介紹',           icon: '🏠',  desc: '場地空間與設施一覽' },
-  { id: 'escape',       label: '密室逃脫專區',       icon: '🔐',  desc: '主題密室資訊與預約' },
+  // { id: 'escape',       label: '密室逃脫專區',       icon: '🔐',  desc: '主題密室資訊與預約' },
   { id: 'helper-menu',  label: '實用桌遊輔助 APP',   icon: '🛠️', desc: '計分、語音旁白、抽籤工具' },
   { id: 'member',       label: '會員專區',           icon: '👤',  desc: '查詢資料、預約桌位、玩過紀錄' },
 ];

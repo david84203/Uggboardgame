@@ -233,6 +233,7 @@ export default function ConsumePage() {
       </CollapsibleSection>
 
       {/* ===== 5. 密室逃脫 ===== */}
+      {/* 暫時隱藏
       <CollapsibleSection icon="🔐" title="密室逃脫">
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 flex items-start gap-3">
           <span className="text-xl shrink-0">🚪</span>
@@ -247,6 +248,7 @@ export default function ConsumePage() {
           </div>
         </div>
       </CollapsibleSection>
+      */}
 
       {/* ===== 底部提示 ===== */}
       <p className="text-center text-sm text-stone-400 pb-2">

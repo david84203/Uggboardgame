@@ -11,6 +11,30 @@ export default function ScoringHubPage({ onSelect, isLoggedIn, onGoToMember }) {
       </h2>
       
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        {/* 數位計分紙 */}
+        <button
+          onClick={() => onSelect('helper-scoresheet')}
+          className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
+        >
+          <div className="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors mb-3">
+            <TableProperties className="text-teal-600" size={28} />
+          </div>
+          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">數位計分紙</h3>
+          <p className="text-stone-500 text-xs leading-relaxed">自訂項目與玩家，自動結算總分</p>
+        </button>
+
+        {/* 農家樂計分器 */}
+        <button 
+          onClick={() => onSelect('helper-agricola')}
+          className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
+        >
+          <div className="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center shrink-0 group-hover:bg-orange-100 transition-colors mb-3">
+            <Wheat className="text-orange-600" size={28} />
+          </div>
+          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">農家樂計分器</h3>
+          <p className="text-stone-500 text-xs leading-relaxed">Agricola 專用計分表支援五人</p>
+        </button>
+
         {/* 萬用計分器 (已鎖定) */}
         <button
           onClick={() => isLoggedIn ? onSelect('helper-scorer') : setShowPrompt(true)}
@@ -34,30 +58,6 @@ export default function ScoringHubPage({ onSelect, isLoggedIn, onGoToMember }) {
             </div>
             <p className="text-stone-500 text-xs leading-relaxed">適用任何桌遊即時排名與回合管理</p>
           </div>
-        </button>
-
-        {/* 農家樂計分器 */}
-        <button 
-          onClick={() => onSelect('helper-agricola')}
-          className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
-        >
-          <div className="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center shrink-0 group-hover:bg-orange-100 transition-colors mb-3">
-            <Wheat className="text-orange-600" size={28} />
-          </div>
-          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">農家樂計分器</h3>
-          <p className="text-stone-500 text-xs leading-relaxed">Agricola 專用計分表支援五人</p>
-        </button>
-
-        {/* 數位計分紙 */}
-        <button
-          onClick={() => onSelect('helper-scoresheet')}
-          className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
-        >
-          <div className="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors mb-3">
-            <TableProperties className="text-teal-600" size={28} />
-          </div>
-          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">數位計分紙</h3>
-          <p className="text-stone-500 text-xs leading-relaxed">自訂項目與玩家，自動結算總分</p>
         </button>
 
         {/* 七大奇蹟（鎖會員） */}
