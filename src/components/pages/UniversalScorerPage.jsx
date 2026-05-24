@@ -331,13 +331,15 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, o
         setDisplayRanks(ranks);
         
         if (isLast) {
-          const winner = [...finalPlayers].sort((a, b) => b.score - a.score)[0];
+          const sorted = [...finalPlayers].sort((a, b) => b.score - a.score);
+          const resultsText = sorted.map(p => `第 ${ranks[p.id]} 名：${p.name} (${p.score}分)`).join('\n');
+          
           if (gameInfo?.gameName) {
-            if (window.confirm(`遊戲結束！第一名：${winner.name} 🎉\n\n是否要將成績上傳至排行榜？`)) {
+            if (window.confirm(`遊戲結束！\n\n${resultsText}\n\n是否要將成績上傳至排行榜？`)) {
               setTimeout(() => setShowUploadModal(true), 100);
             }
           } else {
-            alert(`遊戲結束！第一名：${winner.name} 🎉\n（未指定遊戲名稱，無法上傳成績）`);
+            alert(`遊戲結束！\n\n${resultsText}\n\n（未指定遊戲名稱，無法上傳成績）`);
           }
           return finalPlayers; // 保持已確認狀態
         } else {
