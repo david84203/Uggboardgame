@@ -3,7 +3,7 @@ import { collection, query, where, getDocs, addDoc, doc, updateDoc } from 'fireb
 import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 import { getLiffProfile } from '../../utils/liff'
-import { Star, Calendar, ChevronDown, ChevronUp } from 'lucide-react'
+import { Star, Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 
 // ── 登入表單 ──────────────────────────────────────────────────────────────────
 const GM_MEMBER = {
@@ -143,13 +143,16 @@ function getBirthdayInfo(birthdayStr) {
 
 // ── 會員卡主體 ─────────────────────────────────────────────────────────────────
 function MemberCard({ member, onLogout }) {
-  const realExp = member.exp || 0
+  const [targetMember, setTargetMember] = useState(null)
+  const displayMember = targetMember || member
+
+  const realExp = displayMember.exp || 0
   const [previewLevel, setPreviewLevel] = useState(null)
-  const exp = (member.isGM && previewLevel !== null) ? LEVELS[previewLevel].minExp : realExp
+  const exp = (displayMember.isGM && previewLevel !== null) ? LEVELS[previewLevel].minExp : realExp
   const level = calcLevel(exp)
   const nextLevel = calcNextLevel(exp)
   const progress = nextLevel ? ((exp - level.minExp) / (nextLevel.minExp - level.minExp)) * 100 : 100
-  const birthdayInfo = getBirthdayInfo(member.birthday)
+  const birthdayInfo = getBirthdayInfo(displayMember.birthday)
 
   const [showHistory, setShowHistory] = useState(false)
   const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0 })
@@ -166,36 +169,87 @@ function MemberCard({ member, onLogout }) {
   const [showGames, setShowGames] = useState(false)
   const [gamesTab, setGamesTab] = useState('played')
 
+  // GM 搜尋會員功能
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearching, setIsSearching] = useState(false)
+  const [searchError, setSearchError] = useState('')
+
+  async function handleGMSearch(e) {
+    e.preventDefault()
+    if (!searchQuery.trim()) {
+      setTargetMember(null)
+      setSearchError('')
+      return
+    }
+    setIsSearching(true)
+    setSearchError('')
+    const qStr = searchQuery.trim()
+    try {
+      let match = null
+      const queries = [
+        query(collection(db, 'members'), where('name', '==', qStr)),
+        query(collection(db, 'members'), where('phone', '==', qStr)),
+        query(collection(db, 'members'), where('memberId', '==', qStr)),
+      ]
+      for (const q of queries) {
+        const snap = await getDocs(q)
+        if (!snap.empty) {
+          match = { id: snap.docs[0].id, ...snap.docs[0].data() }
+          break
+        }
+      }
+      if (match) {
+        setTargetMember(match)
+        setSearchQuery('')
+      } else {
+        setSearchError('找不到符合的會員')
+      }
+    } catch (err) {
+      setSearchError('搜尋發生錯誤')
+    } finally {
+      setIsSearching(false)
+    }
+  }
+
 
   useEffect(() => {
+    // 當 displayMember 改變時，重置資料與狀態
+    setHistoryLoaded(false)
+    setShowHistory(false)
+    setGamesLoaded(false)
+    setShowGames(false)
+    setActiveSession(null)
+    setActiveRentals([])
+    setSessionFriendCount(0)
+
     Promise.all([
-      getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', member.id), where('status', '==', 'in'))),
-      getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', member.id), where('status', '==', 'rented'))),
+      getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', displayMember.id), where('status', '==', 'in'))),
+      getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', displayMember.id), where('status', '==', 'rented'))),
     ]).then(([sessionSnap, rentalSnap]) => {
       const session = sessionSnap.empty ? null : { id: sessionSnap.docs[0].id, ...sessionSnap.docs[0].data() }
       setActiveSession(session)
       setActiveRentals(rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })))
       if (session) {
-        const prefix = member.name + ' 的朋友'
+        const prefix = displayMember.name + ' 的朋友'
         getDocs(query(collection(db, 'sessions'), where('status', '==', 'in'), where('name', '>=', prefix), where('name', '<=', prefix + '')))
           .then(snap => setSessionFriendCount(snap.size))
       }
     })
-  }, [member.id, member.name])
+  }, [displayMember.id, displayMember.name])
 
   async function fetchHistory() {
     if (historyLoaded) { setShowHistory(v => !v); return }
     setHistoryLoading(true); setHistoryError('')
     try {
       const [sessionSnap, rentalSnap] = await Promise.all([
-        getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', member.id))),
-        getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', member.id))),
+        getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', displayMember.id))),
+        getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', displayMember.id))),
       ])
       const sessions = sessionSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       const rentals = rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       let friendCount = 0
       try {
-        const prefix = member.name + ' 的朋友'
+        const prefix = displayMember.name + ' 的朋友'
         const fs = await getDocs(query(collection(db, 'sessions'), where('name', '>=', prefix), where('name', '<=', prefix + '')))
         friendCount = fs.docs.length
       } catch (_) {}
@@ -208,7 +262,7 @@ function MemberCard({ member, onLogout }) {
   async function loadGames() {
     if (gamesLoaded) { setShowGames(v => !v); return }
     try {
-      const q = query(collection(db, 'member_games'), where('memberId', '==', member.id))
+      const q = query(collection(db, 'member_games'), where('memberId', '==', displayMember.id))
       const snap = await getDocs(q)
       setMemberGames(snap.docs.map(d => ({ id: d.id, ...d.data() })))
       setGamesLoaded(true); setShowGames(true)
@@ -222,6 +276,37 @@ function MemberCard({ member, onLogout }) {
 
   return (
     <div className="px-4 py-6 max-w-md mx-auto">
+      {/* ── GM 搜尋功能 ─────────────────────────────────────────── */}
+      {member.isGM && (
+        <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4 relative z-10">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-bold text-stone-800 flex items-center gap-2">
+              <Search className="w-4 h-4 text-orange-500" />
+              上帝視角（搜尋會員）
+            </h3>
+            {targetMember && (
+              <button onClick={() => setTargetMember(null)} className="flex items-center gap-1 text-xs px-2 py-1 bg-stone-100 text-stone-600 rounded-lg hover:bg-stone-200 transition">
+                <X className="w-3 h-3" />
+                回到我的帳號
+              </button>
+            )}
+          </div>
+          <form onSubmit={handleGMSearch} className="flex gap-2">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="輸入姓名、手機或編號"
+              className="flex-1 px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 focus:bg-white transition"
+            />
+            <button type="submit" disabled={isSearching || !searchQuery.trim()} className="px-4 py-2 bg-orange-500 text-white rounded-xl text-sm font-medium disabled:opacity-50 transition shadow-sm shadow-orange-200">
+              {isSearching ? '搜尋中' : '搜尋'}
+            </button>
+          </form>
+          {searchError && <p className="text-xs text-red-500 mt-2 ml-1">{searchError}</p>}
+        </div>
+      )}
+
       {/* ── 生日 Banner ─────────────────────────────────────────── */}
       {birthdayInfo?.inWindow && (
         <div className={`mb-4 rounded-2xl px-4 py-3 border flex items-center gap-3 ${birthdayInfo.isToday ? 'bg-gradient-to-r from-orange-400 to-amber-400 text-white border-transparent shadow-lg shadow-orange-200' : 'bg-orange-50 border-orange-200 text-orange-700'}`}>
@@ -229,7 +314,7 @@ function MemberCard({ member, onLogout }) {
           <div>
             <p className="font-bold text-sm">
               {birthdayInfo.isToday
-                ? `生日快樂，${member.name}！🎉`
+                ? `生日快樂，${displayMember.name}！🎉`
                 : birthdayInfo.daysUntil > 0
                 ? `生日 ${birthdayInfo.countdown}！壽星優惠準備中 🎊`
                 : `壽星優惠還有 ${-birthdayInfo.daysUntil > 0 ? -birthdayInfo.daysUntil : 0} 天截止`}
@@ -245,21 +330,21 @@ function MemberCard({ member, onLogout }) {
       <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-amber-400 flex items-center justify-center text-white font-bold text-lg shadow">
-            #{member.memberId}
+            #{displayMember.memberId}
           </div>
           <div>
-            <div className="font-bold text-stone-800 text-lg">{member.name}</div>
-            {member.nickname && <div className="text-stone-400 text-sm">（{member.nickname}）</div>}
+            <div className="font-bold text-stone-800 text-lg">{displayMember.name}</div>
+            {displayMember.nickname && <div className="text-stone-400 text-sm">（{displayMember.nickname}）</div>}
           </div>
         </div>
 
         <div className="space-y-2 mb-3 text-base text-stone-600">
           <div className="flex items-center gap-2">
-            <span>📱</span><span>手機：{member.phone || '未填寫'}</span>
+            <span>📱</span><span>手機：{displayMember.phone || '未填寫'}</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <span>🎂</span>
-            <span>生日：{member.birthday || '未填寫'}</span>
+            <span>生日：{displayMember.birthday || '未填寫'}</span>
             {birthdayInfo && !birthdayInfo.inWindow && (
               <span className="text-sm text-orange-500 font-medium">（{birthdayInfo.countdown}）</span>
             )}
@@ -268,7 +353,7 @@ function MemberCard({ member, onLogout }) {
         <p className="text-xs text-stone-400 mb-4">※ 如需更改基本資料請至烏嘎嘎櫃台</p>
 
         {/* ── GM 等級預覽 ──────────────────────────────────── */}
-        {member.isGM && (
+        {displayMember.isGM && (
           <div className="mb-3">
             <p className="text-xs text-stone-400 mb-1.5">🎮 GM 等級預覽</p>
             <div className="flex gap-1.5 flex-wrap">
@@ -324,7 +409,7 @@ function MemberCard({ member, onLogout }) {
       </div>
 
       {/* ── 購物金 ──────────────────────────────────────────────── */}
-      {(member.shoppingCredit > 0) && (
+      {(displayMember.shoppingCredit > 0) && (
         <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🛍️</span>
@@ -333,7 +418,7 @@ function MemberCard({ member, onLogout }) {
               <p className="text-xs text-stone-400">消費時告知店員即可使用</p>
             </div>
           </div>
-          <span className="text-xl font-bold text-orange-500">${member.shoppingCredit}</span>
+          <span className="text-xl font-bold text-orange-500">${displayMember.shoppingCredit}</span>
         </div>
       )}
 
