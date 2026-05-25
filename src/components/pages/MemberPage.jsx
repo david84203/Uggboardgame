@@ -187,9 +187,10 @@ function MemberCard({ member, onLogout }) {
     try {
       let match = null
       const queries = [
-        query(collection(db, 'members'), where('name', '==', qStr)),
         query(collection(db, 'members'), where('phone', '==', qStr)),
         query(collection(db, 'members'), where('memberId', '==', qStr)),
+        query(collection(db, 'members'), where('memberId', '==', Number(qStr))),
+        query(collection(db, 'members'), where('name', '==', qStr))
       ]
       for (const q of queries) {
         const snap = await getDocs(q)
