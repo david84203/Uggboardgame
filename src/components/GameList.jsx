@@ -102,7 +102,9 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
           >
             <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
             <span className="text-sm font-bold text-stone-700 flex-1">根據你的喜好推薦</span>
-            <span className={`text-stone-400 text-xs transition-transform duration-200 ${showRecommended ? 'rotate-180' : ''}`}>▾</span>
+            <span className="text-xs text-stone-400 px-2 py-0.5 rounded-full bg-stone-100 border border-stone-200">
+              {showRecommended ? '收起 ▴' : '展開 ▾'}
+            </span>
           </button>
           {showRecommended && (
             <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
