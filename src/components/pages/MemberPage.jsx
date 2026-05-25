@@ -191,7 +191,7 @@ function MemberCard({ member, onLogout }) {
       // 由於 Firebase 不支援多欄位模糊搜尋，且會員數預計不會到極大，
       // 這裡直接抓取全部會員到前端做 filter，這與入場系統的作法一致。
       const snap = await getDocs(collection(db, 'members'))
-      const allMembers = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      const allMembers = snap.docs.map(d => ({ ...d.data(), id: d.id }))
       const matched = allMembers.filter(m => 
         (m.name || '').includes(qStr) || 
         (m.nickname || '').includes(qStr) || 
