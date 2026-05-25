@@ -173,35 +173,40 @@ function MemberCard({ member, onLogout }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearching, setIsSearching] = useState(false)
   const [searchError, setSearchError] = useState('')
+  const [searchResults, setSearchResults] = useState([])
 
   async function handleGMSearch(e) {
     e.preventDefault()
     if (!searchQuery.trim()) {
       setTargetMember(null)
+      setSearchResults([])
       setSearchError('')
       return
     }
     setIsSearching(true)
     setSearchError('')
+    setSearchResults([])
     const qStr = searchQuery.trim()
     try {
-      let match = null
-      const queries = [
-        query(collection(db, 'members'), where('phone', '==', qStr)),
-        query(collection(db, 'members'), where('memberId', '==', qStr)),
-        query(collection(db, 'members'), where('memberId', '==', Number(qStr))),
-        query(collection(db, 'members'), where('name', '==', qStr))
-      ]
-      for (const q of queries) {
-        const snap = await getDocs(q)
-        if (!snap.empty) {
-          match = { id: snap.docs[0].id, ...snap.docs[0].data() }
-          break
+      // 由於 Firebase 不支援多欄位模糊搜尋，且會員數預計不會到極大，
+      // 這裡直接抓取全部會員到前端做 filter，這與入場系統的作法一致。
+      const snap = await getDocs(collection(db, 'members'))
+      const allMembers = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      const matched = allMembers.filter(m => 
+        (m.name || '').includes(qStr) || 
+        (m.nickname || '').includes(qStr) || 
+        (m.phone || '').includes(qStr) || 
+        String(m.memberId).includes(qStr)
+      )
+      
+      if (matched.length > 0) {
+        // 如果只有一筆，直接顯示
+        if (matched.length === 1) {
+          setTargetMember(matched[0])
+          setSearchQuery('')
+        } else {
+          setSearchResults(matched)
         }
-      }
-      if (match) {
-        setTargetMember(match)
-        setSearchQuery('')
       } else {
         setSearchError('找不到符合的會員')
       }
@@ -305,6 +310,32 @@ function MemberCard({ member, onLogout }) {
             </button>
           </form>
           {searchError && <p className="text-xs text-red-500 mt-2 ml-1">{searchError}</p>}
+          {searchResults.length > 0 && (
+            <div className="mt-3 border-t border-stone-100 pt-3 space-y-1.5 max-h-60 overflow-y-auto">
+              <p className="text-xs text-stone-400 mb-1">找到 {searchResults.length} 位會員：</p>
+              {searchResults.map(m => (
+                <button
+                  key={m.id}
+                  onClick={() => {
+                    setTargetMember(m)
+                    setSearchResults([])
+                    setSearchQuery('')
+                  }}
+                  className="w-full text-left px-3 py-2 bg-stone-50 hover:bg-orange-50 border border-transparent hover:border-orange-100 rounded-xl transition flex flex-col gap-0.5"
+                >
+                  <div className="font-medium text-stone-800 text-sm">
+                    {m.name} {m.nickname && <span className="text-stone-400 text-xs">（{m.nickname}）</span>}
+                  </div>
+                  <div className="text-xs text-stone-400 flex items-center gap-1">
+                    <span className="font-bold text-orange-400">#{m.memberId}</span>
+                    <span>·</span>
+                    <span>{m.phone || '無電話'}</span>
+                    <span className="ml-auto font-medium text-stone-300">Lv.{calcLevel(m.exp || 0).level}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
