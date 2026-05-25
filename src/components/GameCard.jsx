@@ -146,10 +146,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   const weightLabel = getWeightLabel(weight);
   
   const displayCategories = category ? [category] : [];
-  const allBadges = [
-    ...displayCategories,
-    ...(tags || [])
-  ].slice(0, 4);
+  const allBadges = [...displayCategories, ...(tags || [])];
 
   return (
     <>
@@ -231,25 +228,30 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
             </div>
           </div>
 
-          {/* Badges / Tags + 租金 (Bottom) */}
-          <div className="flex items-center justify-between gap-1.5 mt-auto pt-2 border-t border-stone-100/50">
-            <div className="flex flex-wrap gap-1.5">
-              {allBadges.map((badge, idx) => (
-                <span key={idx} className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#f0e6c8] text-[#8c7335]">{badge}</span>
-              ))}
-              {youtubeIds.length > 0 && (
-                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-semibold bg-purple-50 text-purple-600 border border-purple-100">
-                  <PlayCircle className="w-3 h-3" />教學
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              {rental && (
-                <span className="text-[12px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap">
-                  租 ${rental}
-                </span>
-              )}
-              {/* 會員快速標記 */}
+          {/* Bottom Section */}
+          <div className="mt-auto pt-2 border-t border-stone-100/50 space-y-1.5">
+            {/* Tags Row */}
+            {(allBadges.length > 0 || youtubeIds.length > 0) && (
+              <div className="flex flex-wrap gap-1">
+                {allBadges.map((badge, idx) => (
+                  <span key={idx} className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#f0e6c8] text-[#8c7335]">{badge}</span>
+                ))}
+                {youtubeIds.length > 0 && (
+                  <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-purple-50 text-purple-600 border border-purple-100">
+                    <PlayCircle className="w-3 h-3" />教學
+                  </span>
+                )}
+              </div>
+            )}
+            {/* Action Row */}
+            <div className="flex items-center justify-between">
+              <div>
+                {rental && (
+                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap">
+                    租 ${rental}
+                  </span>
+                )}
+              </div>
               {memberId && (
                 <div className="flex gap-1" onClick={e => e.stopPropagation()}>
                   <button
