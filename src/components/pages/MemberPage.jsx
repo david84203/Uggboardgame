@@ -583,7 +583,14 @@ function MemberCard({ member, onLogout }) {
 
       {/* ── 累積 EXP 方式 ────────────────────────────────────────── */}
       <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4">
-        <div className="text-sm font-bold text-stone-500 mb-3">如何累積經驗值</div>
+        <div className="flex items-center gap-2 mb-3">
+          <div className="text-sm font-bold text-stone-500">如何累積經驗值</div>
+          {new Date() < new Date('2026-07-01T00:00:00+08:00') && (
+            <span className="text-[10px] font-bold text-orange-500 bg-orange-50 border border-orange-100 px-2 py-0.5 rounded-full">
+              7/1開始正式啟動經驗值系統
+            </span>
+          )}
+        </div>
         <div className="space-y-2">
           {EXP_RULES.map((r, i) => (
             <div key={i} className="flex items-center justify-between text-sm">
