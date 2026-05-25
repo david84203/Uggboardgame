@@ -25,6 +25,7 @@ function SkeletonCard() {
 export default function GameList({ games, loading, error, totalCount, memberId, memberGames, onToggle, onRate, allGames, isRented }) {
   const { getRentalCount } = useRentalCounts()
   const [showTips, setShowTips] = useState(false)
+  const [showRecommended, setShowRecommended] = useState(true)
 
   // 遊戲推薦（根據玩過 / 想玩的 category + tags）
   const recommended = useMemo(() => {
@@ -95,17 +96,23 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
       {/* 推薦區塊 */}
       {recommended.length > 0 && (
         <div className="mb-5">
-          <div className="flex items-center gap-1.5 mb-3">
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            <span className="text-sm font-bold text-stone-700">根據你的喜好推薦</span>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-            {recommended.map(game => (
-              <div key={game.id} className="w-40 shrink-0">
-                <GameCard game={game} {...cardProps} />
-              </div>
-            ))}
-          </div>
+          <button
+            className="flex items-center gap-1.5 mb-3 w-full text-left"
+            onClick={() => setShowRecommended(v => !v)}
+          >
+            <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+            <span className="text-sm font-bold text-stone-700 flex-1">根據你的喜好推薦</span>
+            <span className={`text-stone-400 text-xs transition-transform duration-200 ${showRecommended ? 'rotate-180' : ''}`}>▾</span>
+          </button>
+          {showRecommended && (
+            <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+              {recommended.map(game => (
+                <div key={game.id} className="w-40 shrink-0">
+                  <GameCard game={game} {...cardProps} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
