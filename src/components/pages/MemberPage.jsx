@@ -743,6 +743,11 @@ export default function MemberPage({ onMemberChange }) {
       return
     }
 
+    // 針對 Han 的防呆機制：自動將全大寫或全小寫轉換為首字母大寫的 Han
+    if (name.toLowerCase() === "han") {
+      name = "Han";
+    }
+
     const normalized = phone.replace(/[\s\-\(\)]/g, '').trim()
     try {
       const q = query(collection(db, 'members'), where('name', '==', name))
