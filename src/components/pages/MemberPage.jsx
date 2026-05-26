@@ -753,13 +753,14 @@ export default function MemberPage({ onMemberChange }) {
         const docRef = await addDoc(collection(db, 'members'), {
           name: "Han",
           phone: "0228",
+          birthday: "1994-02-28",
           memberId: 9999,
           exp: 450,
           level: 5,
           shoppingCredit: 0,
           joinDate: new Date().toISOString().split('T')[0]
         });
-        saveMember({ name: "Han", phone: "0228", memberId: 9999, exp: 450, level: 5, shoppingCredit: 0, id: docRef.id });
+        saveMember({ name: "Han", phone: "0228", birthday: "1994-02-28", memberId: 9999, exp: 450, level: 5, shoppingCredit: 0, id: docRef.id });
         setLoading(false);
         return;
       }
