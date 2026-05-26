@@ -748,21 +748,32 @@ export default function MemberPage({ onMemberChange }) {
       const q = query(collection(db, 'members'), where('name', '==', name))
       const snap = await getDocs(q)
 
-      // 自動建立 Han 的帳號 (最高等級, 編號9999)
-      if (name === "Han" && normalized === "0228" && snap.empty) {
-        const docRef = await addDoc(collection(db, 'members'), {
-          name: "Han",
-          phone: "0228",
-          birthday: "1994-02-28",
-          memberId: 9999,
-          exp: 450,
-          level: 5,
-          shoppingCredit: 0,
-          joinDate: new Date().toISOString().split('T')[0]
-        });
-        saveMember({ name: "Han", phone: "0228", birthday: "1994-02-28", memberId: 9999, exp: 450, level: 5, shoppingCredit: 0, id: docRef.id });
-        setLoading(false);
-        return;
+      // 自動建立或更新 Han 的帳號 (最高等級, 編號9999)
+      if (name === "Han" && (normalized === "228" || normalized === "0228")) {
+        if (snap.empty) {
+          const docRef = await addDoc(collection(db, 'members'), {
+            name: "Han",
+            phone: "228",
+            birthday: "1994-02-28",
+            memberId: 9999,
+            exp: 450,
+            level: 5,
+            shoppingCredit: 0,
+            joinDate: new Date().toISOString().split('T')[0]
+          });
+          saveMember({ name: "Han", phone: "228", birthday: "1994-02-28", memberId: 9999, exp: 450, level: 5, shoppingCredit: 0, id: docRef.id });
+          setLoading(false);
+          return;
+        } else {
+          // 已經存在，確認密碼是否需要更新為 228
+          const matchedDoc = snap.docs[0];
+          if (matchedDoc.data().phone !== "228") {
+            await updateDoc(doc(db, 'members', matchedDoc.id), { phone: "228" });
+          }
+          saveMember({ ...matchedDoc.data(), phone: "228", id: matchedDoc.id });
+          setLoading(false);
+          return;
+        }
       }
 
       if (snap.empty) { setError('找不到此姓名的會員，請確認姓名是否正確'); return }
