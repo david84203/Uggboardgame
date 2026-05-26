@@ -770,12 +770,16 @@ export default function MemberPage({ onMemberChange }) {
           setLoading(false);
           return;
         } else {
-          // 已經存在，確認密碼是否需要更新為 228
+          // 已經存在，確認密碼和生日是否需要更新
           const matchedDoc = snap.docs[0];
-          if (matchedDoc.data().phone !== "228") {
-            await updateDoc(doc(db, 'members', matchedDoc.id), { phone: "228" });
+          const dataToUpdate = {};
+          if (matchedDoc.data().phone !== "228") dataToUpdate.phone = "228";
+          if (matchedDoc.data().birthday !== "1994-02-28") dataToUpdate.birthday = "1994-02-28";
+          
+          if (Object.keys(dataToUpdate).length > 0) {
+            await updateDoc(doc(db, 'members', matchedDoc.id), dataToUpdate);
           }
-          saveMember({ ...matchedDoc.data(), phone: "228", id: matchedDoc.id });
+          saveMember({ ...matchedDoc.data(), ...dataToUpdate, id: matchedDoc.id });
           setLoading(false);
           return;
         }
