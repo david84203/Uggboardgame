@@ -253,34 +253,35 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                 )}
               </div>
               {memberId && (
-                <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
+                <div className="flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
                   {getRecord(game.id)?.rating ? (
                     <button
                       title="已評分，點擊修改"
-                      onClick={() => setShowRating(true)}
-                      className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-600"
+                      onClick={(e) => { e.stopPropagation(); setShowRating(true); }}
+                      className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-600 active:scale-95"
                     >
-                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                      <span className="text-[10px] font-bold">{getRecord(game.id).rating}</span>
+                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                      <span className="text-[11px] font-bold">{getRecord(game.id).rating}</span>
                     </button>
                   ) : (
                     <button
                       title="玩過"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         onToggle(game, 'played')
                         if (getStatus(game.id) !== 'played') setShowRating(true)
                       }}
-                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${getStatus(game.id) === 'played' ? 'bg-green-500 text-white' : 'bg-stone-100 text-stone-400 hover:bg-green-100 hover:text-green-500'}`}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center active:scale-95 transition-all ${getStatus(game.id) === 'played' ? 'bg-green-500 text-white shadow-sm' : 'bg-stone-100 text-stone-500 hover:bg-green-100 hover:text-green-600'}`}
                     >
-                      <CheckCircle className="w-3.5 h-3.5" />
+                      <CheckCircle className="w-4 h-4" />
                     </button>
                   )}
                   <button
                     title="想玩"
-                    onClick={() => onToggle(game, 'wishlist')}
-                    className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${getStatus(game.id) === 'wishlist' ? 'bg-rose-500 text-white' : 'bg-stone-100 text-stone-400 hover:bg-rose-100 hover:text-rose-500'}`}
+                    onClick={(e) => { e.stopPropagation(); onToggle(game, 'wishlist'); }}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center active:scale-95 transition-all ${getStatus(game.id) === 'wishlist' ? 'bg-rose-500 text-white shadow-sm' : 'bg-stone-100 text-stone-500 hover:bg-rose-100 hover:text-rose-600'}`}
                   >
-                    <Heart className="w-3.5 h-3.5" />
+                    <Heart className="w-4 h-4" />
                   </button>
                 </div>
               )}
