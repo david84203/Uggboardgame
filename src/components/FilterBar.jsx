@@ -138,7 +138,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
             </div>
 
             {/* 人數 + 時間 + 熱門 + 清除 */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center gap-2">
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-50 text-orange-500 shrink-0">
                   <Users className="w-4 h-4" />
