@@ -369,33 +369,85 @@ async function downloadImage(url, destPath) {
 
 // ─── 輔助：名稱配對 ──────────────────────────────────────────────────────────
 
-function buildProductMap(products) {
-  const map = new Map()
-  const normMap = new Map()
-
-  for (const p of products) {
-    // 精確配對 key
-    if (!map.has(p.cleanName)) map.set(p.cleanName, p)
-
-    // 模糊配對 key（去括號）
-    const norm = normalizeName(p.cleanName)
-    if (norm && !normMap.has(norm)) normMap.set(norm, p)
-  }
-
-  return { map, normMap }
+// 深度正規化：移除語言標記、標點統一、數字轉換
+function deepNormalize(name) {
+  return name
+    .replace(/[（(][^）)]*[）)]/g, '')           // 移除括號內容
+    .replace(/(簡中|繁中|簡体|繁體|英文版|中文版|中文|繁體中文|簡體中文)/g, '')
+    .replace(/[-—]?(大盒版|小盒版|家庭版|迷你版|豪華版|精裝版|標準版|新版)$/, '') // 連字號版本後綴
+    .replace(/擴充$/, '').replace(/基礎版$/, '')
+    .replace(/計畫/g, '計劃')                     // 正體/簡體異字
+    .replace(/10/g, '十')                         // 阿拉伯數字 → 中文
+    .replace(/[1-9]/g, d => '一二三四五六七八九'[+d - 1])
+    .replace(/[：:—－\-·・]/g, '')               // 移除所有分隔符號
+    .replace(/\s+/g, '').trim()
 }
 
-function findProduct(sheetName, { map, normMap }) {
+// bigram 相似度（0~1），用來最後一道把關
+function bigramSim(a, b) {
+  const getBigrams = s => {
+    const bg = new Set()
+    for (let i = 0; i < s.length - 1; i++) bg.add(s.slice(i, i + 2))
+    return bg
+  }
+  const ba = getBigrams(a)
+  const bb = getBigrams(b)
+  if (ba.size === 0 || bb.size === 0) return 0
+  let inter = 0
+  for (const g of ba) if (bb.has(g)) inter++
+  return (2 * inter) / (ba.size + bb.size)
+}
+
+function buildProductMap(products) {
+  const map = new Map()        // cleanName → product
+  const normMap = new Map()    // normalizeName → product
+  const deepMap = new Map()    // deepNormalize → product
+  const allProducts = []
+
+  for (const p of products) {
+    if (!map.has(p.cleanName)) map.set(p.cleanName, p)
+
+    const norm = normalizeName(p.cleanName)
+    if (norm && !normMap.has(norm)) normMap.set(norm, p)
+
+    const deep = deepNormalize(p.cleanName)
+    if (deep && !deepMap.has(deep)) deepMap.set(deep, p)
+
+    allProducts.push(p)
+  }
+
+  return { map, normMap, deepMap, allProducts }
+}
+
+function findProduct(sheetName, { map, normMap, deepMap, allProducts }) {
   // 1. 精確比對
   if (map.has(sheetName)) return map.get(sheetName)
 
-  // 2. 清理後比對
+  // 2. 去【XX】前綴後比對
   const clean = cleanName(sheetName)
   if (map.has(clean)) return map.get(clean)
 
   // 3. 去括號模糊比對
-  const norm = normalizeName(sheetName)
+  const norm = normalizeName(clean)
   if (norm && normMap.has(norm)) return normMap.get(norm)
+
+  // 4. 深度正規化比對（語言標記+標點+異字）
+  const deep = deepNormalize(clean)
+  if (deep && deepMap.has(deep)) return deepMap.get(deep)
+
+  // 5. bigram 相似度 ≥ 0.75（最後才用，避免誤配）
+  //    只看前4字相同的候選，節省時間
+  const prefix4 = deep.slice(0, 4)
+  if (prefix4.length >= 2) {
+    let best = null, bestScore = 0
+    for (const p of allProducts) {
+      const pDeep = deepNormalize(p.cleanName)
+      if (!pDeep.startsWith(prefix4.slice(0, 2))) continue  // 快速篩
+      const score = bigramSim(deep, pDeep)
+      if (score > bestScore && score >= 0.75) { best = p; bestScore = score }
+    }
+    if (best) return best
+  }
 
   return null
 }

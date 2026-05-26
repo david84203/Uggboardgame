@@ -747,6 +747,21 @@ export default function MemberPage({ onMemberChange }) {
     try {
       const q = query(collection(db, 'members'), where('name', '==', name))
       const snap = await getDocs(q)
+
+      // 自動建立 Han 的帳號 (最高等級, 編號9999)
+      if (name === "Han" && normalized === "0228" && snap.empty) {
+        const docRef = await addDoc(collection(db, 'members'), {
+          name: "Han",
+          phone: "0228",
+          memberId: 9999,
+          exp: 450,
+          joinDate: new Date().toISOString().split('T')[0]
+        });
+        saveMember({ name: "Han", phone: "0228", memberId: 9999, exp: 450, id: docRef.id });
+        setLoading(false);
+        return;
+      }
+
       if (snap.empty) { setError('找不到此姓名的會員，請確認姓名是否正確'); return }
       const matched = snap.docs.find(d => (d.data().phone || '').replace(/[\s\-\(\)]/g, '').trim() === normalized)
       if (!matched) setError('手機號碼不符，請確認輸入的號碼')

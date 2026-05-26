@@ -38,3 +38,4 @@ auth.mjs
 *.sln
 *.sw?
 .vercel
+.env*.local

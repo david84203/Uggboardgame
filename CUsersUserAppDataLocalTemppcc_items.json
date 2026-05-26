@@ -1,0 +1,642 @@
+{
+  "documents": [
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/2XZvE471xAse2JdrtU4b",
+      "fields": {
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T08:35:02.157Z"
+        },
+        "projectId": {
+          "stringValue": "ugg-store"
+        },
+        "content": {
+          "stringValue": "會員帶朋友進場，會員要置頂，按離場的時候離場退費視窗不會跳到最上面，看不到也無法點選"
+        },
+        "type": {
+          "stringValue": "bug"
+        }
+      },
+      "createTime": "2026-05-17T08:35:02.197830Z",
+      "updateTime": "2026-05-17T12:03:00.882795Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/2g99TerC33AjdDmhZelD",
+      "fields": {
+        "content": {
+          "stringValue": "連結烏嘎嘎APP的google sheet內遊戲名字，自動輸入遊戲人數、售價、租金"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T06:30:26.281Z"
+        },
+        "status": {
+          "stringValue": "open"
+        },
+        "projectId": {
+          "stringValue": "ugg-inventory"
+        }
+      },
+      "createTime": "2026-05-17T06:30:26.303722Z",
+      "updateTime": "2026-05-17T06:30:26.303722Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/3b7BrJYkCPKGe35HKz3X",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "本月任務的顯示分成上半部為還未到期，下半部是已過期限的(比如說今天是5/18，那上半部只會顯示5/18~5/31，下半部顯示5/1~5/17，並且下半部設定一個一鍵完成的按鈕)，因為有些行程可能像是證件照客人預約，當下拍完不會馬上按完成，就會一直掛在上面。"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T16:06:35.181Z"
+        },
+        "status": {
+          "stringValue": "done"
+        }
+      },
+      "createTime": "2026-05-17T16:06:35.234757Z",
+      "updateTime": "2026-05-17T20:50:53.991429Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/FZCBRmfzo1L2RcExEETp",
+      "fields": {
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-18T10:53:50.917Z"
+        },
+        "projectId": {
+          "stringValue": "inbox"
+        },
+        "content": {
+          "stringValue": "⚠️ 前一筆已記入帳本。修改後送出會新增一筆，請記得到帳本刪除錯誤的那筆。 這個邏輯不對，應該是該筆資料先不紀錄，等到確認送出才真的紀錄"
+        },
+        "type": {
+          "stringValue": "bug"
+        }
+      },
+      "createTime": "2026-05-18T10:53:50.956415Z",
+      "updateTime": "2026-05-18T11:26:14.127313Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/HD1GKumU3N1Jd5T981ie",
+      "fields": {
+        "projectId": {
+          "stringValue": "general"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "stringValue": "2026-05-20T18:15:00+08:00"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "樓上電腦設定 Claude Code 雙機同步 ▸ 1. Windows+R 輸入 ms-settings:developers 開啟 Developer Mode ▸ 2. 開 Claude Code 執行三行：MSYS=winsymlinks:nativestrict ln -s \"C:/Users/bboylu/Dropbox/Claude Config/CLAUDE.md\" \"C:/Users/bboylu/.claude/CLAUDE.md\" ｜ 同樣方式建 settings.json 和 skills 的 symlink（把 CLAUDE.md 換掉即可）▸ 3. ls -la ~/.claude/ 確認有 lrwxrwxrwx 和 -\u003e 箭頭就完成"
+        }
+      },
+      "createTime": "2026-05-20T10:40:27.910139Z",
+      "updateTime": "2026-05-20T18:23:08.186488Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/HdkxuKSXbN9z04cfMTww",
+      "fields": {
+        "projectId": {
+          "stringValue": "sharon-app"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-18T06:49:21.823Z"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "新增搜尋功能，輸入名字或電話可以找到拍攝日期以及消費紀錄"
+        }
+      },
+      "createTime": "2026-05-18T06:49:21.848494Z",
+      "updateTime": "2026-05-19T08:37:45.548178Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/JTsKNH9FAa7NHG3XM37M",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "新增 query_sharon_monthly 工具：查詢莎朗嘿yo月收入總覽（例：「5月莎朗總共收了多少？」）"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.209Z"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.714603Z",
+      "updateTime": "2026-05-19T19:58:26.653632Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/KemR8dFgQDIdZn7anASo",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "會員進場與租借紀錄連動會員系統ˋ"
+        },
+        "projectId": {
+          "stringValue": "ugg-store"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T11:32:40.271Z"
+        }
+      },
+      "createTime": "2026-05-17T11:32:40.308819Z",
+      "updateTime": "2026-05-17T15:41:06.852561Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/LredvbT5RM4DAPRH8wCD",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "桌遊APP今日新增功能，明天換電腦後續事項\n\n已完成並推上Vercel：\n1. 揪團看板（新NavTab，非會員可看，登入才能發文）\n2. 活動看板（新NavTab，你在Firestore寫資料就自動顯示）\n3. 玩過清單 + 想玩清單（遊戲列表小按鈕標記，會員頁查看）\n4. 遊戲評分（玩過後可打1-5星）\n5. 遊戲推薦（根據玩過喜好自動推薦，登入後遊戲列表最上方）\n6. 線上預約桌位（會員頁新增預約按鈕，送出後Telegram通知小管）\n7. EXP進度條升級（5個等級里程碑刻度 + 百分比）\n8. 生日Banner（生日前後3天跳橘色Banner）\n9. GM管理員帳號（輸入GM免手機號碼直接登入）\n\n明天換電腦後要做：\nA. Firebase Console -\u003e ugg-store-system -\u003e members collection 新增GM文件\n   欄位：name=GM, phone=GM_NO_PHONE, memberId=0000, exp=9999, isGM=true, nickname=管理員\nB. 桌遊APP目錄開終端機執行：\n   firebase use ugg-store-system\n   firebase deploy --only firestore:indexes\n   （把揪團看板和活動看板的Firestore Index部署到正確專案）\nC. 在ugg-store-system的events collection新增一筆測試資料，確認活動看板正常顯示"
+        },
+        "projectId": {
+          "stringValue": "ugg-app"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "stringValue": "2026-05-22T22:00:00+08:00"
+        }
+      },
+      "createTime": "2026-05-22T08:59:41.487018Z",
+      "updateTime": "2026-05-22T14:13:24.065015Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/TZEdeHlCQPVeAQUWceEz",
+      "fields": {
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T06:30:48.833Z"
+        },
+        "projectId": {
+          "stringValue": "ugg-inventory"
+        },
+        "content": {
+          "stringValue": "連結入場系統，有銷售的話自動扣掉倉儲系統的備貨量"
+        },
+        "type": {
+          "stringValue": "memo"
+        }
+      },
+      "createTime": "2026-05-17T06:30:48.970644Z",
+      "updateTime": "2026-05-18T20:34:29.000264Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/V5V9luXJbPKTc55SPerY",
+      "fields": {
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:56.975Z"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "新增 create_pcc_item 工具：讓小管可以直接幫 PCC 新增備忘或 bug（例：「幫我在桌遊APP記一個bug：XXX」）"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.581692Z",
+      "updateTime": "2026-05-19T19:46:31.042091Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/X5VQFffOc5ghOp8vVv71",
+      "fields": {
+        "content": {
+          "stringValue": "每日晨報功能：小管自動彙整今日行事曆 + 未完成任務 + 桌遊店今日概況，說「今天有什麼」一次掌握"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.318Z"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.817411Z",
+      "updateTime": "2026-05-19T19:58:27.060332Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/XlKolWhbfdBRxBFWM1qd",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "要在官方LINE上做一個玩家工具箱使用說明導覽"
+        },
+        "projectId": {
+          "stringValue": "ugg-app"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-18T20:34:02.267Z"
+        },
+        "status": {
+          "stringValue": "done"
+        }
+      },
+      "createTime": "2026-05-18T20:34:02.302484Z",
+      "updateTime": "2026-05-20T12:57:02.734501Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/a6A9IBLxlYCu8Ijl3A5V",
+      "fields": {
+        "content": {
+          "stringValue": "手機上小管的聊天視窗會卡到螢幕外而且不能縮放大小"
+        },
+        "type": {
+          "stringValue": "bug"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-21T18:29:56.736Z"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        }
+      },
+      "createTime": "2026-05-21T18:29:56.752478Z",
+      "updateTime": "2026-05-21T20:59:22.769126Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/aRldc52T0NZwF89ruSca",
+      "fields": {
+        "content": {
+          "stringValue": "蜜月整合：讓小管可以讀取蜜月 bot 的行程規劃資料，自動加進 Google 行事曆"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "status": {
+          "stringValue": "open"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.421Z"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.890486Z",
+      "updateTime": "2026-05-19T19:38:58.890486Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/f2VXLJqJv7pKgfkJ8y3T",
+      "fields": {
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.142Z"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "content": {
+          "stringValue": "新增 create_sharon_revenue 工具：讓小管可以快速記一筆莎朗收款（例：「剛收了1800 韓妝風格」），直接寫入莎朗 Sheets，不用開APP"
+        },
+        "type": {
+          "stringValue": "memo"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.654744Z",
+      "updateTime": "2026-05-19T19:58:26.438469Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/fQWKG4mKZnsebj4Hk8dl",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "語音輸入：手機可以直接說話，小管轉文字後處理（需要整合 Web Speech API 或 Whisper）"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.397Z"
+        },
+        "status": {
+          "stringValue": "done"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.868098Z",
+      "updateTime": "2026-05-19T20:23:24.900730Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/fivmZPxi9Qn0EIlFPENu",
+      "fields": {
+        "projectId": {
+          "stringValue": "ugg-app"
+        },
+        "status": {
+          "stringValue": "open"
+        },
+        "createdAt": {
+          "stringValue": "2026-05-23T00:00:00+08:00"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "桌遊APP店內文宣規劃▸目標：讓客人知道APP已上線可以使用▸規劃三種文宣：▸1. 門口A3海報 - 吸睛標題+QR Code▸2. 桌上A5立式桌卡 - 功能介紹+會員辦理QR Code▸3. 櫃台A4立牌 - 掃碼加LINE就能用▸核心訊息：APP怎麼開（官方LINE玩家工具箱）、可以做什麼、為什麼辦會員▸待決定：QR Code指向官方LINE還是直接APP網址▸製作工具待定（Canva或ChatGPT出圖）"
+        }
+      },
+      "createTime": "2026-05-22T16:12:19.361376Z",
+      "updateTime": "2026-05-22T16:12:19.361376Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/hNJoT5LemW5MkOnZKsWA",
+      "fields": {
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.268Z"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "新增 query_ugg_store_monthly 工具：查詢烏嘎嘎桌遊店月入場/收入統計（例：「5月桌遊店幾組入場、收了多少？」）"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.762345Z",
+      "updateTime": "2026-05-19T19:58:26.880396Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/iFTLLqE3d6UvIsTlYnE2",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "小管關掉再打開會顯示最舊的對話，改成顯示最新對話(拉到最下面)，並且我的對話跟小管的對話旁邊標註日期與時間。"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T16:08:37.765Z"
+        }
+      },
+      "createTime": "2026-05-17T16:08:37.806856Z",
+      "updateTime": "2026-05-17T20:50:54.206923Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/jb2HOBrYHkXSL2OoKOoi",
+      "fields": {
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T16:19:23.672Z"
+        },
+        "projectId": {
+          "stringValue": "inbox"
+        },
+        "content": {
+          "stringValue": "專案控制中心的手機瀏覽模式需要預設收件夾收起來，並新增一個展開按鍵"
+        },
+        "type": {
+          "stringValue": "memo"
+        }
+      },
+      "createTime": "2026-05-17T16:19:23.718728Z",
+      "updateTime": "2026-05-17T20:56:09.744643Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/jjG2OhTYhqvFxvCcDtKc",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "要做一個新系統是烏嘎嘎的記帳系統，跟其他烏嘎嘎的系統全部都會聯動"
+        },
+        "projectId": {
+          "stringValue": "inbox"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T08:39:04.337Z"
+        },
+        "status": {
+          "stringValue": "done"
+        }
+      },
+      "createTime": "2026-05-19T08:39:04.374896Z",
+      "updateTime": "2026-05-20T16:43:53.204469Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/oDHr5HzWumYZq16jmM8z",
+      "fields": {
+        "content": {
+          "stringValue": "今日實收有記錄到資料，但是在https://docs.google.com/spreadsheets/d/1qMMv62jErD4NuyvKJpWZhg9G4v94eZD_1gvavr71RAw/edit?gid=386523341#gid=386523341內的收款紀錄沒有資料，那資料是存在哪？"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T15:44:27.267Z"
+        },
+        "projectId": {
+          "stringValue": "sharon-app"
+        }
+      },
+      "createTime": "2026-05-17T15:44:27.288608Z",
+      "updateTime": "2026-05-19T08:37:45.324955Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/phVPEiJ6KoSLEODWHuS5",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "【小管進化計畫 - 進度大綱】截至 2026/05/20\n\n✅ 已完成（今日）\n━━━━━━━━━━━━━━━━\n【查詢工具 16 個】\n- query_calendar：查 Google 行事曆（支援本週/本月自動換算）\n- create_calendar_event：新增行程（含衝突檢查）\n- query_sharon_revenue：查莎朗某日收款\n- create_sharon_revenue：快速記莎朗收款\n- create_sharon_expense：快速記莎朗支出\n- query_sharon_monthly：莎朗月報（收支/利潤/方案統計）\n- search_sharon_customer：搜尋莎朗客人記錄\n- query_ugg_store：查桌遊店某日入場/收入\n- query_ugg_store_monthly：桌遊店月統計\n- query_inventory：查桌遊庫存（含推薦）\n- query_weather：查台中天氣（白天/入夜分段）\n- get_pcc_items：查 PCC 收件匣\n- complete_pcc_item：標 PCC 完成\n- create_pcc_item：幫 PCC 新增 bug/備忘\n- add_to_foodmap：加餐廳到美食地圖\n- create_task：記待辦/備忘\n\n【UI 功能】\n- 左側小管說明書（可折疊，點範例直接填入聊天框）\n- 語音輸入（麥克風按鈕，Web Speech API）\n- 行事曆分類補關鍵字（妝髮/寫真/拍攝等）\n\n【主動推播 - 每天 10:00 Telegram】\n- 小管晨報 bot：@AIhousekeeper_bot\n- 內容：天氣（白天/入夜）+ 今日行程 + 待辦 + AI新聞 + 台灣新聞 + 國際新聞\n- 新聞來源：TechOrange（AI圈）/ 自由時報（台灣）/ BBC中文（國際）\n\n🔜 明天繼續\n━━━━━━━━━━━━━━━━\n【LINE 晨報推播】\n步驟一：串通 LINE（純文字版，30分鐘）\n  1. 去 developers.line.biz 登入\n  2. 建 Provider → Messaging API channel\n  3. 取得 Channel Access Token\n  4. 修改 morning-briefing route.js 同時推 Telegram + LINE\n  5. 設定 Vercel 環境變數：LINE_CHANNEL_ACCESS_TOKEN、LINE_USER_ID\n\n步驟二：升級 LINE Flex Message 精美卡片（2-3小時）\n  - 天氣卡片：彩色區塊 + 白天/入夜溫度\n  - 新聞卡片：標題色塊 + 閱讀全文按鈕\n  - 行程卡片：時間 + 類別標籤\n\n📌 重要環境變數（ai-assistant Vercel）\n  TELEGRAM_BOT_TOKEN ✅\n  TELEGRAM_CHAT_ID ✅\n  CRON_SECRET = lu-xiaoguan-cron-2026 ✅"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T21:34:08.467Z"
+        }
+      },
+      "createTime": "2026-05-19T21:34:10.144407Z",
+      "updateTime": "2026-05-21T21:06:26.677134Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/qvLSjQkQ0nDERC5kpZdp",
+      "fields": {
+        "content": {
+          "stringValue": "主動推播：每天早上固定時間透過 Telegram 或 LINE 發送每日晨報給 Lu"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T19:38:57.371Z"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        }
+      },
+      "createTime": "2026-05-19T19:38:58.842640Z",
+      "updateTime": "2026-05-19T20:23:25.104741Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/t3UiWycJDSWvKKO39zPk",
+      "fields": {
+        "type": {
+          "stringValue": "bug"
+        },
+        "content": {
+          "stringValue": "桌遊輔助程式中的萬用計分器，手機模式在挑選玩家顏色會跑出介面外，無法正常點選顏色。"
+        },
+        "projectId": {
+          "stringValue": "ugg-app"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T20:55:13.621Z"
+        }
+      },
+      "createTime": "2026-05-17T20:55:13.626852Z",
+      "updateTime": "2026-05-19T08:47:39.971682Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/tjLLR1C4nS6jZSg0uekT",
+      "fields": {
+        "content": {
+          "stringValue": "交代事項給管家，回應已儲存了，但尚未儲存也沒有顯示"
+        },
+        "type": {
+          "stringValue": "bug"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-18T08:18:45.878Z"
+        },
+        "projectId": {
+          "stringValue": "ai-assistant"
+        }
+      },
+      "createTime": "2026-05-18T08:18:45.919949Z",
+      "updateTime": "2026-05-18T08:58:25.244365Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/xUoXmBwAkSyakU5d4vwI",
+      "fields": {
+        "type": {
+          "stringValue": "memo"
+        },
+        "content": {
+          "stringValue": "【ugg-inventory 新增開盒遊戲功能進行中】表單已完成（AddRentalGame.jsx + api/add-rental-game.js），Tab 導航也好了，尚未 deploy。待完成：填入 BGG 連結時自動抓 C/E/G/H/I/J 欄資料，需 Firecrawl API key（去 app.firecrawl.dev 取得，加入 Vercel env FIRECRAWL_API_KEY，再更新 api/add-rental-game.js 加入 fetchBGGData()）。完成後再一起 deploy。"
+        },
+        "projectId": {
+          "stringValue": "ugg-app"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-19T21:41:13.457Z"
+        }
+      },
+      "createTime": "2026-05-19T21:41:15.125402Z",
+      "updateTime": "2026-05-20T04:23:16.595880Z"
+    },
+    {
+      "name": "projects/project-hub-410cd/databases/(default)/documents/items/yE5wiVn0DCS6GtTdPEly",
+      "fields": {
+        "content": {
+          "stringValue": "新增租借顯示會員租了什麼遊戲以及歸還期限"
+        },
+        "type": {
+          "stringValue": "memo"
+        },
+        "createdAt": {
+          "timestampValue": "2026-05-17T11:32:24.291Z"
+        },
+        "status": {
+          "stringValue": "done"
+        },
+        "projectId": {
+          "stringValue": "ugg-store"
+        }
+      },
+      "createTime": "2026-05-17T11:32:24.332758Z",
+      "updateTime": "2026-05-17T15:41:09.204270Z"
+    }
+  ]
+}

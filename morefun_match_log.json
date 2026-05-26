@@ -1,5 +1,11 @@
 [
   {
+    "sheetRow": 23,
+    "name": "歡迎來到…",
+    "matched": "歡迎來到",
+    "price": 850
+  },
+  {
     "sheetRow": 32,
     "name": "砂之國度",
     "matched": "砂之國度",
@@ -90,6 +96,12 @@
     "price": 1100
   },
   {
+    "sheetRow": 115,
+    "name": "小小鐵路帝國",
+    "matched": "小小鐵路帝國基礎版",
+    "price": 1190
+  },
+  {
     "sheetRow": 122,
     "name": "薄荷工廠",
     "matched": "薄荷工廠(鐵盒)",
@@ -106,6 +118,12 @@
     "name": "金甲蟲之謎",
     "matched": "金甲蟲之謎",
     "price": 950
+  },
+  {
+    "sheetRow": 135,
+    "name": "時間守望革新：深海計畫",
+    "matched": "時間守望革新-深海計劃",
+    "price": 1200
   },
   {
     "sheetRow": 147,
@@ -126,16 +144,52 @@
     "price": 1950
   },
   {
+    "sheetRow": 164,
+    "name": "豬朋狗友",
+    "matched": "豬朋狗友-狗友",
+    "price": 450
+  },
+  {
     "sheetRow": 166,
     "name": "薄荷速遞",
     "matched": "薄荷速遞(鐵盒)",
     "price": 490
   },
   {
+    "sheetRow": 173,
+    "name": "國家公園：夜幕擴充",
+    "matched": "國家公園:夜幕",
+    "price": 890
+  },
+  {
+    "sheetRow": 179,
+    "name": "沃塔棋",
+    "matched": "沃塔棋基礎版",
+    "price": 990
+  },
+  {
+    "sheetRow": 183,
+    "name": "偵探焦點：最後底牌",
+    "matched": "偵探焦點:最後底牌",
+    "price": 450
+  },
+  {
     "sheetRow": 190,
     "name": "屠龍學院",
     "matched": "屠龍學院",
     "price": 1100
+  },
+  {
+    "sheetRow": 195,
+    "name": "鐮刀戰爭：遠方入侵者",
+    "matched": "鐮刀戰爭擴充-遠方入侵者",
+    "price": 1000
+  },
+  {
+    "sheetRow": 200,
+    "name": "矩陣密室—重啟輪迴",
+    "matched": "矩陣密室-重啟輪迴",
+    "price": 1000
   },
   {
     "sheetRow": 210,
@@ -168,6 +222,18 @@
     "price": 700
   },
   {
+    "sheetRow": 248,
+    "name": "七大奇蹟：對決",
+    "matched": "七大奇蹟對決 (定價修正批價不變)",
+    "price": 950
+  },
+  {
+    "sheetRow": 249,
+    "name": "七大奇蹟 對決：帕特農",
+    "matched": "七大奇蹟對決-帕特農擴充(定價修正批價不變)",
+    "price": 800
+  },
+  {
     "sheetRow": 256,
     "name": "小染坊",
     "matched": "小染坊",
@@ -184,6 +250,12 @@
     "name": "妙傳爆趣",
     "matched": "妙傳爆趣",
     "price": 790
+  },
+  {
+    "sheetRow": 290,
+    "name": "方程式賽車",
+    "matched": "方程式賽車D",
+    "price": 1750
   },
   {
     "sheetRow": 298,
@@ -208,6 +280,12 @@
     "name": "吸珠大笨象",
     "matched": "吸珠大笨象",
     "price": 750
+  },
+  {
+    "sheetRow": 313,
+    "name": "奧卡諾根：湖之山谷",
+    "matched": "奧卡諾根-湖之山谷",
+    "price": 1300
   },
   {
     "sheetRow": 328,
@@ -240,6 +318,12 @@
     "price": 1080
   },
   {
+    "sheetRow": 339,
+    "name": "鐵道任務：倫敦",
+    "matched": "鐵道任務(紐約篇)",
+    "price": 850
+  },
+  {
     "sheetRow": 372,
     "name": "椰子猴王",
     "matched": "椰子猴王 (此款外盒較軟，易有輕微壓痕)",
@@ -264,10 +348,22 @@
     "price": 999
   },
   {
+    "sheetRow": 396,
+    "name": "歷史巨輪：新的領袖和奇蹟",
+    "matched": "歷史巨輪:新領袖和奇蹟(人類文明新篇章)",
+    "price": 750
+  },
+  {
     "sheetRow": 406,
     "name": "跳跳棋",
     "matched": "跳跳棋",
     "price": 890
+  },
+  {
+    "sheetRow": 420,
+    "name": "圖拉真",
+    "matched": "圖拉真新版",
+    "price": 1650
   },
   {
     "sheetRow": 424,
@@ -306,6 +402,12 @@
     "price": 550
   },
   {
+    "sheetRow": 448,
+    "name": "工讀生別裝了！",
+    "matched": "(灰) 工讀生別裝了!(兩人對決版)",
+    "price": 350
+  },
+  {
     "sheetRow": 454,
     "name": "諾亞方舟",
     "matched": "諾亞方舟(紙盒較軟易輕微壓痕)",
@@ -336,10 +438,22 @@
     "price": 680
   },
   {
+    "sheetRow": 495,
+    "name": "深淵密謀",
+    "matched": "深淵:密謀(5款封面外觀，隨機出貨)",
+    "price": 490
+  },
+  {
     "sheetRow": 499,
     "name": "阿不思學院",
     "matched": "阿不思學院",
     "price": 890
+  },
+  {
+    "sheetRow": 501,
+    "name": "機密代號：裡應外合",
+    "matched": "機密代號-裡應外合 (贈好禮包)",
+    "price": 780
   },
   {
     "sheetRow": 518,
@@ -384,6 +498,12 @@
     "price": 2800
   },
   {
+    "sheetRow": 570,
+    "name": "穆拉諾 光影大師",
+    "matched": "穆拉諾-光影大師",
+    "price": 1350
+  },
+  {
     "sheetRow": 573,
     "name": "天下鳴動",
     "matched": "天下鳴動",
@@ -420,6 +540,12 @@
     "price": 850
   },
   {
+    "sheetRow": 601,
+    "name": "口香糖桌遊－啪啪啪",
+    "matched": "口香糖桌遊(含8款*5條，共40條不拆售)",
+    "price": 6000
+  },
+  {
     "sheetRow": 602,
     "name": "冰天雪地",
     "matched": "冰天雪地",
@@ -430,6 +556,12 @@
     "name": "大鍋炒",
     "matched": "大鍋炒",
     "price": 490
+  },
+  {
+    "sheetRow": 607,
+    "name": "口香糖桌遊－噓",
+    "matched": "口香糖桌遊(含8款*5條，共40條不拆售)",
+    "price": 6000
   },
   {
     "sheetRow": 612,
@@ -486,6 +618,18 @@
     "price": 850
   },
   {
+    "sheetRow": 671,
+    "name": "鐵道任務：歐洲",
+    "matched": "鐵道任務(紐約篇)",
+    "price": 850
+  },
+  {
+    "sheetRow": 674,
+    "name": "漢薩同盟",
+    "matched": "漢薩同盟大盒版",
+    "price": 1800
+  },
+  {
     "sheetRow": 685,
     "name": "南美高原",
     "matched": "南美高原",
@@ -508,6 +652,12 @@
     "name": "出包魔法師",
     "matched": "出包魔法師",
     "price": 1290
+  },
+  {
+    "sheetRow": 753,
+    "name": "DC超級英雄",
+    "matched": "DC超級英雄-跨界",
+    "price": 390
   },
   {
     "sheetRow": 762,
@@ -570,6 +720,24 @@
     "price": 550
   },
   {
+    "sheetRow": 845,
+    "name": "情書-無限手套",
+    "matched": "(紫)情書無限手套 (紙盒有輕微壓痕)",
+    "price": 500
+  },
+  {
+    "sheetRow": 847,
+    "name": "幻想國度",
+    "matched": "幻想國度 豪華版",
+    "price": 990
+  },
+  {
+    "sheetRow": 858,
+    "name": "勝在有腦",
+    "matched": "勝在有腦2(白)",
+    "price": 590
+  },
+  {
     "sheetRow": 859,
     "name": "病毒在跳舞",
     "matched": "病毒在跳舞",
@@ -606,6 +774,12 @@
     "price": 1090
   },
   {
+    "sheetRow": 934,
+    "name": "七大奇蹟",
+    "matched": "七大奇蹟對決 (定價修正批價不變)",
+    "price": 950
+  },
+  {
     "sheetRow": 946,
     "name": "創意編字",
     "matched": "創意編字",
@@ -622,6 +796,12 @@
     "name": "搞笑瑜珈",
     "matched": "搞笑瑜珈",
     "price": 490
+  },
+  {
+    "sheetRow": 992,
+    "name": "終極審判：電車難題",
+    "matched": "終極審判:電車難題擴充(紅)",
+    "price": 990
   },
   {
     "sheetRow": 993,
@@ -670,6 +850,12 @@
     "name": "字字轉機",
     "matched": "字字轉機",
     "price": 490
+  },
+  {
+    "sheetRow": 1072,
+    "name": "5秒定律",
+    "matched": "五秒定律 (紙盒較軟易輕微壓痕)",
+    "price": 690
   },
   {
     "sheetRow": 1079,
@@ -750,6 +936,12 @@
     "price": 750
   },
   {
+    "sheetRow": 1181,
+    "name": "估估劃劃",
+    "matched": "估估劃劃標準版(紅)",
+    "price": 890
+  },
+  {
     "sheetRow": 1185,
     "name": "犯罪現場",
     "matched": "犯罪現場 (無膜新品)",
@@ -810,10 +1002,22 @@
     "price": 650
   },
   {
+    "sheetRow": 1268,
+    "name": "字字轉機─臉紅心跳",
+    "matched": "字字轉機-臉紅心跳",
+    "price": 490
+  },
+  {
     "sheetRow": 1269,
     "name": "繪聲繪影",
     "matched": "繪聲繪影",
     "price": 490
+  },
+  {
+    "sheetRow": 1270,
+    "name": "無間風雲─大全套",
+    "matched": "無間風雲-大全套",
+    "price": 790
   },
   {
     "sheetRow": 1274,
@@ -924,6 +1128,12 @@
     "price": 2000
   },
   {
+    "sheetRow": 1342,
+    "name": "江戶職人物語",
+    "matched": "江戶職人",
+    "price": 1690
+  },
+  {
     "sheetRow": 1345,
     "name": "心流密碼",
     "matched": "心流密碼",
@@ -966,6 +1176,18 @@
     "price": 990
   },
   {
+    "sheetRow": 1368,
+    "name": "兇手就是你吧？",
+    "matched": "兇手就是你吧",
+    "price": 580
+  },
+  {
+    "sheetRow": 1371,
+    "name": "下一站：倫敦",
+    "matched": "下一站倫敦 (粉底)",
+    "price": 550
+  },
+  {
     "sheetRow": 1373,
     "name": "書櫃、植栽、我的貓",
     "matched": "書櫃、植栽、我的貓",
@@ -988,6 +1210,12 @@
     "name": "阿納克遺跡",
     "matched": "阿納克遺跡",
     "price": 2200
+  },
+  {
+    "sheetRow": 1400,
+    "name": "忘憂繪卷",
+    "matched": "忘憂繪卷 擴充",
+    "price": 1090
   },
   {
     "sheetRow": 1401,
@@ -1026,6 +1254,12 @@
     "price": 750
   },
   {
+    "sheetRow": 1411,
+    "name": "未知行星",
+    "matched": "未知行星豪華版",
+    "price": 3200
+  },
+  {
     "sheetRow": 1415,
     "name": "血與刃的白薔薇",
     "matched": "血與刃的白薔薇(內含promo)",
@@ -1050,10 +1284,22 @@
     "price": 1350
   },
   {
+    "sheetRow": 1434,
+    "name": "就算是無雙勇者也怕遇到這款豬隊友",
+    "matched": "就算是無雙勇者,也怕遇上這款豬隊友",
+    "price": 450
+  },
+  {
     "sheetRow": 1438,
     "name": "凱爾特之森",
     "matched": "凱爾特之森",
     "price": 950
+  },
+  {
+    "sheetRow": 1439,
+    "name": "奈斯爾傳奇",
+    "matched": "奈斯爾傳奇(附勘誤) 破膜",
+    "price": 1900
   },
   {
     "sheetRow": 1444,
@@ -1140,6 +1386,12 @@
     "price": 550
   },
   {
+    "sheetRow": 1515,
+    "name": "阿姆利則－金光聖廟",
+    "matched": "阿姆利則:金光聖廟(附金屬幣)",
+    "price": 1900
+  },
+  {
     "sheetRow": 1517,
     "name": "迷宮美食家",
     "matched": "迷宮美食家",
@@ -1180,6 +1432,18 @@
     "name": "農場趴踢",
     "matched": "農場趴踢",
     "price": 390
+  },
+  {
+    "sheetRow": 1530,
+    "name": "漫步山野：約翰．繆爾之道",
+    "matched": "漫步山野:約翰.繆爾之道 (附補件)",
+    "price": 2600
+  },
+  {
+    "sheetRow": 1531,
+    "name": "落葉翩翩",
+    "matched": "落葉翩翩:豪華版",
+    "price": 2490
   },
   {
     "sheetRow": 1533,
@@ -1224,6 +1488,18 @@
     "price": 390
   },
   {
+    "sheetRow": 1546,
+    "name": "下一站：巴黎",
+    "matched": "下一站巴黎 (藍底)",
+    "price": 550
+  },
+  {
+    "sheetRow": 1547,
+    "name": "下一站：東京",
+    "matched": "下一站東京 (綠底)",
+    "price": 550
+  },
+  {
     "sheetRow": 1548,
     "name": "暴走汪汪",
     "matched": "暴走汪汪 (紙盒較軟易輕微壓痕)",
@@ -1248,6 +1524,12 @@
     "price": 750
   },
   {
+    "sheetRow": 1552,
+    "name": "鯨融街",
+    "matched": "鯨融街繁中",
+    "price": 1300
+  },
+  {
     "sheetRow": 1553,
     "name": "535",
     "matched": "535",
@@ -1264,6 +1546,12 @@
     "name": "鼠城之夜",
     "matched": "鼠城之夜",
     "price": 590
+  },
+  {
+    "sheetRow": 1558,
+    "name": "還不練腿",
+    "matched": "還不練腿?!",
+    "price": 490
   },
   {
     "sheetRow": 1559,
@@ -1288,6 +1576,12 @@
     "name": "靈光乍現",
     "matched": "靈光乍現",
     "price": 600
+  },
+  {
+    "sheetRow": 1588,
+    "name": "漢字傳說：注音篇",
+    "matched": "漢字傳說-注音篇",
+    "price": 390
   },
   {
     "sheetRow": 1589,
@@ -1386,10 +1680,22 @@
     "price": 1100
   },
   {
+    "sheetRow": 1631,
+    "name": "雅典衛城：雅典娜擴充",
+    "matched": "(小盒) 雅典衛城雅典娜擴充 (價格為原廠定訂,下單時請慎選)",
+    "price": 580
+  },
+  {
     "sheetRow": 1634,
     "name": "連環喋血",
     "matched": "連環喋血",
     "price": 1150
+  },
+  {
+    "sheetRow": 1635,
+    "name": "噤聲尋寶記：地下墓穴",
+    "matched": "噤聲尋寶記:地下墓穴",
+    "price": 1990
   },
   {
     "sheetRow": 1638,

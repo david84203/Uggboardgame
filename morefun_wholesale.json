@@ -1,0 +1,6764 @@
+[
+  {
+    "rawName": "【C2】字母連接",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22724"
+  },
+  {
+    "rawName": "山中小屋(簡中)",
+    "retail": 2500,
+    "wholesale": 1625,
+    "productId": "24240"
+  },
+  {
+    "rawName": "【C1】鯨融街繁中",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "24117"
+  },
+  {
+    "rawName": "【D1】雲端建木 (簡中)",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "24098"
+  },
+  {
+    "rawName": "【E-】首飛在天(簡中版)",
+    "retail": 1390,
+    "wholesale": 1112,
+    "productId": "23973"
+  },
+  {
+    "rawName": "【F2】筷餵小鳥",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22876"
+  },
+  {
+    "rawName": "【22】生態系統：東非大草原(簡中)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22808"
+  },
+  {
+    "rawName": "【22】生態系統：大堡礁(簡中)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22807"
+  },
+  {
+    "rawName": "【22】生態系統(簡中)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22806"
+  },
+  {
+    "rawName": "【B2】避世血族:血海深仇(簡中)",
+    "retail": 1640,
+    "wholesale": 1082,
+    "productId": "22701"
+  },
+  {
+    "rawName": "【11】荒宅魅影(簡中)",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "22700"
+  },
+  {
+    "rawName": "【24】巧築花庭(簡中)",
+    "retail": 840,
+    "wholesale": 554,
+    "productId": "22699"
+  },
+  {
+    "rawName": "【A4】絢爛寶石山(簡中)",
+    "retail": 1040,
+    "wholesale": 686,
+    "productId": "22698"
+  },
+  {
+    "rawName": "【A4】咖啡商人(附繁中說明書)",
+    "retail": 3500,
+    "wholesale": 2625,
+    "productId": "22697"
+  },
+  {
+    "rawName": "【K1】釀藥森林(簡中)",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "22696"
+  },
+  {
+    "rawName": "【D2】獨角獸狂熱",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "22695"
+  },
+  {
+    "rawName": "【C1】大人小孩都想上的遊戲課 (書)",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22694"
+  },
+  {
+    "rawName": "【C2】鯨融街(簡中含繁體說明書) 附解鎖項",
+    "retail": 1050,
+    "wholesale": 788,
+    "productId": "22656"
+  },
+  {
+    "rawName": "【B1】阿納克遺跡",
+    "retail": 2200,
+    "wholesale": 1540,
+    "productId": "19913"
+  },
+  {
+    "rawName": "【F1】黑幫動物園",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19304"
+  },
+  {
+    "rawName": "【C-】阿不思學院",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19303"
+  },
+  {
+    "rawName": "【01】喪屍大逃殺",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19302"
+  },
+  {
+    "rawName": "【D1】亞蒙拉卡牌版",
+    "retail": 660,
+    "wholesale": 436,
+    "productId": "19301"
+  },
+  {
+    "rawName": "【A4】諾丁漢警長-綠林好漢",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19300"
+  },
+  {
+    "rawName": "【D1】冰天雪地",
+    "retail": 1320,
+    "wholesale": 871,
+    "productId": "19299"
+  },
+  {
+    "rawName": "【B2】亡命駛徒",
+    "retail": 1750,
+    "wholesale": 1155,
+    "productId": "19298"
+  },
+  {
+    "rawName": "【D5】阿格拉",
+    "retail": 2800,
+    "wholesale": 1848,
+    "productId": "19297"
+  },
+  {
+    "rawName": "【H-】鍛骰物語",
+    "retail": 1400,
+    "wholesale": 924,
+    "productId": "19295"
+  },
+  {
+    "rawName": "【D5】神靈大對決 (1顆骰子+5個屏風)",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19294"
+  },
+  {
+    "rawName": "【D1】黑洞冒險任務(受潮品)",
+    "retail": 799,
+    "wholesale": 527,
+    "productId": "19293"
+  },
+  {
+    "rawName": "【B2】眾裏尋他",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19292"
+  },
+  {
+    "rawName": "【D1】太空警報",
+    "retail": 1850,
+    "wholesale": 1221,
+    "productId": "19289"
+  },
+  {
+    "rawName": "【B1】香料商人",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19287"
+  },
+  {
+    "rawName": "【A4】惡鄰亂鬥",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19284"
+  },
+  {
+    "rawName": "【C2】葡萄酒莊園 精華&摩爾擴展包合輯",
+    "retail": 640,
+    "wholesale": 422,
+    "productId": "19283"
+  },
+  {
+    "rawName": "【24】時間線-電影與音樂",
+    "retail": 530,
+    "wholesale": 350,
+    "productId": "19282"
+  },
+  {
+    "rawName": "【24】時間線-歷史事件",
+    "retail": 530,
+    "wholesale": 350,
+    "productId": "19281"
+  },
+  {
+    "rawName": "【24】時間線-發明篇",
+    "retail": 530,
+    "wholesale": 350,
+    "productId": "19280"
+  },
+  {
+    "rawName": "【C1】手可搭星辰(簡中)",
+    "retail": 640,
+    "wholesale": 422,
+    "productId": "19279"
+  },
+  {
+    "rawName": "【D2】恐龍拼圖三角龍",
+    "retail": 500,
+    "wholesale": 300,
+    "productId": "19278"
+  },
+  {
+    "rawName": "【D4】恐龍拼圖甲龍",
+    "retail": 500,
+    "wholesale": 300,
+    "productId": "19277"
+  },
+  {
+    "rawName": "【D3】恐龍拼圖霸王龍",
+    "retail": 500,
+    "wholesale": 300,
+    "productId": "19276"
+  },
+  {
+    "rawName": "【E-】靈跡島(附繁中說明書)",
+    "retail": 2900,
+    "wholesale": 2320,
+    "productId": "19275"
+  },
+  {
+    "rawName": "【C3】歷史巨輪:新領袖和奇蹟(人類文明新篇章)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19274"
+  },
+  {
+    "rawName": "【A4】落筆為城(含繁中說明書)",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19273"
+  },
+  {
+    "rawName": "【23】魔語地城",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19272"
+  },
+  {
+    "rawName": "【C4】沃塔棋懶蛇擴充(紅色和藍色)",
+    "retail": 299,
+    "wholesale": 197,
+    "productId": "19270"
+  },
+  {
+    "rawName": "【C4】沃塔棋懶蛇擴充(黃色和綠色)",
+    "retail": 299,
+    "wholesale": 197,
+    "productId": "19269"
+  },
+  {
+    "rawName": "【C4】沃塔棋迷霧擴充(迷霧S)",
+    "retail": 299,
+    "wholesale": 197,
+    "productId": "19268"
+  },
+  {
+    "rawName": "【C4】沃塔棋基礎版",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19267"
+  },
+  {
+    "rawName": "【A4】深海實驗室(附一包牌套)",
+    "retail": 1250,
+    "wholesale": 938,
+    "productId": "19265"
+  },
+  {
+    "rawName": "【C2】(藍) 地城勇士:恐怖的寒冰城堡(簡中)",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19264"
+  },
+  {
+    "rawName": "【C2】(綠) 地城勇士:險惡的風暴迷宮(簡中)",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19263"
+  },
+  {
+    "rawName": "【D1】(紫) 地城勇士:陰暗的鬼魂墓穴(簡中)",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19262"
+  },
+  {
+    "rawName": "【C2】(紅) 地城勇士:惡毒的熔岩洞窟(簡中)",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19261"
+  },
+  {
+    "rawName": "【D1】教育新顯學(書)",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19259"
+  },
+  {
+    "rawName": "【A3】奇思繆想",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19258"
+  },
+  {
+    "rawName": "【01】金甲蟲之謎",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19256"
+  },
+  {
+    "rawName": "【25】叔叔的遺囑擴充",
+    "retail": 150,
+    "wholesale": 100,
+    "productId": "19020"
+  },
+  {
+    "rawName": "【F1】空中之城",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "22858"
+  },
+  {
+    "rawName": "【C1】當家作豬",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "22851"
+  },
+  {
+    "rawName": "【20】豬朋狗友之豬事議會",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "22743"
+  },
+  {
+    "rawName": "【K1】豬朋狗友之親親地球",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "22742"
+  },
+  {
+    "rawName": "【24】CHOPE！哈哈霸霸",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22674"
+  },
+  {
+    "rawName": "【24】Bomber 炸彈狂魔 (附Promo)",
+    "retail": 640,
+    "wholesale": 422,
+    "productId": "22673"
+  },
+  {
+    "rawName": "【F1】豬朋狗友之 Moo斯密碼",
+    "retail": 499,
+    "wholesale": 329,
+    "productId": "22672"
+  },
+  {
+    "rawName": "【G1】(綠) 同感2.0",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "22660"
+  },
+  {
+    "rawName": "【01】這些MEME不是屬於我的",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19360"
+  },
+  {
+    "rawName": "【11】汽車工程達人",
+    "retail": 880,
+    "wholesale": 581,
+    "productId": "19359"
+  },
+  {
+    "rawName": "【22】夢想X3",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19358"
+  },
+  {
+    "rawName": "【05】怎麼鳥?",
+    "retail": 360,
+    "wholesale": 238,
+    "productId": "19357"
+  },
+  {
+    "rawName": "【D1】變身桌遊教育達人 (書)",
+    "retail": 560,
+    "wholesale": 370,
+    "productId": "19356"
+  },
+  {
+    "rawName": "【01】眾口難言",
+    "retail": 300,
+    "wholesale": 198,
+    "productId": "19355"
+  },
+  {
+    "rawName": "【B2】思路",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19354"
+  },
+  {
+    "rawName": "【D4】小矮人七仔",
+    "retail": 520,
+    "wholesale": 343,
+    "productId": "19353"
+  },
+  {
+    "rawName": "【C2】地產達人 定價調整",
+    "retail": 720,
+    "wholesale": 475,
+    "productId": "19352"
+  },
+  {
+    "rawName": "【A1】黑幫老大",
+    "retail": 680,
+    "wholesale": 449,
+    "productId": "19351"
+  },
+  {
+    "rawName": "【01】日與夜",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19350"
+  },
+  {
+    "rawName": "【C4】Noah方舟",
+    "retail": 640,
+    "wholesale": 422,
+    "productId": "19349"
+  },
+  {
+    "rawName": "【K1】豬朋狗友之撞桶王3D",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "19347"
+  },
+  {
+    "rawName": "【D3】豬朋狗友之棒棒樂",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19346"
+  },
+  {
+    "rawName": "【01】豬朋狗友之黑仔阿羊 (玩法與豬朋狗友系列不同)",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19345"
+  },
+  {
+    "rawName": "【01】豬朋狗友-北極熊 (簡中)",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19344"
+  },
+  {
+    "rawName": "【01】豬朋狗友-海豹",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19343"
+  },
+  {
+    "rawName": "【01】豬朋狗友-狗友",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19342"
+  },
+  {
+    "rawName": "【C3】松鼠也瘋狂",
+    "retail": 330,
+    "wholesale": 218,
+    "productId": "19339"
+  },
+  {
+    "rawName": "【A4】冰雪連天 (環保系列之全球暖化)",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "19338"
+  },
+  {
+    "rawName": "【C4】木林森處 (環保系列之生態平衡)",
+    "retail": 540,
+    "wholesale": 356,
+    "productId": "19337"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:巴西 (巴西弓弦琴)",
+    "retail": 160,
+    "wholesale": 106,
+    "productId": "19335"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:歐洲西部 (貝雷帽)",
+    "retail": 160,
+    "wholesale": 106,
+    "productId": "19334"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:希臘 (希臘沙拉)",
+    "retail": 160,
+    "wholesale": 106,
+    "productId": "19333"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:歐洲南部 (橄欖油)",
+    "retail": 160,
+    "wholesale": 106,
+    "productId": "19332"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:韓國 (破損的調查員牌)",
+    "retail": 80,
+    "wholesale": 53,
+    "productId": "19331"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:泰國 (珍珠波霸奶茶)",
+    "retail": 80,
+    "wholesale": 53,
+    "productId": "19330"
+  },
+  {
+    "rawName": "【C1】犯罪現場擴充:北美洲 (楓葉)",
+    "retail": 160,
+    "wholesale": 106,
+    "productId": "19329"
+  },
+  {
+    "rawName": "【C2】犯罪現場擴充-隱蔽同盟",
+    "retail": 680,
+    "wholesale": 449,
+    "productId": "19328"
+  },
+  {
+    "rawName": "【F1】犯罪現場 (無膜新品)",
+    "retail": 1200,
+    "wholesale": 800,
+    "productId": "19327"
+  },
+  {
+    "rawName": "【F4】奶酪大盜",
+    "retail": 840,
+    "wholesale": 554,
+    "productId": "19326"
+  },
+  {
+    "rawName": "【01】阿茲特克星球傳",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19325"
+  },
+  {
+    "rawName": "【A2】同感迷你擴充 師奶二三事",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19323"
+  },
+  {
+    "rawName": "【A2】同感迷你擴充 環保二三事",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19322"
+  },
+  {
+    "rawName": "【B2】同感迷你擴充 理財二三事",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19321"
+  },
+  {
+    "rawName": "【A3】同感:悄悄話",
+    "retail": 1200,
+    "wholesale": 800,
+    "productId": "19320"
+  },
+  {
+    "rawName": "【A2】同感迷你擴充",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19319"
+  },
+  {
+    "rawName": "【F4】(藍) 同感",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "19318"
+  },
+  {
+    "rawName": "【K1】吾家吾農 (環保系列之本土保育)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19317"
+  },
+  {
+    "rawName": "【A3】有隻象仔跌落水",
+    "retail": 1120,
+    "wholesale": 739,
+    "productId": "19315"
+  },
+  {
+    "rawName": "【D2】醉佳拍檔",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19314"
+  },
+  {
+    "rawName": "【A2】共創城市",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "19313"
+  },
+  {
+    "rawName": "【D1】RIFF ROUTE (小魚大歷險英文版)",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19312"
+  },
+  {
+    "rawName": "【08】陪鵝同遊的代代平安(贈家庭族譜)",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "19310"
+  },
+  {
+    "rawName": "【D1】Multicity (共創城市英文版)",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19309"
+  },
+  {
+    "rawName": "【F3】蛙塘爭霸:25周年紀念版",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "24248"
+  },
+  {
+    "rawName": "【K2】BOO!消失術!",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24247"
+  },
+  {
+    "rawName": "【K2】(小) 推來擠趣：迷你版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24193"
+  },
+  {
+    "rawName": "【K2】(小) 堆疊塔：迷你版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24192"
+  },
+  {
+    "rawName": "【K2】(小) 石連一線：迷你版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24191"
+  },
+  {
+    "rawName": "【17】花火",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24171"
+  },
+  {
+    "rawName": "【18】機鬥競技場：站到最後",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24151"
+  },
+  {
+    "rawName": "【18】危急生死線：紐約",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "24150"
+  },
+  {
+    "rawName": "【K2】超感官同步",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "24149"
+  },
+  {
+    "rawName": "【F1】問非所答",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24148"
+  },
+  {
+    "rawName": "【F1】序列喵喵",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24147"
+  },
+  {
+    "rawName": "【F1】無敵少俠：英雄構築戲 (附一張推廣卡)",
+    "retail": 1650,
+    "wholesale": 1238,
+    "productId": "24139"
+  },
+  {
+    "rawName": "【K2】紙牌幫",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24138"
+  },
+  {
+    "rawName": "【K2】幻想國度 豪華版",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "24137"
+  },
+  {
+    "rawName": "【F1】沙丘：帝國 血脈永續",
+    "retail": 1290,
+    "wholesale": 903,
+    "productId": "24136"
+  },
+  {
+    "rawName": "【F1】沙丘：帝國 起義",
+    "retail": 1950,
+    "wholesale": 1365,
+    "productId": "24135"
+  },
+  {
+    "rawName": "【B1】決戰小便斗",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "24134"
+  },
+  {
+    "rawName": "【F1】昆特牌-傳奇之戰 (紅寶石硬幣已送完)",
+    "retail": 1550,
+    "wholesale": 1023,
+    "productId": "24093"
+  },
+  {
+    "rawName": "【18】究極獎池大挑戰777",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "24092"
+  },
+  {
+    "rawName": "【19】三影成趣",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24091"
+  },
+  {
+    "rawName": "【17】狼爾街風雲",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24090"
+  },
+  {
+    "rawName": "【F1】奇妙藏館 (附一張卡牌)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "24089"
+  },
+  {
+    "rawName": "【12】(紅)性格靈通：動物",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "24086"
+  },
+  {
+    "rawName": "【12】(藍)性格靈通：神話",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "24085"
+  },
+  {
+    "rawName": "【14】怕怕唷",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24084"
+  },
+  {
+    "rawName": "【K2】連環喋血",
+    "retail": 1150,
+    "wholesale": 759,
+    "productId": "24083"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 61x112mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24021"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 70x70mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24020"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 65x100mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24019"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 43x65mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24018"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 80x120mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24017"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 70x120mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24016"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 41x63mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24015"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 59x92mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24014"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 57.5x89mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24013"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 56x87mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24012"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 45x68mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24011"
+  },
+  {
+    "rawName": "【G1】(盒裝) 城堡牌套 63.5x88mm-55/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24010"
+  },
+  {
+    "rawName": "【G1】騎士牌套 61x112mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24009"
+  },
+  {
+    "rawName": "【G1】騎士牌套 70x70mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24008"
+  },
+  {
+    "rawName": "【G1】騎士牌套 65x100mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24007"
+  },
+  {
+    "rawName": "【G1】騎士牌套 43x65mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24006"
+  },
+  {
+    "rawName": "【F2】飯捲達人",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "24005"
+  },
+  {
+    "rawName": "【G1】騎士牌套 80x120mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24004"
+  },
+  {
+    "rawName": "【G1】騎士牌套 70x120mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24003"
+  },
+  {
+    "rawName": "【G1】騎士牌套 41x63mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24002"
+  },
+  {
+    "rawName": "【G1】騎士牌套 59x92mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24001"
+  },
+  {
+    "rawName": "【G1】騎士牌套 57.5x89mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24000"
+  },
+  {
+    "rawName": "【F2】狂野拓荒客(附一張推廣卡)",
+    "retail": 1790,
+    "wholesale": 1181,
+    "productId": "23999"
+  },
+  {
+    "rawName": "【G1】騎士牌套 56x87mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "23998"
+  },
+  {
+    "rawName": "【G1】騎士牌套 45x68mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "23997"
+  },
+  {
+    "rawName": "【G1】騎士牌套 63.5x88mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "23996"
+  },
+  {
+    "rawName": "【F2】熨斗大廈(無金屬幣)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "23995"
+  },
+  {
+    "rawName": "【F3】命運之輪",
+    "retail": 1900,
+    "wholesale": 1254,
+    "productId": "23985"
+  },
+  {
+    "rawName": "【12】翻轉命運：海中孤島",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "23984"
+  },
+  {
+    "rawName": "【12】性格靈通：哈利波特",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "23983"
+  },
+  {
+    "rawName": "【K2】終極審判:電車難題(白) 此批盒底微凹,介意者勿下單",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "23967"
+  },
+  {
+    "rawName": "【F2】智謀棋",
+    "retail": 1150,
+    "wholesale": 759,
+    "productId": "22894"
+  },
+  {
+    "rawName": "【F1】魔藥學院",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "22893"
+  },
+  {
+    "rawName": "【H-】拼數解密：加減運算 (粉底)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "22892"
+  },
+  {
+    "rawName": "【H-】拼數解密：升級加法 (綠底)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "22891"
+  },
+  {
+    "rawName": "【K2】(藍) 密室逃脫:歷險故事擴充2 時空之旅劇本 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "22890"
+  },
+  {
+    "rawName": "【F1】雞鬥熱狗",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "22889"
+  },
+  {
+    "rawName": "【F1】幸運轉!轉!轉",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22870"
+  },
+  {
+    "rawName": "【K2】噤聲尋寶記:地下墓穴",
+    "retail": 1990,
+    "wholesale": 1313,
+    "productId": "22869"
+  },
+  {
+    "rawName": "【K2】四連戰:迷你版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "22868"
+  },
+  {
+    "rawName": "【K2】步步為營:迷你版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "22867"
+  },
+  {
+    "rawName": "【14】百變方塊:口袋版 (紙盒較軟易壓痕,介意者勿下單)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "22866"
+  },
+  {
+    "rawName": "【F2】蒸蒸日上",
+    "retail": 1950,
+    "wholesale": 1287,
+    "productId": "22863"
+  },
+  {
+    "rawName": "【12】擇日而獵",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22849"
+  },
+  {
+    "rawName": "【F3】命運之輪擴充(砂之海＋宿命的紐帶＋神話怪談) 不拆售",
+    "retail": 2600,
+    "wholesale": 1716,
+    "productId": "22848"
+  },
+  {
+    "rawName": "【F2】拼圖歷險：龍的傳說",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "22847"
+  },
+  {
+    "rawName": "【F1】古墓謎蹤",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "22846"
+  },
+  {
+    "rawName": "【13】下一站巴黎 (藍底)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22845"
+  },
+  {
+    "rawName": "【19】探尋失落之地",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "22844"
+  },
+  {
+    "rawName": "【F3】江戶職人",
+    "retail": 1690,
+    "wholesale": 1115,
+    "productId": "22834"
+  },
+  {
+    "rawName": "【13】超量線索(白)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "22830"
+  },
+  {
+    "rawName": "【18】貝克街動物偵探團",
+    "retail": 1150,
+    "wholesale": 759,
+    "productId": "22829"
+  },
+  {
+    "rawName": "【20】江戶職人物語：橋見曙光",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "22828"
+  },
+  {
+    "rawName": "【13】皮納塔派對",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "22810"
+  },
+  {
+    "rawName": "【17】鼠城之夜",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "22809"
+  },
+  {
+    "rawName": "【K2】妙傳爆趣",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "22805"
+  },
+  {
+    "rawName": "【17】恐龍扛浪",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22804"
+  },
+  {
+    "rawName": "【K2】月光光心慌慌+Miniature模型包-組合價",
+    "retail": 1990,
+    "wholesale": 1313,
+    "productId": "22770"
+  },
+  {
+    "rawName": "【K2】層層疊巨大版",
+    "retail": 4900,
+    "wholesale": 3234,
+    "productId": "22769"
+  },
+  {
+    "rawName": "【12】異形代號24",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "22768"
+  },
+  {
+    "rawName": "【F3】曠野護林團",
+    "retail": 1590,
+    "wholesale": 1049,
+    "productId": "22767"
+  },
+  {
+    "rawName": "【F3】滑冰企鵝：魔法學園",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "22766"
+  },
+  {
+    "rawName": "【12】福爾摩斯探案集：費邊主義",
+    "retail": 190,
+    "wholesale": 125,
+    "productId": "22765"
+  },
+  {
+    "rawName": "【K2】麥擱假",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "22735"
+  },
+  {
+    "rawName": "【H-】梅津藝匠",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22713"
+  },
+  {
+    "rawName": "【18】決戰詭牌鎮(無膜)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22712"
+  },
+  {
+    "rawName": "【F2】人生二周目",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "22711"
+  },
+  {
+    "rawName": "【K2】字音大贏家",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22710"
+  },
+  {
+    "rawName": "【12】(米)化身博士:天人交戰",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22668"
+  },
+  {
+    "rawName": "【K2】窒命玩笑",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "22663"
+  },
+  {
+    "rawName": "【K2】炸彈剋星",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "22662"
+  },
+  {
+    "rawName": "【K2】(黑)步步為營PACMAN",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "22661"
+  },
+  {
+    "rawName": "【F2】全員逃生:卡涅阿德斯船板",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19769"
+  },
+  {
+    "rawName": "【13】喵電感應",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19768"
+  },
+  {
+    "rawName": "【F1】沙丘帝國大全套(主遊戲+伊克斯崛起+不朽之軀(附三張勘誤+Promo)",
+    "retail": 4200,
+    "wholesale": 2772,
+    "productId": "19767"
+  },
+  {
+    "rawName": "【17】放開那個窩",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19766"
+  },
+  {
+    "rawName": "【13】拼數解密：基礎加法",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19765"
+  },
+  {
+    "rawName": "【13】煉金牌",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19764"
+  },
+  {
+    "rawName": "【F2】藝術名流",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19763"
+  },
+  {
+    "rawName": "【13】神探緝兇(2)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19762"
+  },
+  {
+    "rawName": "【24】月之河畔",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19761"
+  },
+  {
+    "rawName": "【F3】落葉翩翩:豪華版",
+    "retail": 2490,
+    "wholesale": 1643,
+    "productId": "19760"
+  },
+  {
+    "rawName": "【F2】深谷酒館",
+    "retail": 1490,
+    "wholesale": 983,
+    "productId": "19759"
+  },
+  {
+    "rawName": "【F2】漫步山野:約翰.繆爾之道 (附補件)",
+    "retail": 2600,
+    "wholesale": 1716,
+    "productId": "19758"
+  },
+  {
+    "rawName": "【14】一綫勝機",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19757"
+  },
+  {
+    "rawName": "【K2】謀殺之謎:嫌犯遊戲",
+    "retail": 1550,
+    "wholesale": 1023,
+    "productId": "19756"
+  },
+  {
+    "rawName": "【F3】控制中心:臨界危機",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "19755"
+  },
+  {
+    "rawName": "【18】狂飆單車牌",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19753"
+  },
+  {
+    "rawName": "【H-】盜影潛行：復仇之刃",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19752"
+  },
+  {
+    "rawName": "【H-】盜影潛行：搶案調查",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19751"
+  },
+  {
+    "rawName": "【H-】盆景大師擴充",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "19750"
+  },
+  {
+    "rawName": "【K2】(綠) 限時解鎖:密室逃脫第4輯擴充 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19749"
+  },
+  {
+    "rawName": "【H-】阿姆利則:金光聖廟(附金屬幣)",
+    "retail": 1900,
+    "wholesale": 1254,
+    "productId": "19748"
+  },
+  {
+    "rawName": "【14】百變方塊立體塔(黑)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19747"
+  },
+  {
+    "rawName": "【14】無盡寒冬:美洲原野六擴綁賣+說明書",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "19746"
+  },
+  {
+    "rawName": "【F1】無盡寒冬:美洲原野 (附2本說明書)",
+    "retail": 2450,
+    "wholesale": 1617,
+    "productId": "19745"
+  },
+  {
+    "rawName": "【H-】地產大亨:航海王",
+    "retail": 1299,
+    "wholesale": 974,
+    "productId": "19744"
+  },
+  {
+    "rawName": "【H-】地產大亨:七龍珠Z",
+    "retail": 1299,
+    "wholesale": 974,
+    "productId": "19743"
+  },
+  {
+    "rawName": "【14】竹靈之道",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "19741"
+  },
+  {
+    "rawName": "【13】農場趴踢",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19740"
+  },
+  {
+    "rawName": "【13】下一站東京 (綠底)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19739"
+  },
+  {
+    "rawName": "【12】(橘) 口袋傳奇大冒險：梅林篇",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "19738"
+  },
+  {
+    "rawName": "【12】(深藍) 口袋傳奇大冒險：魯賓遜篇",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "19737"
+  },
+  {
+    "rawName": "【12】(淺藍) 口袋傳奇大冒險：福爾摩斯篇",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "19736"
+  },
+  {
+    "rawName": "【F1】逃脫遊戲：聖殿騎士團的寶藏",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19735"
+  },
+  {
+    "rawName": "【F1】逃脫遊戲：鐵達尼號的最後一小時",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19734"
+  },
+  {
+    "rawName": "【12】(藍)化身博士對決:蘇格蘭場",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19733"
+  },
+  {
+    "rawName": "【F3】小小貓頭鷹",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19732"
+  },
+  {
+    "rawName": "【F2】石頭湯",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19731"
+  },
+  {
+    "rawName": "【K2】十分機靈(紙盒較軟易輕微壓痕)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19730"
+  },
+  {
+    "rawName": "【H-】浪漫花匠坊",
+    "retail": 1690,
+    "wholesale": 1115,
+    "productId": "19729"
+  },
+  {
+    "rawName": "【H-】 終焉帝國(升級豪華組) 一盒附4張桌墊+配件",
+    "retail": 2350,
+    "wholesale": 1551,
+    "productId": "19728"
+  },
+  {
+    "rawName": "【H-】追隨達爾文:小獵犬號之旅",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19727"
+  },
+  {
+    "rawName": "【H-】奈斯爾傳奇(附勘誤) 破膜",
+    "retail": 1900,
+    "wholesale": 1254,
+    "productId": "19726"
+  },
+  {
+    "rawName": "【05】逃離水族館",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19725"
+  },
+  {
+    "rawName": "【18】凱爾特之森",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19724"
+  },
+  {
+    "rawName": "【20】洞洞方塊",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19723"
+  },
+  {
+    "rawName": "【H-】佛羅倫斯王子",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19722"
+  },
+  {
+    "rawName": "【13】滲透因子",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19721"
+  },
+  {
+    "rawName": "【K2】印加聖谷",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19720"
+  },
+  {
+    "rawName": "【H-】盆景大師",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "19719"
+  },
+  {
+    "rawName": "【F3】三奧米諾",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19718"
+  },
+  {
+    "rawName": "【13】羽光",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19717"
+  },
+  {
+    "rawName": "【12】手機帝國2：商戰",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19716"
+  },
+  {
+    "rawName": "【K2】填數好手",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19715"
+  },
+  {
+    "rawName": "【K2】密室逃脫:歷險故事擴充1 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19714"
+  },
+  {
+    "rawName": "【K2】限時解鎖:密室逃脫解碼器套裝 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19713"
+  },
+  {
+    "rawName": "【H-】足球經理:國際盃 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19712"
+  },
+  {
+    "rawName": "【H-】足球經理:突發事件 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19711"
+  },
+  {
+    "rawName": "【H-】足球經理:單人挑戰 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19710"
+  },
+  {
+    "rawName": "【H-】足球經理:全新賽場 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19709"
+  },
+  {
+    "rawName": "【H-】足球經理:國際球星 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19708"
+  },
+  {
+    "rawName": "【H-】足球經理(GF)",
+    "retail": 2100,
+    "wholesale": 1386,
+    "productId": "19707"
+  },
+  {
+    "rawName": "【H-】足球經理",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19706"
+  },
+  {
+    "rawName": "【14】蟲蟲別跑",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19705"
+  },
+  {
+    "rawName": "【K2】極限一發 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19704"
+  },
+  {
+    "rawName": "【G2】賽馬大亨",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19703"
+  },
+  {
+    "rawName": "【13】下一站倫敦 (粉底)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19702"
+  },
+  {
+    "rawName": "【16】桌遊圈",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19700"
+  },
+  {
+    "rawName": "【K2】3D立體黑白棋",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19699"
+  },
+  {
+    "rawName": "【K2】石連一線",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19698"
+  },
+  {
+    "rawName": "【14】百變方塊家庭版 (黃)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19697"
+  },
+  {
+    "rawName": "【14】百變方塊",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19696"
+  },
+  {
+    "rawName": "【K2】步步為營",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19695"
+  },
+  {
+    "rawName": "【K2】四連戰",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19694"
+  },
+  {
+    "rawName": "【18】書櫃、植栽、我的貓",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "19693"
+  },
+  {
+    "rawName": "【14】挑戰序列",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19692"
+  },
+  {
+    "rawName": "【13】漫威:宇宙大亂鬥",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19691"
+  },
+  {
+    "rawName": "【13】北方帝國-遊牧蠻族(附勘誤卡)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19690"
+  },
+  {
+    "rawName": "【13】北方帝國-埃及國王(附勘誤卡)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19689"
+  },
+  {
+    "rawName": "【K2】(黃) 限時解鎖:密室逃脫第3輯擴充 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19687"
+  },
+  {
+    "rawName": "【14】請上車",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19686"
+  },
+  {
+    "rawName": "【H-】蝕器紀元 (附配件)",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19685"
+  },
+  {
+    "rawName": "【12】糊塗動畫室",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19684"
+  },
+  {
+    "rawName": "【A2】月海礦場",
+    "retail": 1690,
+    "wholesale": 1115,
+    "productId": "19683"
+  },
+  {
+    "rawName": "【H-】跳跳骰 (紙盒較軟易輕微壓痕)",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "19682"
+  },
+  {
+    "rawName": "【H-】太空基地 (附兩包專屬牌套)",
+    "retail": 1310,
+    "wholesale": 865,
+    "productId": "19681"
+  },
+  {
+    "rawName": "【H-】太空基地",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "19680"
+  },
+  {
+    "rawName": "【H-】彈指網球",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19679"
+  },
+  {
+    "rawName": "【12】摺足先登2021版",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19678"
+  },
+  {
+    "rawName": "【05】龜兔蘿蔔賽跑(破膜)",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19677"
+  },
+  {
+    "rawName": "【17】龍龍公園",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19676"
+  },
+  {
+    "rawName": "【H-】巫師之石",
+    "retail": 1590,
+    "wholesale": 1049,
+    "productId": "19675"
+  },
+  {
+    "rawName": "【K2】(小盒) 限時解鎖:密室逃脫雙人成局擴充 (紙盒較軟易輕微壓痕)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19674"
+  },
+  {
+    "rawName": "【H-】碧藍深處",
+    "retail": 1050,
+    "wholesale": 693,
+    "productId": "19673"
+  },
+  {
+    "rawName": "【13】彩虹小鎮",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19672"
+  },
+  {
+    "rawName": "【17】逃脫遊戲惡魔電梯",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19671"
+  },
+  {
+    "rawName": "【17】逃脫遊戲貝克街",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19670"
+  },
+  {
+    "rawName": "【17】逃脫遊戲迷航太空",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19669"
+  },
+  {
+    "rawName": "【K2】(紅) 限時解鎖:密室逃脫第2輯擴充 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19667"
+  },
+  {
+    "rawName": "【H-】薩凡納公園",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19666"
+  },
+  {
+    "rawName": "【12】天堂我要進來了",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19665"
+  },
+  {
+    "rawName": "【H-】幽靈大冒險",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19664"
+  },
+  {
+    "rawName": "【H-】決戰幽靈堡",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19663"
+  },
+  {
+    "rawName": "【F3】椰子猴王 (此款外盒較軟，易有輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19660"
+  },
+  {
+    "rawName": "【H-】蜜蜂物語",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19659"
+  },
+  {
+    "rawName": "【H-】完美時刻",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19658"
+  },
+  {
+    "rawName": "【K2】(藍) 限時解鎖:密室逃脫第1輯擴充 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19657"
+  },
+  {
+    "rawName": "【13】點心到日本版 (綠)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19656"
+  },
+  {
+    "rawName": "【K2】限時解鎖:密室逃脫 (紙盒較軟易輕微壓痕)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19655"
+  },
+  {
+    "rawName": "【K2】電路連珠",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19654"
+  },
+  {
+    "rawName": "【18】大迴轉黑白棋家庭版 (紙盒較軟易輕微壓痕)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19653"
+  },
+  {
+    "rawName": "【13】精靈的惡作劇",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19652"
+  },
+  {
+    "rawName": "【H-】北方帝國 (附刊誤卡)",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19651"
+  },
+  {
+    "rawName": "【06】飛躍魔盜團兒童版:幻想國度",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19650"
+  },
+  {
+    "rawName": "【13】蛋糕比薩捲餅帽(藍) 微盒損,介意者勿下單",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19649"
+  },
+  {
+    "rawName": "【02】歡迎來到第三擴充",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19647"
+  },
+  {
+    "rawName": "【D1】歡迎來到第二擴充",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19646"
+  },
+  {
+    "rawName": "【13】福爾摩斯探案集-第一輯",
+    "retail": 2850,
+    "wholesale": 1881,
+    "productId": "19643"
+  },
+  {
+    "rawName": "【13】美術紙導",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19642"
+  },
+  {
+    "rawName": "【H-】西部傳奇-黃金三俠客擴充",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19641"
+  },
+  {
+    "rawName": "【H-】西部傳奇-淘氣小怪客擴充",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19640"
+  },
+  {
+    "rawName": "【H-】西部傳奇",
+    "retail": 1950,
+    "wholesale": 1287,
+    "productId": "19639"
+  },
+  {
+    "rawName": "【12】為了文繪",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19638"
+  },
+  {
+    "rawName": "【H-】言下之意",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19637"
+  },
+  {
+    "rawName": "【H-】希臘列國志",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "19635"
+  },
+  {
+    "rawName": "【13】手指奧運會",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19634"
+  },
+  {
+    "rawName": "【H-】金銀島",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19633"
+  },
+  {
+    "rawName": "【11】無間風雲",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19632"
+  },
+  {
+    "rawName": "【H-】倫敦公會(中文版)",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19631"
+  },
+  {
+    "rawName": "【12】拼貓貓",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19630"
+  },
+  {
+    "rawName": "【H-】經典黑白棋",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19629"
+  },
+  {
+    "rawName": "【H-】網球高手",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19627"
+  },
+  {
+    "rawName": "【06】大迴轉黑白棋 (紙盒較軟易輕微壓痕)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19626"
+  },
+  {
+    "rawName": "【H-】龍城對壘",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19625"
+  },
+  {
+    "rawName": "【C1】時兇教授：歲月堡壘",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19624"
+  },
+  {
+    "rawName": "【23】火車大亨",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19617"
+  },
+  {
+    "rawName": "【H-】速塗快遞",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19616"
+  },
+  {
+    "rawName": "【C1】創意小星球",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "19615"
+  },
+  {
+    "rawName": "【12】無間風雲擴充合輯",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19614"
+  },
+  {
+    "rawName": "【K2】星域奇航-危機擴充套組(內含四個不同的擴充包)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19613"
+  },
+  {
+    "rawName": "【13】星域奇航-佈局擴充包",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19612"
+  },
+  {
+    "rawName": "【19】地精街75號",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "19611"
+  },
+  {
+    "rawName": "【C1】OZO王大作戰",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19610"
+  },
+  {
+    "rawName": "【C1】眾神大典",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19609"
+  },
+  {
+    "rawName": "【H-】細菌博士",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19608"
+  },
+  {
+    "rawName": "【13】大想頭",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19606"
+  },
+  {
+    "rawName": "【05】吸珠大笨象",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19605"
+  },
+  {
+    "rawName": "【H-】反斗馬戲團",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19604"
+  },
+  {
+    "rawName": "【H-】狂奔嘉年華",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19602"
+  },
+  {
+    "rawName": "【13】心電感應 (附勘誤卡)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19601"
+  },
+  {
+    "rawName": "【18】甜品大師",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19600"
+  },
+  {
+    "rawName": "【C1】解密特攻",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19599"
+  },
+  {
+    "rawName": "【13】寶貝怪獸",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19598"
+  },
+  {
+    "rawName": "【E-】香蕉猴王 (此款外盒較軟,易有輕微壓痕)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19597"
+  },
+  {
+    "rawName": "【12】微諜影",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19596"
+  },
+  {
+    "rawName": "【C3】水族樂園",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19595"
+  },
+  {
+    "rawName": "【12】吸血鬼教父",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19594"
+  },
+  {
+    "rawName": "【13】DC超級英雄-跨界",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19593"
+  },
+  {
+    "rawName": "【H-】鐵路縱橫",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19592"
+  },
+  {
+    "rawName": "【12】龍骰格鬥",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19591"
+  },
+  {
+    "rawName": "【K2】卡布奇諾",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19590"
+  },
+  {
+    "rawName": "【A4】年獸",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19589"
+  },
+  {
+    "rawName": "【13】天姬世紀",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "19588"
+  },
+  {
+    "rawName": "【C1】鑽石陣容",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19587"
+  },
+  {
+    "rawName": "【04】大滿貫",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19586"
+  },
+  {
+    "rawName": "【13】全力衝廁",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19585"
+  },
+  {
+    "rawName": "【13】深淵:密謀(5款封面外觀，隨機出貨)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19308"
+  },
+  {
+    "rawName": "【17】亞瑟傳奇(附一包推廣卡)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19092"
+  },
+  {
+    "rawName": "【K1】過橋拆橋",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "24254"
+  },
+  {
+    "rawName": "【K1】鴿爆了",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24253"
+  },
+  {
+    "rawName": "【K1】美味斜堡",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24252"
+  },
+  {
+    "rawName": "【06】腦洞量表:大冒險 (綠)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24183"
+  },
+  {
+    "rawName": "【11】雙面特務",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24100"
+  },
+  {
+    "rawName": "【21】UNO高爾夫",
+    "retail": 299,
+    "wholesale": 197,
+    "productId": "24074"
+  },
+  {
+    "rawName": "【21】UNO遊戲卡擴充包 (一套四種擴充、不單賣)",
+    "retail": 596,
+    "wholesale": 393,
+    "productId": "24073"
+  },
+  {
+    "rawName": "【21】UNO哈利波特豪華盒裝版(鐵盒)",
+    "retail": 649,
+    "wholesale": 428,
+    "productId": "24072"
+  },
+  {
+    "rawName": "【03】 讀步經典：三國演義&水滸傳",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24070"
+  },
+  {
+    "rawName": "【03】AI科技大富翁",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24069"
+  },
+  {
+    "rawName": "【03】台灣冰的啦大富翁",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24068"
+  },
+  {
+    "rawName": "【03】燒肉大富翁",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24067"
+  },
+  {
+    "rawName": "【03】香蕉保衛戰",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "23969"
+  },
+  {
+    "rawName": "【05】雷射喵喵(白)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22861"
+  },
+  {
+    "rawName": "【K1】暴走汪汪 (紙盒較軟易輕微壓痕)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22860"
+  },
+  {
+    "rawName": "【K1】五秒定律:接力好棒棒 (紙盒較軟易輕微壓痕)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22859"
+  },
+  {
+    "rawName": "【K1】跳跳棋",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22856"
+  },
+  {
+    "rawName": "【04】怪奇候選人",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "22852"
+  },
+  {
+    "rawName": "【01】創意編字",
+    "retail": 1160,
+    "wholesale": 766,
+    "productId": "22839"
+  },
+  {
+    "rawName": "【04】恐龍大富翁",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22771"
+  },
+  {
+    "rawName": "【06】魔數推推",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22741"
+  },
+  {
+    "rawName": "【K1】貪吃麻吉狗 (紙盒較軟易輕微壓痕)",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "22740"
+  },
+  {
+    "rawName": "【K1】決勝巧力環",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "22739"
+  },
+  {
+    "rawName": "【K1】形色叩叩",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "22709"
+  },
+  {
+    "rawName": "【K1】估估劃劃：台灣",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22708"
+  },
+  {
+    "rawName": "【05】(紫)五皇牌",
+    "retail": 490,
+    "wholesale": 353,
+    "productId": "19181"
+  },
+  {
+    "rawName": "【05】(綠)神奇三角",
+    "retail": 490,
+    "wholesale": 353,
+    "productId": "19180"
+  },
+  {
+    "rawName": "【03】小小鯨算師",
+    "retail": 680,
+    "wholesale": 449,
+    "productId": "19179"
+  },
+  {
+    "rawName": "【K1】籤籤入扣:可可棒(紙盒較軟易壓痕)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19178"
+  },
+  {
+    "rawName": "【04】心流密碼",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19177"
+  },
+  {
+    "rawName": "【K1】機智寶石 (紙盒較軟易輕微壓痕)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19176"
+  },
+  {
+    "rawName": "【03】大富翁-世界之旅",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19175"
+  },
+  {
+    "rawName": "【03】邏輯九九",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19174"
+  },
+  {
+    "rawName": "【03】心算大師",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19172"
+  },
+  {
+    "rawName": "【03】動物農場2.0",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19171"
+  },
+  {
+    "rawName": "【K1】無間風雲-大全套",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19170"
+  },
+  {
+    "rawName": "【06】字字轉機-臉紅心跳",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19169"
+  },
+  {
+    "rawName": "【06】字字轉機圖像版 (白)",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19168"
+  },
+  {
+    "rawName": "【22】繪聲繪影",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19167"
+  },
+  {
+    "rawName": "【06】網紅快拍",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19166"
+  },
+  {
+    "rawName": "【11】初學香蕉拼字",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19165"
+  },
+  {
+    "rawName": "【10】口袋密室-幕後驚奇",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19164"
+  },
+  {
+    "rawName": "【K1】邏輯動物園",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19163"
+  },
+  {
+    "rawName": "【K1】機智蜜蜂 (紙盒較軟易輕微壓痕)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19162"
+  },
+  {
+    "rawName": "【06】衰事無極限(黑)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19161"
+  },
+  {
+    "rawName": "【04】寶島台灣鐵道之旅(斷貨)",
+    "retail": 220,
+    "wholesale": 145,
+    "productId": "19160"
+  },
+  {
+    "rawName": "【11】傳情畫意-六人行",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19159"
+  },
+  {
+    "rawName": "【K1】法老密碼",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19157"
+  },
+  {
+    "rawName": "【K1】出包魔法師",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19156"
+  },
+  {
+    "rawName": "【K1】小糖廠",
+    "retail": 100,
+    "wholesale": 66,
+    "productId": "19155"
+  },
+  {
+    "rawName": "【K1】小染坊",
+    "retail": 100,
+    "wholesale": 66,
+    "productId": "19154"
+  },
+  {
+    "rawName": "【25】珊瑚物語-小丑魚",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19153"
+  },
+  {
+    "rawName": "【K1】字母瘋火輪 (紙盒較軟易輕微壓痕)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19152"
+  },
+  {
+    "rawName": "【25】猛獸紀",
+    "retail": 100,
+    "wholesale": 66,
+    "productId": "19151"
+  },
+  {
+    "rawName": "【K1】估估劃劃標準版(紅)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19149"
+  },
+  {
+    "rawName": "【10】遺忘之都",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19148"
+  },
+  {
+    "rawName": "【A3】神奇種子",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19147"
+  },
+  {
+    "rawName": "【K1】傳情畫意",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19145"
+  },
+  {
+    "rawName": "【03】五秒定律 (紙盒較軟易輕微壓痕)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19144"
+  },
+  {
+    "rawName": "【11】數字火車",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19143"
+  },
+  {
+    "rawName": "【K1】籤籤入扣 (紙盒較軟易輕微壓痕)(缺貨)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19142"
+  },
+  {
+    "rawName": "【K1】魚樂無窮",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19141"
+  },
+  {
+    "rawName": "【05】夢幻水族館",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19140"
+  },
+  {
+    "rawName": "【05】野生動物園",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19139"
+  },
+  {
+    "rawName": "【05】開心遊樂園",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19138"
+  },
+  {
+    "rawName": "【03】大富翁-幸福人生",
+    "retail": 200,
+    "wholesale": 132,
+    "productId": "19137"
+  },
+  {
+    "rawName": "【22】搖滾天團",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19136"
+  },
+  {
+    "rawName": "【23】燒杯博士(微盒損)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19135"
+  },
+  {
+    "rawName": "【K1】疊杯派對(此款外盒較軟,易有輕微壓痕)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19134"
+  },
+  {
+    "rawName": "【03】畢氏大爆炸",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19133"
+  },
+  {
+    "rawName": "【10】大禹治水",
+    "retail": 680,
+    "wholesale": 449,
+    "productId": "19132"
+  },
+  {
+    "rawName": "【05】小金牌-就是愛台灣",
+    "retail": 660,
+    "wholesale": 436,
+    "productId": "19128"
+  },
+  {
+    "rawName": "【05】小金牌-繞著地球跑",
+    "retail": 660,
+    "wholesale": 436,
+    "productId": "19127"
+  },
+  {
+    "rawName": "【11】演化論",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19125"
+  },
+  {
+    "rawName": "【03】如果雲知道",
+    "retail": 520,
+    "wholesale": 343,
+    "productId": "19124"
+  },
+  {
+    "rawName": "【11】命懸一線:彩虹版(藍)",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19122"
+  },
+  {
+    "rawName": "【06】有形有色(紅)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19121"
+  },
+  {
+    "rawName": "【05】歡樂速配",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19120"
+  },
+  {
+    "rawName": "【11】TRIO 回憶三重奏",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19119"
+  },
+  {
+    "rawName": "【06】腦洞量表-沒有下限 (黑)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19118"
+  },
+  {
+    "rawName": "【03】搖曳企鵝",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19117"
+  },
+  {
+    "rawName": "【11】一起出來玩",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19116"
+  },
+  {
+    "rawName": "【10】多多少少",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19115"
+  },
+  {
+    "rawName": "【11】步步高升:機智疊塔",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19114"
+  },
+  {
+    "rawName": "【K1】動物方程式",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19113"
+  },
+  {
+    "rawName": "【04】鬼話連篇",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19111"
+  },
+  {
+    "rawName": "【19】實話實說十周年",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19110"
+  },
+  {
+    "rawName": "【14】推理事件簿:月亮石的冒險(兒童版)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19109"
+  },
+  {
+    "rawName": "【03】部件獸",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19107"
+  },
+  {
+    "rawName": "【19】故事製造所",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19106"
+  },
+  {
+    "rawName": "【04】大富翁-超級博物館之旅",
+    "retail": 220,
+    "wholesale": 145,
+    "productId": "19104"
+  },
+  {
+    "rawName": "【10】數獨庭苑 (白)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19103"
+  },
+  {
+    "rawName": "【10】泡泡大探險-歡樂假期 (綠)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19102"
+  },
+  {
+    "rawName": "【10】泡泡大探險 (橘)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19101"
+  },
+  {
+    "rawName": "【10】偵探焦點:致命皮草",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19100"
+  },
+  {
+    "rawName": "【22】海盜喵王",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19099"
+  },
+  {
+    "rawName": "【06】衰事會發生(藍)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19098"
+  },
+  {
+    "rawName": "【K1】估估劃劃嗨起來(黑)",
+    "retail": 980,
+    "wholesale": 647,
+    "productId": "19097"
+  },
+  {
+    "rawName": "【06】腦洞量表 (藍)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19094"
+  },
+  {
+    "rawName": "【K1】討拍小怪獸 (紙盒較軟易輕微壓痕)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19093"
+  },
+  {
+    "rawName": "【K1】寫戰",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19091"
+  },
+  {
+    "rawName": "【14】推理事件簿-叛客俠道2400",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19089"
+  },
+  {
+    "rawName": "【K1】籤籤入扣-酷黑版",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19088"
+  },
+  {
+    "rawName": "【10】偵探焦點:推理作家",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19087"
+  },
+  {
+    "rawName": "【14】推理事件簿-無冕正義1900",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19086"
+  },
+  {
+    "rawName": "【10】偵探焦點:厄運鳥",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19085"
+  },
+  {
+    "rawName": "【K1】機智新星 (紙盒較軟易輕微壓痕)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19082"
+  },
+  {
+    "rawName": "【14】推理事件簿-騎士信條1400",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19079"
+  },
+  {
+    "rawName": "【22】巧手精算撕",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19078"
+  },
+  {
+    "rawName": "【03】鏢行天下(牌架版)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19077"
+  },
+  {
+    "rawName": "【20】解謎骰",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19075"
+  },
+  {
+    "rawName": "【K1】創意七巧板 (鐵盒)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19074"
+  },
+  {
+    "rawName": "【K1】邏輯方塊 (鐵盒)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19073"
+  },
+  {
+    "rawName": "【05】生態公園(2)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19072"
+  },
+  {
+    "rawName": "【K1】機智方塊 (紙盒較軟易輕微壓痕)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19069"
+  },
+  {
+    "rawName": "【K1】字母街",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19068"
+  },
+  {
+    "rawName": "【K1】火柴會說話-Family",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19067"
+  },
+  {
+    "rawName": "【07】偵探焦點:最後底牌",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19066"
+  },
+  {
+    "rawName": "【03】五秒定律-大盒版",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19064"
+  },
+  {
+    "rawName": "【K1】新翻滾路易 (紙盒較軟易輕微壓痕)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19063"
+  },
+  {
+    "rawName": "【08】叢林智慧棋",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19062"
+  },
+  {
+    "rawName": "【K1】蜜蜂花園",
+    "retail": 1290,
+    "wholesale": 851,
+    "productId": "19061"
+  },
+  {
+    "rawName": "【11】香蕉拼字",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19055"
+  },
+  {
+    "rawName": "【03】邏輯對決(新版)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19054"
+  },
+  {
+    "rawName": "【08】大富翁-綠能大作戰",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19053"
+  },
+  {
+    "rawName": "【05】大富翁-嘻哈紐約客",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19052"
+  },
+  {
+    "rawName": "【06】字字轉機",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19050"
+  },
+  {
+    "rawName": "【11】換言一新 FLIP",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19049"
+  },
+  {
+    "rawName": "【05】勝在有腦2(白)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19048"
+  },
+  {
+    "rawName": "【03】議起上奏(牌架版)",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19047"
+  },
+  {
+    "rawName": "【10】平埔傳奇：大肚王國",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19046"
+  },
+  {
+    "rawName": "【K1】估估劃劃兒童版(黃)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19045"
+  },
+  {
+    "rawName": "【K1】期貨時代:財富與回饋",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "22676"
+  },
+  {
+    "rawName": "【06】搞笑瑜珈",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22675"
+  },
+  {
+    "rawName": "【C4】控制狂魔王與失敗勇者 不得低於85折販售",
+    "retail": 680,
+    "wholesale": 483,
+    "productId": "17189"
+  },
+  {
+    "rawName": "【C4】寵物好拍檔(不得低於85折販售)",
+    "retail": 480,
+    "wholesale": 317,
+    "productId": "17188"
+  },
+  {
+    "rawName": "【C4】Oh!我的魚頭¿-感謝擴充特典",
+    "retail": 100,
+    "wholesale": 51,
+    "productId": "17187"
+  },
+  {
+    "rawName": "【C4】巫15師-第九位巫師擴充",
+    "retail": 150,
+    "wholesale": 77,
+    "productId": "17186"
+  },
+  {
+    "rawName": "【C4】時間跳躍咒-特典包",
+    "retail": 50,
+    "wholesale": 26,
+    "productId": "17185"
+  },
+  {
+    "rawName": "【C4】芋頭天堂-節慶特典包",
+    "retail": 100,
+    "wholesale": 51,
+    "productId": "17184"
+  },
+  {
+    "rawName": "【C4】芋頭天堂(附勘誤特典+豐收季特典)",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "17183"
+  },
+  {
+    "rawName": "【C4】芋頭番薯爭霸戰(每購買2盒附4人遊玩特典)",
+    "retail": 480,
+    "wholesale": 317,
+    "productId": "17182"
+  },
+  {
+    "rawName": "【C4】Oh!我的魚頭¿",
+    "retail": 880,
+    "wholesale": 581,
+    "productId": "17181"
+  },
+  {
+    "rawName": "【C4】氣球派對PLUS(盒內贈Oh!我的魚頭¿小擴充)",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "17180"
+  },
+  {
+    "rawName": "【C4】電波畫家(擴充)-地球人VS外星人-贈甜蜜特典",
+    "retail": 880,
+    "wholesale": 581,
+    "productId": "17179"
+  },
+  {
+    "rawName": "【C4】電波畫家",
+    "retail": 1280,
+    "wholesale": 845,
+    "productId": "17178"
+  },
+  {
+    "rawName": "【C4】芋頭天堂-國際圖像版",
+    "retail": 1180,
+    "wholesale": 779,
+    "productId": "17177"
+  },
+  {
+    "rawName": "【C4】吾王:塔羅之戰美術設定集(贈科技神擴充)",
+    "retail": 280,
+    "wholesale": 199,
+    "productId": "17176"
+  },
+  {
+    "rawName": "【C4】吾王:塔羅之戰",
+    "retail": 480,
+    "wholesale": 317,
+    "productId": "17175"
+  },
+  {
+    "rawName": "【20】好樂牌-海洋版本",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "17225"
+  },
+  {
+    "rawName": "【20】好樂牌-美國流行文化版本",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "17224"
+  },
+  {
+    "rawName": "【20】好樂牌-地下城版本",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "17223"
+  },
+  {
+    "rawName": "【A2】時尚行不型",
+    "retail": 660,
+    "wholesale": 436,
+    "productId": "17222"
+  },
+  {
+    "rawName": "【01】文具總動員",
+    "retail": 540,
+    "wholesale": 356,
+    "productId": "17221"
+  },
+  {
+    "rawName": "【20】好樂牌-新年版本(紅)",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "17219"
+  },
+  {
+    "rawName": "【20】好樂牌-日本版本(綠)",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "17218"
+  },
+  {
+    "rawName": "【C3】救救魔界",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "17216"
+  },
+  {
+    "rawName": "【K2】給我100分",
+    "retail": 820,
+    "wholesale": 541,
+    "productId": "17215"
+  },
+  {
+    "rawName": "【C3】洛可莫莫",
+    "retail": 780,
+    "wholesale": 515,
+    "productId": "17214"
+  },
+  {
+    "rawName": "【16】JUST正一品 透明牌套6.0x9.2mm (100pcs)",
+    "retail": 40,
+    "wholesale": 26,
+    "productId": "22794"
+  },
+  {
+    "rawName": "【B2】塞尼特棋 SENET",
+    "retail": 2680,
+    "wholesale": 2144,
+    "productId": "19915"
+  },
+  {
+    "rawName": "【C3】太空議會+解鎖項",
+    "retail": 2400,
+    "wholesale": 1920,
+    "productId": "19914"
+  },
+  {
+    "rawName": "【A1】中世紀典藏版(無膜)",
+    "retail": 3300,
+    "wholesale": 2640,
+    "productId": "19911"
+  },
+  {
+    "rawName": "【A1】印度尼西亞(附桌墊)",
+    "retail": 3300,
+    "wholesale": 2640,
+    "productId": "19910"
+  },
+  {
+    "rawName": "【22】荒宅魅影:法老之謎",
+    "retail": 660,
+    "wholesale": 528,
+    "productId": "19909"
+  },
+  {
+    "rawName": "【22】荒宅魅影:迷失星鍵",
+    "retail": 660,
+    "wholesale": 528,
+    "productId": "19908"
+  },
+  {
+    "rawName": "【22】荒宅魅影:重返墓碑鎮",
+    "retail": 660,
+    "wholesale": 528,
+    "productId": "19907"
+  },
+  {
+    "rawName": "【22】美麗新王國",
+    "retail": 1500,
+    "wholesale": 1200,
+    "productId": "19905"
+  },
+  {
+    "rawName": "【22】銀河卡車司機(新版) 附3款桌墊各4張+紀念卡",
+    "retail": 1080,
+    "wholesale": 864,
+    "productId": "19904"
+  },
+  {
+    "rawName": "【24】煉金術士擴充(破膜)",
+    "retail": 1080,
+    "wholesale": 864,
+    "productId": "19903"
+  },
+  {
+    "rawName": "【24】煉金術士主遊戲(簡中)",
+    "retail": 1850,
+    "wholesale": 1480,
+    "productId": "19902"
+  },
+  {
+    "rawName": "【C3】靈跡島配件升級1+2組合",
+    "retail": 2500,
+    "wholesale": 2000,
+    "productId": "19901"
+  },
+  {
+    "rawName": "【C3】靈跡島PROMO合輯:羽毛和火焰(附說明書)",
+    "retail": 900,
+    "wholesale": 720,
+    "productId": "19900"
+  },
+  {
+    "rawName": "【C3】靈跡島三擴:自然的化身(附說明書+勘誤卡)",
+    "retail": 1850,
+    "wholesale": 1480,
+    "productId": "19899"
+  },
+  {
+    "rawName": "【C3】靈跡島一擴:虬枝與利爪(附說明書+勘誤卡)",
+    "retail": 1150,
+    "wholesale": 920,
+    "productId": "19898"
+  },
+  {
+    "rawName": "【A3】大津巴布韋",
+    "retail": 2700,
+    "wholesale": 2160,
+    "productId": "19897"
+  },
+  {
+    "rawName": "【E-】巴黎：新伊甸",
+    "retail": 1750,
+    "wholesale": 1400,
+    "productId": "19895"
+  },
+  {
+    "rawName": "【22】聖家族大教堂5-6人擴充(英文版)",
+    "retail": 850,
+    "wholesale": 680,
+    "productId": "19894"
+  },
+  {
+    "rawName": "【16】JUST正一品 透明牌套 4.5*7.0mm (100pcs)",
+    "retail": 40,
+    "wholesale": 26,
+    "productId": "19891"
+  },
+  {
+    "rawName": "【16】JUST正一品 透明牌套6.5x9mm (100pcs)",
+    "retail": 40,
+    "wholesale": 26,
+    "productId": "19889"
+  },
+  {
+    "rawName": "套骰-奇幻(多種顏色隨機出貨)",
+    "retail": 170,
+    "wholesale": 112,
+    "productId": "19888"
+  },
+  {
+    "rawName": "【16】RS透明牌套6.1*8.8cm (100pcs)",
+    "retail": 50,
+    "wholesale": 33,
+    "productId": "19887"
+  },
+  {
+    "rawName": "【16】RS透明牌套5.9X9.3CM(50PCS)",
+    "retail": 50,
+    "wholesale": 33,
+    "productId": "19886"
+  },
+  {
+    "rawName": "【16】RS透明牌套6.5x9cm (100pcs)",
+    "retail": 50,
+    "wholesale": 33,
+    "productId": "19885"
+  },
+  {
+    "rawName": "【16】玫瑰紅色卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19882"
+  },
+  {
+    "rawName": "【16】透明綠卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19880"
+  },
+  {
+    "rawName": "【16】透明紅卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19879"
+  },
+  {
+    "rawName": "【16】透明黃卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19878"
+  },
+  {
+    "rawName": "【16】橘色卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19876"
+  },
+  {
+    "rawName": "【16】紅色卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19875"
+  },
+  {
+    "rawName": "【16】黃色卡盒 5.5*7.3*9.7 (小)",
+    "retail": 60,
+    "wholesale": 40,
+    "productId": "19872"
+  },
+  {
+    "rawName": "【16】紅色卡盒 7.5*7.3*9.7 (大)",
+    "retail": 80,
+    "wholesale": 56,
+    "productId": "19860"
+  },
+  {
+    "rawName": "【16】綠色卡盒 7.5*7.3*9.7 (大)",
+    "retail": 80,
+    "wholesale": 56,
+    "productId": "19856"
+  },
+  {
+    "rawName": "【16】牌套 6.5*6.5 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19853"
+  },
+  {
+    "rawName": "【16】牌套 8.6*8.5 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19852"
+  },
+  {
+    "rawName": "【16】牌套 8.0*9.0 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19851"
+  },
+  {
+    "rawName": "【16】牌套 6.0*12.0 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19850"
+  },
+  {
+    "rawName": "【16】牌套 5.7*11.0 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19849"
+  },
+  {
+    "rawName": "【16】牌套 7.0*7.0 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19848"
+  },
+  {
+    "rawName": "【16】牌套 8.0*8.0 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19847"
+  },
+  {
+    "rawName": "【16】牌套 7.3*10.3 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19846"
+  },
+  {
+    "rawName": "【16】牌套 7.0*12.0 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19845"
+  },
+  {
+    "rawName": "【16】牌套 7.0*11.0 (80張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19844"
+  },
+  {
+    "rawName": "【16】牌套 8.0*12.0 (90張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19843"
+  },
+  {
+    "rawName": "【16】牌套 6.6*10.0 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19842"
+  },
+  {
+    "rawName": "【16】牌套 4.3*6.5 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19841"
+  },
+  {
+    "rawName": "【16】牌套 4.5*7.0 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19840"
+  },
+  {
+    "rawName": "【16】牌套 5.7*9.0 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19839"
+  },
+  {
+    "rawName": "【16】牌套 6.0*9.2 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19838"
+  },
+  {
+    "rawName": "【16】牌套 6.5*9.0 (100張)",
+    "retail": 55,
+    "wholesale": 36,
+    "productId": "19837"
+  },
+  {
+    "rawName": "【07】內鬼疑雲",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19836"
+  },
+  {
+    "rawName": "【07】陰謀大亂鬥",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19835"
+  },
+  {
+    "rawName": "【08】知音難尋-古典樂合輯",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19834"
+  },
+  {
+    "rawName": "【08】陽光果農",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19833"
+  },
+  {
+    "rawName": "【08】音樂派對",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19832"
+  },
+  {
+    "rawName": "【A4】奇幻樹冒險物語",
+    "retail": 2680,
+    "wholesale": 1768,
+    "productId": "19831"
+  },
+  {
+    "rawName": "【21】台北大空襲史詩合集",
+    "retail": 2480,
+    "wholesale": 1637,
+    "productId": "19830"
+  },
+  {
+    "rawName": "【23】消極男子人生(國際版)",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19829"
+  },
+  {
+    "rawName": "【23】邂逅新北投",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19828"
+  },
+  {
+    "rawName": "【23】高雄驛紙模型",
+    "retail": 900,
+    "wholesale": 594,
+    "productId": "19827"
+  },
+  {
+    "rawName": "【23】天橋上的魔術師拼圖",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19826"
+  },
+  {
+    "rawName": "【23】腹黑果子店",
+    "retail": 580,
+    "wholesale": 382,
+    "productId": "19825"
+  },
+  {
+    "rawName": "【23】MAYA迷走水豚娃娃",
+    "retail": 699,
+    "wholesale": 461,
+    "productId": "19824"
+  },
+  {
+    "rawName": "【H-】情緒謎語雙語版",
+    "retail": 960,
+    "wholesale": 634,
+    "productId": "19822"
+  },
+  {
+    "rawName": "【06】練愛猜心",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19821"
+  },
+  {
+    "rawName": "【H-】拚陣頭 (附勘誤卡)",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19820"
+  },
+  {
+    "rawName": "【H-】抓誑新聞",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19819"
+  },
+  {
+    "rawName": "【C4】(天空藍) 大船要出港",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19818"
+  },
+  {
+    "rawName": "【C4】(紅) 老街鹿路通",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19817"
+  },
+  {
+    "rawName": "【C4】(淺綠) 分享家鄉味",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19816"
+  },
+  {
+    "rawName": "【C4】(淺棕) 山洞考古隊",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19815"
+  },
+  {
+    "rawName": "【23】維京山谷(中文版) 贈購物袋",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19814"
+  },
+  {
+    "rawName": "【23】瘋狂速食怪",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19813"
+  },
+  {
+    "rawName": "【23】UFO (深藍)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19812"
+  },
+  {
+    "rawName": "【23】(灰) 工讀生別裝了!(兩人對決版)",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19811"
+  },
+  {
+    "rawName": "【23】(米色) 工讀生別裝了!",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19810"
+  },
+  {
+    "rawName": "【23】轉命師桌遊",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19809"
+  },
+  {
+    "rawName": "【D4】密涅瓦",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "19808"
+  },
+  {
+    "rawName": "【C3】唐苑 (附promo)",
+    "retail": 1980,
+    "wholesale": 1307,
+    "productId": "19807"
+  },
+  {
+    "rawName": "【15】單字蹦蹦",
+    "retail": 490,
+    "wholesale": 343,
+    "productId": "19805"
+  },
+  {
+    "rawName": "【07】Racing Hedgehogs 刺蝟跑跑",
+    "retail": 890,
+    "wholesale": 623,
+    "productId": "19804"
+  },
+  {
+    "rawName": "【18】By The Book 貓咪擺書架",
+    "retail": 1100,
+    "wholesale": 770,
+    "productId": "19803"
+  },
+  {
+    "rawName": "【15】數字配方(中文版)",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19802"
+  },
+  {
+    "rawName": "【14】棒棒糖(中文版)",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19801"
+  },
+  {
+    "rawName": "【23】啵啵樂Go PoP(圓形彩色)",
+    "retail": 320,
+    "wholesale": 224,
+    "productId": "19799"
+  },
+  {
+    "rawName": "【08】(薄) 瘋狂對決 MATCH MADNESS",
+    "retail": 1100,
+    "wholesale": 770,
+    "productId": "19798"
+  },
+  {
+    "rawName": "【07】單字快答硬盒版",
+    "retail": 490,
+    "wholesale": 343,
+    "productId": "19797"
+  },
+  {
+    "rawName": "【19】(天空藍) 拼接建築師",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19796"
+  },
+  {
+    "rawName": "【08】聰明餅乾 (25週年紀念版)",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19795"
+  },
+  {
+    "rawName": "【10】麻吉貓放假趣",
+    "retail": 350,
+    "wholesale": 245,
+    "productId": "19794"
+  },
+  {
+    "rawName": "【07】(紫) 幾何方格",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19793"
+  },
+  {
+    "rawName": "【14】拍張照",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19792"
+  },
+  {
+    "rawName": "【12】字母翻翻",
+    "retail": 820,
+    "wholesale": 574,
+    "productId": "19790"
+  },
+  {
+    "rawName": "【12】時間輪盤",
+    "retail": 1280,
+    "wholesale": 896,
+    "productId": "19789"
+  },
+  {
+    "rawName": "【12】水果數到十 (盒裝)",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19787"
+  },
+  {
+    "rawName": "【15】大頭娃娃第二代",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19786"
+  },
+  {
+    "rawName": "【F3】披薩家 (中文版)",
+    "retail": 750,
+    "wholesale": 525,
+    "productId": "19785"
+  },
+  {
+    "rawName": "【14】接車龍",
+    "retail": 590,
+    "wholesale": 413,
+    "productId": "19784"
+  },
+  {
+    "rawName": "【08】洗襪子",
+    "retail": 490,
+    "wholesale": 343,
+    "productId": "19782"
+  },
+  {
+    "rawName": "【15】眼明腦快",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19781"
+  },
+  {
+    "rawName": "【14】魔法花店",
+    "retail": 820,
+    "wholesale": 574,
+    "productId": "19777"
+  },
+  {
+    "rawName": "【15】香蕉人上班趣",
+    "retail": 450,
+    "wholesale": 315,
+    "productId": "19776"
+  },
+  {
+    "rawName": "【15】俄羅斯娃娃",
+    "retail": 490,
+    "wholesale": 343,
+    "productId": "19774"
+  },
+  {
+    "rawName": "【15】大頭娃娃",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19773"
+  },
+  {
+    "rawName": "【08】迎面而戰",
+    "retail": 650,
+    "wholesale": 455,
+    "productId": "19772"
+  },
+  {
+    "rawName": "【08】貓捉老鼠",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19771"
+  },
+  {
+    "rawName": "【08】數大小(無膜盒裝)",
+    "retail": 590,
+    "wholesale": 413,
+    "productId": "19770"
+  },
+  {
+    "rawName": "【22】漫威:絕密檔案 (典藏版)",
+    "retail": 2780,
+    "wholesale": 1835,
+    "productId": "19584"
+  },
+  {
+    "rawName": "【K1】艋舺花巷",
+    "retail": 900,
+    "wholesale": 594,
+    "productId": "19583"
+  },
+  {
+    "rawName": "【23】魔骰競技",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19582"
+  },
+  {
+    "rawName": "【23】鍊金數士(售價不可低於85折)",
+    "retail": 810,
+    "wholesale": 535,
+    "productId": "19581"
+  },
+  {
+    "rawName": "【K2】物種起源：生命的累變",
+    "retail": 1399,
+    "wholesale": 923,
+    "productId": "19580"
+  },
+  {
+    "rawName": "【F3】萌犬紳士",
+    "retail": 860,
+    "wholesale": 568,
+    "productId": "19579"
+  },
+  {
+    "rawName": "【A1】(黑)情書賈霸的宮殿 (紙盒有輕微壓痕)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19578"
+  },
+  {
+    "rawName": "【A1】(紫)情書無限手套 (紙盒有輕微壓痕)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19577"
+  },
+  {
+    "rawName": "【23】仙桃大亂鬥",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19576"
+  },
+  {
+    "rawName": "【23】星際礦工",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19575"
+  },
+  {
+    "rawName": "【A3】(大盒) 瞎掰王 9upper",
+    "retail": 1080,
+    "wholesale": 713,
+    "productId": "19573"
+  },
+  {
+    "rawName": "【K2】小白世紀",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19572"
+  },
+  {
+    "rawName": "【22】蘿菠蘿菠2 (附說明書)",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19570"
+  },
+  {
+    "rawName": "【D1】呷百二",
+    "retail": 2580,
+    "wholesale": 1703,
+    "productId": "19569"
+  },
+  {
+    "rawName": "【23】貨幣戰爭",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19568"
+  },
+  {
+    "rawName": "【22】貍貓換太子(送資料夾)",
+    "retail": 420,
+    "wholesale": 277,
+    "productId": "19567"
+  },
+  {
+    "rawName": "【C-】海灣船長",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "19566"
+  },
+  {
+    "rawName": "【C2】南美高原",
+    "retail": 1780,
+    "wholesale": 1175,
+    "productId": "19565"
+  },
+  {
+    "rawName": "【D2】帝國王政",
+    "retail": 980,
+    "wholesale": 647,
+    "productId": "19564"
+  },
+  {
+    "rawName": "【08】喵窩躲躲(九藏喵繪)",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19563"
+  },
+  {
+    "rawName": "【A4】畫中有話",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19562"
+  },
+  {
+    "rawName": "【13】大鍋炒",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19560"
+  },
+  {
+    "rawName": "【12】動物瘋-企鵝",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "19557"
+  },
+  {
+    "rawName": "【24】UB友邦磁性13路圍棋 (外盒受潮)",
+    "retail": 380,
+    "wholesale": 251,
+    "productId": "19555"
+  },
+  {
+    "rawName": "【08】動物對對碰",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19553"
+  },
+  {
+    "rawName": "【08】動物們的吃吃與便便",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19552"
+  },
+  {
+    "rawName": "【A4】莫達拉",
+    "retail": 1450,
+    "wholesale": 957,
+    "productId": "19551"
+  },
+  {
+    "rawName": "【D2】說妖",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19550"
+  },
+  {
+    "rawName": "【23】流轉大地",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19547"
+  },
+  {
+    "rawName": "【A2】三國殺:神話再臨-風擴充",
+    "retail": 120,
+    "wholesale": 79,
+    "productId": "19545"
+  },
+  {
+    "rawName": "【A2】三國殺:神話再臨-火擴充",
+    "retail": 120,
+    "wholesale": 79,
+    "productId": "19544"
+  },
+  {
+    "rawName": "【A2】三國殺:神話再臨-山擴充",
+    "retail": 120,
+    "wholesale": 79,
+    "productId": "19543"
+  },
+  {
+    "rawName": "【10】三國殺:2014 一將成名擴充 (簡)",
+    "retail": 160,
+    "wholesale": 105,
+    "productId": "19542"
+  },
+  {
+    "rawName": "【10】三國殺:2011 一將成名擴充 (簡)",
+    "retail": 120,
+    "wholesale": 79,
+    "productId": "19541"
+  },
+  {
+    "rawName": "【10】三國殺:體驗版 (紙盒較軟易壓痕)",
+    "retail": 120,
+    "wholesale": 79,
+    "productId": "19540"
+  },
+  {
+    "rawName": "【21】全腦潛能開發桌遊系列-小農巴菲特",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19537"
+  },
+  {
+    "rawName": "【G1】三國殺:便攜版 (紅)",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "19536"
+  },
+  {
+    "rawName": "【G1】三國殺:國戰(盒子微內凹)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19535"
+  },
+  {
+    "rawName": "【G1】卡坦島中國地圖",
+    "retail": 1590,
+    "wholesale": 1049,
+    "productId": "19534"
+  },
+  {
+    "rawName": "【C3】戰國令",
+    "retail": 599,
+    "wholesale": 395,
+    "productId": "19533"
+  },
+  {
+    "rawName": "【F4】海淵(OTYS)",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19532"
+  },
+  {
+    "rawName": "【C1】澳洲天劫",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19531"
+  },
+  {
+    "rawName": "【13】幸福瘦",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19530"
+  },
+  {
+    "rawName": "【C1】萌貓淑女:零食盒子(綠)",
+    "retail": 860,
+    "wholesale": 568,
+    "productId": "19528"
+  },
+  {
+    "rawName": "【C1】萌貓淑女(粉)",
+    "retail": 860,
+    "wholesale": 568,
+    "productId": "19527"
+  },
+  {
+    "rawName": "【B2】繽紛花火",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19526"
+  },
+  {
+    "rawName": "【F4】全腦潛能開發桌遊系列-拚了!小雞",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19525"
+  },
+  {
+    "rawName": "【A2】你在喵我嗎",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19524"
+  },
+  {
+    "rawName": "【A3】(藍)全腦潛能開發桌遊系列-星際寶衛戰",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19523"
+  },
+  {
+    "rawName": "【C3】(粉)全腦潛能開發桌遊系列-許願桌傳說",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19522"
+  },
+  {
+    "rawName": "【C3】牛仔很茫",
+    "retail": 649,
+    "wholesale": 428,
+    "productId": "19521"
+  },
+  {
+    "rawName": "【A1】大城市小市長",
+    "retail": 599,
+    "wholesale": 395,
+    "productId": "19520"
+  },
+  {
+    "rawName": "【23】絲路商人",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19519"
+  },
+  {
+    "rawName": "【C3】天黑請閉眼(簡中-鐵盒)",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19518"
+  },
+  {
+    "rawName": "【A2】急件快送奧樂雞",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "19517"
+  },
+  {
+    "rawName": "【G2】風聲:諜戰典藏版",
+    "retail": 1280,
+    "wholesale": 845,
+    "productId": "19516"
+  },
+  {
+    "rawName": "【G2】2022三國殺繁中十周年珍藏版",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "19515"
+  },
+  {
+    "rawName": "【23】神吐槽:隨身版",
+    "retail": 299,
+    "wholesale": 197,
+    "productId": "19512"
+  },
+  {
+    "rawName": "【G1】寶島餐廳:口袋版",
+    "retail": 199,
+    "wholesale": 131,
+    "productId": "19511"
+  },
+  {
+    "rawName": "【G1】奇異法則:口袋版",
+    "retail": 199,
+    "wholesale": 131,
+    "productId": "19510"
+  },
+  {
+    "rawName": "【A2】晃晃詭宅",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19507"
+  },
+  {
+    "rawName": "【F4】領土爭奪-豪華版",
+    "retail": 399,
+    "wholesale": 263,
+    "productId": "19506"
+  },
+  {
+    "rawName": "【F4】領土爭奪-標準版",
+    "retail": 199,
+    "wholesale": 131,
+    "productId": "19505"
+  },
+  {
+    "rawName": "【A2】炸彈競技場2:基地爭霸戰",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19504"
+  },
+  {
+    "rawName": "【F4】諾瑞亞雲中城",
+    "retail": 2190,
+    "wholesale": 1445,
+    "productId": "19503"
+  },
+  {
+    "rawName": "【G2】御魂使:飛昇紀-模型大盒集資版(價格為原廠定訂,下單時請慎選)附配件",
+    "retail": 7500,
+    "wholesale": 5250,
+    "productId": "19502"
+  },
+  {
+    "rawName": "【A3】強權外交2023新版(價格為原廠定訂,下單時請慎選)",
+    "retail": 1580,
+    "wholesale": 1106,
+    "productId": "19501"
+  },
+  {
+    "rawName": "【G2】併購風雲 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1980,
+    "wholesale": 1386,
+    "productId": "19500"
+  },
+  {
+    "rawName": "【A3】殺戮尖塔+解鎖項(邊角微損) 價格為原廠定訂,下單時請慎選",
+    "retail": 5000,
+    "wholesale": 3500,
+    "productId": "19499"
+  },
+  {
+    "rawName": "【A3】獵殺行動+黑手黨:紐約對決(價格為原廠定訂,下單時請慎選)",
+    "retail": 1400,
+    "wholesale": 980,
+    "productId": "19498"
+  },
+  {
+    "rawName": "【A3】布魯塞爾1893 (價格為原廠定訂,下單時請慎選)",
+    "retail": 2400,
+    "wholesale": 1680,
+    "productId": "19495"
+  },
+  {
+    "rawName": "【10】太空之門奧德賽 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1000,
+    "wholesale": 700,
+    "productId": "19493"
+  },
+  {
+    "rawName": "【C4】西國建築師專用遊戲墊 (價格為原廠定訂,下單時請慎選)",
+    "retail": 700,
+    "wholesale": 490,
+    "productId": "19492"
+  },
+  {
+    "rawName": "【G2】西國子爵:守衛秘鑰 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19491"
+  },
+  {
+    "rawName": "【G2】西國子爵:輝煌拱門 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19490"
+  },
+  {
+    "rawName": "【G2】西國子爵:典藏大盒 (價格為原廠定訂,下單時請慎選)",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19489"
+  },
+  {
+    "rawName": "【B1】(大盒) 雅典衛城 (價格為原廠定訂,下單時請慎選)",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19488"
+  },
+  {
+    "rawName": "【A3】庫珀島 (簡中附小船promo) 價格為原廠定訂,下單時請慎選",
+    "retail": 600,
+    "wholesale": 420,
+    "productId": "19487"
+  },
+  {
+    "rawName": "【10】我要上太空+晶奇遭遇擴充 (紙盒較軟易輕微壓痕) 價格為原廠定訂,下單時請慎選",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19486"
+  },
+  {
+    "rawName": "【D2】大西部開拓者:邁向北方擴充(價格為原廠定訂,下單時請慎選)",
+    "retail": 1200,
+    "wholesale": 780,
+    "productId": "19485"
+  },
+  {
+    "rawName": "【A3】西國建築師:典藏大盒 (價格為原廠定訂,下單時請慎選)",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19484"
+  },
+  {
+    "rawName": "【C2】西國建築師:驚世奇觀 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19483"
+  },
+  {
+    "rawName": "【10】薩滿 Shamans (價格為原廠定訂,下單時請慎選)",
+    "retail": 850,
+    "wholesale": 595,
+    "productId": "19479"
+  },
+  {
+    "rawName": "【10】西國聖騎士(價格為原廠定訂,下單時請慎選)",
+    "retail": 1800,
+    "wholesale": 1260,
+    "productId": "19478"
+  },
+  {
+    "rawName": "【D2】貓島奇緣2022新擴充三盒組 (價格為原廠定訂,下單時請慎選)",
+    "retail": 2500,
+    "wholesale": 1750,
+    "productId": "19477"
+  },
+  {
+    "rawName": "【K1】西國聖騎士典藏盒(內附Promo) 價格為原廠定訂,下單時請慎選",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19476"
+  },
+  {
+    "rawName": "【A3】霹靂投石車 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1280,
+    "wholesale": 896,
+    "productId": "19475"
+  },
+  {
+    "rawName": "【10】西國傳奇巨著 (價格為原廠定訂,下單時請慎選)",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19474"
+  },
+  {
+    "rawName": "【10】西國聖騎士:王冠之城擴充 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "19473"
+  },
+  {
+    "rawName": "【K1】我要上太空 (價格為原廠定訂,下單時請慎選)",
+    "retail": 890,
+    "wholesale": 623,
+    "productId": "19472"
+  },
+  {
+    "rawName": "【10】西國子爵 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1800,
+    "wholesale": 1260,
+    "productId": "19471"
+  },
+  {
+    "rawName": "【10】大殺四方:黑熊騎兵＆蒸氣龐克 (價格為原廠定訂,下單時請慎選)",
+    "retail": 380,
+    "wholesale": 266,
+    "productId": "19468"
+  },
+  {
+    "rawName": "【10】大殺四方:鬼魂與殺人植物 (價格為原廠定訂,下單時請慎選)",
+    "retail": 380,
+    "wholesale": 266,
+    "productId": "19467"
+  },
+  {
+    "rawName": "【10】大殺四方:功夫戰士＆迪斯科舞者 (價格為原廠定訂,下單時請慎選)",
+    "retail": 380,
+    "wholesale": 266,
+    "productId": "19466"
+  },
+  {
+    "rawName": "【10】黑手黨:紐約對決 (價格為原廠定訂,下單時請慎選)",
+    "retail": 880,
+    "wholesale": 616,
+    "productId": "19464"
+  },
+  {
+    "rawName": "【20】來杯兔兔2023版",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19463"
+  },
+  {
+    "rawName": "【20】緹拉穿搭碰",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19462"
+  },
+  {
+    "rawName": "【C-】水果罐罐(扭蛋)",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "19461"
+  },
+  {
+    "rawName": "【C4】一起外送",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19457"
+  },
+  {
+    "rawName": "【C4】蜥蓋 (大盒)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19456"
+  },
+  {
+    "rawName": "【C4】小小羊駝要回家(15入分享版)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19455"
+  },
+  {
+    "rawName": "【C4】當我們同在一起(30人教育版)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19454"
+  },
+  {
+    "rawName": "【G2】陰間條例夜巡篇",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19453"
+  },
+  {
+    "rawName": "【24】黑羊與白羊紙盒版",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19450"
+  },
+  {
+    "rawName": "【20】迷霧島",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19449"
+  },
+  {
+    "rawName": "【24】鄉勇",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19448"
+  },
+  {
+    "rawName": "【20】喔！美味漢堡帶走！",
+    "retail": 1280,
+    "wholesale": 845,
+    "productId": "19447"
+  },
+  {
+    "rawName": "【02】冰冰有禮(三麗鷗正版授權)",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19446"
+  },
+  {
+    "rawName": "【02】聯想藝術",
+    "retail": 320,
+    "wholesale": 211,
+    "productId": "19444"
+  },
+  {
+    "rawName": "【02】漢字傳說-部首篇",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19443"
+  },
+  {
+    "rawName": "【02】漢字傳說-古字篇",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19442"
+  },
+  {
+    "rawName": "【02】骰寫彩色島",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19441"
+  },
+  {
+    "rawName": "【02】歡迎來到第一擴充",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19440"
+  },
+  {
+    "rawName": "【02】馭利交易者",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19439"
+  },
+  {
+    "rawName": "【02】馭利分裂者(附分裂者強化補件)",
+    "retail": 1050,
+    "wholesale": 693,
+    "productId": "19438"
+  },
+  {
+    "rawName": "【02】本草 (簡中版)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19436"
+  },
+  {
+    "rawName": "【02】抹茶",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19435"
+  },
+  {
+    "rawName": "【02】七不思議",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19434"
+  },
+  {
+    "rawName": "【02】星球防衛者",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19433"
+  },
+  {
+    "rawName": "【02】神殿試煉",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19432"
+  },
+  {
+    "rawName": "【02】神殿之謎",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19430"
+  },
+  {
+    "rawName": "【02】三千世界鴉殺盡",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19428"
+  },
+  {
+    "rawName": "【02】花見小路",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19427"
+  },
+  {
+    "rawName": "【02】東周列萌志-稷下學宮",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "19426"
+  },
+  {
+    "rawName": "【02】大航海時代",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "19425"
+  },
+  {
+    "rawName": "【02】漫步彩色島",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19424"
+  },
+  {
+    "rawName": "【02】漫步普羅旺斯",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "19423"
+  },
+  {
+    "rawName": "【02】阿瓦隆-蘭斯洛特擴充",
+    "retail": 180,
+    "wholesale": 119,
+    "productId": "19422"
+  },
+  {
+    "rawName": "【02】東方機關術",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19421"
+  },
+  {
+    "rawName": "【02】犯人在跳舞",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19420"
+  },
+  {
+    "rawName": "【02】病毒在跳舞",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19419"
+  },
+  {
+    "rawName": "【02】歡迎來到",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19418"
+  },
+  {
+    "rawName": "【24】鐮刀戰爭擴充-遠方入侵者",
+    "retail": 1000,
+    "wholesale": 700,
+    "productId": "19417"
+  },
+  {
+    "rawName": "【22】藝術寶盒",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19416"
+  },
+  {
+    "rawName": "【C3】穆拉諾-光影大師",
+    "retail": 1350,
+    "wholesale": 891,
+    "productId": "19415"
+  },
+  {
+    "rawName": "【19】修道院",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "19414"
+  },
+  {
+    "rawName": "【D1】巧手猜圖",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19413"
+  },
+  {
+    "rawName": "【D1】埃及人：流沙",
+    "retail": 1700,
+    "wholesale": 1122,
+    "productId": "19412"
+  },
+  {
+    "rawName": "【C2】自然重生",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19411"
+  },
+  {
+    "rawName": "【B2】國家公園:夜幕",
+    "retail": 890,
+    "wholesale": 623,
+    "productId": "19410"
+  },
+  {
+    "rawName": "【20】矩陣密室-重啟輪迴",
+    "retail": 1000,
+    "wholesale": 660,
+    "productId": "19408"
+  },
+  {
+    "rawName": "【F3】(粉) 展翅翱翔亞洲擴充",
+    "retail": 1500,
+    "wholesale": 1050,
+    "productId": "19407"
+  },
+  {
+    "rawName": "【F3】(紫) 展翅翱翔歐洲擴充",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19406"
+  },
+  {
+    "rawName": "【20】屠龍學院",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "19405"
+  },
+  {
+    "rawName": "【F3】展翅翱翔收納大盒",
+    "retail": 2500,
+    "wholesale": 2000,
+    "productId": "19404"
+  },
+  {
+    "rawName": "【F3】展翅翱翔",
+    "retail": 1950,
+    "wholesale": 1365,
+    "productId": "19403"
+  },
+  {
+    "rawName": "【20】西安",
+    "retail": 1650,
+    "wholesale": 1089,
+    "productId": "19402"
+  },
+  {
+    "rawName": "【A4】我的小小鐮刀",
+    "retail": 1750,
+    "wholesale": 1155,
+    "productId": "19401"
+  },
+  {
+    "rawName": "【A3】米寶馬戲團擴充:野獸與飛人",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19400"
+  },
+  {
+    "rawName": "【D2】青蛙騎士",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "19399"
+  },
+  {
+    "rawName": "【20】深海諜影-升級一號擴充",
+    "retail": 690,
+    "wholesale": 483,
+    "productId": "19398"
+  },
+  {
+    "rawName": "【D4】奧卡諾根-湖之山谷",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "19397"
+  },
+  {
+    "rawName": "【D1】契約石",
+    "retail": 2400,
+    "wholesale": 1920,
+    "productId": "19396"
+  },
+  {
+    "rawName": "【C3】花園國度(附一包勘誤)",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "19395"
+  },
+  {
+    "rawName": "【K2】我的好朋友",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19394"
+  },
+  {
+    "rawName": "【K2】MINO DICE 米諾骰",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19393"
+  },
+  {
+    "rawName": "【A1】貓先生的魔藥鍋",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19392"
+  },
+  {
+    "rawName": "【23】青春筆記",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19391"
+  },
+  {
+    "rawName": "【K2】幫手藝術家",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19389"
+  },
+  {
+    "rawName": "【15】完美空難：謀殺之謎",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19388"
+  },
+  {
+    "rawName": "【F1】小柔的最後一天惡意時代",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19387"
+  },
+  {
+    "rawName": "【14】完美社區",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19386"
+  },
+  {
+    "rawName": "【08】營火故事",
+    "retail": 700,
+    "wholesale": 462,
+    "productId": "19385"
+  },
+  {
+    "rawName": "【B1】終極審判:電車難題擴充(紅)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19384"
+  },
+  {
+    "rawName": "【A3】忘憂繪卷 擴充",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19383"
+  },
+  {
+    "rawName": "【10】我滿懷業障的有病桌遊",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19382"
+  },
+  {
+    "rawName": "【B2】性格靈通：寓言",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19381"
+  },
+  {
+    "rawName": "【B2】性格靈通：歷史",
+    "retail": 400,
+    "wholesale": 264,
+    "productId": "19380"
+  },
+  {
+    "rawName": "【A3】街口:傳承",
+    "retail": 1500,
+    "wholesale": 990,
+    "productId": "19378"
+  },
+  {
+    "rawName": "【01】諾亞星球",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19377"
+  },
+  {
+    "rawName": "【11】髒小豬",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "19376"
+  },
+  {
+    "rawName": "【A3】煞有其時",
+    "retail": 1490,
+    "wholesale": 983,
+    "productId": "19375"
+  },
+  {
+    "rawName": "【C2】敦煌商豪",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19374"
+  },
+  {
+    "rawName": "【A3】小小鐵路帝國基礎版",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "19373"
+  },
+  {
+    "rawName": "【D2】呼嘯山脈",
+    "retail": 2000,
+    "wholesale": 1320,
+    "productId": "19372"
+  },
+  {
+    "rawName": "【C2】森靈之道 (附一張卡)",
+    "retail": 2000,
+    "wholesale": 1500,
+    "productId": "19371"
+  },
+  {
+    "rawName": "【C2】巴西帝國 (附說明書)",
+    "retail": 2000,
+    "wholesale": 1320,
+    "productId": "19370"
+  },
+  {
+    "rawName": "【C2】珊瑚秘境",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "19369"
+  },
+  {
+    "rawName": "【C2】托爾圖加2199",
+    "retail": 2100,
+    "wholesale": 1386,
+    "productId": "19368"
+  },
+  {
+    "rawName": "【C2】雲霄年代",
+    "retail": 2000,
+    "wholesale": 1320,
+    "productId": "19366"
+  },
+  {
+    "rawName": "【C2】漢薩同盟大盒版",
+    "retail": 1800,
+    "wholesale": 1260,
+    "productId": "19365"
+  },
+  {
+    "rawName": "【C2】三國得志(破膜)",
+    "retail": 2100,
+    "wholesale": 1386,
+    "productId": "19364"
+  },
+  {
+    "rawName": "【C2】GENTES 氏族 (附說明書+配件)",
+    "retail": 1400,
+    "wholesale": 924,
+    "productId": "19362"
+  },
+  {
+    "rawName": "【C4】熔爐革命 (附說明書+配件)",
+    "retail": 1090,
+    "wholesale": 719,
+    "productId": "19361"
+  },
+  {
+    "rawName": "【D1】酒店大亨都會版",
+    "retail": 1299,
+    "wholesale": 844,
+    "productId": "19255"
+  },
+  {
+    "rawName": "【F4】兔子王國巨雲島擴充",
+    "retail": 1150,
+    "wholesale": 759,
+    "productId": "19254"
+  },
+  {
+    "rawName": "【F4】兔子王國",
+    "retail": 1700,
+    "wholesale": 1122,
+    "productId": "19253"
+  },
+  {
+    "rawName": "【C4】玩命賽道擴充",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19252"
+  },
+  {
+    "rawName": "【C4】連線計畫",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "19251"
+  },
+  {
+    "rawName": "【C4】玩命賽道",
+    "retail": 1300,
+    "wholesale": 858,
+    "productId": "19250"
+  },
+  {
+    "rawName": "【C4】骷髏牌",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "19249"
+  },
+  {
+    "rawName": "【B1】《戰神》桌遊版",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19248"
+  },
+  {
+    "rawName": "【D1】猴子轉轉樂 (紙盒較軟易輕微壓痕)",
+    "retail": 999,
+    "wholesale": 659,
+    "productId": "19247"
+  },
+  {
+    "rawName": "【D4】築地魚市",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19244"
+  },
+  {
+    "rawName": "【F3】名偵大賽",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "19241"
+  },
+  {
+    "rawName": "【A2】迷失亞馬遜:不老泉與新冒險",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "19240"
+  },
+  {
+    "rawName": "【A2】迷失亞馬遜 (一般版)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "19239"
+  },
+  {
+    "rawName": "【A1】薄荷工廠(鐵盒)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19238"
+  },
+  {
+    "rawName": "【A1】薄荷聯盟(鐵盒)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19237"
+  },
+  {
+    "rawName": "【A1】薄荷速遞(鐵盒)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19236"
+  },
+  {
+    "rawName": "【D2】長江黃河",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "19235"
+  },
+  {
+    "rawName": "【E-】賭命大賽",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "19234"
+  },
+  {
+    "rawName": "【C2】五彩貧民窟",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19233"
+  },
+  {
+    "rawName": "【A1】拉格蘭哈莊園 (贈迷你擴充)",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "19232"
+  },
+  {
+    "rawName": "【A3】動物通緝令",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19231"
+  },
+  {
+    "rawName": "【A3】奧法之戰",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19230"
+  },
+  {
+    "rawName": "【09】熊熊危機",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19229"
+  },
+  {
+    "rawName": "【09】決戰阿瓦隆",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19228"
+  },
+  {
+    "rawName": "【09】福澤家的落日",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19224"
+  },
+  {
+    "rawName": "【09】High Tower璀璨高塔 (附說明書)",
+    "retail": 1060,
+    "wholesale": 693,
+    "productId": "19223"
+  },
+  {
+    "rawName": "【09】猜拳歷險 (盒底粉紅) 附說明書",
+    "retail": 750,
+    "wholesale": 525,
+    "productId": "19221"
+  },
+  {
+    "rawName": "【09】面積對決 (盒底黃) 附說明書",
+    "retail": 750,
+    "wholesale": 525,
+    "productId": "19220"
+  },
+  {
+    "rawName": "【09】Pitaku君 (盒底黑)",
+    "retail": 750,
+    "wholesale": 525,
+    "productId": "19219"
+  },
+  {
+    "rawName": "【09】九九將中文版",
+    "retail": 550,
+    "wholesale": 385,
+    "productId": "19218"
+  },
+  {
+    "rawName": "【09】無雙魔藥(附專用牌套)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "19216"
+  },
+  {
+    "rawName": "【09】魔物與酒館英雄 (附牌套)",
+    "retail": 1380,
+    "wholesale": 911,
+    "productId": "19215"
+  },
+  {
+    "rawName": "【C2】曼陀羅石",
+    "retail": 1390,
+    "wholesale": 917,
+    "productId": "19210"
+  },
+  {
+    "rawName": "【09】迷宮逃亡:阿里阿德涅 (橘)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19209"
+  },
+  {
+    "rawName": "【09】迷宮逃亡:拉比林托斯 (綠)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "19208"
+  },
+  {
+    "rawName": "【G1】數字迷宮",
+    "retail": 950,
+    "wholesale": 627,
+    "productId": "19207"
+  },
+  {
+    "rawName": "【G1】天 JUMP 熊 P",
+    "retail": 999,
+    "wholesale": 699,
+    "productId": "19206"
+  },
+  {
+    "rawName": "【K1】諾亞方舟-擴充版 (紙盒較軟易盒損) 介意者勿下單",
+    "retail": 490,
+    "wholesale": 343,
+    "productId": "19205"
+  },
+  {
+    "rawName": "【G1】侏羅紀冒險 (黑)",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "19204"
+  },
+  {
+    "rawName": "【K1】諾亞方舟(紙盒較軟易輕微壓痕)",
+    "retail": 1600,
+    "wholesale": 1120,
+    "productId": "19203"
+  },
+  {
+    "rawName": "【G1】恐龍歷險記",
+    "retail": 900,
+    "wholesale": 630,
+    "productId": "19202"
+  },
+  {
+    "rawName": "【22】不思議星球",
+    "retail": 800,
+    "wholesale": 560,
+    "productId": "19201"
+  },
+  {
+    "rawName": "【G1】色字頭上一掌拍",
+    "retail": 200,
+    "wholesale": 140,
+    "productId": "19200"
+  },
+  {
+    "rawName": "【G1】棒打老虎雞吃蟲",
+    "retail": 140,
+    "wholesale": 98,
+    "productId": "19199"
+  },
+  {
+    "rawName": "【G1】飛天小忍者",
+    "retail": 900,
+    "wholesale": 630,
+    "productId": "19198"
+  },
+  {
+    "rawName": "【24】三千世界鴉 (白)",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "19197"
+  },
+  {
+    "rawName": "【K1】德古拉之怒",
+    "retail": 1800,
+    "wholesale": 1188,
+    "productId": "19196"
+  },
+  {
+    "rawName": "【K1】淑女與紳士",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "19195"
+  },
+  {
+    "rawName": "【24】七大奇蹟對決 (定價修正批價不變)",
+    "retail": 950,
+    "wholesale": 630,
+    "productId": "19194"
+  },
+  {
+    "rawName": "【K1】電車大亨",
+    "retail": 700,
+    "wholesale": 462,
+    "productId": "19192"
+  },
+  {
+    "rawName": "【24】七大奇蹟對決-帕特農擴充(定價修正批價不變)",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "19191"
+  },
+  {
+    "rawName": "【K1】奧林匹斯之戰",
+    "retail": 700,
+    "wholesale": 462,
+    "productId": "19190"
+  },
+  {
+    "rawName": "【06】方程式賽車D",
+    "retail": 1750,
+    "wholesale": 1155,
+    "productId": "19189"
+  },
+  {
+    "rawName": "【11】UNO毫不留情",
+    "retail": 469,
+    "wholesale": 310,
+    "productId": "19188"
+  },
+  {
+    "rawName": "【K1】英文拼字遊戲(新美術版本)",
+    "retail": 1299,
+    "wholesale": 857,
+    "productId": "19187"
+  },
+  {
+    "rawName": "【A1】侏羅紀大挑戰 (紙盒較軟易輕微壓痕)",
+    "retail": 999,
+    "wholesale": 659,
+    "productId": "19185"
+  },
+  {
+    "rawName": "【11】UNO遊戲卡",
+    "retail": 249,
+    "wholesale": 164,
+    "productId": "19182"
+  },
+  {
+    "rawName": "【07】珍奶大王",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "19044"
+  },
+  {
+    "rawName": "【15】肉品大師",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19043"
+  },
+  {
+    "rawName": "【15】沙拉大師",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "19042"
+  },
+  {
+    "rawName": "【09】兇手就是你吧",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "19041"
+  },
+  {
+    "rawName": "【22】動物排行榜",
+    "retail": 139,
+    "wholesale": 92,
+    "productId": "19039"
+  },
+  {
+    "rawName": "【25】打扁怪獸",
+    "retail": 139,
+    "wholesale": 92,
+    "productId": "19038"
+  },
+  {
+    "rawName": "【25】壞鄰大野狼",
+    "retail": 139,
+    "wholesale": 92,
+    "productId": "19037"
+  },
+  {
+    "rawName": "【25】幹大事",
+    "retail": 139,
+    "wholesale": 92,
+    "productId": "19036"
+  },
+  {
+    "rawName": "【25】空錢任務",
+    "retail": 139,
+    "wholesale": 92,
+    "productId": "19035"
+  },
+  {
+    "rawName": "【20】北城百畫帖",
+    "retail": 880,
+    "wholesale": 581,
+    "productId": "19031"
+  },
+  {
+    "rawName": "【23】豬豬巴別塔",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "19029"
+  },
+  {
+    "rawName": "【20】王都與鄰",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19027"
+  },
+  {
+    "rawName": "【21】偉人的猜拳戰略",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "19025"
+  },
+  {
+    "rawName": "【A2】重塑火星",
+    "retail": 2480,
+    "wholesale": 1860,
+    "productId": "19024"
+  },
+  {
+    "rawName": "【B2】機密代號-裡應外合 (贈好禮包)",
+    "retail": 780,
+    "wholesale": 507,
+    "productId": "19022"
+  },
+  {
+    "rawName": "【A2】三國殺:一將成名合輯 2014~2016 (紙盒較軟易壓痕)",
+    "retail": 399,
+    "wholesale": 263,
+    "productId": "19918"
+  },
+  {
+    "rawName": "【09】白雪公主的最後晚餐",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22657"
+  },
+  {
+    "rawName": "【07】POWER ON 電力啟動",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22658"
+  },
+  {
+    "rawName": "【07】(藍)建構建築師",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "22659"
+  },
+  {
+    "rawName": "【C2】(綠) 阿納克一擴：探險隊長",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "22666"
+  },
+  {
+    "rawName": "【K2】地毯商人",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "22667"
+  },
+  {
+    "rawName": "【F1】傳城事記",
+    "retail": 1100,
+    "wholesale": 726,
+    "productId": "22669"
+  },
+  {
+    "rawName": "【09】汪喵撲克(附牌套,黑白各1包)",
+    "retail": 690,
+    "wholesale": 469,
+    "productId": "22670"
+  },
+  {
+    "rawName": "【15】虎克!虎克!",
+    "retail": 200,
+    "wholesale": 132,
+    "productId": "22707"
+  },
+  {
+    "rawName": "【22】放羊的孩子",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "22706"
+  },
+  {
+    "rawName": "【A1】搶救派琪",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "22705"
+  },
+  {
+    "rawName": "【B2】同感迷你擴充 信徒二三事",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "22703"
+  },
+  {
+    "rawName": "【06】聰明小火車",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "22702"
+  },
+  {
+    "rawName": "【C4】口香糖桌遊(含8款*5條，共40條不拆售)",
+    "retail": 6000,
+    "wholesale": 3300,
+    "productId": "22693"
+  },
+  {
+    "rawName": "【02】砂之國度",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "22715"
+  },
+  {
+    "rawName": "【15】就算是無雙勇者,也怕遇上這款豬隊友",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22721"
+  },
+  {
+    "rawName": "【F2】(彩色) 阿納克二擴：失蹤的探險隊",
+    "retail": 1390,
+    "wholesale": 973,
+    "productId": "22722"
+  },
+  {
+    "rawName": "【07】(綠)平衡建築師",
+    "retail": 1200,
+    "wholesale": 840,
+    "productId": "22730"
+  },
+  {
+    "rawName": "【09】暗貨",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "22736"
+  },
+  {
+    "rawName": "【09】KEZAO",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22738"
+  },
+  {
+    "rawName": "【23】動物SAY HELLO",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "22744"
+  },
+  {
+    "rawName": "【01】阿瑪多拉",
+    "retail": 640,
+    "wholesale": 422,
+    "productId": "22747"
+  },
+  {
+    "rawName": "【G2】御魂使:飛昇記(立牌版) 價格為原廠定訂,下單時請慎選",
+    "retail": 3600,
+    "wholesale": 2520,
+    "productId": "22751"
+  },
+  {
+    "rawName": "【10】西國建築師 (價格為原廠定訂,下單時請慎選)",
+    "retail": 1800,
+    "wholesale": 1260,
+    "productId": "22752"
+  },
+  {
+    "rawName": "【24】快樂電車",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "22754"
+  },
+  {
+    "rawName": "【F2】小農夫 vegetable stock(紙盒較軟易壓痕,介意者勿下單)",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22756"
+  },
+  {
+    "rawName": "【24】小聖誕 Christmas Tree(紙盒較軟易壓痕,介意者勿下單)",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22757"
+  },
+  {
+    "rawName": "【24】小市長(紙盒較軟易壓痕,介意者勿下單)",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22758"
+  },
+  {
+    "rawName": "【24】小恐龍(紙盒較軟易壓痕,介意者勿下單)",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22759"
+  },
+  {
+    "rawName": "【C3】全民防疫",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "22760"
+  },
+  {
+    "rawName": "【K1】瞎掰王接著掰擴充(含角色卡)",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "22761"
+  },
+  {
+    "rawName": "【K1】(小盒) 瞎掰王教育版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "22762"
+  },
+  {
+    "rawName": "【A4】大西部開拓者金屬幣(價格為原廠定訂,下單時請慎選)",
+    "retail": 890,
+    "wholesale": 623,
+    "productId": "22764"
+  },
+  {
+    "rawName": "【07】小搗蛋與糖",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22775"
+  },
+  {
+    "rawName": "【07】火鍋多多",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22776"
+  },
+  {
+    "rawName": "【07】炒鍋大師",
+    "retail": 560,
+    "wholesale": 370,
+    "productId": "22777"
+  },
+  {
+    "rawName": "【09】營火派對",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22778"
+  },
+  {
+    "rawName": "【02】午茶約會",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "22779"
+  },
+  {
+    "rawName": "【C2】估廟靈簽",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "22780"
+  },
+  {
+    "rawName": "【04】大富翁-職業之旅",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22781"
+  },
+  {
+    "rawName": "【04】大富翁-超級百貨",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22782"
+  },
+  {
+    "rawName": "【03】大富翁-四季節慶之旅",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "22783"
+  },
+  {
+    "rawName": "【04】機智小學堂：國文課 (綠)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "22784"
+  },
+  {
+    "rawName": "【04】機智小學堂：數學課 (藍)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "22785"
+  },
+  {
+    "rawName": "【04】機智小學堂：英語課 (紅)",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "22786"
+  },
+  {
+    "rawName": "【03】注音獸",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22787"
+  },
+  {
+    "rawName": "【15】腦洞連線 Brain Line",
+    "retail": 660,
+    "wholesale": 436,
+    "productId": "22792"
+  },
+  {
+    "rawName": "【C-】2045戰爭桌遊",
+    "retail": 2480,
+    "wholesale": 1637,
+    "productId": "22793"
+  },
+  {
+    "rawName": "【B1】巫師:舊世界 (大盒) 價格為原廠定訂,下單時請慎選",
+    "retail": 2800,
+    "wholesale": 1960,
+    "productId": "22795"
+  },
+  {
+    "rawName": "【B1】巫師:舊世界-冒險卡牌包(價格為原廠定訂,下單時請慎選)",
+    "retail": 1100,
+    "wholesale": 770,
+    "productId": "22797"
+  },
+  {
+    "rawName": "【B1】巫師:舊世界-狂獵擴充(價格為原廠定訂,下單時請慎選)",
+    "retail": 1780,
+    "wholesale": 1246,
+    "productId": "22798"
+  },
+  {
+    "rawName": "【B1】巫師:舊世界-怪物蹤跡擴充(價格為原廠定訂,下單時請慎選)",
+    "retail": 1780,
+    "wholesale": 1246,
+    "productId": "22800"
+  },
+  {
+    "rawName": "【B1】黎明死線:無盡惡意(價格為原廠定訂,下單時請慎選)",
+    "retail": 1650,
+    "wholesale": 1155,
+    "productId": "22801"
+  },
+  {
+    "rawName": "【B1】黎明死線:桌上遊戲(價格為原廠定訂,下單時請慎選)",
+    "retail": 1800,
+    "wholesale": 1260,
+    "productId": "22802"
+  },
+  {
+    "rawName": "【A3】怪獸島之王(價格為原廠定訂,下單時請慎選)",
+    "retail": 1500,
+    "wholesale": 1050,
+    "productId": "22803"
+  },
+  {
+    "rawName": "【02】跳躍森靈(新外盒)",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "22815"
+  },
+  {
+    "rawName": "【C2】馬約利卡(附玩家厚版圖)",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "22818"
+  },
+  {
+    "rawName": "【C2】雪山畫策",
+    "retail": 1400,
+    "wholesale": 924,
+    "productId": "22819"
+  },
+  {
+    "rawName": "【09】535",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22820"
+  },
+  {
+    "rawName": "【20】玩一世人",
+    "retail": 860,
+    "wholesale": 568,
+    "productId": "22821"
+  },
+  {
+    "rawName": "【09】生活日長",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "22831"
+  },
+  {
+    "rawName": "【09】羅密歐與茱麗葉",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22832"
+  },
+  {
+    "rawName": "【D1】極簡畫家(紅)",
+    "retail": 780,
+    "wholesale": 515,
+    "productId": "22842"
+  },
+  {
+    "rawName": "【07】搜查瑠公圳",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "22843"
+  },
+  {
+    "rawName": "【G2】緹拉啾派對",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "22853"
+  },
+  {
+    "rawName": "【G2】動物夜怕怕",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "22857"
+  },
+  {
+    "rawName": "【09】三摺不撓",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22877"
+  },
+  {
+    "rawName": "【C2】國富論+戰爭風雲擴充+超級產業板塊",
+    "retail": 2600,
+    "wholesale": 1716,
+    "productId": "22879"
+  },
+  {
+    "rawName": "【09】瓦拉多冒險記",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "22880"
+  },
+  {
+    "rawName": "【G2】小羊披薩",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "22885"
+  },
+  {
+    "rawName": "【15】不死王座",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "22887"
+  },
+  {
+    "rawName": "【07】圓啾會議",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "22888"
+  },
+  {
+    "rawName": "【02】漢字傳說-注音篇",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "23970"
+  },
+  {
+    "rawName": "【02】想食台灣",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "23971"
+  },
+  {
+    "rawName": "【11】髒小豬豪華版",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "23972"
+  },
+  {
+    "rawName": "【19】天下鳴動",
+    "retail": 1180,
+    "wholesale": 779,
+    "productId": "23974"
+  },
+  {
+    "rawName": "【09】囚徒之夜",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "23980"
+  },
+  {
+    "rawName": "【09】蚊子逃逃 定價調整490",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "23981"
+  },
+  {
+    "rawName": "【H-】還不練腿?!",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "23982"
+  },
+  {
+    "rawName": "【F4】阿瓦隆",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "23988"
+  },
+  {
+    "rawName": "【A1】盜夢都市(附6張promo角色)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "23989"
+  },
+  {
+    "rawName": "【A1】鐵道任務(紐約篇)",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "23990"
+  },
+  {
+    "rawName": "【F4】血與刃的白薔薇(內含promo)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "23991"
+  },
+  {
+    "rawName": "【F4】驚爆倫敦",
+    "retail": 650,
+    "wholesale": 429,
+    "productId": "23992"
+  },
+  {
+    "rawName": "【B1】(藍) 電梯前",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "23993"
+  },
+  {
+    "rawName": "【B1】(粉) 客人來之前",
+    "retail": 550,
+    "wholesale": 330,
+    "productId": "23994"
+  },
+  {
+    "rawName": "【09】魔物六角棋",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "24023"
+  },
+  {
+    "rawName": "【09】孤狼 LONE WOLVES",
+    "retail": 580,
+    "wholesale": 383,
+    "productId": "24024"
+  },
+  {
+    "rawName": "【09】迷子",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24025"
+  },
+  {
+    "rawName": "【09】異世界豪商",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24026"
+  },
+  {
+    "rawName": "【09】噢！我的黃金！",
+    "retail": 580,
+    "wholesale": 382,
+    "productId": "24027"
+  },
+  {
+    "rawName": "【09】(粉) 狙擊手 Trick ＆ Snipers_日文版外附繁中說明書",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24028"
+  },
+  {
+    "rawName": "【09】(白) 色彩疊疊_日文版內附繁中說明書",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "24029"
+  },
+  {
+    "rawName": "【B1】錢豆子",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "24031"
+  },
+  {
+    "rawName": "【B1】台灣花札",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24032"
+  },
+  {
+    "rawName": "【B1】喵戰三國",
+    "retail": 860,
+    "wholesale": 568,
+    "productId": "24033"
+  },
+  {
+    "rawName": "【B1】台灣製茶錄",
+    "retail": 1750,
+    "wholesale": 1155,
+    "productId": "24034"
+  },
+  {
+    "rawName": "【24】人生列車",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "24035"
+  },
+  {
+    "rawName": "【B1】橫豎 THE MASTERS",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24036"
+  },
+  {
+    "rawName": "【B1】(小盒) 雅典衛城雅典娜擴充 (價格為原廠定訂,下單時請慎選)",
+    "retail": 580,
+    "wholesale": 406,
+    "productId": "23986"
+  },
+  {
+    "rawName": "【A2】(薄)工業革命 伯明翰 一般版+金屬幣",
+    "retail": 3000,
+    "wholesale": 1980,
+    "productId": "24038"
+  },
+  {
+    "rawName": "【A2】(大盒) 工業革命 伯明翰 籌碼版",
+    "retail": 3600,
+    "wholesale": 2376,
+    "productId": "24039"
+  },
+  {
+    "rawName": "【C3】夢幻小隊",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "24040"
+  },
+  {
+    "rawName": "【A1】時間守望革新-深海計劃",
+    "retail": 1200,
+    "wholesale": 600,
+    "productId": "24041"
+  },
+  {
+    "rawName": "【A1】深淵之中 UNFATHOMABLE",
+    "retail": 2800,
+    "wholesale": 1400,
+    "productId": "24042"
+  },
+  {
+    "rawName": "【A1】未知行星豪華版",
+    "retail": 3200,
+    "wholesale": 1920,
+    "productId": "24043"
+  },
+  {
+    "rawName": "【B1】木心匠藝(附一包配件)",
+    "retail": 2100,
+    "wholesale": 1260,
+    "productId": "24044"
+  },
+  {
+    "rawName": "【A1】馬拉開波(附一包艦隊小擴)",
+    "retail": 2800,
+    "wholesale": 1400,
+    "productId": "24045"
+  },
+  {
+    "rawName": "【23】圖拉真新版",
+    "retail": 1650,
+    "wholesale": 1050,
+    "productId": "24046"
+  },
+  {
+    "rawName": "【F4】全球驚悚擴充-金字塔下",
+    "retail": 1690,
+    "wholesale": 845,
+    "productId": "24047"
+  },
+  {
+    "rawName": "【F4】全球驚悚擴充-幻夢境",
+    "retail": 1690,
+    "wholesale": 845,
+    "productId": "24048"
+  },
+  {
+    "rawName": "【F4】全球驚悚擴充-奈亞拉托提普的面具",
+    "retail": 1690,
+    "wholesale": 845,
+    "productId": "24049"
+  },
+  {
+    "rawName": "【F4】(小盒) 全球驚悚擴充-卡爾克薩之跡",
+    "retail": 890,
+    "wholesale": 445,
+    "productId": "24050"
+  },
+  {
+    "rawName": "【F4】(小盒) 全球驚悚擴充-斷壁殘",
+    "retail": 890,
+    "wholesale": 445,
+    "productId": "24051"
+  },
+  {
+    "rawName": "【F4】IBERIA 瘟疫危機伊比利",
+    "retail": 1600,
+    "wholesale": 1056,
+    "productId": "24052"
+  },
+  {
+    "rawName": "【F4】霹靂入陣武林",
+    "retail": 1980,
+    "wholesale": 1188,
+    "productId": "24053"
+  },
+  {
+    "rawName": "【07】蝴蝶王國",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24055"
+  },
+  {
+    "rawName": "【A3】美麗新世界",
+    "retail": 1500,
+    "wholesale": 1125,
+    "productId": "24077"
+  },
+  {
+    "rawName": "【A3】美麗新世界:墜落與飛躍擴充(盒底微內凹,介意者勿下單)",
+    "retail": 1050,
+    "wholesale": 788,
+    "productId": "24078"
+  },
+  {
+    "rawName": "【A3】美麗新世界:戰爭或和平擴充",
+    "retail": 830,
+    "wholesale": 623,
+    "productId": "24079"
+  },
+  {
+    "rawName": "【08】(薄) 瘋狂對決-雙人對對 MATCH MADNESS DUO",
+    "retail": 880,
+    "wholesale": 616,
+    "productId": "24081"
+  },
+  {
+    "rawName": "【K2】(厚) 瘋狂對決-童樂派 MATCH MADNESS Junior",
+    "retail": 960,
+    "wholesale": 672,
+    "productId": "24082"
+  },
+  {
+    "rawName": "【A3】無馬之車 (簡中版) 贈帆布袋",
+    "retail": 3900,
+    "wholesale": 2925,
+    "productId": "24087"
+  },
+  {
+    "rawName": "【09】閱讀空氣",
+    "retail": 590,
+    "wholesale": 413,
+    "productId": "24101"
+  },
+  {
+    "rawName": "【09】迷宮美食家",
+    "retail": 1380,
+    "wholesale": 966,
+    "productId": "24102"
+  },
+  {
+    "rawName": "【09】六華",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "24103"
+  },
+  {
+    "rawName": "【09】謝謝招待",
+    "retail": 490,
+    "wholesale": 324,
+    "productId": "24104"
+  },
+  {
+    "rawName": "【B1】(大盒) 巫師：命運之路 (價格為原廠定訂,下單時請慎選)",
+    "retail": 2400,
+    "wholesale": 1680,
+    "productId": "24106"
+  },
+  {
+    "rawName": "【B1】(小盒) 巫師：命運之路-美女與野獸擴充 (價格為原廠定訂,下單時請慎選)",
+    "retail": 990,
+    "wholesale": 693,
+    "productId": "24107"
+  },
+  {
+    "rawName": "【D4】彈丸萌寵+彈丸炫彩 (不拆售) 價格為原廠定訂,下單時請慎選",
+    "retail": 1950,
+    "wholesale": 1365,
+    "productId": "24108"
+  },
+  {
+    "rawName": "【K2】轉生成貓的我還要努力工作是不是搞錯了什麼 (橫槓人生x我的好朋友)",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24114"
+  },
+  {
+    "rawName": "【01】(淺米) 狐獴，胡蒙！(附說明書+貼紙)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24115"
+  },
+  {
+    "rawName": "【01】(深米) 矮袋鼠小丁的巴士之旅 (附說明書+貼紙)",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24116"
+  },
+  {
+    "rawName": "【07】花園棋",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "24126"
+  },
+  {
+    "rawName": "【07】搶頭香",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "24128"
+  },
+  {
+    "rawName": "【07】黑潮",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24129"
+  },
+  {
+    "rawName": "【07】(紫) 生日快快樂",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "24130"
+  },
+  {
+    "rawName": "【07】(米) 三麗鷗的生日快快樂",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24132"
+  },
+  {
+    "rawName": "【07】史粘姆藝術家",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "24133"
+  },
+  {
+    "rawName": "【24】電力世界",
+    "retail": 1160,
+    "wholesale": 766,
+    "productId": "24141"
+  },
+  {
+    "rawName": "【05】露營大富翁",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24143"
+  },
+  {
+    "rawName": "【05】火鍋大富翁",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24144"
+  },
+  {
+    "rawName": "【01】金曲猜歌王：台灣版（缺貨）",
+    "retail": 890,
+    "wholesale": 587,
+    "productId": "24145"
+  },
+  {
+    "rawName": "【K1】飛天小怪獸 (紙盒較軟易輕微壓痕)",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "24146"
+  },
+  {
+    "rawName": "【02】和服印象",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24152"
+  },
+  {
+    "rawName": "【02】漫步大阪城",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24153"
+  },
+  {
+    "rawName": "【23】戲精酒吧",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24158"
+  },
+  {
+    "rawName": "【23】戲精奧斯卡",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24162"
+  },
+  {
+    "rawName": "【07】即刻出局",
+    "retail": 390,
+    "wholesale": 257,
+    "productId": "24164"
+  },
+  {
+    "rawName": "【B1】麻雀麵",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24165"
+  },
+  {
+    "rawName": "【B1】(橘) SMART 聰明玩家",
+    "retail": 330,
+    "wholesale": 218,
+    "productId": "24167"
+  },
+  {
+    "rawName": "【09】企鵝尋蹤",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24170"
+  },
+  {
+    "rawName": "【24】掌升股利",
+    "retail": 1280,
+    "wholesale": 845,
+    "productId": "24172"
+  },
+  {
+    "rawName": "【02】(小藍) 米莫漢堡",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "24175"
+  },
+  {
+    "rawName": "【02】(小)_本草綱目",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "24176"
+  },
+  {
+    "rawName": "【07】找電影",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24179"
+  },
+  {
+    "rawName": "【F1】古董拍賣王",
+    "retail": 1790,
+    "wholesale": 1181,
+    "productId": "24180"
+  },
+  {
+    "rawName": "【K2】聖物獵影",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24184"
+  },
+  {
+    "rawName": "【04】大富翁 (新超萌)世界之旅",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24185"
+  },
+  {
+    "rawName": "【03】大富翁-台灣鐵道",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24186"
+  },
+  {
+    "rawName": "【04】大富翁-理財達人",
+    "retail": 250,
+    "wholesale": 165,
+    "productId": "24187"
+  },
+  {
+    "rawName": "【04】大富翁-(Q粉)台中之旅",
+    "retail": 120,
+    "wholesale": 79,
+    "productId": "24188"
+  },
+  {
+    "rawName": "【K2】譯世界(簡體中文版)",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24194"
+  },
+  {
+    "rawName": "【19】垃圾交易者",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24196"
+  },
+  {
+    "rawName": "【E-】東京之王",
+    "retail": 1250,
+    "wholesale": 825,
+    "productId": "24197"
+  },
+  {
+    "rawName": "【E-】東京之王 對決",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "24198"
+  },
+  {
+    "rawName": "【E-】東京之王 更加邪惡 擴充",
+    "retail": 350,
+    "wholesale": 231,
+    "productId": "24199"
+  },
+  {
+    "rawName": "【E-】嗒寶 哆啦A夢",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24200"
+  },
+  {
+    "rawName": "【E-】嗒寶 航海王",
+    "retail": 450,
+    "wholesale": 297,
+    "productId": "24201"
+  },
+  {
+    "rawName": "【E-】熱力狂飆",
+    "retail": 2400,
+    "wholesale": 1584,
+    "productId": "24202"
+  },
+  {
+    "rawName": "【E-】卡米諾 (大盒)",
+    "retail": 800,
+    "wholesale": 528,
+    "productId": "24203"
+  },
+  {
+    "rawName": "【E-】卡米諾 小盒版",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24204"
+  },
+  {
+    "rawName": "【E-】眨眨眼",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24205"
+  },
+  {
+    "rawName": "【E-】大腦益智盒 交通工具",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24206"
+  },
+  {
+    "rawName": "【E-】大腦益智盒 台灣",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24207"
+  },
+  {
+    "rawName": "【E-】嗒寶 台灣篇",
+    "retail": 500,
+    "wholesale": 330,
+    "productId": "24208"
+  },
+  {
+    "rawName": "【H-】百變瘋狂兔",
+    "retail": 290,
+    "wholesale": 191,
+    "productId": "24215"
+  },
+  {
+    "rawName": "【H-】集合啦！吉卜力大挑戰",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24216"
+  },
+  {
+    "rawName": "【H-】解碼大師",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24217"
+  },
+  {
+    "rawName": "【G1】騎士牌套 75x110mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24218"
+  },
+  {
+    "rawName": "【G1】騎士牌套 38x88mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24219"
+  },
+  {
+    "rawName": "【G1】騎士牌套 65x65mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24220"
+  },
+  {
+    "rawName": "【G1】騎士牌套 44x63mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24221"
+  },
+  {
+    "rawName": "【G1】騎士牌套 50x75mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24222"
+  },
+  {
+    "rawName": "【G1】騎士牌套 70x100mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24223"
+  },
+  {
+    "rawName": "【G1】騎士牌套 75x105mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24224"
+  },
+  {
+    "rawName": "【G1】騎士牌套 54x80mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24225"
+  },
+  {
+    "rawName": "【G1】騎士牌套 54x86mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24226"
+  },
+  {
+    "rawName": "【G1】騎士牌套 70x110mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24227"
+  },
+  {
+    "rawName": "【G1】騎士牌套 52x52mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24228"
+  },
+  {
+    "rawName": "【G1】騎士牌套 80x80mm-110/pk",
+    "retail": 60,
+    "wholesale": 39,
+    "productId": "24229"
+  },
+  {
+    "rawName": "【09】小選戰",
+    "retail": 300,
+    "wholesale": 198,
+    "productId": "24230"
+  },
+  {
+    "rawName": "【09】荷蘭花市",
+    "retail": 300,
+    "wholesale": 198,
+    "productId": "24231"
+  },
+  {
+    "rawName": "【09】大獸歡迎",
+    "retail": 300,
+    "wholesale": 198,
+    "productId": "24232"
+  },
+  {
+    "rawName": "【24】靈光乍現",
+    "retail": 600,
+    "wholesale": 396,
+    "productId": "24233"
+  },
+  {
+    "rawName": "【24】火車嘟嘟",
+    "retail": 1200,
+    "wholesale": 792,
+    "productId": "24234"
+  },
+  {
+    "rawName": "【09】貓塔",
+    "retail": 690,
+    "wholesale": 456,
+    "productId": "24236"
+  },
+  {
+    "rawName": "【E-】靈跡島二擴:大地的裂變(附說明書)",
+    "retail": 2300,
+    "wholesale": null,
+    "productId": "24241"
+  },
+  {
+    "rawName": "【E-】七翻天",
+    "retail": 550,
+    "wholesale": 363,
+    "productId": "24242"
+  },
+  {
+    "rawName": "【23】戲精找工作",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24243"
+  },
+  {
+    "rawName": "【23】戲精擂台",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24244"
+  },
+  {
+    "rawName": "【23】爆爆椰",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24245"
+  },
+  {
+    "rawName": "【H-】未來議會",
+    "retail": 990,
+    "wholesale": 653,
+    "productId": "24246"
+  },
+  {
+    "rawName": "【15】貓與貓頭鷹",
+    "retail": 890,
+    "wholesale": 623,
+    "productId": "24249"
+  },
+  {
+    "rawName": "【F3】GYGES奪座金環-英文版",
+    "retail": 1190,
+    "wholesale": 785,
+    "productId": "24250"
+  },
+  {
+    "rawName": "【K2】熊熊慢生活",
+    "retail": 490,
+    "wholesale": 323,
+    "productId": "24251"
+  },
+  {
+    "rawName": "3月經銷",
+    "retail": 4010,
+    "wholesale": 2326,
+    "productId": "24256"
+  },
+  {
+    "rawName": "【09】七織鳥",
+    "retail": 590,
+    "wholesale": 389,
+    "productId": "24257"
+  },
+  {
+    "rawName": "【C4】吾王:塔羅之戰-新神崛起(不得低於85折販售)",
+    "retail": 580,
+    "wholesale": 412,
+    "productId": "24261"
+  },
+  {
+    "rawName": "【C4】吾王:塔羅之戰-遊戲輔助墊(80*55cm)",
+    "retail": 980,
+    "wholesale": 696,
+    "productId": "24262"
+  },
+  {
+    "rawName": "【F2】妙傳爆音",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24265"
+  },
+  {
+    "rawName": "【F2】魚利當頭",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24266"
+  },
+  {
+    "rawName": "【11】UNO卡牌遊戲-派對版",
+    "retail": 529,
+    "wholesale": 349,
+    "productId": "24267"
+  },
+  {
+    "rawName": "【02】幾何畫廊",
+    "retail": 750,
+    "wholesale": 495,
+    "productId": "24268"
+  },
+  {
+    "rawName": "【A1】心靈圖解任務",
+    "retail": 1100,
+    "wholesale": 550,
+    "productId": "24269"
+  },
+  {
+    "rawName": "【A1】遠郊建城(附勘誤)",
+    "retail": 1600,
+    "wholesale": 800,
+    "productId": "24270"
+  },
+  {
+    "rawName": "【K1】籤籤入扣 絢彩版",
+    "retail": 690,
+    "wholesale": 455,
+    "productId": "24271"
+  },
+  {
+    "rawName": "【A4】聖家族大教堂(2025)",
+    "retail": 1750,
+    "wholesale": 1155,
+    "productId": "24277"
+  },
+  {
+    "rawName": "【A1】皇冠之心：精靈花園+六都市聯盟+星天前路(附勘誤)",
+    "retail": 3100,
+    "wholesale": 1860,
+    "productId": "24279"
+  },
+  {
+    "rawName": "【A1】無雙對決-巫師 鋼劍與銀劍+王國殞落+特典模型",
+    "retail": 3200,
+    "wholesale": 1920,
+    "productId": "24281"
+  },
+  {
+    "rawName": "【F2】誰是擊劍王",
+    "retail": 790,
+    "wholesale": 521,
+    "productId": "24282"
+  },
+  {
+    "rawName": "【F2】層層綠境",
+    "retail": 850,
+    "wholesale": 561,
+    "productId": "24283"
+  },
+  {
+    "rawName": "【F2】桌遊圈-百寶帶(盒子周長20-34cm)",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "24284"
+  },
+  {
+    "rawName": "【F2】桌遊圈-百寶帶(盒子周長35-59cm)",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "24285"
+  },
+  {
+    "rawName": "【F2】桌遊圈-百寶帶(盒子周長60-86cm)",
+    "retail": 150,
+    "wholesale": 99,
+    "productId": "24286"
+  },
+  {
+    "rawName": "【F2】桌遊圈-百寶帶(S.M.L)",
+    "retail": 80,
+    "wholesale": 53,
+    "productId": "24287"
+  },
+  {
+    "rawName": "5月經銷",
+    "retail": 4630,
+    "wholesale": 2778,
+    "productId": "24289"
+  }
+]
