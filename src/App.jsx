@@ -177,7 +177,7 @@ export default function App() {
       case 'environment':
         return <EnvironmentPage />;
       case 'member':
-        return <MemberPage onMemberChange={setLoggedInMember} />;
+        return <MemberPage onMemberChange={setLoggedInMember} allGames={games} />;
       case 'helper-menu':
         return <HelperMenuPage onSelect={setActiveTab} />;
       case 'helper-agricola':

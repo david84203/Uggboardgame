@@ -4,6 +4,7 @@ import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 import { getLiffProfile } from '../../utils/liff'
 import { Star, Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
+import GameCard from '../GameCard'
 
 // ── 登入表單 ──────────────────────────────────────────────────────────────────
 const GM_MEMBER = {
@@ -142,7 +143,7 @@ function getBirthdayInfo(birthdayStr) {
 
 
 // ── 會員卡主體 ─────────────────────────────────────────────────────────────────
-function MemberCard({ member, onLogout }) {
+function MemberCard({ member, onLogout, allGames = [] }) {
   const [targetMember, setTargetMember] = useState(null)
   const displayMember = targetMember || member
 
@@ -168,6 +169,7 @@ function MemberCard({ member, onLogout }) {
   const [gamesLoaded, setGamesLoaded] = useState(false)
   const [showGames, setShowGames] = useState(false)
   const [gamesTab, setGamesTab] = useState('played')
+  const [selectedGame, setSelectedGame] = useState(null)
 
   // GM 搜尋會員功能
   const [searchQuery, setSearchQuery] = useState('')
@@ -270,7 +272,14 @@ function MemberCard({ member, onLogout }) {
     try {
       const q = query(collection(db, 'member_games'), where('memberId', '==', displayMember.id))
       const snap = await getDocs(q)
-      setMemberGames(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+      const raw = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      // 去重：同一 gameId 只保留最新一筆
+      const seen = new Map()
+      raw.forEach(r => {
+        const ex = seen.get(r.gameId)
+        if (!ex || (r.createdAt || '') > (ex.createdAt || '')) seen.set(r.gameId, r)
+      })
+      setMemberGames([...seen.values()])
       setGamesLoaded(true); setShowGames(true)
     } catch (e) { console.error(e) }
   }
@@ -535,20 +544,39 @@ function MemberCard({ member, onLogout }) {
                 {gamesTab === 'played' ? '還沒有玩過紀錄，在遊戲列表標記吧！' : '願望清單是空的，快去找想玩的遊戲！'}
               </p>
             ) : (
+              <>
               <div className="space-y-1.5">
-                {(gamesTab === 'played' ? playedGames : wishGames).map(g => (
-                  <div key={g.id} className="flex items-center justify-between py-1.5 border-b border-stone-50">
-                    <span className="text-sm text-stone-700">{g.gameName}</span>
-                    {g.rating && (
-                      <div className="flex items-center gap-0.5">
-                        {[1,2,3,4,5].map(i => (
-                          <Star key={i} className={`w-3 h-3 ${i <= g.rating ? 'fill-amber-400 text-amber-400' : 'text-stone-200'}`} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {(gamesTab === 'played' ? playedGames : wishGames).map(g => {
+                  const fullGame = allGames.find(ag => ag.id === g.gameId)
+                  return (
+                    <div key={g.id} className="flex items-center justify-between py-1.5 border-b border-stone-50">
+                      <button
+                        className="text-sm text-stone-700 text-left hover:text-orange-500 transition-colors disabled:cursor-default"
+                        disabled={!fullGame}
+                        onClick={() => fullGame && setSelectedGame(fullGame)}
+                      >
+                        {g.gameName}
+                      </button>
+                      {g.rating && (
+                        <div className="flex items-center gap-0.5 shrink-0">
+                          {[1,2,3,4,5].map(i => (
+                            <Star key={i} className={`w-3 h-3 ${i <= g.rating ? 'fill-amber-400 text-amber-400' : 'text-stone-200'}`} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
+              {selectedGame && (
+                <GameCard
+                  game={selectedGame}
+                  hideCard={true}
+                  defaultOpen={true}
+                  onModalClose={() => setSelectedGame(null)}
+                />
+              )}
+              </>
             )}
           </div>
         )}
@@ -674,7 +702,7 @@ function MemberCard({ member, onLogout }) {
 // ── 主元件 ────────────────────────────────────────────────────────────────────
 const MEMBER_KEY = 'ugg_member'
 
-export default function MemberPage({ onMemberChange }) {
+export default function MemberPage({ onMemberChange, allGames = [] }) {
   const [member, setMember] = useState(() => {
     try { const s = sessionStorage.getItem(MEMBER_KEY); return s ? JSON.parse(s) : null } catch { return null }
   })
@@ -793,7 +821,7 @@ export default function MemberPage({ onMemberChange }) {
     finally { setLoading(false) }
   }
 
-  if (member) return <MemberCard member={member} onLogout={() => saveMember(null)} />
+  if (member) return <MemberCard member={member} onLogout={() => saveMember(null)} allGames={allGames} />
   if (liffChecking) return <div className="flex items-center justify-center min-h-[60vh]"><p className="text-stone-400 text-sm">載入中…</p></div>
   if (needsBinding) return <LineBindingForm onBind={handleLineBind} loading={loading} error={error} />
   return <LoginForm onLogin={handleLogin} loading={loading} error={error} />

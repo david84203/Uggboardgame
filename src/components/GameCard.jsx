@@ -33,10 +33,12 @@ function StarRatingPopup({ onRate, onClose }) {
   )
 }
 
-export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate, isRented, getRentalCount }) {
+export default function GameCard({ game, memberId, getStatus, getRecord, onToggle, onRate, isRented, getRentalCount, defaultOpen = false, hideCard = false, onModalClose }) {
   const [imgSrcIndex, setImgSrcIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(defaultOpen);
   const [showRating, setShowRating] = useState(false);
+
+  function closeModal() { setIsModalOpen(false); onModalClose?.(); }
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -150,7 +152,8 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
 
   return (
     <>
-      <div 
+      {!hideCard && (
+      <div
         className="game-card animate-fade-in-up bg-white rounded-[14px] shadow-sm border-2 border-[#e6d9b6] p-3 hover:shadow-md transition-shadow duration-300 flex flex-col h-full cursor-pointer relative group"
         onClick={() => setIsModalOpen(true)}
       >
@@ -289,6 +292,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
           </div>
         </div>
       </div>
+      )}
 
       {showRating && (
         <StarRatingPopup
@@ -300,17 +304,17 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
       {/* Detail Modal Overlay */}
       {isModalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm" 
-          onClick={() => setIsModalOpen(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm"
+          onClick={closeModal}
         >
           {/* Modal Container */}
-          <div 
+          <div
             className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-fade-in-up"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <button 
-              onClick={() => setIsModalOpen(false)}
+            <button
+              onClick={closeModal}
               className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
