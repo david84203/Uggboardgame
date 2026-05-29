@@ -78,6 +78,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
     description,
     isNew,
     imageUrl,
+    isSoldOut,
   } = game;
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
@@ -113,15 +114,20 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
     bggId ? `/images/${bggId}.jpg` : null,
     bggId ? `/images/${bggId}.webp` : null,
     bggId ? `/images/${bggId}.png` : null,
+    bggId ? `/images/${bggId}.avif` : null,
+    bggId ? `/images/${bggId}.jpeg` : null,
     safeEnglishName ? `/images/${safeEnglishName}.jpg` : null,
     safeEnglishName ? `/images/${safeEnglishName}.webp` : null,
     safeEnglishName ? `/images/${safeEnglishName}.png` : null,
+    safeEnglishName ? `/images/${safeEnglishName}.avif` : null,
     dashedEnglishName ? `/images/${dashedEnglishName}.jpg` : null,
     dashedEnglishName ? `/images/${dashedEnglishName}.webp` : null,
     dashedEnglishName ? `/images/${dashedEnglishName}.png` : null,
+    dashedEnglishName ? `/images/${dashedEnglishName}.avif` : null,
     `/images/row-${id}.jpg`,
     `/images/row-${id}.webp`,
     `/images/row-${id}.png`,
+    `/images/row-${id}.avif`,
   ].filter(Boolean);
 
   const imgSrc = imgSources[imgSrcIndex] ?? null;
@@ -191,6 +197,11 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
               <span className="bg-stone-800/80 text-white text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">
                 租借中
               </span>
+            </div>
+          )}
+          {isSoldOut && (
+            <div className="absolute bottom-1.5 right-1.5 z-10 px-2 py-0.5 bg-stone-800/85 text-white rounded text-[10px] font-bold tracking-wide backdrop-blur-sm">
+              已售出
             </div>
           )}
         </div>
@@ -353,6 +364,11 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                       {gameIsRented && (
                         <span className="inline-flex items-center gap-1 mt-1 px-2.5 py-1 bg-stone-100 text-stone-500 text-xs font-bold rounded-full">
                           📦 目前租借中
+                        </span>
+                      )}
+                      {isSoldOut && (
+                        <span className="inline-flex items-center gap-1 mt-1 px-2.5 py-1 bg-stone-800 text-white text-xs font-bold rounded-full">
+                          已售出
                         </span>
                       )}
                       {englishName && englishName !== 'N/A' && (

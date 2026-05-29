@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { SearchX, Frown, Sparkles } from 'lucide-react';
 import GameCard from './GameCard';
 import GameListTips from './GameListTips';
@@ -26,6 +26,34 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
   const { getRentalCount } = useRentalCounts()
   const [showTips, setShowTips] = useState(false)
   const [showRecommended, setShowRecommended] = useState(true)
+
+  // Infinite Scroll State
+  const [displayCount, setDisplayCount] = useState(20)
+  const observerTarget = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setDisplayCount(prev => Math.min(prev + 20, games.length));
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+    
+    return () => {
+      if (observerTarget.current) observer.unobserve(observerTarget.current);
+    };
+  }, [games.length]);
+
+  // Reset display count when games list changes (e.g., search/filter)
+  useEffect(() => {
+    setDisplayCount(20);
+  }, [games]);
 
   // 遊戲推薦（根據玩過 / 想玩的 category + tags）
   const recommended = useMemo(() => {
@@ -135,10 +163,17 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
 
       {/* Game Cards Grid */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {games.map((game) => (
+        {games.slice(0, displayCount).map((game) => (
           <GameCard key={`${game.name}-${game.id}`} game={game} {...cardProps} />
         ))}
       </div>
+
+      {/* Infinite Scroll Target */}
+      {displayCount < games.length && (
+        <div ref={observerTarget} className="h-10 flex items-center justify-center mt-4">
+          <div className="w-5 h-5 border-2 border-orange-300 border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
 
       <div className="h-8" />
     </div>

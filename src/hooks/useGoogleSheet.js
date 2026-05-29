@@ -49,6 +49,8 @@ const FIELD_MAP = {
   playerMode: '玩家模式',
   description: '遊戲簡介',
   arrivalDate: '到貨日',
+  usedSale: '二手販售',
+  soldOut: '已售出',
 };
 
 function isWithinThreeMonths(dateStr) {
@@ -209,6 +211,8 @@ export default function useGoogleSheet() {
                   description: row[FIELD_MAP.description]?.trim() || '',
                   arrivalDate: row[FIELD_MAP.arrivalDate]?.trim() || '',
                   isNew: isWithinThreeMonths(row[FIELD_MAP.arrivalDate]),
+                  isUsedSale: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.usedSale] || '').trim()),
+                  isSoldOut: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.soldOut] || '').trim()),
                 };
               });
 
