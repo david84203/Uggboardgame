@@ -51,6 +51,7 @@ const FIELD_MAP = {
   arrivalDate: '到貨日',
   usedSale: '二手販售',
   soldOut: '已售出',
+  usedZone: '分區',
 };
 
 function isWithinThreeMonths(dateStr) {
@@ -213,6 +214,7 @@ export default function useGoogleSheet() {
                   isNew: isWithinThreeMonths(row[FIELD_MAP.arrivalDate]),
                   isUsedSale: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.usedSale] || '').trim()),
                   isSoldOut: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.soldOut] || '').trim()),
+                  usedZone: parseInt(row[FIELD_MAP.usedZone]) || 0,
                 };
               });
 

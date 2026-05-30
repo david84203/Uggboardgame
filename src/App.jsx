@@ -217,7 +217,7 @@ export default function App() {
       case 'escape':
         return <EscapeRoomPage />;
       case 'event-board':
-        return <EventBoardPage />;
+        return <EventBoardPage games={games} gamesLoading={loading} />;
 
       default:
         return null;
