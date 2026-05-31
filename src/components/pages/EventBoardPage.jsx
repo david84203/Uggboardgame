@@ -10,6 +10,27 @@ const TYPE_CONFIG = {
   other:      { label: '公告', color: 'bg-blue-50 text-blue-600 border-blue-100' },
 }
 
+const BUNDLES = [
+  {
+    displayName: '掘跡藍星 全套',
+    contents: ['掘跡藍星（本體）', '掘跡藍星-第二波', '掘跡藍星-銀河博物館', '掘跡藍星: 漂亮盒子', '掘跡藍星: 垃圾金屬'],
+    members: new Set(['掘跡藍星', '掘跡藍星-第二波', '掘跡藍星-銀河博物館', '掘跡藍星: 漂亮盒子', '掘跡藍星: 垃圾金屬']),
+  },
+  {
+    displayName: '重裝上陣-榮譽之戰 全套',
+    contents: ['重裝上陣-榮譽之戰（本體）', '企業冠名戰隊包1擴充', '奪旗賽擴充', '轟隆鳴動擴充'],
+    members: new Set(['重裝上陣-榮譽之戰', '重裝上陣-榮譽之戰 企業冠名戰隊包1擴充', '重裝上陣-榮譽之戰 奪旗賽擴充', '重裝上陣-榮譽之戰 轟隆鳴動擴充']),
+  },
+  {
+    displayName: '瓦萊利亞之暗影王國 全套',
+    contents: ['瓦萊利亞之暗影王國（本體）', '瓦萊利亞之暗影王國：泰坦崛起'],
+    members: new Set(['瓦萊利亞之暗影王國', '瓦萊利亞之暗影王國：泰坦崛起']),
+  },
+]
+
+const memberToBundleMap = new Map()
+for (const b of BUNDLES) for (const m of b.members) memberToBundleMap.set(m, b)
+
 const ZONES = [
   { id: 1, label: '買二送一', desc: '任選同區 3 款，最低定價免費', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', badge: 'bg-orange-100 text-orange-700' },
   { id: 2, label: '買一送一', desc: '任選同區 2 款，最低定價免費', color: 'text-rose-600',   bg: 'bg-rose-50',   border: 'border-rose-100',   badge: 'bg-rose-100 text-rose-700' },
@@ -25,9 +46,20 @@ function UsedGameList({ games, gamesLoading }) {
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
 
   const usedGames = useMemo(() => {
-    return games
-      .filter(g => g.isUsedSale)
-      .sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
+    const addedBundles = new Set()
+    const merged = []
+    for (const g of games) {
+      if (!g.isUsedSale) continue
+      const bundle = memberToBundleMap.get(g.name)
+      if (bundle) {
+        if (addedBundles.has(bundle.displayName)) continue
+        addedBundles.add(bundle.displayName)
+        merged.push({ ...g, name: bundle.displayName, bundleContents: bundle.contents })
+      } else {
+        merged.push(g)
+      }
+    }
+    return merged.sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
   }, [games])
 
   const byZone = useMemo(() => {
@@ -81,11 +113,18 @@ function UsedGameList({ games, gamesLoading }) {
                   <p className="px-4 py-4 text-xs text-stone-400 text-center">尚無遊戲（分區設定中）</p>
                 ) : (
                   list.map(g => (
-                    <div key={g.id} className={`flex items-center justify-between px-4 py-2.5 bg-white ${g.isSoldOut ? 'opacity-50' : ''}`}>
-                      <span className={`text-sm text-stone-700 leading-snug flex-1 mr-3 ${g.isSoldOut ? 'line-through' : ''}`}>
-                        {g.name}
-                      </span>
-                      <div className="flex items-center gap-2 shrink-0">
+                    <div key={g.id} className={`flex items-start justify-between px-4 py-2.5 bg-white ${g.isSoldOut ? 'opacity-50' : ''}`}>
+                      <div className="flex-1 mr-3">
+                        <p className={`text-sm text-stone-700 leading-snug ${g.isSoldOut ? 'line-through' : ''}`}>
+                          {g.name}
+                        </p>
+                        {g.bundleContents && (
+                          <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
+                            含：{g.bundleContents.join('・')}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0 pt-0.5">
                         {g.isSoldOut
                           ? <span className="text-[11px] bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">已售出</span>
                           : <span className={`text-sm font-bold ${zone.color}`}>{formatPrice(g.price)}</span>
