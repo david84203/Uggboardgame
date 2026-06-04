@@ -144,7 +144,7 @@ export default function App() {
   const renderContent = () => {
     switch (activeTab) {
       case 'consume':
-        return <ConsumePage games={games} />;
+        return <ConsumePage />;
       case 'food':
         return <FoodPage />;
       case 'rent':
