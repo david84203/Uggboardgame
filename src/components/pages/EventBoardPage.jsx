@@ -118,6 +118,11 @@ function UsedGameList({ games, gamesLoading }) {
                         <p className={`text-sm text-stone-700 leading-snug ${g.isSoldOut ? 'line-through' : ''}`}>
                           {g.name}
                         </p>
+                        {g.englishName && g.englishName !== 'N/A' && (
+                          <p className="text-[11px] text-stone-400 leading-snug">
+                            {g.englishName}
+                          </p>
+                        )}
                         {g.bundleContents && (
                           <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
                             含：{g.bundleContents.join('・')}
