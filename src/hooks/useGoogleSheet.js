@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const SHEET_CSV_URL =
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBJylM7ousC0ift39FwzpIB7NrFgYZBfaKug_pBLXU_l0UZKTKKlcfO9663eetX13d5pbsWBLGinVE/pub?gid=540615026&single=true&output=csv';
@@ -122,7 +124,12 @@ export default function useGoogleSheet() {
     async function fetchData() {
       try {
         setLoading(true);
-        const response = await fetch(SHEET_CSV_URL);
+        // 同步拉 Sheet CSV 和 Firestore soldGames
+        const [response, soldSnap] = await Promise.all([
+          fetch(SHEET_CSV_URL),
+          getDocs(collection(db, 'soldGames')),
+        ]);
+        const soldNames = new Set(soldSnap.docs.map(d => d.id));
         const csvText = await response.text();
 
         // 預處理 CSV：找到真正的欄位標題行（包含 "中文名稱" 的那行）
@@ -213,7 +220,8 @@ export default function useGoogleSheet() {
                   arrivalDate: row[FIELD_MAP.arrivalDate]?.trim() || '',
                   isNew: isWithinThreeMonths(row[FIELD_MAP.arrivalDate]),
                   isUsedSale: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.usedSale] || '').trim()),
-                  isSoldOut: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.soldOut] || '').trim()),
+                  isSoldOut: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.soldOut] || '').trim())
+                    || soldNames.has((row[FIELD_MAP.name] || '').trim()),
                   usedZone: parseInt(row[FIELD_MAP.usedZone]) || 0,
                 };
               });
