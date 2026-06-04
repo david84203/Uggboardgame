@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { Calendar, ChevronRight, ChevronDown, ChevronUp, Tag } from 'lucide-react'
+import GameCard from '../GameCard'
 
 const TYPE_CONFIG = {
   tournament: { label: '比賽', color: 'bg-red-50 text-red-600 border-red-100' },
@@ -44,6 +45,7 @@ function formatPrice(p) {
 
 function UsedGameList({ games, gamesLoading }) {
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
+  const [selectedGame, setSelectedGame] = useState(null)
 
   const usedGames = useMemo(() => {
     const addedBundles = new Set()
@@ -113,7 +115,11 @@ function UsedGameList({ games, gamesLoading }) {
                   <p className="px-4 py-4 text-xs text-stone-400 text-center">尚無遊戲（分區設定中）</p>
                 ) : (
                   list.map(g => (
-                    <div key={g.id} className={`flex items-start justify-between px-4 py-2.5 bg-white ${g.isSoldOut ? 'opacity-50' : ''}`}>
+                    <button
+                      key={g.id}
+                      onClick={() => !g.isSoldOut && setSelectedGame(g)}
+                      className={`w-full flex items-start justify-between px-4 py-2.5 bg-white text-left transition-colors ${g.isSoldOut ? 'opacity-50 cursor-default' : 'active:bg-stone-50'}`}
+                    >
                       <div className="flex-1 mr-3">
                         <p className={`text-sm text-stone-700 leading-snug ${g.isSoldOut ? 'line-through' : ''}`}>
                           {g.name}
@@ -135,7 +141,7 @@ function UsedGameList({ games, gamesLoading }) {
                           : <span className={`text-sm font-bold ${zone.color}`}>{formatPrice(g.price)}</span>
                         }
                       </div>
-                    </div>
+                    </button>
                   ))
                 )}
               </div>
@@ -151,6 +157,15 @@ function UsedGameList({ games, gamesLoading }) {
       )}
 
       <p className="text-center text-xs text-stone-300 pt-2">共 {usedGames.length} 款・依定價由高至低排列</p>
+
+      {selectedGame && (
+        <GameCard
+          game={selectedGame}
+          defaultOpen={true}
+          hideCard={true}
+          onModalClose={() => setSelectedGame(null)}
+        />
+      )}
     </div>
   )
 }
