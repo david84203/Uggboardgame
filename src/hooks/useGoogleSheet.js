@@ -125,10 +125,24 @@ export default function useGoogleSheet() {
       try {
         setLoading(true);
         // 同步拉 Sheet CSV 和 Firestore soldGames
-        const [response, soldSnap] = await Promise.all([
-          fetch(SHEET_CSV_URL),
-          getDocs(collection(db, 'soldGames')),
-        ]);
+        let response, soldSnap;
+        try {
+          [response, soldSnap] = await Promise.all([
+            fetch(SHEET_CSV_URL),
+            getDocs(collection(db, 'soldGames')),
+          ]);
+        } catch (fetchErr) {
+          console.error('❌ 拉資料失敗（Sheet 或 Firestore）:', fetchErr);
+          // Firestore 失敗時降級：只拉 Sheet，soldGames 視為空
+          try {
+            response = await fetch(SHEET_CSV_URL);
+            soldSnap = { docs: [] };
+            console.warn('⚠️ Firestore 失敗，改用空 soldGames 繼續');
+          } catch (sheetErr) {
+            console.error('❌ Google Sheet 也失敗:', sheetErr);
+            throw sheetErr;
+          }
+        }
         const soldNames = new Set(soldSnap.docs.map(d => d.id));
         const csvText = await response.text();
 
