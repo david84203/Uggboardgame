@@ -138,7 +138,7 @@ export default function App() {
       if (filters.playerMode && game.playerMode !== filters.playerMode) return false;
 
       return true;
-    });
+    }).sort((a, b) => Number(b.isNew) - Number(a.isNew));
   }, [games, filters]);
 
   const renderContent = () => {
