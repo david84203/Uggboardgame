@@ -5,6 +5,7 @@ import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 import { getLiffProfile } from '../../utils/liff'
 import { Star, Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import GameCard from '../GameCard'
+import RentalEstimator from '../RentalEstimator'
 
 // ── 登入表單 ──────────────────────────────────────────────────────────────────
 const GM_MEMBER = {
@@ -170,6 +171,9 @@ function MemberCard({ member, onLogout, allGames = [] }) {
   const [showGames, setShowGames] = useState(false)
   const [gamesTab, setGamesTab] = useState('played')
   const [selectedGame, setSelectedGame] = useState(null)
+
+  // 租金試算
+  const [showEstimator, setShowEstimator] = useState(false)
 
   // GM 搜尋會員功能
   const [searchQuery, setSearchQuery] = useState('')
@@ -513,6 +517,24 @@ function MemberCard({ member, onLogout, allGames = [] }) {
             })}
           </div>
         </div>
+      )}
+
+      {/* ── 租金試算 ─────────────────────────────────────────────── */}
+      <button
+        onClick={() => setShowEstimator(true)}
+        className="w-full bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4 flex items-center justify-between hover:border-orange-200 transition"
+      >
+        <div className="flex items-center gap-2">
+          <span className="text-xl">🧮</span>
+          <div className="text-left">
+            <span className="font-medium text-stone-700">租金試算</span>
+            <p className="text-xs text-stone-400">在家查押金、租金、是否被租借</p>
+          </div>
+        </div>
+        <span className="text-stone-300">›</span>
+      </button>
+      {showEstimator && (
+        <RentalEstimator allGames={allGames} onClose={() => setShowEstimator(false)} />
       )}
 
       {/* ── 我的遊戲清單 ─────────────────────────────────────────── */}

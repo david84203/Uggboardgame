@@ -3,29 +3,35 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase/config'
 
 export default function useActiveRentals() {
-  const [rentedGameIds, setRentedGameIds] = useState(new Set())
-  const [rentedGameNames, setRentedGameNames] = useState(new Set())
+  const [rentedById, setRentedById] = useState(new Map())
+  const [rentedByName, setRentedByName] = useState(new Map())
 
   useEffect(() => {
     const q = query(collection(db, 'rentals'), where('status', '==', 'rented'))
     return onSnapshot(q, snap => {
-      const ids = new Set()
-      const names = new Set()
+      const byId = new Map()
+      const byName = new Map()
       snap.docs.forEach(d => {
         const data = d.data()
         ;(data.games || []).forEach(g => {
-          if (g.gameId) ids.add(g.gameId)
-          if (g.gameName) names.add(g.gameName.trim())
+          if (g.gameId) byId.set(g.gameId, data.returnDate || '')
+          if (g.gameName) byName.set(g.gameName.trim(), data.returnDate || '')
         })
       })
-      setRentedGameIds(ids)
-      setRentedGameNames(names)
+      setRentedById(byId)
+      setRentedByName(byName)
     })
   }, [])
 
   function isRented(game) {
-    return rentedGameIds.has(game.id) || rentedGameNames.has(game.name)
+    return rentedById.has(game.id) || rentedByName.has(game.name)
   }
 
-  return { isRented }
+  function getRentalInfo(game) {
+    if (rentedById.has(game.id)) return { rented: true, returnDate: rentedById.get(game.id) }
+    if (rentedByName.has(game.name)) return { rented: true, returnDate: rentedByName.get(game.name) }
+    return { rented: false, returnDate: '' }
+  }
+
+  return { isRented, getRentalInfo }
 }
