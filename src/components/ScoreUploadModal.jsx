@@ -10,6 +10,7 @@ export default function ScoreUploadModal({ result, games, defaultGameName, onClo
   })
   const [uploading, setUploading] = useState(false)
   const [uploaded, setUploaded] = useState(false)
+  const [uploadError, setUploadError] = useState(null)
 
   const filteredGames = !selectedGame && gameSearch.trim()
     ? (games || []).filter(g =>
@@ -22,6 +23,7 @@ export default function ScoreUploadModal({ result, games, defaultGameName, onClo
     const gameName = selectedGame?.name || gameSearch.trim()
     if (!gameName) return
     setUploading(true)
+    setUploadError(null)
     try {
       await uploadScorecard({
         gameId: selectedGame?.id || null,
@@ -32,6 +34,7 @@ export default function ScoreUploadModal({ result, games, defaultGameName, onClo
       setUploaded(true)
     } catch (e) {
       console.error('upload scorecard error', e)
+      setUploadError('上傳失敗，請檢查網路後再試一次')
     } finally {
       setUploading(false)
     }
@@ -114,6 +117,10 @@ export default function ScoreUploadModal({ result, games, defaultGameName, onClo
                 ))}
               </div>
             </div>
+
+            {uploadError && (
+              <p className="text-sm text-red-500 bg-red-50 border border-red-100 rounded-xl px-3 py-2">⚠ {uploadError}</p>
+            )}
 
             <div className="flex gap-3 pt-1">
               <button onClick={onClose}

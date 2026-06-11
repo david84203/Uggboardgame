@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { collection, query, where, getDocs, setDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase/config'
 
 export default function useMemberGames(memberId) {
@@ -37,24 +37,33 @@ export default function useMemberGames(memberId) {
           setMemberGames(prev => prev.map(g => g.id === existing.id ? { ...g, status } : g))
         }
       } else {
+        // 不含 rating/review，merge 時才不會蓋掉另一台裝置已寫入的評分
         const data = {
           memberId, gameId: game.id, gameName: game.name,
           gameCategory: game.category || '', gameTags: game.tags || [],
-          status, rating: null, review: '', createdAt: new Date().toISOString(),
+          status, createdAt: new Date().toISOString(),
         }
-        const ref = await addDoc(collection(db, 'member_games'), data)
-        setMemberGames(prev => [...prev, { id: ref.id, ...data }])
+        // 固定文件 ID：同一會員＋同一遊戲只會有一筆，兩台裝置同時寫不會重複
+        const docId = `${memberId}_${game.id}`
+        await setDoc(doc(db, 'member_games', docId), data, { merge: true })
+        setMemberGames(prev => [...prev, { id: docId, rating: null, review: '', ...data }])
       }
     } catch (e) {
       console.error('toggleStatus:', e)
+      alert('儲存失敗，請檢查網路後再試一次')
     }
   }
 
   async function updateRating(gameId, rating) {
     const existing = getRecord(gameId)
     if (!existing) return
-    await updateDoc(doc(db, 'member_games', existing.id), { rating })
-    setMemberGames(prev => prev.map(g => g.id === existing.id ? { ...g, rating } : g))
+    try {
+      await updateDoc(doc(db, 'member_games', existing.id), { rating })
+      setMemberGames(prev => prev.map(g => g.id === existing.id ? { ...g, rating } : g))
+    } catch (e) {
+      console.error('updateRating:', e)
+      alert('評分儲存失敗，請檢查網路後再試一次')
+    }
   }
 
   return { memberGames, loading, getStatus, getRecord, toggleStatus, updateRating }

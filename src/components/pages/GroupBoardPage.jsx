@@ -164,14 +164,20 @@ export default function GroupBoardPage({ member }) {
       fetchPosts()
     } catch (e) {
       console.error(e)
+      alert('發布失敗，請檢查網路後再試一次')
     } finally {
       setSubmitting(false)
     }
   }
 
   async function handleClose(postId) {
-    await updateDoc(doc(db, 'group_posts', postId), { status: 'closed' })
-    setPosts(prev => prev.filter(p => p.id !== postId))
+    try {
+      await updateDoc(doc(db, 'group_posts', postId), { status: 'closed' })
+      setPosts(prev => prev.filter(p => p.id !== postId))
+    } catch (e) {
+      console.error(e)
+      alert('關閉揪團失敗，請檢查網路後再試一次')
+    }
   }
 
   const displayed = filter === 'mine' && member
