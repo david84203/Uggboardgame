@@ -36,6 +36,10 @@ fetch5_result.json
 bggpages/
 缺定價缺圖片清單.csv
 
+# 一次性庫存圖片比對腳本（拋棄式工具，不入庫）
+inv_*.mjs
+inv_match_result.json
+
 # Claude Code settings
 .claude/
 
