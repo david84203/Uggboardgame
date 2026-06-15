@@ -24,6 +24,18 @@ auth.mjs
 # Scraper cache (large, not needed in repo)
 *_cache.json
 
+# BGG 抓圖/描述的一次性工作腳本與暫存產物
+apply_desc.mjs
+dump_work.mjs
+fetch5.mjs
+parse5.mjs
+scan_missing.mjs
+gen_missing_csv.mjs
+desc_work.json
+fetch5_result.json
+bggpages/
+缺定價缺圖片清單.csv
+
 # Claude Code settings
 .claude/
 
