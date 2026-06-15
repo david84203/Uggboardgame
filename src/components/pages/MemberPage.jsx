@@ -157,7 +157,8 @@ function MemberCard({ member, onLogout, allGames = [] }) {
   const birthdayInfo = getBirthdayInfo(displayMember.birthday)
 
   const [showHistory, setShowHistory] = useState(false)
-  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0 })
+  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0, pendingDeliveries: [] })
+  const [showDelivered, setShowDelivered] = useState(false)
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState('')
@@ -253,19 +254,21 @@ function MemberCard({ member, onLogout, allGames = [] }) {
     if (historyLoaded) { setShowHistory(v => !v); return }
     setHistoryLoading(true); setHistoryError('')
     try {
-      const [sessionSnap, rentalSnap] = await Promise.all([
+      const [sessionSnap, rentalSnap, pendingSnap] = await Promise.all([
         getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', displayMember.id))),
         getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', displayMember.id))),
+        getDocs(query(collection(db, 'pendingDeliveries'), where('memberDocId', '==', displayMember.id))),
       ])
       const sessions = sessionSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       const rentals = rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+      const pendingDeliveries = pendingSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       let friendCount = 0
       try {
         const prefix = displayMember.name + ' 的朋友'
         const fs = await getDocs(query(collection(db, 'sessions'), where('name', '>=', prefix), where('name', '<=', prefix + '')))
         friendCount = fs.docs.length
       } catch (_) {}
-      setHistory({ sessions, rentals, friendCount })
+      setHistory({ sessions, rentals, friendCount, pendingDeliveries })
       setHistoryLoaded(true); setShowHistory(true)
     } catch (err) { setHistoryError('無法載入紀錄') }
     finally { setHistoryLoading(false) }
@@ -661,6 +664,42 @@ function MemberCard({ member, onLogout, allGames = [] }) {
 
       {showHistory && (
         <div className="space-y-3 mb-4">
+          {(() => {
+            const pds = history.pendingDeliveries || []
+            const pending = pds.filter(p => p.status !== 'delivered')
+            const delivered = pds.filter(p => p.status === 'delivered')
+            if (pds.length === 0) return null
+            return (
+              <div className="bg-amber-50 rounded-2xl border border-amber-200 shadow-sm p-4">
+                <div className="text-sm font-bold text-amber-700 mb-3">📦 我的代訂・待出貨</div>
+                {pending.length === 0
+                  ? <p className="text-sm text-amber-600/70 text-center py-2">目前沒有待出貨的代訂</p>
+                  : <div className="space-y-2">{pending.map(p => (
+                      <div key={p.id} className="flex items-center justify-between gap-2 text-sm bg-white rounded-xl px-3 py-2 border border-amber-100">
+                        <div className="min-w-0">
+                          <div><span className="text-stone-700 font-medium">{p.gameName}{p.qty > 1 ? ` ×${p.qty}` : ''}</span><span className="text-stone-400 text-xs ml-2">{p.date}</span></div>
+                          {p.balance > 0 && <div className="text-xs text-amber-600 mt-0.5">已付訂金 ${p.paid}，尾款 ${p.balance}</div>}
+                        </div>
+                        <span className="rounded-full bg-amber-500 text-white text-xs font-bold px-2.5 py-1 flex-shrink-0">待出貨</span>
+                      </div>
+                    ))}</div>
+                }
+                {delivered.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-amber-100">
+                    <button onClick={() => setShowDelivered(v => !v)} className="text-xs text-stone-400 hover:text-stone-600">
+                      {showDelivered ? '收起已取貨' : `已取貨紀錄（${delivered.length}）`}
+                    </button>
+                    {showDelivered && <div className="space-y-2 mt-2">{delivered.map(p => (
+                      <div key={p.id} className="flex items-center justify-between text-sm opacity-70">
+                        <div><span className="text-stone-600">{p.gameName}{p.qty > 1 ? ` ×${p.qty}` : ''}</span><span className="text-stone-400 text-xs ml-2">{p.date}</span></div>
+                        <span className="text-xs text-green-600 font-medium">已取貨</span>
+                      </div>
+                    ))}</div>}
+                  </div>
+                )}
+              </div>
+            )
+          })()}
           <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
             <div className="text-sm font-bold text-stone-500 mb-3">入場摘要</div>
             <div className="grid grid-cols-3 gap-2 text-center">
