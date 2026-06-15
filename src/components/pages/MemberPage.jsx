@@ -157,7 +157,7 @@ function MemberCard({ member, onLogout, allGames = [] }) {
   const birthdayInfo = getBirthdayInfo(displayMember.birthday)
 
   const [showHistory, setShowHistory] = useState(false)
-  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0, pendingDeliveries: [] })
+  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0, pendingDeliveries: [], transactions: [] })
   const [showDelivered, setShowDelivered] = useState(false)
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [historyLoading, setHistoryLoading] = useState(false)
@@ -254,21 +254,23 @@ function MemberCard({ member, onLogout, allGames = [] }) {
     if (historyLoaded) { setShowHistory(v => !v); return }
     setHistoryLoading(true); setHistoryError('')
     try {
-      const [sessionSnap, rentalSnap, pendingSnap] = await Promise.all([
+      const [sessionSnap, rentalSnap, pendingSnap, txSnap] = await Promise.all([
         getDocs(query(collection(db, 'sessions'), where('memberDocId', '==', displayMember.id))),
         getDocs(query(collection(db, 'rentals'), where('memberDocId', '==', displayMember.id))),
         getDocs(query(collection(db, 'pendingDeliveries'), where('memberDocId', '==', displayMember.id))),
+        getDocs(query(collection(db, 'transactions'), where('memberDocId', '==', displayMember.id))),
       ])
       const sessions = sessionSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       const rentals = rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       const pendingDeliveries = pendingSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+      const transactions = txSnap.docs.map(d => ({ id: d.id, ...d.data() }))
       let friendCount = 0
       try {
         const prefix = displayMember.name + ' 的朋友'
         const fs = await getDocs(query(collection(db, 'sessions'), where('name', '>=', prefix), where('name', '<=', prefix + '')))
         friendCount = fs.docs.length
       } catch (_) {}
-      setHistory({ sessions, rentals, friendCount, pendingDeliveries })
+      setHistory({ sessions, rentals, friendCount, pendingDeliveries, transactions })
       setHistoryLoaded(true); setShowHistory(true)
     } catch (err) { setHistoryError('無法載入紀錄') }
     finally { setHistoryLoading(false) }
@@ -721,13 +723,17 @@ function MemberCard({ member, onLogout, allGames = [] }) {
           <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
             <div className="text-sm font-bold text-stone-500 mb-3">🎲 購買紀錄</div>
             {(() => {
-              const purchases = history.sessions.flatMap(s => (s.purchases || []).map(p => ({ ...p, date: s.date }))).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+              const fromSessions = history.sessions.flatMap(s => (s.purchases || []).map(p => ({ desc: p.description, amount: p.amount, date: s.date })))
+              const fromTx = (history.transactions || [])
+                .filter(t => t.type === 'sale' || t.type === 'transfer')
+                .map(t => ({ desc: t.note, amount: t.amount, date: t.date }))
+              const purchases = [...fromSessions, ...fromTx].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
               return purchases.length === 0
                 ? <p className="text-sm text-stone-300 text-center py-2">尚無購買紀錄</p>
                 : <div className="space-y-2">{purchases.map((p, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm">
-                      <div><span className="text-stone-700 font-medium">{p.description || '桌遊購買'}</span><span className="text-stone-400 text-xs ml-2">{p.date}</span></div>
-                      <span className="text-orange-500 font-bold">${p.amount}</span>
+                    <div key={i} className="flex items-center justify-between gap-2 text-sm">
+                      <div className="min-w-0"><span className="text-stone-700 font-medium">{p.desc || '桌遊購買'}</span><span className="text-stone-400 text-xs ml-2">{p.date}</span></div>
+                      <span className="text-orange-500 font-bold flex-shrink-0">${p.amount}</span>
                     </div>
                   ))}</div>
             })()}
