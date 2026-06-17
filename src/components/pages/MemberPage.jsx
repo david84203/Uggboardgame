@@ -112,6 +112,7 @@ function getBirthdayInfo(birthdayStr) {
   else if (parts.length === 2) { month = parseInt(parts[0], 10); day = parseInt(parts[1], 10) }
   else return null
   if (isNaN(month) || isNaN(day)) return null
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null
 
   const now = new Date()
   for (const yr of [now.getFullYear() - 1, now.getFullYear(), now.getFullYear() + 1]) {
@@ -503,7 +504,7 @@ function MemberCard({ member, onLogout, allGames = [] }) {
           <div className="text-sm font-bold text-orange-500 mb-3">📦 租借中的遊戲</div>
           <div className="space-y-3">
             {activeRentals.map(r => {
-              const today = new Date().toISOString().slice(0, 10)
+              const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Taipei' })
               const overdue = r.returnDate && r.returnDate < today
               return (
                 <div key={r.id} className={`rounded-2xl p-3 ${overdue ? 'bg-red-50 border border-red-100' : 'bg-orange-50 border border-orange-100'}`}>
