@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { collection, query, where, getDocs, doc, getDoc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase/config'
-import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X, Check } from 'lucide-react'
+import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X, Check, SlidersHorizontal } from 'lucide-react'
 import GameCard from '../GameCard'
 
 const TYPE_CONFIG = {
@@ -52,8 +52,34 @@ const ZONES = [
 ]
 
 function formatPrice(p) {
-  const n = parseInt(p)
+  const n = getPriceNumber(p)
   return isNaN(n) ? '—' : `$${n.toLocaleString()}`
+}
+
+function getPriceNumber(p) {
+  const match = String(p || '').replace(/,/g, '').match(/\d+/)
+  return match ? parseInt(match[0], 10) : NaN
+}
+
+function parseOptionalNumber(value) {
+  if (value === '' || value === null || value === undefined) return null
+  const n = Number(value)
+  return Number.isFinite(n) ? n : null
+}
+
+function valueInOptionalRange(value, min, max) {
+  if (min === null && max === null) return true
+  if (value === null || value === undefined || isNaN(value)) return false
+
+  if (min !== null && max === null) return value >= min
+  if (min === null && max !== null) return value <= max
+
+  const low = Math.min(min, max)
+  const high = Math.max(min, max)
+
+  if (value < low) return false
+  if (value > high) return false
+  return true
 }
 
 function normalizeText(value) {
@@ -70,6 +96,31 @@ function gameMatchesQuery(game, query) {
     game.location,
     game.bundleContents?.join(' '),
   ].some(value => normalizeText(value).includes(q))
+}
+
+function gameMatchesUsedFilters(game, filters) {
+  const price = getPriceNumber(game.price)
+  const priceMin = parseOptionalNumber(filters.priceMin)
+  const priceMax = parseOptionalNumber(filters.priceMax)
+  const weightMin = parseOptionalNumber(filters.weightMin)
+  const weightMax = parseOptionalNumber(filters.weightMax)
+  const playerMin = parseOptionalNumber(filters.playerMin)
+  const playerMax = parseOptionalNumber(filters.playerMax)
+
+  if (!valueInOptionalRange(price, priceMin, priceMax)) return false
+  if (!valueInOptionalRange(game.weight, weightMin, weightMax)) return false
+
+  if (playerMin !== null || playerMax !== null) {
+    const targetA = playerMin ?? playerMax
+    const targetB = playerMax ?? playerMin
+    const targetMin = Math.min(targetA, targetB)
+    const targetMax = Math.max(targetA, targetB)
+
+    if (!game.minPlayers || !game.maxPlayers) return false
+    if (game.maxPlayers < targetMin || game.minPlayers > targetMax) return false
+  }
+
+  return true
 }
 
 function getUsedGameKey(game) {
@@ -263,6 +314,23 @@ function PickedSyncNotice({ error }) {
   )
 }
 
+function FilterNumberInput({ label, value, onChange, placeholder, step = '1' }) {
+  return (
+    <label className="block min-w-0">
+      <span className="block text-[11px] font-semibold text-stone-500 mb-1">{label}</span>
+      <input
+        type="number"
+        inputMode="decimal"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        step={step}
+        className="w-full h-11 rounded-xl border border-stone-200 bg-white px-3 text-base text-stone-700 outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-100"
+      />
+    </label>
+  )
+}
+
 function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const canManageUsedGames = isStaffAccount(loggedInMember)
   const cloudLoadedRef = useRef(false)
@@ -272,6 +340,15 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const [openCabinets, setOpenCabinets] = useState({})
   const [selectedGame, setSelectedGame] = useState(null)
   const [query, setQuery] = useState('')
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [usedFilters, setUsedFilters] = useState({
+    priceMin: '',
+    priceMax: '',
+    weightMin: '',
+    weightMax: '',
+    playerMin: '',
+    playerMax: '',
+  })
   const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
   const [pickedSyncError, setPickedSyncError] = useState(false)
   const [soldGameNames, setSoldGameNames] = useState(new Set())
@@ -306,8 +383,29 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   }, [games, soldGameNames])
 
   const filteredUsedGames = useMemo(() => {
-    return usedGames.filter(g => gameMatchesQuery(g, query))
-  }, [usedGames, query])
+    return usedGames.filter(g => gameMatchesQuery(g, query) && gameMatchesUsedFilters(g, usedFilters))
+  }, [usedGames, query, usedFilters])
+
+  const activeFilterCount = useMemo(() => {
+    return Object.values(usedFilters).filter(value => String(value).trim() !== '').length
+  }, [usedFilters])
+
+  const hasActiveFilters = activeFilterCount > 0
+
+  const updateUsedFilter = (key, value) => {
+    setUsedFilters(prev => ({ ...prev, [key]: value }))
+  }
+
+  const clearUsedFilters = () => {
+    setUsedFilters({
+      priceMin: '',
+      priceMax: '',
+      weightMin: '',
+      weightMax: '',
+      playerMin: '',
+      playerMax: '',
+    })
+  }
 
   const validPickedKeys = useMemo(() => {
     return new Set(usedGames.flatMap(getAllUsedGameKeys))
@@ -541,6 +639,102 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
           )}
         </div>
 
+        <div className="space-y-2">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen(prev => !prev)}
+            aria-expanded={filtersOpen}
+            className={`w-full h-11 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all ${
+              hasActiveFilters
+                ? 'bg-orange-50 text-orange-700 border border-orange-200'
+                : 'bg-stone-50 text-stone-500 border border-stone-100 active:bg-stone-100'
+            }`}
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            篩選
+            {hasActiveFilters && (
+              <span className="min-w-5 h-5 px-1.5 rounded-full bg-orange-500 text-white text-[11px] leading-5">
+                {activeFilterCount}
+              </span>
+            )}
+            {filtersOpen
+              ? <ChevronUp className="w-4 h-4 ml-auto mr-3 text-stone-400" />
+              : <ChevronDown className="w-4 h-4 ml-auto mr-3 text-stone-400" />
+            }
+          </button>
+
+          {filtersOpen && (
+            <div className="rounded-2xl border border-stone-100 bg-stone-50 p-3 space-y-3">
+              <div>
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <p className="text-xs font-bold text-stone-600">價格區間</p>
+                  {hasActiveFilters && (
+                    <button
+                      type="button"
+                      onClick={clearUsedFilters}
+                      className="text-xs font-semibold text-stone-400 active:text-orange-600"
+                    >
+                      清除篩選
+                    </button>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <FilterNumberInput
+                    label="最低價格"
+                    value={usedFilters.priceMin}
+                    onChange={(value) => updateUsedFilter('priceMin', value)}
+                    placeholder="例如 500"
+                  />
+                  <FilterNumberInput
+                    label="最高價格"
+                    value={usedFilters.priceMax}
+                    onChange={(value) => updateUsedFilter('priceMax', value)}
+                    placeholder="例如 1500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold text-stone-600 mb-2">BGG 難度</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <FilterNumberInput
+                    label="最低難度"
+                    value={usedFilters.weightMin}
+                    onChange={(value) => updateUsedFilter('weightMin', value)}
+                    placeholder="0"
+                    step="0.1"
+                  />
+                  <FilterNumberInput
+                    label="最高難度"
+                    value={usedFilters.weightMax}
+                    onChange={(value) => updateUsedFilter('weightMax', value)}
+                    placeholder="5"
+                    step="0.1"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold text-stone-600 mb-2">指定人數區間</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <FilterNumberInput
+                    label="最少人數"
+                    value={usedFilters.playerMin}
+                    onChange={(value) => updateUsedFilter('playerMin', value)}
+                    placeholder="例如 2"
+                  />
+                  <FilterNumberInput
+                    label="最多人數"
+                    value={usedFilters.playerMax}
+                    onChange={(value) => updateUsedFilter('playerMax', value)}
+                    placeholder="例如 4"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className={`grid gap-2 ${canManageUsedGames ? 'grid-cols-2' : 'grid-cols-1'}`}>
           {[
             ...(canManageUsedGames ? [{ id: 'cabinet', label: '櫃子排列', icon: Boxes }] : []),
@@ -585,9 +779,9 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
         </>
       )}
 
-      {query && filteredUsedGames.length === 0 && (
+      {(query || hasActiveFilters) && filteredUsedGames.length === 0 && (
         <div className="bg-white border border-stone-100 rounded-2xl px-4 py-5 text-center">
-          {matchingNonUsedGames.length > 0 ? (
+          {query && matchingNonUsedGames.length > 0 ? (
             <>
               <p className="text-sm font-bold text-stone-700">館內有這款，但目前不是二手販售</p>
               <p className="text-xs text-stone-400 mt-1">
@@ -596,8 +790,8 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
             </>
           ) : (
             <>
-              <p className="text-sm font-bold text-stone-700">查不到這款二手遊戲</p>
-              <p className="text-xs text-stone-400 mt-1">可換個關鍵字，或確認工作表名稱是否一致。</p>
+              <p className="text-sm font-bold text-stone-700">查不到符合條件的二手遊戲</p>
+              <p className="text-xs text-stone-400 mt-1">可放寬價格、難度或人數區間，再試一次。</p>
             </>
           )}
         </div>
