@@ -82,6 +82,26 @@ function valueInOptionalRange(value, min, max) {
   return true
 }
 
+function compareOptionalNumbers(a, b, direction) {
+  const aMissing = a === null || a === undefined || isNaN(a)
+  const bMissing = b === null || b === undefined || isNaN(b)
+  if (aMissing && bMissing) return 0
+  if (aMissing) return 1
+  if (bMissing) return -1
+  return direction === 'asc' ? a - b : b - a
+}
+
+function sortUsedGameList(list, sortState) {
+  return [...list].sort((a, b) => {
+    const aValue = sortState.key === 'weight' ? a.weight : getPriceNumber(a.price)
+    const bValue = sortState.key === 'weight' ? b.weight : getPriceNumber(b.price)
+    const primary = compareOptionalNumbers(aValue, bValue, sortState.direction)
+    if (primary !== 0) return primary
+
+    return (parseInt(b.price) || 0) - (parseInt(a.price) || 0)
+  })
+}
+
 function normalizeText(value) {
   return String(value || '').toLowerCase().trim()
 }
@@ -99,16 +119,10 @@ function gameMatchesQuery(game, query) {
 }
 
 function gameMatchesUsedFilters(game, filters) {
-  const price = getPriceNumber(game.price)
-  const priceMin = parseOptionalNumber(filters.priceMin)
-  const priceMax = parseOptionalNumber(filters.priceMax)
-  const weightMin = parseOptionalNumber(filters.weightMin)
-  const weightMax = parseOptionalNumber(filters.weightMax)
   const playerMin = parseOptionalNumber(filters.playerMin)
   const playerMax = parseOptionalNumber(filters.playerMax)
 
-  if (!valueInOptionalRange(price, priceMin, priceMax)) return false
-  if (!valueInOptionalRange(game.weight, weightMin, weightMax)) return false
+  if (filters.zoneId !== 'all' && game.usedZone !== Number(filters.zoneId)) return false
 
   if (playerMin !== null || playerMax !== null) {
     const targetA = playerMin ?? playerMax
@@ -342,13 +356,11 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const [query, setQuery] = useState('')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [usedFilters, setUsedFilters] = useState({
-    priceMin: '',
-    priceMax: '',
-    weightMin: '',
-    weightMax: '',
+    zoneId: 'all',
     playerMin: '',
     playerMax: '',
   })
+  const [sortState, setSortState] = useState({ key: 'price', direction: 'desc' })
   const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
   const [pickedSyncError, setPickedSyncError] = useState(false)
   const [soldGameNames, setSoldGameNames] = useState(new Set())
@@ -379,7 +391,6 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
     }
     return merged
       .map(g => ({ ...g, isSoldOut: isGameSoldOutForSale(g, soldGameNames) }))
-      .sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
   }, [games, soldGameNames])
 
   const filteredUsedGames = useMemo(() => {
@@ -387,10 +398,16 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   }, [usedGames, query, usedFilters])
 
   const activeFilterCount = useMemo(() => {
-    return Object.values(usedFilters).filter(value => String(value).trim() !== '').length
-  }, [usedFilters])
+    return [
+      usedFilters.zoneId !== 'all',
+      usedFilters.playerMin !== '',
+      usedFilters.playerMax !== '',
+      sortState.key !== 'price' || sortState.direction !== 'desc',
+    ].filter(Boolean).length
+  }, [sortState, usedFilters])
 
   const hasActiveFilters = activeFilterCount > 0
+  const sortLabel = `${sortState.key === 'weight' ? '依 BGG 難度' : '依價格'}${sortState.direction === 'asc' ? '低到高' : '高到低'}排列`
 
   const updateUsedFilter = (key, value) => {
     setUsedFilters(prev => ({ ...prev, [key]: value }))
@@ -398,13 +415,11 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
 
   const clearUsedFilters = () => {
     setUsedFilters({
-      priceMin: '',
-      priceMax: '',
-      weightMin: '',
-      weightMax: '',
+      zoneId: 'all',
       playerMin: '',
       playerMax: '',
     })
+    setSortState({ key: 'price', direction: 'desc' })
   }
 
   const validPickedKeys = useMemo(() => {
@@ -433,12 +448,22 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       const z = g.usedZone || 0
       if (map[z]) map[z].push(g)
     })
+
+    Object.keys(map).forEach(key => {
+      map[key] = sortUsedGameList(map[key], sortState)
+    })
+
     return map
-  }, [filteredUsedGames])
+  }, [filteredUsedGames, sortState])
 
   const zoneById = useMemo(() => {
     return ZONES.reduce((acc, zone) => ({ ...acc, [zone.id]: zone }), {})
   }, [])
+
+  const visibleZones = useMemo(() => {
+    if (usedFilters.zoneId === 'all') return ZONES
+    return ZONES.filter(zone => zone.id === Number(usedFilters.zoneId))
+  }, [usedFilters.zoneId])
 
   const byCabinet = useMemo(() => {
     const collator = new Intl.Collator('zh-Hant-TW', { numeric: true, sensitivity: 'base' })
@@ -453,9 +478,9 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       .sort(([a], [b]) => collator.compare(a, b))
       .map(([cabinet, list]) => ({
         cabinet,
-        list: list.sort((a, b) => (a.usedZone || 99) - (b.usedZone || 99) || (parseInt(b.price) || 0) - (parseInt(a.price) || 0)),
+        list: sortUsedGameList(list, sortState).sort((a, b) => (a.usedZone || 99) - (b.usedZone || 99)),
       }))
-  }, [filteredUsedGames])
+  }, [filteredUsedGames, sortState])
 
   const toggle = (id) => setOpenZones(prev => ({ ...prev, [id]: !prev[id] }))
   const toggleCabinet = (cabinet) => setOpenCabinets(prev => ({ ...prev, [cabinet]: !(prev[cabinet] ?? true) }))
@@ -651,7 +676,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
             }`}
           >
             <SlidersHorizontal className="w-4 h-4" />
-            篩選
+            排序 / 篩選
             {hasActiveFilters && (
               <span className="min-w-5 h-5 px-1.5 rounded-full bg-orange-500 text-white text-[11px] leading-5">
                 {activeFilterCount}
@@ -667,7 +692,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
             <div className="rounded-2xl border border-stone-100 bg-stone-50 p-3 space-y-3">
               <div>
                 <div className="flex items-center justify-between gap-3 mb-2">
-                  <p className="text-xs font-bold text-stone-600">價格區間</p>
+                  <p className="text-xs font-bold text-stone-600">指定分區</p>
                   {hasActiveFilters && (
                     <button
                       type="button"
@@ -679,38 +704,78 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
                   )}
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <FilterNumberInput
-                    label="最低價格"
-                    value={usedFilters.priceMin}
-                    onChange={(value) => updateUsedFilter('priceMin', value)}
-                    placeholder="例如 500"
-                  />
-                  <FilterNumberInput
-                    label="最高價格"
-                    value={usedFilters.priceMax}
-                    onChange={(value) => updateUsedFilter('priceMax', value)}
-                    placeholder="例如 1500"
-                  />
+                  {[
+                    { id: 'all', label: '全部分區' },
+                    ...ZONES.map(zone => ({ id: String(zone.id), label: zone.label })),
+                  ].map(option => {
+                    const active = usedFilters.zoneId === option.id
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        onClick={() => updateUsedFilter('zoneId', option.id)}
+                        className={`h-11 rounded-xl text-sm font-semibold transition-all ${
+                          active
+                            ? 'bg-stone-800 text-white shadow-sm'
+                            : 'bg-white text-stone-500 border border-stone-200 active:bg-stone-100'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
               <div>
-                <p className="text-xs font-bold text-stone-600 mb-2">BGG 難度</p>
+                <p className="text-xs font-bold text-stone-600 mb-2">價格排序</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <FilterNumberInput
-                    label="最低難度"
-                    value={usedFilters.weightMin}
-                    onChange={(value) => updateUsedFilter('weightMin', value)}
-                    placeholder="0"
-                    step="0.1"
-                  />
-                  <FilterNumberInput
-                    label="最高難度"
-                    value={usedFilters.weightMax}
-                    onChange={(value) => updateUsedFilter('weightMax', value)}
-                    placeholder="5"
-                    step="0.1"
-                  />
+                  {[
+                    { direction: 'desc', label: '價格高到低' },
+                    { direction: 'asc', label: '價格低到高' },
+                  ].map(option => {
+                    const active = sortState.key === 'price' && sortState.direction === option.direction
+                    return (
+                      <button
+                        key={option.direction}
+                        type="button"
+                        onClick={() => setSortState({ key: 'price', direction: option.direction })}
+                        className={`h-11 rounded-xl text-sm font-semibold transition-all ${
+                          active
+                            ? 'bg-orange-500 text-white shadow-sm'
+                            : 'bg-white text-stone-500 border border-stone-200 active:bg-stone-100'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold text-stone-600 mb-2">BGG 難度排序</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { direction: 'desc', label: '難度高到低' },
+                    { direction: 'asc', label: '難度低到高' },
+                  ].map(option => {
+                    const active = sortState.key === 'weight' && sortState.direction === option.direction
+                    return (
+                      <button
+                        key={option.direction}
+                        type="button"
+                        onClick={() => setSortState({ key: 'weight', direction: option.direction })}
+                        className={`h-11 rounded-xl text-sm font-semibold transition-all ${
+                          active
+                            ? 'bg-orange-500 text-white shadow-sm'
+                            : 'bg-white text-stone-500 border border-stone-200 active:bg-stone-100'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
@@ -791,7 +856,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
           ) : (
             <>
               <p className="text-sm font-bold text-stone-700">查不到符合條件的二手遊戲</p>
-              <p className="text-xs text-stone-400 mt-1">可放寬價格、難度或人數區間，再試一次。</p>
+              <p className="text-xs text-stone-400 mt-1">可換個分區、放寬人數區間，或調整搜尋字再試一次。</p>
             </>
           )}
         </div>
@@ -799,7 +864,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
 
       {viewMode === 'zone' && filteredUsedGames.length > 0 && (
         <>
-          {ZONES.map(zone => {
+          {visibleZones.map(zone => {
             const list = byZone[zone.id]
             const isOpen = openZones[zone.id]
             return (
@@ -902,7 +967,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       )}
 
       <p className="text-center text-xs text-stone-300 pt-2">
-        共 {usedGames.length} 款・{viewMode === 'cabinet' ? '依櫃位排列' : '依定價由高至低排列'}
+        顯示 {filteredUsedGames.length} / {usedGames.length} 款・{viewMode === 'cabinet' ? `依櫃位排列，區內${sortLabel}` : sortLabel}
       </p>
 
       {selectedGame && (
