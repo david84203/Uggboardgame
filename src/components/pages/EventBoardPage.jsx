@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react'
-import { collection, query, where, getDocs } from 'firebase/firestore'
+import { useState, useEffect, useMemo, useRef } from 'react'
+import { collection, query, where, getDocs, doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X, Check } from 'lucide-react'
 import GameCard from '../GameCard'
@@ -36,6 +36,8 @@ const BUNDLES = [
 
 const memberToBundleMap = new Map()
 for (const b of BUNDLES) for (const m of b.members) memberToBundleMap.set(m, b)
+
+const USED_GAME_PICK_DOC = 'current'
 
 const ZONES = [
   { id: 1, label: '買二送一', desc: '任選同區 3 款，最低定價免費', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', badge: 'bg-orange-100 text-orange-700' },
@@ -181,13 +183,25 @@ function PickedSummary({ pickedCount, totalCount, visiblePickedCount, onClear })
   )
 }
 
+function PickedSyncNotice({ error }) {
+  if (!error) return null
+  return (
+    <div className="bg-red-50 border border-red-100 rounded-2xl px-4 py-3 text-xs text-red-600 leading-relaxed">
+      勾選同步失敗，這台手機目前只會暫存在本機。請檢查網路或 Firestore 權限。
+    </div>
+  )
+}
+
 function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const canManageUsedGames = isStaffAccount(loggedInMember)
+  const cloudLoadedRef = useRef(false)
+  const skipNextCloudWriteRef = useRef(false)
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
   const [openCabinets, setOpenCabinets] = useState({})
   const [selectedGame, setSelectedGame] = useState(null)
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
+  const [pickedSyncError, setPickedSyncError] = useState(false)
   const [pickedGameKeys, setPickedGameKeys] = useState(() => {
     try {
       return new Set(JSON.parse(localStorage.getItem('used_game_picked_keys') || '[]'))
@@ -289,8 +303,49 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   }, [canManageUsedGames, viewMode])
 
   useEffect(() => {
-    localStorage.setItem('used_game_picked_keys', JSON.stringify(Array.from(pickedGameKeys)))
-  }, [pickedGameKeys])
+    if (!canManageUsedGames) return undefined
+
+    const pickRef = doc(db, 'used_game_pick_state', USED_GAME_PICK_DOC)
+    return onSnapshot(
+      pickRef,
+      snap => {
+        cloudLoadedRef.current = true
+        setPickedSyncError(false)
+        const keys = snap.exists() && Array.isArray(snap.data().keys) ? snap.data().keys : []
+        skipNextCloudWriteRef.current = true
+        setPickedGameKeys(new Set(keys.map(key => String(key))))
+      },
+      err => {
+        console.error('used game pick sync:', err)
+        cloudLoadedRef.current = true
+        setPickedSyncError(true)
+      }
+    )
+  }, [canManageUsedGames])
+
+  useEffect(() => {
+    const keys = Array.from(pickedGameKeys)
+    localStorage.setItem('used_game_picked_keys', JSON.stringify(keys))
+
+    if (!canManageUsedGames || !cloudLoadedRef.current) return
+
+    if (skipNextCloudWriteRef.current) {
+      skipNextCloudWriteRef.current = false
+      return
+    }
+
+    const pickRef = doc(db, 'used_game_pick_state', USED_GAME_PICK_DOC)
+    setDoc(pickRef, {
+      keys,
+      updatedAt: serverTimestamp(),
+      updatedBy: loggedInMember?.name || loggedInMember?.id || '',
+    }, { merge: true }).then(() => {
+      setPickedSyncError(false)
+    }).catch(err => {
+      console.error('used game pick save:', err)
+      setPickedSyncError(true)
+    })
+  }, [pickedGameKeys, canManageUsedGames, loggedInMember])
 
   useEffect(() => {
     setPickedGameKeys(prev => {
@@ -367,12 +422,15 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       </div>
 
       {canManageUsedGames && (
-        <PickedSummary
-          pickedCount={pickedCount}
-          totalCount={usedGames.length}
-          visiblePickedCount={visiblePickedCount}
-          onClear={clearPicked}
-        />
+        <>
+          <PickedSummary
+            pickedCount={pickedCount}
+            totalCount={usedGames.length}
+            visiblePickedCount={visiblePickedCount}
+            onClear={clearPicked}
+          />
+          <PickedSyncNotice error={pickedSyncError} />
+        </>
       )}
 
       {query && filteredUsedGames.length === 0 && (
