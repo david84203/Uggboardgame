@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/config'
-import { Calendar, ChevronRight, ChevronDown, ChevronUp, Tag } from 'lucide-react'
+import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X } from 'lucide-react'
 import GameCard from '../GameCard'
 
 const TYPE_CONFIG = {
@@ -43,9 +43,68 @@ function formatPrice(p) {
   return isNaN(n) ? '—' : `$${n.toLocaleString()}`
 }
 
+function normalizeText(value) {
+  return String(value || '').toLowerCase().trim()
+}
+
+function gameMatchesQuery(game, query) {
+  const q = normalizeText(query)
+  if (!q) return true
+
+  return [
+    game.name,
+    game.englishName,
+    game.location,
+    game.bundleContents?.join(' '),
+  ].some(value => normalizeText(value).includes(q))
+}
+
+function UsedGameRow({ game, zone, onSelect }) {
+  const isDisabled = game.isSoldOut
+  return (
+    <button
+      type="button"
+      onClick={() => !isDisabled && onSelect(game)}
+      className={`w-full flex items-start justify-between gap-3 px-4 py-3 bg-white text-left transition-colors ${isDisabled ? 'opacity-50 cursor-default' : 'active:bg-stone-50 hover:bg-stone-50'}`}
+    >
+      <div className="min-w-0 flex-1">
+        <p className={`text-sm text-stone-700 leading-snug font-medium ${isDisabled ? 'line-through' : ''}`}>
+          {game.name}
+        </p>
+        {game.bundleContents && (
+          <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
+            含：{game.bundleContents.join('・')}
+          </p>
+        )}
+        <div className="mt-1.5 flex flex-wrap gap-1.5">
+          {game.location && (
+            <span className="text-[11px] bg-stone-100 text-stone-500 px-2 py-0.5 rounded-full">
+              {game.location}
+            </span>
+          )}
+          {zone && (
+            <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${zone.badge}`}>
+              {zone.label}
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="shrink-0 pt-0.5">
+        {isDisabled
+          ? <span className="text-[11px] bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">已售出</span>
+          : <span className={`text-sm font-bold ${zone?.color || 'text-stone-700'}`}>{formatPrice(game.price)}</span>
+        }
+      </div>
+    </button>
+  )
+}
+
 function UsedGameList({ games, gamesLoading }) {
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
+  const [openCabinets, setOpenCabinets] = useState({})
   const [selectedGame, setSelectedGame] = useState(null)
+  const [query, setQuery] = useState('')
+  const [viewMode, setViewMode] = useState('cabinet')
 
   const usedGames = useMemo(() => {
     const addedBundles = new Set()
@@ -64,16 +123,50 @@ function UsedGameList({ games, gamesLoading }) {
     return merged.sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
   }, [games])
 
+  const filteredUsedGames = useMemo(() => {
+    return usedGames.filter(g => gameMatchesQuery(g, query))
+  }, [usedGames, query])
+
+  const matchingNonUsedGames = useMemo(() => {
+    const q = normalizeText(query)
+    if (!q) return []
+    return games
+      .filter(g => !g.isUsedSale && gameMatchesQuery(g, query))
+      .slice(0, 5)
+  }, [games, query])
+
   const byZone = useMemo(() => {
     const map = { 1: [], 2: [], 3: [], 0: [] }
-    usedGames.forEach(g => {
+    filteredUsedGames.forEach(g => {
       const z = g.usedZone || 0
       if (map[z]) map[z].push(g)
     })
     return map
-  }, [usedGames])
+  }, [filteredUsedGames])
+
+  const zoneById = useMemo(() => {
+    return ZONES.reduce((acc, zone) => ({ ...acc, [zone.id]: zone }), {})
+  }, [])
+
+  const byCabinet = useMemo(() => {
+    const collator = new Intl.Collator('zh-Hant-TW', { numeric: true, sensitivity: 'base' })
+    const map = new Map()
+    filteredUsedGames.forEach(g => {
+      const cabinet = g.location?.trim() || '未填櫃位'
+      if (!map.has(cabinet)) map.set(cabinet, [])
+      map.get(cabinet).push(g)
+    })
+
+    return Array.from(map.entries())
+      .sort(([a], [b]) => collator.compare(a, b))
+      .map(([cabinet, list]) => ({
+        cabinet,
+        list: list.sort((a, b) => (a.usedZone || 99) - (b.usedZone || 99) || (parseInt(b.price) || 0) - (parseInt(a.price) || 0)),
+      }))
+  }, [filteredUsedGames])
 
   const toggle = (id) => setOpenZones(prev => ({ ...prev, [id]: !prev[id] }))
+  const toggleCabinet = (cabinet) => setOpenCabinets(prev => ({ ...prev, [cabinet]: !(prev[cabinet] ?? true) }))
 
   if (gamesLoading) {
     return <div className="flex items-center justify-center py-16 text-stone-400 text-sm">載入中…</div>
@@ -81,69 +174,176 @@ function UsedGameList({ games, gamesLoading }) {
 
   return (
     <div className="space-y-3">
+      <div className="sticky top-2 z-20 bg-white/95 border border-stone-100 rounded-2xl p-3 shadow-sm space-y-3 backdrop-blur">
+        <div className="flex items-center justify-between gap-3">
+          <label className="block text-xs font-semibold text-stone-500" htmlFor="used-game-search">
+            搜尋二手遊戲
+          </label>
+          <span className="text-[11px] text-stone-400 shrink-0">
+            {filteredUsedGames.length} / {usedGames.length} 款
+          </span>
+        </div>
+        <div className="relative">
+          <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            id="used-game-search"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="輸入遊戲名稱、英文名或櫃位"
+            className="w-full h-12 rounded-xl border border-stone-200 bg-stone-50 pl-9 pr-10 text-base text-stone-700 outline-none transition focus:border-orange-300 focus:bg-white focus:ring-2 focus:ring-orange-100"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              aria-label="清除搜尋"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-lg flex items-center justify-center text-stone-400 active:bg-stone-100"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            { id: 'cabinet', label: '櫃子排列', icon: Boxes },
+            { id: 'zone', label: '優惠分區', icon: List },
+          ].map(mode => {
+            const Icon = mode.icon
+            const active = viewMode === mode.id
+            return (
+              <button
+                key={mode.id}
+                type="button"
+                onClick={() => setViewMode(mode.id)}
+                className={`h-11 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all ${
+                  active
+                    ? 'bg-stone-800 text-white shadow-sm'
+                    : 'bg-stone-50 text-stone-500 border border-stone-100 active:bg-stone-100'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {mode.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
       <div className="bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3 text-xs text-amber-700 leading-relaxed">
         <span className="font-bold">購買說明：</span>同一區內遊戲可享優惠，不同區不合併計算。售完為止。
       </div>
 
-      {ZONES.map(zone => {
-        const list = byZone[zone.id]
-        const isOpen = openZones[zone.id]
-        return (
-          <div key={zone.id} className={`rounded-2xl border ${zone.border} overflow-hidden`}>
-            <button
-              onClick={() => toggle(zone.id)}
-              className={`w-full flex items-center justify-between px-4 py-3.5 ${zone.bg}`}
-            >
-              <div className="flex items-center gap-2.5">
-                <span className={`text-sm font-bold ${zone.color}`}>{zone.label}</span>
-                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${zone.badge}`}>
-                  {list.length} 款
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] text-stone-400">{zone.desc}</span>
-                {isOpen
-                  ? <ChevronUp className="w-4 h-4 text-stone-400 shrink-0" />
-                  : <ChevronDown className="w-4 h-4 text-stone-400 shrink-0" />
-                }
-              </div>
-            </button>
+      {query && filteredUsedGames.length === 0 && (
+        <div className="bg-white border border-stone-100 rounded-2xl px-4 py-5 text-center">
+          {matchingNonUsedGames.length > 0 ? (
+            <>
+              <p className="text-sm font-bold text-stone-700">館內有這款，但目前不是二手販售</p>
+              <p className="text-xs text-stone-400 mt-1">
+                {matchingNonUsedGames.map(g => g.name).join('、')}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm font-bold text-stone-700">查不到這款二手遊戲</p>
+              <p className="text-xs text-stone-400 mt-1">可換個關鍵字，或確認工作表名稱是否一致。</p>
+            </>
+          )}
+        </div>
+      )}
 
-            {isOpen && (
-              <div className="divide-y divide-stone-50">
-                {list.length === 0 ? (
-                  <p className="px-4 py-4 text-xs text-stone-400 text-center">尚無遊戲（分區設定中）</p>
-                ) : (
-                  list.map(g => (
-                    <button
-                      key={g.id}
-                      onClick={() => !g.isSoldOut && setSelectedGame(g)}
-                      className={`w-full flex items-start justify-between px-4 py-2.5 bg-white text-left transition-colors ${g.isSoldOut ? 'opacity-50 cursor-default' : 'active:bg-stone-50'}`}
-                    >
-                      <div className="flex-1 mr-3">
-                        <p className={`text-sm text-stone-700 leading-snug ${g.isSoldOut ? 'line-through' : ''}`}>
-                          {g.name}
-                        </p>
-                        {g.bundleContents && (
-                          <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
-                            含：{g.bundleContents.join('・')}
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0 pt-0.5">
-                        {g.isSoldOut
-                          ? <span className="text-[11px] bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">已售出</span>
-                          : <span className={`text-sm font-bold ${zone.color}`}>{formatPrice(g.price)}</span>
-                        }
-                      </div>
-                    </button>
-                  ))
+      {viewMode === 'zone' && filteredUsedGames.length > 0 && (
+        <>
+          {ZONES.map(zone => {
+            const list = byZone[zone.id]
+            const isOpen = openZones[zone.id]
+            return (
+              <div key={zone.id} className={`rounded-2xl border ${zone.border} overflow-hidden`}>
+                <button
+                  type="button"
+                  onClick={() => toggle(zone.id)}
+                  className={`w-full flex items-center justify-between gap-3 px-4 py-3.5 ${zone.bg}`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className={`text-sm font-bold ${zone.color}`}>{zone.label}</span>
+                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${zone.badge}`}>
+                      {list.length} 款
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-[11px] text-stone-400 text-right leading-snug">{zone.desc}</span>
+                    {isOpen
+                      ? <ChevronUp className="w-4 h-4 text-stone-400 shrink-0" />
+                      : <ChevronDown className="w-4 h-4 text-stone-400 shrink-0" />
+                    }
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="divide-y divide-stone-50">
+                    {list.length === 0 ? (
+                      <p className="px-4 py-4 text-xs text-stone-400 text-center">尚無遊戲（分區設定中）</p>
+                    ) : (
+                      list.map(g => (
+                        <UsedGameRow
+                          key={g.id}
+                          game={g}
+                          zone={zone}
+                          onSelect={setSelectedGame}
+                        />
+                      ))
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
-        )
-      })}
+            )
+          })}
+        </>
+      )}
+
+      {viewMode === 'cabinet' && filteredUsedGames.length > 0 && (
+        <div className="space-y-3">
+          {byCabinet.map(({ cabinet, list }) => {
+            const isOpen = openCabinets[cabinet] ?? true
+            return (
+              <div key={cabinet} className="rounded-2xl border border-stone-100 overflow-hidden bg-white shadow-sm">
+                <button
+                  type="button"
+                  onClick={() => toggleCabinet(cabinet)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3.5 bg-stone-50"
+                >
+                  <div className="min-w-0 text-left">
+                    <p className="text-base font-bold text-stone-800 truncate">{cabinet}</p>
+                    <p className="text-[11px] text-stone-400 mt-0.5">要從這個櫃子拿 {list.length} 款</p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-stone-200 text-stone-600">
+                      {list.length} 款
+                    </span>
+                    {isOpen
+                      ? <ChevronUp className="w-4 h-4 text-stone-400" />
+                      : <ChevronDown className="w-4 h-4 text-stone-400" />
+                    }
+                  </div>
+                </button>
+                {isOpen && (
+                  <div className="divide-y divide-stone-50">
+                    {list.map(g => (
+                      <UsedGameRow
+                        key={g.id}
+                        game={g}
+                        zone={zoneById[g.usedZone]}
+                        onSelect={setSelectedGame}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {byZone[0].length > 0 && (
         <p className="text-center text-xs text-stone-400 pt-1">
@@ -151,7 +351,9 @@ function UsedGameList({ games, gamesLoading }) {
         </p>
       )}
 
-      <p className="text-center text-xs text-stone-300 pt-2">共 {usedGames.length} 款・依定價由高至低排列</p>
+      <p className="text-center text-xs text-stone-300 pt-2">
+        共 {usedGames.length} 款・{viewMode === 'cabinet' ? '依櫃位排列' : '依定價由高至低排列'}
+      </p>
 
       {selectedGame && (
         <GameCard
