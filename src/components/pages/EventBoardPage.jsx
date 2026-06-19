@@ -196,6 +196,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const canManageUsedGames = isStaffAccount(loggedInMember)
   const cloudLoadedRef = useRef(false)
   const skipNextCloudWriteRef = useRef(false)
+  const initialLocalPickedKeysRef = useRef(null)
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
   const [openCabinets, setOpenCabinets] = useState({})
   const [selectedGame, setSelectedGame] = useState(null)
@@ -204,8 +205,11 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const [pickedSyncError, setPickedSyncError] = useState(false)
   const [pickedGameKeys, setPickedGameKeys] = useState(() => {
     try {
-      return new Set(JSON.parse(localStorage.getItem('used_game_picked_keys') || '[]'))
+      const keys = JSON.parse(localStorage.getItem('used_game_picked_keys') || '[]')
+      initialLocalPickedKeysRef.current = keys
+      return new Set(keys)
     } catch {
+      initialLocalPickedKeysRef.current = []
       return new Set()
     }
   })
@@ -311,6 +315,22 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       snap => {
         cloudLoadedRef.current = true
         setPickedSyncError(false)
+
+        if (!snap.exists()) {
+          const localKeys = Array.isArray(initialLocalPickedKeysRef.current) ? initialLocalPickedKeysRef.current : []
+          if (localKeys.length > 0) {
+            setDoc(pickRef, {
+              keys: localKeys,
+              updatedAt: serverTimestamp(),
+              updatedBy: loggedInMember?.name || loggedInMember?.id || '',
+            }, { merge: true }).catch(err => {
+              console.error('used game initial pick save:', err)
+              setPickedSyncError(true)
+            })
+            return
+          }
+        }
+
         const keys = snap.exists() && Array.isArray(snap.data().keys) ? snap.data().keys : []
         skipNextCloudWriteRef.current = true
         setPickedGameKeys(new Set(keys.map(key => String(key))))
