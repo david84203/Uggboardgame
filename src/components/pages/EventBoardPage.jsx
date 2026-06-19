@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/config'
-import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X } from 'lucide-react'
+import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X, Check } from 'lucide-react'
 import GameCard from '../GameCard'
 
 const TYPE_CONFIG = {
@@ -59,24 +59,76 @@ function gameMatchesQuery(game, query) {
   ].some(value => normalizeText(value).includes(q))
 }
 
-function UsedGameRow({ game, zone, onSelect }) {
+function getUsedGameKey(game) {
+  return `${game.id}-${game.name}`
+}
+
+function isStaffAccount(member) {
+  if (!member) return false
+  if (member.isGM) return true
+
+  const values = [
+    member.id,
+    member.name,
+    member.nickname,
+    member.memberId,
+  ].map(value => String(value || '').trim().toLowerCase())
+
+  return values.some(value => value === 'gm' || value === 'ugg' || value === 'gm-admin' || value === '0000')
+}
+
+function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, onSelect }) {
   const isDisabled = game.isSoldOut
+  const showPicked = canPick && isPicked
   return (
-    <button
-      type="button"
-      onClick={() => !isDisabled && onSelect(game)}
-      className={`w-full flex items-start justify-between gap-3 px-4 py-3 bg-white text-left transition-colors ${isDisabled ? 'opacity-50 cursor-default' : 'active:bg-stone-50 hover:bg-stone-50'}`}
+    <div
+      className={`w-full flex items-stretch gap-2 bg-white px-3 py-2.5 transition-colors ${showPicked ? 'bg-emerald-50/70' : ''} ${isDisabled ? 'opacity-60' : ''}`}
     >
-      <div className="min-w-0 flex-1">
-        <p className={`text-sm text-stone-700 leading-snug font-medium ${isDisabled ? 'line-through' : ''}`}>
-          {game.name}
-        </p>
-        {game.bundleContents && (
-          <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
-            含：{game.bundleContents.join('・')}
-          </p>
-        )}
+      {canPick && (
+        <button
+          type="button"
+          onClick={() => onTogglePicked(game)}
+          aria-label={isPicked ? `取消挪出 ${game.name}` : `標記已挪出 ${game.name}`}
+          aria-pressed={isPicked}
+          className={`w-11 min-h-11 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${
+            isPicked
+              ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm'
+              : 'bg-white border-stone-200 text-transparent active:border-emerald-300'
+          }`}
+        >
+          <Check className="w-5 h-5" strokeWidth={3} />
+        </button>
+      )}
+
+      <button
+        type="button"
+        onClick={() => !isDisabled && onSelect(game)}
+        className={`min-w-0 flex-1 text-left rounded-xl px-1.5 py-1 transition-colors ${isDisabled ? 'cursor-default' : 'active:bg-stone-50 hover:bg-stone-50'}`}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className={`text-sm leading-snug font-medium ${showPicked ? 'text-emerald-700' : 'text-stone-700'} ${isDisabled ? 'line-through' : ''}`}>
+              {game.name}
+            </p>
+            {game.bundleContents && (
+              <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
+                含：{game.bundleContents.join('・')}
+              </p>
+            )}
+          </div>
+          <div className="shrink-0 pt-0.5">
+            {isDisabled
+              ? <span className="text-[11px] bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">已售出</span>
+              : <span className={`text-sm font-bold ${showPicked ? 'text-emerald-600' : zone?.color || 'text-stone-700'}`}>{formatPrice(game.price)}</span>
+            }
+          </div>
+        </div>
         <div className="mt-1.5 flex flex-wrap gap-1.5">
+          {showPicked && (
+            <span className="text-[11px] font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+              已挪出
+            </span>
+          )}
           {game.location && (
             <span className="text-[11px] bg-stone-100 text-stone-500 px-2 py-0.5 rounded-full">
               {game.location}
@@ -88,23 +140,56 @@ function UsedGameRow({ game, zone, onSelect }) {
             </span>
           )}
         </div>
-      </div>
-      <div className="shrink-0 pt-0.5">
-        {isDisabled
-          ? <span className="text-[11px] bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">已售出</span>
-          : <span className={`text-sm font-bold ${zone?.color || 'text-stone-700'}`}>{formatPrice(game.price)}</span>
-        }
-      </div>
-    </button>
+      </button>
+    </div>
   )
 }
 
-function UsedGameList({ games, gamesLoading }) {
+function PickedSummary({ pickedCount, totalCount, visiblePickedCount, onClear }) {
+  return (
+    <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-4 py-3">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-bold text-emerald-800">揀貨進度</p>
+          <p className="text-xs text-emerald-700 mt-0.5">
+            已挪出 {pickedCount} / {totalCount} 款
+            {visiblePickedCount !== pickedCount ? `，目前篩選中 ${visiblePickedCount} 款已挪出` : ''}
+          </p>
+        </div>
+        {pickedCount > 0 && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="h-9 shrink-0 rounded-xl border border-emerald-200 bg-white px-3 text-xs font-semibold text-emerald-700 active:bg-emerald-100"
+          >
+            清空
+          </button>
+        )}
+      </div>
+      <div className="mt-2 h-2 rounded-full bg-white overflow-hidden">
+        <div
+          className="h-full rounded-full bg-emerald-500 transition-all"
+          style={{ width: totalCount > 0 ? `${Math.round((pickedCount / totalCount) * 100)}%` : '0%' }}
+        />
+      </div>
+    </div>
+  )
+}
+
+function UsedGameList({ games, gamesLoading, loggedInMember }) {
+  const canManageUsedGames = isStaffAccount(loggedInMember)
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
   const [openCabinets, setOpenCabinets] = useState({})
   const [selectedGame, setSelectedGame] = useState(null)
   const [query, setQuery] = useState('')
-  const [viewMode, setViewMode] = useState('cabinet')
+  const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
+  const [pickedGameKeys, setPickedGameKeys] = useState(() => {
+    try {
+      return new Set(JSON.parse(localStorage.getItem('used_game_picked_keys') || '[]'))
+    } catch {
+      return new Set()
+    }
+  })
 
   const usedGames = useMemo(() => {
     const addedBundles = new Set()
@@ -126,6 +211,22 @@ function UsedGameList({ games, gamesLoading }) {
   const filteredUsedGames = useMemo(() => {
     return usedGames.filter(g => gameMatchesQuery(g, query))
   }, [usedGames, query])
+
+  const validPickedKeys = useMemo(() => {
+    return new Set(usedGames.map(getUsedGameKey))
+  }, [usedGames])
+
+  const pickedCount = useMemo(() => {
+    let count = 0
+    validPickedKeys.forEach(key => {
+      if (pickedGameKeys.has(key)) count += 1
+    })
+    return count
+  }, [pickedGameKeys, validPickedKeys])
+
+  const visiblePickedCount = useMemo(() => {
+    return filteredUsedGames.filter(g => pickedGameKeys.has(getUsedGameKey(g))).length
+  }, [filteredUsedGames, pickedGameKeys])
 
   const matchingNonUsedGames = useMemo(() => {
     const q = normalizeText(query)
@@ -167,6 +268,31 @@ function UsedGameList({ games, gamesLoading }) {
 
   const toggle = (id) => setOpenZones(prev => ({ ...prev, [id]: !prev[id] }))
   const toggleCabinet = (cabinet) => setOpenCabinets(prev => ({ ...prev, [cabinet]: !(prev[cabinet] ?? true) }))
+  const togglePicked = (game) => {
+    const key = getUsedGameKey(game)
+    setPickedGameKeys(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
+  const clearPicked = () => setPickedGameKeys(new Set())
+
+  useEffect(() => {
+    if (!canManageUsedGames && viewMode === 'cabinet') setViewMode('zone')
+  }, [canManageUsedGames, viewMode])
+
+  useEffect(() => {
+    localStorage.setItem('used_game_picked_keys', JSON.stringify(Array.from(pickedGameKeys)))
+  }, [pickedGameKeys])
+
+  useEffect(() => {
+    setPickedGameKeys(prev => {
+      const next = new Set(Array.from(prev).filter(key => validPickedKeys.has(key)))
+      return next.size === prev.size ? prev : next
+    })
+  }, [validPickedKeys])
 
   if (gamesLoading) {
     return <div className="flex items-center justify-center py-16 text-stone-400 text-sm">載入中…</div>
@@ -205,9 +331,9 @@ function UsedGameList({ games, gamesLoading }) {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className={`grid gap-2 ${canManageUsedGames ? 'grid-cols-2' : 'grid-cols-1'}`}>
           {[
-            { id: 'cabinet', label: '櫃子排列', icon: Boxes },
+            ...(canManageUsedGames ? [{ id: 'cabinet', label: '櫃子排列', icon: Boxes }] : []),
             { id: 'zone', label: '優惠分區', icon: List },
           ].map(mode => {
             const Icon = mode.icon
@@ -234,6 +360,15 @@ function UsedGameList({ games, gamesLoading }) {
       <div className="bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3 text-xs text-amber-700 leading-relaxed">
         <span className="font-bold">購買說明：</span>同一區內遊戲可享優惠，不同區不合併計算。售完為止。
       </div>
+
+      {canManageUsedGames && (
+        <PickedSummary
+          pickedCount={pickedCount}
+          totalCount={usedGames.length}
+          visiblePickedCount={visiblePickedCount}
+          onClear={clearPicked}
+        />
+      )}
 
       {query && filteredUsedGames.length === 0 && (
         <div className="bg-white border border-stone-100 rounded-2xl px-4 py-5 text-center">
@@ -290,6 +425,9 @@ function UsedGameList({ games, gamesLoading }) {
                           key={g.id}
                           game={g}
                           zone={zone}
+                          canPick={canManageUsedGames}
+                          isPicked={pickedGameKeys.has(getUsedGameKey(g))}
+                          onTogglePicked={togglePicked}
                           onSelect={setSelectedGame}
                         />
                       ))
@@ -302,7 +440,7 @@ function UsedGameList({ games, gamesLoading }) {
         </>
       )}
 
-      {viewMode === 'cabinet' && filteredUsedGames.length > 0 && (
+      {canManageUsedGames && viewMode === 'cabinet' && filteredUsedGames.length > 0 && (
         <div className="space-y-3">
           {byCabinet.map(({ cabinet, list }) => {
             const isOpen = openCabinets[cabinet] ?? true
@@ -334,6 +472,9 @@ function UsedGameList({ games, gamesLoading }) {
                         key={g.id}
                         game={g}
                         zone={zoneById[g.usedZone]}
+                        canPick={canManageUsedGames}
+                        isPicked={pickedGameKeys.has(getUsedGameKey(g))}
+                        onTogglePicked={togglePicked}
                         onSelect={setSelectedGame}
                       />
                     ))}
@@ -367,7 +508,7 @@ function UsedGameList({ games, gamesLoading }) {
   )
 }
 
-export default function EventBoardPage({ games = [], gamesLoading = false }) {
+export default function EventBoardPage({ games = [], gamesLoading = false, loggedInMember = null }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState(null)
@@ -473,7 +614,7 @@ export default function EventBoardPage({ games = [], gamesLoading = false }) {
       )}
 
       {tab === 'used-games' && (
-        <UsedGameList games={games} gamesLoading={gamesLoading} />
+        <UsedGameList games={games} gamesLoading={gamesLoading} loggedInMember={loggedInMember} />
       )}
     </div>
   )
