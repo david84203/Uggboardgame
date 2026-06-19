@@ -27,6 +27,11 @@ const BUNDLES = [
     contents: ['瓦萊利亞之暗影王國（本體）', '瓦萊利亞之暗影王國：泰坦崛起'],
     members: new Set(['瓦萊利亞之暗影王國', '瓦萊利亞之暗影王國：泰坦崛起']),
   },
+  {
+    displayName: '夢想家園＋陽光街156號 合賣（不拆賣）',
+    contents: ['夢想家園（本體）', '夢想家園：陽光街156號'],
+    members: new Set(['夢想家園', '夢想家園：陽光街156號']),
+  },
 ]
 
 const memberToBundleMap = new Map()
