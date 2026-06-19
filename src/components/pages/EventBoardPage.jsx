@@ -32,6 +32,11 @@ const BUNDLES = [
     contents: ['夢想家園（本體）', '夢想家園：陽光街156號'],
     members: new Set(['夢想家園', '夢想家園：陽光街156號']),
   },
+  {
+    displayName: '小小鐵路帝國＋紅色公司擴充 含擴售（不拆售）',
+    contents: ['小小鐵路帝國（本體）', '小小鐵路帝國：紅色公司擴充'],
+    members: new Set(['小小鐵路帝國', '小小鐵路帝國：紅色公司擴充']),
+  },
 ]
 
 const memberToBundleMap = new Map()
