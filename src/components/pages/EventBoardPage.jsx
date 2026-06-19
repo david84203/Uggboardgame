@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
-import { collection, query, where, getDocs, doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore'
+import { collection, query, where, getDocs, doc, getDoc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { Calendar, ChevronRight, ChevronDown, ChevronUp, Search, List, Boxes, X, Check } from 'lucide-react'
 import GameCard from '../GameCard'
@@ -43,6 +43,7 @@ const memberToBundleMap = new Map()
 for (const b of BUNDLES) for (const m of b.members) memberToBundleMap.set(m, b)
 
 const USED_GAME_PICK_DOC = 'current'
+const FIRESTORE_REST_PROJECT_FALLBACK = 'ugg-store-system'
 
 const ZONES = [
   { id: 1, label: '買二送一', desc: '任選同區 3 款，最低定價免費', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', badge: 'bg-orange-100 text-orange-700' },
@@ -72,7 +73,56 @@ function gameMatchesQuery(game, query) {
 }
 
 function getUsedGameKey(game) {
+  return game.name
+}
+
+function getLegacyUsedGameKey(game) {
   return `${game.id}-${game.name}`
+}
+
+function getAllUsedGameKeys(game) {
+  return [getUsedGameKey(game), getLegacyUsedGameKey(game)]
+}
+
+function isPickedGame(game, pickedGameKeys) {
+  return getAllUsedGameKeys(game).some(key => pickedGameKeys.has(key))
+}
+
+function isGameSoldOutForSale(game, soldGameNames) {
+  if (game.isSoldOut || soldGameNames.has(game.name)) return true
+  return (game.bundleMembers || []).some(name => soldGameNames.has(name))
+}
+
+function getFirestoreRestUrl(path) {
+  const options = db.app?.options || {}
+  const projectId = options.projectId || FIRESTORE_REST_PROJECT_FALLBACK
+  if (!projectId) return ''
+
+  const encodedPath = path.split('/').map(encodeURIComponent).join('/')
+  const keyQuery = options.apiKey ? `?key=${encodeURIComponent(options.apiKey)}` : ''
+  return `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${encodedPath}${keyQuery}`
+}
+
+async function fetchFirestoreRestJson(path) {
+  const url = getFirestoreRestUrl(path)
+  if (!url) return null
+
+  const response = await fetch(url)
+  if (!response.ok) throw new Error(`Firestore REST ${response.status}`)
+  return response.json()
+}
+
+async function fetchPickedKeysFromRest() {
+  const data = await fetchFirestoreRestJson(`used_game_pick_state/${USED_GAME_PICK_DOC}`)
+  const values = data?.fields?.keys?.arrayValue?.values || []
+  return values.map(value => value.stringValue).filter(Boolean)
+}
+
+async function fetchSoldGameNamesFromRest() {
+  const data = await fetchFirestoreRestJson('soldGames')
+  return (data?.documents || [])
+    .map(document => decodeURIComponent(String(document.name || '').split('/').pop() || ''))
+    .filter(Boolean)
 }
 
 function isStaffAccount(member) {
@@ -90,13 +140,14 @@ function isStaffAccount(member) {
 }
 
 function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, onSelect }) {
-  const isDisabled = game.isSoldOut
-  const showPicked = canPick && isPicked
+  const isSoldOut = game.isSoldOut
+  const isInStock = isPicked && !isSoldOut
+  const isUnavailable = !isInStock
   return (
     <div
-      className={`w-full flex items-stretch gap-2 bg-white px-3 py-2.5 transition-colors ${showPicked ? 'bg-emerald-50/70' : ''} ${isDisabled ? 'opacity-60' : ''}`}
+      className={`w-full flex items-stretch gap-2 bg-white px-3 py-2.5 transition-colors ${isInStock ? 'bg-emerald-50/70' : 'opacity-65'}`}
     >
-      {canPick && (
+      {canPick ? (
         <button
           type="button"
           onClick={() => onTogglePicked(game)}
@@ -110,35 +161,50 @@ function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, on
         >
           <Check className="w-5 h-5" strokeWidth={3} />
         </button>
+      ) : (
+        <div
+          aria-label={isInStock ? '現場有貨' : '現場暫無現貨'}
+          className={`w-11 min-h-11 shrink-0 rounded-xl border-2 flex items-center justify-center ${
+            isInStock
+              ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm'
+              : 'bg-stone-50 border-stone-200 text-stone-300'
+          }`}
+        >
+          {isInStock ? <Check className="w-5 h-5" strokeWidth={3} /> : <X className="w-4 h-4" strokeWidth={2.5} />}
+        </div>
       )}
 
       <button
         type="button"
-        onClick={() => !isDisabled && onSelect(game)}
-        className={`min-w-0 flex-1 text-left rounded-xl px-1.5 py-1 transition-colors ${isDisabled ? 'cursor-default' : 'active:bg-stone-50 hover:bg-stone-50'}`}
+        onClick={() => !isSoldOut && onSelect(game)}
+        className={`min-w-0 flex-1 text-left rounded-xl px-1.5 py-1 transition-colors ${isSoldOut ? 'cursor-default' : 'active:bg-stone-50 hover:bg-stone-50'}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className={`text-sm leading-snug font-medium ${showPicked ? 'text-emerald-700' : 'text-stone-700'} ${isDisabled ? 'line-through' : ''}`}>
+            <p className={`text-sm leading-snug font-medium ${isInStock ? 'text-emerald-700' : 'text-stone-500'} ${isUnavailable ? 'line-through decoration-2 decoration-stone-300' : ''}`}>
               {game.name}
             </p>
             {game.bundleContents && (
-              <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
+              <p className={`text-[11px] mt-0.5 leading-snug ${isInStock ? 'text-stone-400' : 'text-stone-300 line-through decoration-stone-300'}`}>
                 含：{game.bundleContents.join('・')}
               </p>
             )}
           </div>
           <div className="shrink-0 pt-0.5">
-            {isDisabled
+            {isSoldOut
               ? <span className="text-[11px] bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">已售出</span>
-              : <span className={`text-sm font-bold ${showPicked ? 'text-emerald-600' : zone?.color || 'text-stone-700'}`}>{formatPrice(game.price)}</span>
+              : <span className={`text-sm font-bold ${isInStock ? 'text-emerald-600' : 'text-stone-400 line-through decoration-stone-300'}`}>{formatPrice(game.price)}</span>
             }
           </div>
         </div>
         <div className="mt-1.5 flex flex-wrap gap-1.5">
-          {showPicked && (
+          {isInStock ? (
             <span className="text-[11px] font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
-              已挪出
+              現場有貨
+            </span>
+          ) : (
+            <span className="text-[11px] font-semibold bg-stone-100 text-stone-400 px-2 py-0.5 rounded-full">
+              現場暫無
             </span>
           )}
           {game.location && (
@@ -208,6 +274,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
   const [pickedSyncError, setPickedSyncError] = useState(false)
+  const [soldGameNames, setSoldGameNames] = useState(new Set())
   const [pickedGameKeys, setPickedGameKeys] = useState(() => {
     try {
       const keys = JSON.parse(localStorage.getItem('used_game_picked_keys') || '[]')
@@ -228,32 +295,30 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       if (bundle) {
         if (addedBundles.has(bundle.displayName)) continue
         addedBundles.add(bundle.displayName)
-        merged.push({ ...g, name: bundle.displayName, bundleContents: bundle.contents })
+        merged.push({ ...g, name: bundle.displayName, bundleContents: bundle.contents, bundleMembers: Array.from(bundle.members) })
       } else {
         merged.push(g)
       }
     }
-    return merged.sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
-  }, [games])
+    return merged
+      .map(g => ({ ...g, isSoldOut: isGameSoldOutForSale(g, soldGameNames) }))
+      .sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
+  }, [games, soldGameNames])
 
   const filteredUsedGames = useMemo(() => {
     return usedGames.filter(g => gameMatchesQuery(g, query))
   }, [usedGames, query])
 
   const validPickedKeys = useMemo(() => {
-    return new Set(usedGames.map(getUsedGameKey))
+    return new Set(usedGames.flatMap(getAllUsedGameKeys))
   }, [usedGames])
 
   const pickedCount = useMemo(() => {
-    let count = 0
-    validPickedKeys.forEach(key => {
-      if (pickedGameKeys.has(key)) count += 1
-    })
-    return count
-  }, [pickedGameKeys, validPickedKeys])
+    return usedGames.filter(g => isPickedGame(g, pickedGameKeys)).length
+  }, [pickedGameKeys, usedGames])
 
   const visiblePickedCount = useMemo(() => {
-    return filteredUsedGames.filter(g => pickedGameKeys.has(getUsedGameKey(g))).length
+    return filteredUsedGames.filter(g => isPickedGame(g, pickedGameKeys)).length
   }, [filteredUsedGames, pickedGameKeys])
 
   const matchingNonUsedGames = useMemo(() => {
@@ -300,7 +365,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
     const key = getUsedGameKey(game)
     setPickedGameKeys(prev => {
       const next = new Set(prev)
-      if (next.has(key)) next.delete(key)
+      if (isPickedGame(game, next)) getAllUsedGameKeys(game).forEach(k => next.delete(k))
       else next.add(key)
       return next
     })
@@ -312,41 +377,101 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   }, [canManageUsedGames, viewMode])
 
   useEffect(() => {
-    if (!canManageUsedGames) return undefined
-
     const pickRef = doc(db, 'used_game_pick_state', USED_GAME_PICK_DOC)
-    return onSnapshot(
-      pickRef,
-      snap => {
+    let cancelled = false
+    const applyPickState = (snap) => {
+      if (cancelled) return
+      cloudLoadedRef.current = true
+      setPickedSyncError(false)
+
+      if (!snap.exists()) {
+        const localKeys = Array.isArray(initialLocalPickedKeysRef.current) ? initialLocalPickedKeysRef.current : []
+        if (canManageUsedGames && localKeys.length > 0) {
+          setDoc(pickRef, {
+            keys: localKeys,
+            updatedAt: serverTimestamp(),
+            updatedBy: loggedInMember?.name || loggedInMember?.id || '',
+          }, { merge: true }).catch(err => {
+            console.error('used game initial pick save:', err)
+            setPickedSyncError(true)
+          })
+        }
+        return
+      }
+
+      const keys = Array.isArray(snap.data().keys) ? snap.data().keys : []
+      skipNextCloudWriteRef.current = true
+      setPickedGameKeys(new Set(keys.map(key => String(key))))
+    }
+    const loadPickStateFromRest = () => {
+      fetchPickedKeysFromRest().then(keys => {
+        if (cancelled) return
         cloudLoadedRef.current = true
         setPickedSyncError(false)
-
-        if (!snap.exists()) {
-          const localKeys = Array.isArray(initialLocalPickedKeysRef.current) ? initialLocalPickedKeysRef.current : []
-          if (localKeys.length > 0) {
-            setDoc(pickRef, {
-              keys: localKeys,
-              updatedAt: serverTimestamp(),
-              updatedBy: loggedInMember?.name || loggedInMember?.id || '',
-            }, { merge: true }).catch(err => {
-              console.error('used game initial pick save:', err)
-              setPickedSyncError(true)
-            })
-            return
-          }
-        }
-
-        const keys = snap.exists() && Array.isArray(snap.data().keys) ? snap.data().keys : []
         skipNextCloudWriteRef.current = true
         setPickedGameKeys(new Set(keys.map(key => String(key))))
-      },
-      err => {
-        console.error('used game pick sync:', err)
+      }).catch(err => {
+        console.error('used game pick REST load:', err)
         cloudLoadedRef.current = true
         setPickedSyncError(true)
+      })
+    }
+
+    getDoc(pickRef).then(applyPickState).catch(err => {
+      console.warn('used game pick initial load fallback:', err)
+      cloudLoadedRef.current = true
+      setPickedSyncError(true)
+      loadPickStateFromRest()
+    })
+
+    const unsubscribe = onSnapshot(
+      pickRef,
+      applyPickState,
+      err => {
+        console.warn('used game pick sync fallback:', err)
+        cloudLoadedRef.current = true
+        setPickedSyncError(true)
+        loadPickStateFromRest()
       }
     )
-  }, [canManageUsedGames])
+    const fallbackTimer = setInterval(loadPickStateFromRest, 15000)
+
+    return () => {
+      cancelled = true
+      unsubscribe()
+      clearInterval(fallbackTimer)
+    }
+  }, [canManageUsedGames, loggedInMember])
+
+  useEffect(() => {
+    let cancelled = false
+    const applySoldNames = (names) => {
+      if (!cancelled) setSoldGameNames(new Set(names))
+    }
+    const loadSoldNamesFromRest = () => {
+      fetchSoldGameNamesFromRest().then(applySoldNames).catch(err => {
+        console.error('used game sold REST sync:', err)
+      })
+    }
+    const unsubscribe = onSnapshot(
+      collection(db, 'soldGames'),
+      snap => {
+        applySoldNames(snap.docs.map(d => d.id))
+      },
+      err => {
+        console.warn('used game sold sync fallback:', err)
+        loadSoldNamesFromRest()
+      }
+    )
+    loadSoldNamesFromRest()
+    const fallbackTimer = setInterval(loadSoldNamesFromRest, 15000)
+
+    return () => {
+      cancelled = true
+      unsubscribe()
+      clearInterval(fallbackTimer)
+    }
+  }, [])
 
   useEffect(() => {
     const keys = Array.from(pickedGameKeys)
@@ -443,7 +568,8 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       </div>
 
       <div className="bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3 text-xs text-amber-700 leading-relaxed">
-        <span className="font-bold">購買說明：</span>同一區內遊戲可享優惠，不同區不合併計算。售完為止。
+        <span className="font-bold">現貨說明：</span>6/20 13:00 週年慶二手出清開始後，有綠色勾勾的是目前現場有貨；被槓掉的是尚未移到現場或已售出。現場賣出後會即時更新為缺貨。<br />
+        <span className="font-bold">購買說明：</span>同一區內遊戲可享優惠，不同區不合併計算，售完為止。
       </div>
 
       {canManageUsedGames && (
@@ -514,7 +640,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
                           game={g}
                           zone={zone}
                           canPick={canManageUsedGames}
-                          isPicked={pickedGameKeys.has(getUsedGameKey(g))}
+                          isPicked={isPickedGame(g, pickedGameKeys)}
                           onTogglePicked={togglePicked}
                           onSelect={setSelectedGame}
                         />
@@ -561,7 +687,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
                         game={g}
                         zone={zoneById[g.usedZone]}
                         canPick={canManageUsedGames}
-                        isPicked={pickedGameKeys.has(getUsedGameKey(g))}
+                        isPicked={isPickedGame(g, pickedGameKeys)}
                         onTogglePicked={togglePicked}
                         onSelect={setSelectedGame}
                       />
