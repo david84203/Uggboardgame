@@ -569,7 +569,8 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
 
       <div className="bg-amber-50 border border-amber-100 rounded-2xl px-4 py-3 text-xs text-amber-700 leading-relaxed">
         <span className="font-bold">現貨說明：</span>6/20 13:00 週年慶二手出清開始後，有綠色勾勾的是目前現場有貨；被槓掉的是尚未移到現場或已售出。現場賣出後會即時更新為缺貨。<br />
-        <span className="font-bold">購買說明：</span>同一區內遊戲可享優惠，不同區不合併計算，售完為止。
+        <span className="font-bold">購買說明：</span>同一區內遊戲可享優惠，不同區不合併計算，售完為止。<br />
+        <span className="font-bold">結帳聲明：</span>結帳前請務必檢查清點配件，二手清倉遊戲結帳售出後恕不退換及補件。
       </div>
 
       {canManageUsedGames && (
