@@ -126,11 +126,14 @@ function gameMatchesQuery(game, query) {
   ].some(value => normalizeText(value).includes(q))
 }
 
-function gameMatchesUsedFilters(game, filters) {
+function gameMatchesUsedFilters(game, filters, gameTags = []) {
   const playerMin = parseOptionalNumber(filters.playerMin)
   const playerMax = parseOptionalNumber(filters.playerMax)
+  const selectedTags = Array.isArray(filters.tagIds) ? filters.tagIds : []
 
   if (filters.zoneId !== 'all' && game.usedZone !== Number(filters.zoneId)) return false
+
+  if (selectedTags.length > 0 && !selectedTags.some(tag => gameTags.includes(tag))) return false
 
   if (playerMin !== null || playerMax !== null) {
     const targetA = playerMin ?? playerMax
@@ -485,6 +488,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
     zoneId: 'all',
     playerMin: '',
     playerMax: '',
+    tagIds: [],
   })
   const [sortState, setSortState] = useState({ key: 'price', direction: 'desc' })
   const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
@@ -524,14 +528,18 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   }, [games, soldGameNames])
 
   const filteredUsedGames = useMemo(() => {
-    return usedGames.filter(g => gameMatchesQuery(g, query) && gameMatchesUsedFilters(g, usedFilters))
-  }, [usedGames, query, usedFilters])
+    return usedGames.filter(g => {
+      const gameTags = draftGameTags[getUsedGameKey(g)] || []
+      return gameMatchesQuery(g, query) && gameMatchesUsedFilters(g, usedFilters, gameTags)
+    })
+  }, [draftGameTags, usedGames, query, usedFilters])
 
   const activeFilterCount = useMemo(() => {
     return [
       usedFilters.zoneId !== 'all',
       usedFilters.playerMin !== '',
       usedFilters.playerMax !== '',
+      (usedFilters.tagIds || []).length > 0,
       sortState.key !== 'price' || sortState.direction !== 'desc',
     ].filter(Boolean).length
   }, [sortState, usedFilters])
@@ -543,11 +551,22 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
     setUsedFilters(prev => ({ ...prev, [key]: value }))
   }
 
+  const toggleUsedTagFilter = (tagId) => {
+    setUsedFilters(prev => {
+      const current = Array.isArray(prev.tagIds) ? prev.tagIds : []
+      const tagIds = current.includes(tagId)
+        ? current.filter(id => id !== tagId)
+        : [...current, tagId]
+      return { ...prev, tagIds }
+    })
+  }
+
   const clearUsedFilters = () => {
     setUsedFilters({
       zoneId: 'all',
       playerMin: '',
       playerMax: '',
+      tagIds: [],
     })
     setSortState({ key: 'price', direction: 'desc' })
   }
@@ -937,6 +956,30 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
                         }`}
                       >
                         {option.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold text-stone-600 mb-2">遊戲標籤</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {USED_GAME_TAGS.map(tag => {
+                    const active = (usedFilters.tagIds || []).includes(tag.id)
+                    return (
+                      <button
+                        key={tag.id}
+                        type="button"
+                        onClick={() => toggleUsedTagFilter(tag.id)}
+                        aria-pressed={active}
+                        className={`h-11 rounded-xl text-sm font-semibold border transition-all ${
+                          active
+                            ? tag.className
+                            : 'bg-white text-stone-500 border-stone-200 active:bg-stone-100'
+                        }`}
+                      >
+                        {tag.label}
                       </button>
                     )
                   })}
