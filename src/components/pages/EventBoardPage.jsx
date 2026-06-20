@@ -43,7 +43,15 @@ const memberToBundleMap = new Map()
 for (const b of BUNDLES) for (const m of b.members) memberToBundleMap.set(m, b)
 
 const USED_GAME_PICK_DOC = 'current'
+const USED_GAME_TAG_DOC = 'current'
 const FIRESTORE_REST_PROJECT_FALLBACK = 'ugg-store-system'
+
+const USED_GAME_TAGS = [
+  { id: '兒童', label: '兒童', className: 'bg-sky-100 text-sky-700 border-sky-200' },
+  { id: '輕鬆', label: '輕鬆', className: 'bg-lime-100 text-lime-700 border-lime-200' },
+  { id: '動腦', label: '動腦', className: 'bg-amber-100 text-amber-700 border-amber-200' },
+  { id: '超燒腦', label: '超燒腦', className: 'bg-red-100 text-red-700 border-red-200' },
+]
 
 const ZONES = [
   { id: 1, label: '買二送一', desc: '任選同區 3 款，最低定價免費', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', badge: 'bg-orange-100 text-orange-700' },
@@ -190,6 +198,36 @@ async function fetchSoldGameNamesFromRest() {
     .filter(Boolean)
 }
 
+function parseTagsByGameFromRest(data) {
+  const fields = data?.fields?.tagsByGame?.mapValue?.fields || {}
+  return Object.entries(fields).reduce((acc, [gameName, value]) => {
+    const tags = value?.arrayValue?.values || []
+    acc[gameName] = tags.map(tag => tag.stringValue).filter(Boolean)
+    return acc
+  }, {})
+}
+
+async function fetchGameTagsFromRest() {
+  let data = null
+  try {
+    data = await fetchFirestoreRestJson(`used_game_tag_state/${USED_GAME_TAG_DOC}`)
+  } catch (err) {
+    if (String(err?.message || '').includes('Firestore REST 404')) return {}
+    throw err
+  }
+  return parseTagsByGameFromRest(data)
+}
+
+function normalizeTagsByGame(tagsByGame) {
+  const validTags = new Set(USED_GAME_TAGS.map(tag => tag.id))
+  return Object.entries(tagsByGame || {}).reduce((acc, [gameName, tags]) => {
+    const cleanTags = Array.from(new Set(Array.isArray(tags) ? tags : []))
+      .filter(tag => validTags.has(tag))
+    if (cleanTags.length > 0) acc[gameName] = cleanTags
+    return acc
+  }, {})
+}
+
 function isStaffAccount(member) {
   if (!member) return false
   if (member.isGM) return true
@@ -204,7 +242,46 @@ function isStaffAccount(member) {
   return values.some(value => value === 'gm' || value === 'ugg' || value === 'gm-admin' || value === '0000')
 }
 
-function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, onSelect }) {
+function TagPill({ tag, active = true }) {
+  const config = USED_GAME_TAGS.find(item => item.id === tag)
+  if (!config) return null
+
+  return (
+    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full border ${active ? config.className : 'bg-white text-stone-400 border-stone-200'}`}>
+      {config.label}
+    </span>
+  )
+}
+
+function GameTagEditor({ tags, onToggle }) {
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {USED_GAME_TAGS.map(tag => {
+        const active = tags.includes(tag.id)
+        return (
+          <button
+            key={tag.id}
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              onToggle(tag.id)
+            }}
+            aria-pressed={active}
+            className={`min-h-8 rounded-full border px-2.5 text-[11px] font-semibold transition-all ${
+              active
+                ? tag.className
+                : 'bg-white text-stone-400 border-stone-200 active:border-orange-300'
+            }`}
+          >
+            {tag.label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, onSelect, gameTags = [], canManageTags = false, onToggleTag }) {
   const isSoldOut = game.isSoldOut
   const isInStock = isPicked && !isSoldOut
   const isUnavailable = !isInStock
@@ -239,9 +316,16 @@ function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, on
         </div>
       )}
 
-      <button
-        type="button"
+      <div
+        role="button"
+        tabIndex={isSoldOut ? -1 : 0}
         onClick={() => !isSoldOut && onSelect(game)}
+        onKeyDown={(event) => {
+          if (!isSoldOut && (event.key === 'Enter' || event.key === ' ')) {
+            event.preventDefault()
+            onSelect(game)
+          }
+        }}
         className={`min-w-0 flex-1 text-left rounded-xl px-1.5 py-1 transition-colors ${isSoldOut ? 'cursor-default' : 'active:bg-stone-50 hover:bg-stone-50'}`}
       >
         <div className="flex items-start justify-between gap-3">
@@ -282,8 +366,15 @@ function UsedGameRow({ game, zone, canPick = false, isPicked, onTogglePicked, on
               {zone.label}
             </span>
           )}
+          {!canManageTags && gameTags.map(tag => <TagPill key={tag} tag={tag} />)}
         </div>
-      </button>
+        {canManageTags && (
+          <GameTagEditor
+            tags={gameTags}
+            onToggle={(tag) => onToggleTag(game, tag)}
+          />
+        )}
+      </div>
     </div>
   )
 }
@@ -328,6 +419,40 @@ function PickedSyncNotice({ error }) {
   )
 }
 
+function TagSyncPanel({ dirty, saving, error, taggedCount, visibleTaggedCount, onSave }) {
+  return (
+    <div className="bg-white border border-stone-100 rounded-2xl px-4 py-3 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm font-bold text-stone-800">遊戲標籤</p>
+          <p className="text-xs text-stone-500 mt-0.5">
+            已標記 {taggedCount} 款
+            {visibleTaggedCount !== taggedCount ? `，目前篩選中 ${visibleTaggedCount} 款有標籤` : ''}
+          </p>
+          {error && (
+            <p className="text-xs text-red-500 mt-1">標籤同步失敗，請檢查網路後再儲存。</p>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onSave}
+          disabled={!dirty || saving}
+          className={`h-10 shrink-0 rounded-xl px-4 text-xs font-bold transition-all ${
+            dirty && !saving
+              ? 'bg-stone-800 text-white active:bg-stone-700'
+              : 'bg-stone-100 text-stone-400'
+          }`}
+        >
+          {saving ? '儲存中' : dirty ? '儲存標籤' : '已同步'}
+        </button>
+      </div>
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {USED_GAME_TAGS.map(tag => <TagPill key={tag.id} tag={tag.id} />)}
+      </div>
+    </div>
+  )
+}
+
 function FilterNumberInput({ label, value, onChange, placeholder, step = '1' }) {
   return (
     <label className="block min-w-0">
@@ -350,6 +475,7 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const cloudLoadedRef = useRef(false)
   const skipNextCloudWriteRef = useRef(false)
   const initialLocalPickedKeysRef = useRef(null)
+  const tagDraftDirtyRef = useRef(false)
   const [openZones, setOpenZones] = useState({ 1: true, 2: true, 3: true })
   const [openCabinets, setOpenCabinets] = useState({})
   const [selectedGame, setSelectedGame] = useState(null)
@@ -364,6 +490,10 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   const [viewMode, setViewMode] = useState(() => canManageUsedGames ? 'cabinet' : 'zone')
   const [pickedSyncError, setPickedSyncError] = useState(false)
   const [soldGameNames, setSoldGameNames] = useState(new Set())
+  const [draftGameTags, setDraftGameTags] = useState({})
+  const [tagDraftDirty, setTagDraftDirty] = useState(false)
+  const [tagSaving, setTagSaving] = useState(false)
+  const [tagSyncError, setTagSyncError] = useState(false)
   const [pickedGameKeys, setPickedGameKeys] = useState(() => {
     try {
       const keys = JSON.parse(localStorage.getItem('used_game_picked_keys') || '[]')
@@ -434,6 +564,14 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
     return filteredUsedGames.filter(g => isPickedGame(g, pickedGameKeys)).length
   }, [filteredUsedGames, pickedGameKeys])
 
+  const taggedCount = useMemo(() => {
+    return usedGames.filter(g => (draftGameTags[getUsedGameKey(g)] || []).length > 0).length
+  }, [draftGameTags, usedGames])
+
+  const visibleTaggedCount = useMemo(() => {
+    return filteredUsedGames.filter(g => (draftGameTags[getUsedGameKey(g)] || []).length > 0).length
+  }, [draftGameTags, filteredUsedGames])
+
   const matchingNonUsedGames = useMemo(() => {
     const q = normalizeText(query)
     if (!q) return []
@@ -494,6 +632,21 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
     })
   }
   const clearPicked = () => setPickedGameKeys(new Set())
+  const toggleGameTag = (game, tag) => {
+    const key = getUsedGameKey(game)
+    setDraftGameTags(prev => {
+      const current = Array.isArray(prev[key]) ? prev[key] : []
+      const nextTags = current.includes(tag)
+        ? current.filter(item => item !== tag)
+        : [...current, tag]
+      const next = { ...prev }
+      if (nextTags.length > 0) next[key] = nextTags
+      else delete next[key]
+      return next
+    })
+    tagDraftDirtyRef.current = true
+    setTagDraftDirty(true)
+  }
 
   useEffect(() => {
     if (!canManageUsedGames && viewMode === 'cabinet') setViewMode('zone')
@@ -597,6 +750,47 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
   }, [])
 
   useEffect(() => {
+    let cancelled = false
+    const tagRef = doc(db, 'used_game_tag_state', USED_GAME_TAG_DOC)
+
+    const applyTagsByGame = (tagsByGame) => {
+      if (cancelled) return
+      const cleanTags = normalizeTagsByGame(tagsByGame)
+      setTagSyncError(false)
+      if (!tagDraftDirtyRef.current) setDraftGameTags(cleanTags)
+    }
+
+    const loadTagsFromRest = () => {
+      fetchGameTagsFromRest().then(applyTagsByGame).catch(err => {
+        console.error('used game tags REST sync:', err)
+        setTagSyncError(true)
+      })
+    }
+
+    const unsubscribe = onSnapshot(
+      tagRef,
+      snap => {
+        const tagsByGame = snap.exists() ? snap.data().tagsByGame || {} : {}
+        applyTagsByGame(tagsByGame)
+      },
+      err => {
+        console.warn('used game tags sync fallback:', err)
+        setTagSyncError(true)
+        loadTagsFromRest()
+      }
+    )
+
+    loadTagsFromRest()
+    const fallbackTimer = setInterval(loadTagsFromRest, 15000)
+
+    return () => {
+      cancelled = true
+      unsubscribe()
+      clearInterval(fallbackTimer)
+    }
+  }, [])
+
+  useEffect(() => {
     const keys = Array.from(pickedGameKeys)
     localStorage.setItem('used_game_picked_keys', JSON.stringify(keys))
 
@@ -619,6 +813,28 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
       setPickedSyncError(true)
     })
   }, [pickedGameKeys, canManageUsedGames, loggedInMember])
+
+  const saveGameTags = () => {
+    if (!canManageUsedGames || tagSaving) return
+
+    const cleanTags = normalizeTagsByGame(draftGameTags)
+    setTagSaving(true)
+    setDoc(doc(db, 'used_game_tag_state', USED_GAME_TAG_DOC), {
+      tagsByGame: cleanTags,
+      updatedAt: serverTimestamp(),
+      updatedBy: loggedInMember?.name || loggedInMember?.id || '',
+    }, { merge: true }).then(() => {
+      setDraftGameTags(cleanTags)
+      tagDraftDirtyRef.current = false
+      setTagDraftDirty(false)
+      setTagSyncError(false)
+    }).catch(err => {
+      console.error('used game tags save:', err)
+      setTagSyncError(true)
+    }).finally(() => {
+      setTagSaving(false)
+    })
+  }
 
   useEffect(() => {
     setPickedGameKeys(prev => {
@@ -840,6 +1056,14 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
             visiblePickedCount={visiblePickedCount}
             onClear={clearPicked}
           />
+          <TagSyncPanel
+            dirty={tagDraftDirty}
+            saving={tagSaving}
+            error={tagSyncError}
+            taggedCount={taggedCount}
+            visibleTaggedCount={visibleTaggedCount}
+            onSave={saveGameTags}
+          />
           <PickedSyncNotice error={pickedSyncError} />
         </>
       )}
@@ -903,6 +1127,9 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
                           isPicked={isPickedGame(g, pickedGameKeys)}
                           onTogglePicked={togglePicked}
                           onSelect={setSelectedGame}
+                          gameTags={draftGameTags[getUsedGameKey(g)] || []}
+                          canManageTags={canManageUsedGames}
+                          onToggleTag={toggleGameTag}
                         />
                       ))
                     )}
@@ -950,6 +1177,9 @@ function UsedGameList({ games, gamesLoading, loggedInMember }) {
                         isPicked={isPickedGame(g, pickedGameKeys)}
                         onTogglePicked={togglePicked}
                         onSelect={setSelectedGame}
+                        gameTags={draftGameTags[getUsedGameKey(g)] || []}
+                        canManageTags={canManageUsedGames}
+                        onToggleTag={toggleGameTag}
                       />
                     ))}
                   </div>
