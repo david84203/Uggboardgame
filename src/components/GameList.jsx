@@ -56,14 +56,19 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
   }, [games]);
 
   // 遊戲推薦（根據玩過 / 想玩的 category + tags）
+  // 推薦清單在同一位會員的本次使用中凍結：避免按「玩過」後該卡片被過濾掉、卡片卸載導致評分視窗來不及顯示
+  const frozenRec = useRef({ memberId: null, list: [] })
   const recommended = useMemo(() => {
     if (!memberId || !memberGames?.length || !allGames?.length) return []
+    if (frozenRec.current.memberId === memberId && frozenRec.current.list.length) {
+      return frozenRec.current.list
+    }
     const playedIds = new Set(memberGames.map(g => g.gameId))
     const likedCats = new Set(memberGames.map(g => g.gameCategory).filter(Boolean))
     const likedTags = new Set(memberGames.flatMap(g => g.gameTags || []))
     if (!likedCats.size && !likedTags.size) return []
 
-    return allGames
+    const list = allGames
       .filter(g => !playedIds.has(g.id))
       .map(g => {
         let score = 0
@@ -74,6 +79,8 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
       .filter(g => g._score > 0)
       .sort((a, b) => b._score - a._score)
       .slice(0, 6)
+    frozenRec.current = { memberId, list }
+    return list
   }, [memberId, memberGames, allGames])
 
   const getStatus = (gameId) => memberGames?.find(g => g.gameId === gameId)?.status || null

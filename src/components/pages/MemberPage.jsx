@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { collection, query, where, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
+import { collection, query, where, getDocs, addDoc, doc, updateDoc, Timestamp } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 import { getLiffProfile } from '../../utils/liff'
 import { Star, Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import GameCard from '../GameCard'
 import RentalEstimator from '../RentalEstimator'
+import useMemberGames from '../../hooks/useMemberGames'
 
 // ── 登入表單 ──────────────────────────────────────────────────────────────────
 const GM_MEMBER = {
@@ -83,6 +84,9 @@ function LineBindingForm({ onBind, loading, error }) {
           <h2 className="text-xl font-bold text-stone-800">綁定 LINE 帳號</h2>
           <p className="text-sm text-stone-500 mt-1">輸入手機號碼完成一次性綁定</p>
           <p className="text-xs text-stone-400 mt-1">綁定後下次開啟自動登入</p>
+          <div className="mt-3 inline-flex items-center gap-1.5 bg-purple-50 text-purple-600 text-sm font-bold px-3 py-1.5 rounded-full">
+            🎟️ 首次綁定，送你一張入場半價券！
+          </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -157,6 +161,22 @@ function MemberCard({ member, onLogout, allGames = [] }) {
   const progress = nextLevel ? ((exp - level.minExp) / (nextLevel.minExp - level.minExp)) * 100 : 100
   const birthdayInfo = getBirthdayInfo(displayMember.birthday)
 
+  const [halfEntryCoupons, setHalfEntryCoupons] = useState(0)
+  useEffect(() => {
+    if (!displayMember.id) { setHalfEntryCoupons(0); return }
+    getDocs(query(
+      collection(db, 'coupons'),
+      where('memberDocId', '==', displayMember.id),
+      where('status', '==', 'active'),
+    )).then(snap => {
+      const now = Date.now()
+      setHalfEntryCoupons(snap.docs.filter(d => {
+        const c = d.data()
+        return c.type === 'half_entry' && (!c.expiresAt || c.expiresAt.toMillis() > now)
+      }).length)
+    }).catch(err => console.error('load coupons error', err))
+  }, [displayMember.id])
+
   const [showHistory, setShowHistory] = useState(false)
   const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0, pendingDeliveries: [], transactions: [] })
   const [showDelivered, setShowDelivered] = useState(false)
@@ -167,9 +187,8 @@ function MemberCard({ member, onLogout, allGames = [] }) {
   const [sessionFriendCount, setSessionFriendCount] = useState(0)
   const [activeRentals, setActiveRentals] = useState([])
 
-  // 玩過/想玩清單
-  const [memberGames, setMemberGames] = useState([])
-  const [gamesLoaded, setGamesLoaded] = useState(false)
+  // 玩過/想玩清單（沿用與遊戲列表相同的 hook，才能在此修改評分／標記）
+  const { memberGames, getStatus, getRecord, toggleStatus, updateRating } = useMemberGames(displayMember.id)
   const [showGames, setShowGames] = useState(false)
   const [gamesTab, setGamesTab] = useState('played')
   const [selectedGame, setSelectedGame] = useState(null)
@@ -230,7 +249,6 @@ function MemberCard({ member, onLogout, allGames = [] }) {
     // 當 displayMember 改變時，重置資料與狀態
     setHistoryLoaded(false)
     setShowHistory(false)
-    setGamesLoaded(false)
     setShowGames(false)
     setActiveSession(null)
     setActiveRentals([])
@@ -276,24 +294,6 @@ function MemberCard({ member, onLogout, allGames = [] }) {
     } catch (err) { setHistoryError('無法載入紀錄') }
     finally { setHistoryLoading(false) }
   }
-
-  async function loadGames() {
-    if (gamesLoaded) { setShowGames(v => !v); return }
-    try {
-      const q = query(collection(db, 'member_games'), where('memberId', '==', displayMember.id))
-      const snap = await getDocs(q)
-      const raw = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      // 去重：同一 gameId 只保留最新一筆
-      const seen = new Map()
-      raw.forEach(r => {
-        const ex = seen.get(r.gameId)
-        if (!ex || (r.createdAt || '') > (ex.createdAt || '')) seen.set(r.gameId, r)
-      })
-      setMemberGames([...seen.values()])
-      setGamesLoaded(true); setShowGames(true)
-    } catch (e) { console.error(e) }
-  }
-
 
   const playedGames = memberGames.filter(g => g.status === 'played')
   const wishGames = memberGames.filter(g => g.status === 'wishlist')
@@ -473,6 +473,20 @@ function MemberCard({ member, onLogout, allGames = [] }) {
         </div>
       )}
 
+      {/* ── 入場半價券 ──────────────────────────────────────────── */}
+      {halfEntryCoupons > 0 && (
+        <div className="bg-white rounded-3xl shadow-sm border border-purple-100 p-5 mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🎟️</span>
+            <div>
+              <span className="font-medium text-stone-700">入場半價券</span>
+              <p className="text-xs text-stone-400">結帳時告知店員，入場費打 5 折</p>
+            </div>
+          </div>
+          <span className="text-xl font-bold text-purple-500">{halfEntryCoupons} 張</span>
+        </div>
+      )}
+
 
       {/* ── 在場中 ──────────────────────────────────────────────── */}
       {activeSession && (
@@ -545,7 +559,7 @@ function MemberCard({ member, onLogout, allGames = [] }) {
 
       {/* ── 我的遊戲清單 ─────────────────────────────────────────── */}
       <div className="bg-white rounded-3xl shadow-sm border border-stone-100 p-5 mb-4">
-        <button onClick={loadGames} className="w-full flex items-center justify-between">
+        <button onClick={() => setShowGames(v => !v)} className="w-full flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-xl">🎮</span>
             <span className="font-medium text-stone-700">我的遊戲清單</span>
@@ -601,6 +615,11 @@ function MemberCard({ member, onLogout, allGames = [] }) {
                   game={selectedGame}
                   hideCard={true}
                   defaultOpen={true}
+                  memberId={displayMember.id}
+                  getStatus={getStatus}
+                  getRecord={getRecord}
+                  onToggle={toggleStatus}
+                  onRate={updateRating}
                   onModalClose={() => setSelectedGame(null)}
                 />
               )}
@@ -811,7 +830,22 @@ export default function MemberPage({ onMemberChange, allGames = [] }) {
       const snap = await getDocs(collection(db, 'members'))
       const matched = snap.docs.find(d => (d.data().phone || '').replace(/[\s\-\(\)]/g, '').trim() === normalized)
       if (!matched) { setError('找不到此手機號碼的會員，請確認號碼或至現場辦理'); return }
-      await updateDoc(doc(db, 'members', matched.id), { lineUserId: liffUserId })
+      const wasUnbound = !matched.data().lineUserId && !matched.data().bindRewardGiven
+      await updateDoc(doc(db, 'members', matched.id), {
+        lineUserId: liffUserId,
+        ...(wasUnbound ? { bindRewardGiven: true } : {}),
+      })
+      // 首次綁定回饋：送一張入場半價券（60 天到期）
+      if (wasUnbound) {
+        await addDoc(collection(db, 'coupons'), {
+          memberDocId: matched.id,
+          type: 'half_entry',
+          status: 'active',
+          source: 'bind_reward',
+          issuedAt: Timestamp.now(),
+          expiresAt: Timestamp.fromDate(new Date(Date.now() + 60 * 86400000)),
+        })
+      }
       saveMember({ ...matched.data(), id: matched.id })
     } catch (err) { setError(`綁定失敗：${err?.message || '請稍後再試'}`) }
     finally { setLoading(false) }
