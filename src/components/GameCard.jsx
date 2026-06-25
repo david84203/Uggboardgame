@@ -335,6 +335,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                   src={imgSrc}
                   alt={name}
                   className="w-full max-h-52 sm:max-h-60 object-contain bg-stone-50"
+                  onError={handleImgError}
                 />
               ) : (
                  <div className="w-full h-48 bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
