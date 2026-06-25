@@ -126,6 +126,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
     dashedEnglishName ? `/images/${dashedEnglishName}.webp` : null,
     dashedEnglishName ? `/images/${dashedEnglishName}.png` : null,
     dashedEnglishName ? `/images/${dashedEnglishName}.avif` : null,
+    youtubeIds[0] ? `https://img.youtube.com/vi/${youtubeIds[0]}/hqdefault.jpg` : null,
     `/images/row-${id}.jpg`,
     `/images/row-${id}.webp`,
     `/images/row-${id}.png`,
