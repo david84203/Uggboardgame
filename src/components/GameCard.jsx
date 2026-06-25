@@ -83,6 +83,8 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
 
   const youtubeIds = extractYoutubeIds(youtubeLink);
   const gameIsRented = isRented?.(game) ?? false;
+  const isUnavailable = gameIsRented || isSoldOut;
+  const unavailableLabel = isSoldOut ? '已售出' : '租借中';
   const rentalCount = getRentalCount?.(id, name) ?? 0;
 
   const STICKER_COLORS = {
@@ -183,7 +185,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
             <img
               src={imgSrc}
               alt={name}
-              className={`absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ${gameIsRented ? 'opacity-50 grayscale' : ''}`}
+              className={`absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ${isUnavailable ? 'opacity-50 grayscale' : ''}`}
               loading="lazy"
               onError={handleImgError}
             />
@@ -192,16 +194,11 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
               <img src="/images/LOGO.jpg" alt="Logo" className="w-16 h-16 object-contain opacity-20 grayscale" />
             </div>
           )}
-          {gameIsRented && (
+          {isUnavailable && (
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="bg-stone-800/80 text-white text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">
-                租借中
+                {unavailableLabel}
               </span>
-            </div>
-          )}
-          {isSoldOut && (
-            <div className="absolute bottom-1.5 right-1.5 z-10 px-2 py-0.5 bg-stone-800/85 text-white rounded text-[10px] font-bold tracking-wide backdrop-blur-sm">
-              已售出
             </div>
           )}
         </div>
