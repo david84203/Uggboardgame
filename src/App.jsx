@@ -19,6 +19,7 @@ import CheeseThiefPage from './components/pages/CheeseThiefPage';
 import BladesAndRosePage from './components/pages/BladesAndRosePage';
 import VoiceNarrationHubPage from './components/pages/VoiceNarrationHubPage';
 import StarPlayerPage from './components/pages/StarPlayerPage';
+import BsKingPage from './components/pages/BsKingPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import MemberPage from './components/pages/MemberPage';
 import ScoringHubPage from './components/pages/ScoringHubPage';
@@ -214,6 +215,8 @@ export default function App() {
         return <ConcordiaPage isLoggedIn={effectivelyLoggedIn} onGoToMember={() => setActiveTab('member')} games={games} />;
       case 'helper-star-player':
         return <StarPlayerPage />;
+      case 'helper-bs-king':
+        return <BsKingPage />;
       case 'escape':
         return <EscapeRoomPage />;
       case 'event-board':
@@ -231,7 +234,7 @@ export default function App() {
                activeTab === 'helper-7wonders' || activeTab === 'helper-wingspan' || activeTab === 'helper-terraforming' ||
                activeTab === 'helper-wyrmspan' || activeTab === 'helper-akropolis' || activeTab === 'helper-concordia') {
       setActiveTab('helper-scoring-hub');
-    } else if (activeTab === 'helper-clock' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-voice-hub' || activeTab === 'helper-scoring-hub' || activeTab === 'helper-star-player') {
+    } else if (activeTab === 'helper-clock' || activeTab === 'helper-hourglass' || activeTab === 'helper-service-bell' || activeTab === 'helper-voice-hub' || activeTab === 'helper-scoring-hub' || activeTab === 'helper-star-player' || activeTab === 'helper-bs-king') {
       setActiveTab('helper-menu');
     } else {
       setActiveTab('home');

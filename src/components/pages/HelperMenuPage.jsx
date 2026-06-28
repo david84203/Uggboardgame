@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, Timer, Moon, Flower2, Star, Trophy, TableProperties, Lock, Hourglass, Bell } from 'lucide-react';
+import { Calculator, Timer, Moon, Flower2, Star, Trophy, TableProperties, Lock, Hourglass, Bell, MessageCircle } from 'lucide-react';
 
 export default function HelperMenuPage({ onSelect }) {
   return (
@@ -67,6 +67,18 @@ export default function HelperMenuPage({ onSelect }) {
           </div>
           <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">陣營遊戲語音旁白</h3>
           <p className="text-stone-500 text-xs leading-relaxed">多款陣營遊戲自動語音主持</p>
+        </button>
+
+        {/* 瞎掰王偷看計時 */}
+        <button
+          onClick={() => onSelect('helper-bs-king')}
+          className="flex flex-col items-center p-4 bg-white rounded-2xl shadow-sm border border-stone-200 hover:shadow-md hover:-translate-y-1 transition-all group text-center h-full"
+        >
+          <div className="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center shrink-0 group-hover:bg-purple-100 transition-colors mb-3">
+            <MessageCircle className="text-purple-600" size={28} />
+          </div>
+          <h3 className="text-base font-bold text-stone-800 mb-1 leading-tight">瞎掰王偷看計時</h3>
+          <p className="text-stone-500 text-xs leading-relaxed">9 秒語音倒數，兼當蓋聲噪音</p>
         </button>
 
         {/* 桌遊棋鐘 */}
