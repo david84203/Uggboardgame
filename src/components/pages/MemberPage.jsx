@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, query, where, getDocs, addDoc, doc, updateDoc, Timestamp } from 'firebase/firestore'
+import { collection, query, where, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 import { getLiffProfile } from '../../utils/liff'
@@ -84,9 +84,6 @@ function LineBindingForm({ onBind, loading, error }) {
           <h2 className="text-xl font-bold text-stone-800">綁定 LINE 帳號</h2>
           <p className="text-sm text-stone-500 mt-1">輸入手機號碼完成一次性綁定</p>
           <p className="text-xs text-stone-400 mt-1">綁定後下次開啟自動登入</p>
-          <div className="mt-3 inline-flex items-center gap-1.5 bg-purple-50 text-purple-600 text-sm font-bold px-3 py-1.5 rounded-full">
-            🎟️ 首次綁定，送你一張入場半價券！
-          </div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -830,22 +827,7 @@ export default function MemberPage({ onMemberChange, allGames = [] }) {
       const snap = await getDocs(collection(db, 'members'))
       const matched = snap.docs.find(d => (d.data().phone || '').replace(/[\s\-\(\)]/g, '').trim() === normalized)
       if (!matched) { setError('找不到此手機號碼的會員，請確認號碼或至現場辦理'); return }
-      const wasUnbound = !matched.data().lineUserId && !matched.data().bindRewardGiven
-      await updateDoc(doc(db, 'members', matched.id), {
-        lineUserId: liffUserId,
-        ...(wasUnbound ? { bindRewardGiven: true } : {}),
-      })
-      // 首次綁定回饋：送一張入場半價券（60 天到期）
-      if (wasUnbound) {
-        await addDoc(collection(db, 'coupons'), {
-          memberDocId: matched.id,
-          type: 'half_entry',
-          status: 'active',
-          source: 'bind_reward',
-          issuedAt: Timestamp.now(),
-          expiresAt: Timestamp.fromDate(new Date(Date.now() + 60 * 86400000)),
-        })
-      }
+      await updateDoc(doc(db, 'members', matched.id), { lineUserId: liffUserId })
       saveMember({ ...matched.data(), id: matched.id })
     } catch (err) { setError(`綁定失敗：${err?.message || '請稍後再試'}`) }
     finally { setLoading(false) }
