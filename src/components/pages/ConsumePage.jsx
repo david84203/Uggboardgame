@@ -43,27 +43,30 @@ function CollapsibleSection({ icon, title, defaultOpen = false, badge, children 
 }
 
 /* =============================================
- *  PriceRow — 價格行
+ *  EntryPriceCard — 入場方案價格卡
  * ============================================= */
-function PriceRow({ label, weekday, weekend, note }) {
+function EntryPriceCard({ title, subtitle, weekday, weekend, children }) {
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-stone-100 last:border-0">
-      <span className="text-stone-600 text-base font-medium">{label}</span>
-      <div className="flex items-center gap-3">
-        {weekday && (
-          <div className="text-right">
-            <span className="text-xs text-stone-400 block leading-tight">平日</span>
-            <span className="text-orange-600 font-bold text-base">{weekday}</span>
+    <div className="rounded-xl bg-white border border-amber-100 overflow-hidden">
+      <div className="px-3 py-3 border-b border-amber-100">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h4 className="text-base font-bold text-stone-700">{title}</h4>
+            {subtitle && <p className="text-xs text-stone-400 mt-0.5">{subtitle}</p>}
           </div>
-        )}
-        {weekend && (
-          <div className="text-right">
-            <span className="text-xs text-stone-400 block leading-tight">假日</span>
-            <span className="text-orange-600 font-bold text-base">{weekend}</span>
+          <div className="grid grid-cols-2 gap-2 shrink-0 text-center">
+            <div className="min-w-16 rounded-lg bg-amber-50 px-2 py-1.5">
+              <div className="text-xs text-stone-400 leading-tight">平日</div>
+              <div className="text-orange-600 font-black text-base whitespace-nowrap">{weekday}</div>
+            </div>
+            <div className="min-w-16 rounded-lg bg-amber-50 px-2 py-1.5">
+              <div className="text-xs text-stone-400 leading-tight">假日</div>
+              <div className="text-orange-600 font-black text-base whitespace-nowrap">{weekend}</div>
+            </div>
           </div>
-        )}
-        {note && <span className="text-stone-500 text-base">{note}</span>}
+        </div>
       </div>
+      {children && <div className="px-3 py-2.5">{children}</div>}
     </div>
   );
 }
@@ -83,12 +86,18 @@ export default function ConsumePage() {
             <span className="text-base">👑</span>
             <h3 className="text-base font-bold text-amber-700">會員專屬優惠</h3>
           </div>
-          <div className="bg-amber-50 rounded-xl p-3 space-y-0.5">
-            <PriceRow label="輕鬆玩（3小時內）" weekday="90 元" weekend="90 元" />
-            <div className="text-sm text-stone-400 pt-1 pb-1.5 leading-snug">
-              ⏱ 3小時以上，每小時 30 元（最高僅收全日暢玩價）
-            </div>
-            <PriceRow label="全日暢玩" weekday="120 元" weekend="180 元" />
+          <div className="bg-amber-50 rounded-xl p-3 space-y-2">
+            <EntryPriceCard title="輕鬆玩" subtitle="3小時內" weekday="90 元" weekend="120 元">
+              <div className="rounded-lg bg-stone-50 px-3 py-2 text-sm text-stone-500 leading-relaxed">
+                <div className="font-bold text-stone-600 mb-1">超過 3 小時</div>
+                <div className="grid grid-cols-1 gap-1">
+                  <span>平日每小時 +30 元</span>
+                  <span>假日每小時 +40 元</span>
+                  <span className="text-xs text-stone-400">最高不超過全日暢玩價</span>
+                </div>
+              </div>
+            </EntryPriceCard>
+            <EntryPriceCard title="全日暢玩" weekday="150 元" weekend="200 元" />
           </div>
         </div>
 
@@ -99,16 +108,8 @@ export default function ConsumePage() {
             <h3 className="text-base font-bold text-stone-600">非會員收費</h3>
           </div>
           <div className="bg-stone-50 rounded-xl p-3">
-            <PriceRow label="全日暢玩" weekday="150 元" weekend="200 元" />
+            <EntryPriceCard title="全日暢玩" weekday="180 元" weekend="250 元" />
           </div>
-        </div>
-
-        {/* 同行朋友補充 */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-start gap-2">
-          <span className="text-base shrink-0 mt-0.5">💡</span>
-          <p className="text-blue-700 text-sm leading-relaxed">
-            與會員<span className="font-bold">同時進場與離場</span>的朋友，可一同以會員價計費。
-          </p>
         </div>
 
         {/* 入場與結帳須知 */}
