@@ -98,6 +98,20 @@ export default function ConsumePage() {
               </div>
             </EntryPriceCard>
             <EntryPriceCard title="全日暢玩" weekday="150 元" weekend="200 元" />
+            <div className="rounded-xl bg-white border border-amber-200 px-3 py-3 text-sm text-stone-600 leading-relaxed">
+              <div className="flex items-center gap-1.5 font-bold text-amber-700 mb-2">
+                <span>💡</span>
+                <span>會員加入資訊</span>
+              </div>
+              <p>
+                可於現場櫃台向店員申請加入會員，入會費
+                <span className="font-bold text-orange-600"> 399 元</span>
+                ，永久有效，無年費／維持費。
+              </p>
+              <p className="text-xs text-stone-400 mt-1.5">
+                當天辦理，當天即可立即使用會員價。
+              </p>
+            </div>
           </div>
         </div>
 
