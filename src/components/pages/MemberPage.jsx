@@ -146,9 +146,18 @@ function getBirthdayInfo(birthdayStr) {
 
 
 // ── 會員卡主體 ─────────────────────────────────────────────────────────────────
-function MemberCard({ member, onLogout, allGames = [] }) {
+function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
   const [targetMember, setTargetMember] = useState(null)
   const displayMember = targetMember || member
+
+  // GM 才需要知道有幾筆預約等著確認
+  const [pendingBookings, setPendingBookings] = useState(0)
+  useEffect(() => {
+    if (!displayMember.isGM) { setPendingBookings(0); return }
+    getDocs(query(collection(db, 'bookings'), where('status', '==', 'pending')))
+      .then(snap => setPendingBookings(snap.size))
+      .catch(err => console.warn('load pending bookings failed', err))
+  }, [displayMember.isGM])
 
   const realExp = displayMember.exp || 0
   const [previewLevel, setPreviewLevel] = useState(null)
@@ -775,6 +784,41 @@ function MemberCard({ member, onLogout, allGames = [] }) {
         </div>
       )}
 
+      {onNavigate && (
+        <div className="space-y-2">
+          <button
+            onClick={() => onNavigate('booking')}
+            className="w-full flex items-center gap-3 px-5 py-4 rounded-2xl bg-white border border-stone-200 hover:bg-stone-50 transition text-left"
+          >
+            <span className="text-2xl">📅</span>
+            <span className="flex-1">
+              <span className="block text-base font-bold text-stone-800">預約座位</span>
+              <span className="block text-sm text-stone-400">線上選時段，也可查看我的預約</span>
+            </span>
+            <span className="text-stone-300 text-lg">›</span>
+          </button>
+
+          {displayMember.isGM && (
+            <button
+              onClick={() => onNavigate('booking-admin')}
+              className="w-full flex items-center gap-3 px-5 py-4 rounded-2xl bg-white border border-orange-200 hover:bg-orange-50 transition text-left"
+            >
+              <span className="text-2xl">🗂️</span>
+              <span className="flex-1">
+                <span className="block text-base font-bold text-stone-800">預約管理</span>
+                <span className="block text-sm text-stone-400">確認客人的預約、同步到 Google 日曆</span>
+              </span>
+              {pendingBookings > 0 && (
+                <span className="shrink-0 min-w-6 h-6 px-2 rounded-full bg-orange-500 text-white text-xs font-bold flex items-center justify-center">
+                  {pendingBookings}
+                </span>
+              )}
+              <span className="text-stone-300 text-lg">›</span>
+            </button>
+          )}
+        </div>
+      )}
+
       <button onClick={onLogout} className="w-full py-3 rounded-2xl border border-stone-200 text-stone-500 hover:bg-stone-50 transition text-sm">
         登出
       </button>
@@ -786,7 +830,7 @@ function MemberCard({ member, onLogout, allGames = [] }) {
 // ── 主元件 ────────────────────────────────────────────────────────────────────
 const MEMBER_KEY = 'ugg_member'
 
-export default function MemberPage({ onMemberChange, allGames = [] }) {
+export default function MemberPage({ onMemberChange, allGames = [], onNavigate }) {
   const [member, setMember] = useState(() => {
     try { const s = sessionStorage.getItem(MEMBER_KEY); return s ? JSON.parse(s) : null } catch { return null }
   })
@@ -905,7 +949,7 @@ export default function MemberPage({ onMemberChange, allGames = [] }) {
     finally { setLoading(false) }
   }
 
-  if (member) return <MemberCard member={member} onLogout={() => saveMember(null)} allGames={allGames} />
+  if (member) return <MemberCard member={member} onLogout={() => saveMember(null)} allGames={allGames} onNavigate={onNavigate} />
   if (liffChecking) return <div className="flex items-center justify-center min-h-[60vh]"><p className="text-stone-400 text-sm">載入中…</p></div>
   if (needsBinding) return <LineBindingForm onBind={handleLineBind} loading={loading} error={error} />
   return <LoginForm onLogin={handleLogin} loading={loading} error={error} />

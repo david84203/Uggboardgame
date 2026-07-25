@@ -1,4 +1,5 @@
 const TABS = [
+  { id: 'booking',      label: '線上預約座位',       icon: '📅',  desc: '選好時段送出，小編確認後通知你' },
   { id: 'consume',      label: '店內消費方式',      icon: '💳',  desc: '計時制方案與費用說明' },
   { id: 'food',         label: '餐點服務',           icon: '🍜',  desc: '飲料、輕食與餐點選擇' },
   { id: 'rent',         label: '租借遊戲規章',       icon: '📋',  desc: '遊戲外借規則與注意事項' },

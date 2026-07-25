@@ -22,6 +22,8 @@ import StarPlayerPage from './components/pages/StarPlayerPage';
 import BsKingPage from './components/pages/BsKingPage';
 import RentRulesPage from './components/pages/RentRulesPage';
 import MemberPage from './components/pages/MemberPage';
+import BookingPage from './components/pages/BookingPage';
+import BookingAdminPage from './components/pages/BookingAdminPage';
 import ScoringHubPage from './components/pages/ScoringHubPage';
 import SevenWondersPage from './components/pages/SevenWondersPage';
 import WingspanPage from './components/pages/WingspanPage';
@@ -178,7 +180,11 @@ export default function App() {
       case 'environment':
         return <EnvironmentPage />;
       case 'member':
-        return <MemberPage onMemberChange={setLoggedInMember} allGames={games} />;
+        return <MemberPage onMemberChange={setLoggedInMember} allGames={games} onNavigate={setActiveTab} />;
+      case 'booking':
+        return <BookingPage />;
+      case 'booking-admin':
+        return <BookingAdminPage onNavigate={setActiveTab} />;
       case 'helper-menu':
         return <HelperMenuPage onSelect={setActiveTab} />;
       case 'helper-agricola':
@@ -228,7 +234,9 @@ export default function App() {
   };
 
   const handleBack = () => {
-    if (activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose') {
+    if (activeTab === 'booking-admin') {
+      setActiveTab('member');
+    } else if (activeTab === 'helper-cheese-thief' || activeTab === 'helper-blades-rose') {
       setActiveTab('helper-voice-hub');
     } else if (activeTab === 'helper-agricola' || activeTab === 'helper-scorer' || activeTab === 'helper-scoresheet' ||
                activeTab === 'helper-7wonders' || activeTab === 'helper-wingspan' || activeTab === 'helper-terraforming' ||
