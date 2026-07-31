@@ -334,12 +334,8 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, o
           const sorted = [...finalPlayers].sort((a, b) => b.score - a.score);
           const resultsText = sorted.map(p => `第 ${ranks[p.id]} 名：${p.name} (${p.score}分)`).join('\n');
           
-          if (gameInfo?.gameName) {
-            if (window.confirm(`遊戲結束！\n\n${resultsText}\n\n是否要將成績上傳至排行榜？`)) {
-              setTimeout(() => setShowUploadModal(true), 100);
-            }
-          } else {
-            alert(`遊戲結束！\n\n${resultsText}\n\n（未指定遊戲名稱，無法上傳成績）`);
+          if (window.confirm(`遊戲結束！\n\n${resultsText}\n\n是否要將成績上傳至排行榜？`)) {
+            setTimeout(() => setShowUploadModal(true), 100);
           }
           return finalPlayers; // 保持已確認狀態
         } else {
@@ -380,11 +376,9 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, o
             style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>
             {layoutMode === 'list' ? '桌邊排版' : '列表排版'}
           </button>
-          {gameInfo?.gameName && (
-            <button onClick={() => setShowUploadModal(true)} style={{ fontSize:12, background:'rgba(251,191,36,0.3)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fcd34d', cursor:'pointer', display:'flex', alignItems:'center', gap:4 }}>
-              <Upload size={12} />上傳
-            </button>
-          )}
+          <button onClick={() => setShowUploadModal(true)} style={{ fontSize:12, background:'rgba(251,191,36,0.3)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fcd34d', cursor:'pointer', display:'flex', alignItems:'center', gap:4 }}>
+            <Upload size={12} />上傳
+          </button>
           <button onClick={onExit} style={{ fontSize:12, background:'rgba(255,255,255,0.2)', border:'none', borderRadius:20, padding:'5px 12px', color:'#fff', cursor:'pointer' }}>結束遊戲</button>
         </div>
       </div>
@@ -492,7 +486,7 @@ function SetupView({ onStart, games }) {
       <div style={{ background:'#fff', borderRadius:16, padding:20, marginBottom:12, border:'1px solid #e5e7eb' }}>
         <div style={{ fontWeight:700, color:'#57534e', marginBottom:10 }}>
           遊戲名稱 <span style={{ fontWeight:400, fontSize:12, color:'#a8a29e' }}>（選填）</span>
-          <div style={{ fontSize: 12, color: '#ef4444', marginTop: 4, fontWeight: 400 }}>⚠️ 若未填寫遊戲名稱，計分後將無法上傳分數</div>
+          <div style={{ fontSize: 12, color: '#a8a29e', marginTop: 4, fontWeight: 400 }}>先填好可以省事，沒填也沒關係，上傳時再選遊戲就行</div>
         </div>
         {selectedGame ? (
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff7ed', border:'1px solid #fed7aa', borderRadius:12, padding:'10px 14px' }}>

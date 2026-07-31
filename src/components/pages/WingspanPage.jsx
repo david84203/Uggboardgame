@@ -164,12 +164,12 @@ export default function WingspanPage({ isLoggedIn, onGoToMember, games }) {
               )
             })}
           </div>
-          <button onClick={() => setShowUpload(true)}
-            className="w-full mt-3 py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
-            <Upload size={15} />上傳計分卡到排行榜
-          </button>
         </div>
       )}
+      <button onClick={() => setShowUpload(true)}
+        className="w-full mt-3 py-2.5 bg-amber-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-600">
+        <Upload size={15} />上傳計分卡到排行榜
+      </button>
       {showUpload && (
         <ScoreUploadModal
           result={{

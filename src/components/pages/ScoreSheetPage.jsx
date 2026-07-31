@@ -30,7 +30,7 @@ function SetupView({ onStart, games }) {
       <div style={{ background:'#fff', borderRadius:16, padding:20, marginBottom:12, border:'1px solid #e5e7eb' }}>
         <div style={{ fontWeight:700, color:'#57534e', marginBottom:10 }}>
           遊戲名稱 <span style={{ fontWeight:400, fontSize:12, color:'#a8a29e' }}>（選填）</span>
-          <div style={{ fontSize: 12, color: '#ef4444', marginTop: 4, fontWeight: 400 }}>⚠️ 若未填寫遊戲名稱，計分後將無法上傳分數</div>
+          <div style={{ fontSize: 12, color: '#a8a29e', marginTop: 4, fontWeight: 400 }}>先填好可以省事，沒填也沒關係，上傳時再選遊戲就行</div>
         </div>
         {selectedGame ? (
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff7ed', border:'1px solid #fed7aa', borderRadius:12, padding:'10px 14px' }}>
@@ -186,12 +186,8 @@ export default function ScoreSheetPage({ games }) {
         </div>
 
         <button onClick={() => {
-          if (gameInfo?.gameName) {
-            if (window.confirm('確定要結束計分，並將成績上傳至排行榜嗎？')) {
-              setShowUploadModal(true);
-            }
-          } else {
-            alert('已結束計分！\n（未指定遊戲名稱，無法上傳成績）');
+          if (window.confirm('確定要結束計分，並將成績上傳至排行榜嗎？')) {
+            setShowUploadModal(true);
           }
         }} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.4)', borderRadius: 10, padding: '4px 10px', color: '#fcd34d', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
           結束計分
