@@ -145,6 +145,45 @@ function getBirthdayInfo(birthdayStr) {
 }
 
 
+// ── 入場紀錄小工具 ─────────────────────────────────────────────────────────────
+// Firestore 前綴查詢的結尾字元（少了它範圍會退化成「完全相等」，撈不到「XXX 的朋友 1」）
+const PREFIX_END = '\uf8ff'
+const SELF_ENTRY_EXP = 5   // 入場系統：expEarned = 5 + 朋友數
+
+function friendPrefix(name) { return `${name} 的朋友` }
+
+// 同行朋友的 session 與本人共用同一個 checkInTime，用它當分組鍵
+function sessionKey(s) { return s.checkInTime?.seconds ?? s.date }
+
+function toDate(ts) { return ts?.seconds ? new Date(ts.seconds * 1000) : null }
+
+function hhmm(d) { return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` }
+
+function formatDuration(minutes) {
+  const m = Math.max(0, Math.round(minutes))
+  const h = Math.floor(m / 60)
+  const rest = m % 60
+  if (h === 0) return `${rest} 分鐘`
+  if (rest === 0) return `${h} 小時`
+  return `${h} 小時 ${rest} 分`
+}
+
+// 不計時進場固定顯示 13:00~00:00（實際上是整天，沒有真正的離場時間可算）
+function describeSession(s) {
+  if (s.noTimer) return { range: '13:00 ~ 00:00', duration: '不計時（整天）' }
+  const inAt = toDate(s.checkInTime)
+  if (!inAt) return { range: '--', duration: '待多久 --' }
+  const outAt = toDate(s.checkOutTime)
+  if (!outAt) return { range: `${hhmm(inAt)} ~ 進行中`, duration: '還在店裡' }
+  // 早期匯入的舊資料有離場早於入場的情況，超出營業時間長度就不硬算
+  const minutes = (outAt - inAt) / 60000
+  const sane = minutes > 0 && minutes <= 14 * 60
+  return {
+    range: `${hhmm(inAt)} ~ ${hhmm(outAt)}`,
+    duration: sane ? `待了 ${formatDuration(minutes)}` : '待多久 --',
+  }
+}
+
 // ── 會員卡主體 ─────────────────────────────────────────────────────────────────
 function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
   const [targetMember, setTargetMember] = useState(null)
@@ -184,7 +223,7 @@ function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
   }, [displayMember.id])
 
   const [showHistory, setShowHistory] = useState(false)
-  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0, pendingDeliveries: [], transactions: [] })
+  const [history, setHistory] = useState({ sessions: [], rentals: [], friendCount: 0, friendsByKey: {}, pendingDeliveries: [], transactions: [] })
   const [showDelivered, setShowDelivered] = useState(false)
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [historyLoading, setHistoryLoading] = useState(false)
@@ -268,9 +307,11 @@ function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
       setActiveSession(session)
       setActiveRentals(rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })))
       if (session) {
-        const prefix = displayMember.name + ' 的朋友'
-        getDocs(query(collection(db, 'sessions'), where('status', '==', 'in'), where('name', '>=', prefix), where('name', '<=', prefix + '')))
-          .then(snap => setSessionFriendCount(snap.size))
+        // 只用 name 範圍查（多欄位混 range 要建複合索引），status 留在前端過濾
+        const prefix = friendPrefix(displayMember.name)
+        getDocs(query(collection(db, 'sessions'), where('name', '>=', prefix), where('name', '<=', prefix + PREFIX_END)))
+          .then(snap => setSessionFriendCount(snap.docs.filter(d => d.data().status === 'in').length))
+          .catch(err => console.warn('load session friends failed', err))
       }
     })
   }, [displayMember.id, displayMember.name])
@@ -285,17 +326,24 @@ function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
         getDocs(query(collection(db, 'pendingDeliveries'), where('memberDocId', '==', displayMember.id))),
         getDocs(query(collection(db, 'transactions'), where('memberDocId', '==', displayMember.id))),
       ])
-      const sessions = sessionSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+      const sessions = sessionSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.checkInTime?.seconds || 0) - (a.checkInTime?.seconds || 0))
       const rentals = rentalSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       const pendingDeliveries = pendingSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.date || '').localeCompare(a.date || ''))
       const transactions = txSnap.docs.map(d => ({ id: d.id, ...d.data() }))
       let friendCount = 0
+      const friendsByKey = {}
       try {
-        const prefix = displayMember.name + ' 的朋友'
-        const fs = await getDocs(query(collection(db, 'sessions'), where('name', '>=', prefix), where('name', '<=', prefix + '')))
+        const prefix = friendPrefix(displayMember.name)
+        const fs = await getDocs(query(collection(db, 'sessions'), where('name', '>=', prefix), where('name', '<=', prefix + PREFIX_END)))
         friendCount = fs.docs.length
+        // 朋友與本人同一次入場共用 checkInTime，用它把朋友歸到對應的那次入場
+        for (const d of fs.docs) {
+          const k = sessionKey(d.data())
+          friendsByKey[k] = (friendsByKey[k] || 0) + 1
+        }
       } catch (_) {}
-      setHistory({ sessions, rentals, friendCount, pendingDeliveries, transactions })
+      setHistory({ sessions, rentals, friendCount, friendsByKey, pendingDeliveries, transactions })
       setHistoryLoaded(true); setShowHistory(true)
     } catch (err) { setHistoryError('無法載入紀錄') }
     finally { setHistoryLoading(false) }
@@ -744,6 +792,32 @@ function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
                 <div className="font-bold text-orange-500 text-lg">{history.friendCount}</div>
               </div>
             </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
+            <div className="text-sm font-bold text-stone-500 mb-3">🕒 最近三次入場</div>
+            {history.sessions.length === 0
+              ? <p className="text-sm text-stone-300 text-center py-2">尚無入場紀錄</p>
+              : <div className="space-y-2">{history.sessions.slice(0, 3).map(s => {
+                  const { range, duration } = describeSession(s)
+                  const friends = history.friendsByKey?.[sessionKey(s)]
+                    ?? Math.max(0, (s.expEarned || 0) - SELF_ENTRY_EXP)
+                  return (
+                    <div key={s.id} className="bg-orange-50 rounded-xl px-3 py-2 border border-orange-100">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="font-medium text-stone-700">{s.date}</span>
+                        <span className="text-stone-600">{range}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs mt-1">
+                        <span className="text-stone-400">{duration}</span>
+                        <span className="text-orange-500 font-medium">
+                          {friends > 0 ? `帶 ${friends} 位朋友` : '自己一人'}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}</div>
+            }
           </div>
 
           <div className="bg-white rounded-2xl border border-stone-100 shadow-sm p-4">
