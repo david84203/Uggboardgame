@@ -45,8 +45,31 @@ export async function syncBooking(action, booking) {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
     })
-    return await res.json()
+    const text = await res.text()
+    try {
+      return JSON.parse(text)
+    } catch {
+      // Apps Script 的 POST 回應會先轉址一次，Google 有時把它換成 HTML 頁，
+      // 但腳本其實已經跑完了。confirm 改用 GET 回頭查日曆確認；
+      // 其他動作沒有結果要拿，不當成失敗。
+      if (action !== 'confirm') return { ok: true, unverified: true }
+      return await verifyConfirm(payload.booking)
+    }
   } catch (e) {
     return { ok: false, error: e?.message || '連線失敗' }
+  }
+}
+
+// 回頭問腳本：這筆的日曆事件到底建了沒（GET 不會遇到上面那個回應被換掉的問題）
+async function verifyConfirm(b) {
+  const url = `${GAS_URL}?action=verify&secret=${encodeURIComponent(GAS_SECRET)}`
+    + `&id=${encodeURIComponent(b.id)}&start=${encodeURIComponent(b.start)}`
+  try {
+    const data = JSON.parse(await (await fetch(url)).text())
+    return data?.eventId
+      ? { ok: true, eventId: data.eventId, recovered: true }
+      : { ok: false, error: '日曆上查不到這筆，請自己補一筆' }
+  } catch {
+    return { ok: false, error: '無法確認日曆狀態，請開 Google 日曆看一下' }
   }
 }

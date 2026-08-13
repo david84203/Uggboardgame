@@ -65,9 +65,36 @@ function doPost(e) {
   }
 }
 
-// 部署後可用瀏覽器直接開，確認腳本活著
-function doGet() {
+/**
+ * 部署後可用瀏覽器直接開，確認腳本活著。
+ * 另支援 ?action=verify&secret=...&id=<預約id>&start=<ISO 時間>
+ * ——POST 的回應偶爾會被 Google 換成 HTML（前端讀不到 JSON），
+ *   前端讀不懂回執時改用這條 GET 來確認日曆事件到底建了沒。
+ */
+function doGet(e) {
+  var p = (e && e.parameter) || {};
+  if (p.action === 'verify') {
+    var secret = prop('BOOKING_SECRET');
+    if (secret && p.secret !== secret) return json({ ok: false, error: '驗證失敗' });
+    if (!p.id || !p.start) return json({ ok: false, error: '缺少 id 或 start' });
+    var found = findEvent(p.id, p.start);
+    return json({ ok: !!found, eventId: found || null });
+  }
   return json({ ok: true, service: '烏嘎嘎預約中繼', line: !!prop('LINE_TOKEN') });
+}
+
+// 用預約 id 在日曆上找回對應事件（描述裡的 #id 標記），找不到回空字串
+function findEvent(bookingId, startIso) {
+  if (!bookingId || !startIso) return '';
+  var start = new Date(startIso);
+  var events = getCalendar().getEvents(
+    new Date(start.getTime() - 60 * 1000),
+    new Date(start.getTime() + 60 * 1000)
+  );
+  for (var i = 0; i < events.length; i++) {
+    if (events[i].getDescription().indexOf('#' + bookingId) !== -1) return events[i].getId();
+  }
+  return '';
 }
 
 function getCalendar() {
@@ -87,12 +114,14 @@ function handleConfirm(b) {
     b.note ? '備註：' + b.note : '',
     '',
     '（由烏嘎嘎 APP 線上預約自動建立）',
+    '#' + b.id,
   ].filter(String).join('\n');
 
-  var event = cal.createEvent(title, new Date(b.start), new Date(b.end), { description: desc });
-  var eventId = event.getId();
+  // 已經建過就不重建、也不重發（前端讀不到回執而重按時，避免日曆兩筆、客人被通知兩次）
+  var existing = findEvent(b.id, b.start);
+  var eventId = existing || cal.createEvent(title, new Date(b.start), new Date(b.end), { description: desc }).getId();
 
-  var lineResult = pushLine(b.lineUserId, [
+  var lineResult = existing ? 'skipped:already_confirmed' : pushLine(b.lineUserId, [
     '您好 ' + b.name + '，預約已確認 ✅',
     '',
     '📅 ' + formatWhen(b),
