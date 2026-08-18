@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://uggboardgame.vercel.app/sitemap.xml

@@ -55,3 +55,6 @@ inv_match_result.json
 *.sw?
 .vercel
 .env*.local
+
+# 暫存產物（海報/QR/優惠券產生器與輸出），不進版控
+scratch/

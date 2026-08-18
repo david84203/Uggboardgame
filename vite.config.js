@@ -10,6 +10,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'images/LOGO.jpg'],
+      workbox: {
+        // 公開門面頁（/about /pricing /faq）是各自獨立的預渲染靜態 HTML，
+        // 排除在 SW 的 navigateFallback 之外，避免被舊快取的 APP 殼蓋掉。
+        navigateFallbackDenylist: [/^\/about/, /^\/pricing/, /^\/faq/],
+      },
       manifest: {
         name: '烏嘎嘎桌遊｜玩家指南',
         short_name: '烏嘎嘎桌遊',
