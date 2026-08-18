@@ -6,7 +6,6 @@ import GameList from './components/GameList';
 import PlaceholderPage from './components/PlaceholderPage';
 import ConsumePage from './components/pages/ConsumePage';
 import FoodPage from './components/pages/FoodPage';
-import EscapeRoomPage from './components/pages/EscapeRoomPage';
 import EnvironmentPage from './components/pages/EnvironmentPage';
 import AgricolaScoreCalculator from './components/pages/AgricolaScoreCalculator';
 import HelperMenuPage from './components/pages/HelperMenuPage';
@@ -223,8 +222,6 @@ export default function App() {
         return <StarPlayerPage />;
       case 'helper-bs-king':
         return <BsKingPage />;
-      case 'escape':
-        return <EscapeRoomPage />;
       case 'event-board':
         return <EventBoardPage games={games} gamesLoading={loading} loggedInMember={loggedInMember} />;
 
