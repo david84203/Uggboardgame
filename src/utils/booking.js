@@ -20,6 +20,13 @@ export function toDateStr(d) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
+/** 週二全店公休（本地時區判斷，避免用字串解析誤判時區） */
+export function isClosedDay(dateStr) {
+  if (!dateStr) return false
+  const [y, mo, d] = dateStr.split('-').map(Number)
+  return new Date(y, mo - 1, d).getDay() === 2
+}
+
 export function todayStr() {
   return toDateStr(new Date())
 }
@@ -56,6 +63,7 @@ function slotValue(min) {
  */
 export function generateSlots(dateStr) {
   if (!dateStr) return []
+  if (isClosedDay(dateStr)) return []
   const lastMin = dateStr.endsWith('-12-31') ? NYE_LAST_SLOT_MIN : LAST_SLOT_MIN
 
   let earliest = OPEN_MIN
@@ -91,6 +99,7 @@ export function validateBooking(form) {
   if (!form.date) return '請選擇日期'
   if (form.date < todayStr()) return '不能預約過去的日期'
   if (form.date > maxDateStr()) return '最多只能預約兩個月內的日期'
+  if (isClosedDay(form.date)) return '週二店休，請選擇其他日期'
   if (!form.time) return '請選擇時間'
   if (!generateSlots(form.date).some(s => s.value === form.time)) {
     return '這個時段已經來不及或不在營業時間內，請重新選擇'

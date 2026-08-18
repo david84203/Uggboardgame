@@ -5,7 +5,7 @@ import { getLiffProfile } from '../../utils/liff'
 import { Calendar, Clock, Users, Home, Minus, Plus, CheckCircle2 } from 'lucide-react'
 import {
   generateSlots, todayStr, maxDateStr, validateBooking, createBooking,
-  fetchMyBookings, updateBookingStatus, slotLabel, parseSlot,
+  fetchMyBookings, updateBookingStatus, slotLabel, parseSlot, isClosedDay,
   FLOOR_OPTIONS, STATUS_LABEL,
 } from '../../utils/booking'
 import { syncBooking } from '../../utils/bookingSync'
@@ -204,7 +204,7 @@ export default function BookingPage() {
       <div className="text-center">
         <div className="text-3xl mb-2">🎲</div>
         <h2 className="text-xl font-bold text-stone-800">線上預約座位</h2>
-        <p className="text-sm text-stone-500 mt-1">營業時間 13:00–24:00，選好時段送出即可</p>
+        <p className="text-sm text-stone-500 mt-1">營業時間 13:00–24:00（週二店休），選好時段送出即可</p>
       </div>
 
       {member && !member.isGM && (
@@ -241,6 +241,8 @@ export default function BookingPage() {
           </label>
           {!form.date ? (
             <p className="text-sm text-stone-400 px-1">請先選日期</p>
+          ) : isClosedDay(form.date) ? (
+            <p className="text-sm text-rose-500 px-1">週二店休，請選擇其他日期</p>
           ) : slots.length === 0 ? (
             <p className="text-sm text-rose-500 px-1">今天已經來不及線上預約了，請直接私訊小編</p>
           ) : (
