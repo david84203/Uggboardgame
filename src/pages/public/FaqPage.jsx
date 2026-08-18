@@ -84,19 +84,19 @@ export default function FaqPage() {
       <SEO {...seo} />
       <PublicNav />
 
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-5">
-        <section className="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm">
-          <h1 className="text-xl font-bold text-stone-800">常見問題</h1>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
+        <section className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+          <h1 className="text-2xl font-bold text-stone-800">常見問題</h1>
         </section>
 
-        <section className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm divide-y divide-stone-100">
+        <section className="space-y-3">
           {FAQS.map((item, i) => (
-            <div key={i} className="p-4">
-              <h2 className="font-bold text-stone-800 text-base mb-1.5 flex gap-2">
+            <div key={i} className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+              <h2 className="font-bold text-stone-800 text-lg mb-2 flex gap-2">
                 <span className="text-orange-500 shrink-0">Q{i + 1}.</span>
                 <span>{item.q}</span>
               </h2>
-              <p className="text-stone-600 text-base leading-relaxed pl-6">{item.a}</p>
+              <p className="text-stone-600 text-base leading-relaxed pl-7">{item.a}</p>
             </div>
           ))}
         </section>
