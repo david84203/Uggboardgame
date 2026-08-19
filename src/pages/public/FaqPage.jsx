@@ -71,7 +71,7 @@ const seo = {
   path: '/faq',
   schema: [
     breadcrumbSchema([
-      { name: '首頁', path: '/about' },
+      { name: '首頁', path: '/' },
       { name: '常見問題', path: '/faq' },
     ]),
     faqSchema(FAQS.map((f) => ({ question: f.q, answer: f.a }))),
@@ -80,7 +80,7 @@ const seo = {
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="public-page min-h-screen bg-stone-50">
       <SEO {...seo} />
       <PublicNav />
 

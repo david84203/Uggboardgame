@@ -22,11 +22,32 @@
       ],
       "destination": "https://uggboardgame.com/$1",
       "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "tab",
+          "value": "(?<tabval>.*)"
+        }
+      ],
+      "destination": "/app?tab=:tabval",
+      "permanent": false
     }
   ],
   "rewrites": [
-    { "source": "/app", "destination": "/index.html" },
-    { "source": "/app/", "destination": "/index.html" },
-    { "source": "/app/(.*)", "destination": "/index.html" }
+    {
+      "source": "/app",
+      "destination": "/app/index.html"
+    },
+    {
+      "source": "/app/",
+      "destination": "/app/index.html"
+    },
+    {
+      "source": "/app/(.*)",
+      "destination": "/app/index.html"
+    }
   ]
 }

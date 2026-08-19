@@ -63,6 +63,13 @@ body {
   transition: background-color 0.6s ease;
 }
 
+/* 官網門面頁（/ /about /pricing /faq）要用整個視窗寬度：
+   上面的 480px 是會員 APP 的手機版容器，門面頁套上去在桌機會擠成一條。 */
+body:has(.public-page) #root {
+  max-width: none;
+  box-shadow: none;
+}
+
 /* On larger screens, lift the content container with a subtle shadow */
 @media (min-width: 520px) {
   #root {

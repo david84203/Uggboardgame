@@ -10,7 +10,7 @@ const seo = {
     businessSchema,
     websiteSchema,
     breadcrumbSchema([
-      { name: '首頁', path: '/about' },
+      { name: '首頁', path: '/' },
       { name: '店家資訊', path: '/about' },
     ]),
   ],
@@ -24,7 +24,7 @@ const FLOORS = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="public-page min-h-screen bg-stone-50">
       <SEO {...seo} />
       <PublicNav />
 

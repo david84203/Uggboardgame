@@ -9,7 +9,7 @@ const seo = {
   schema: [
     businessSchema,
     breadcrumbSchema([
-      { name: '首頁', path: '/about' },
+      { name: '首頁', path: '/' },
       { name: '服務與收費', path: '/pricing' },
     ]),
   ],
@@ -17,7 +17,7 @@ const seo = {
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="public-page min-h-screen bg-stone-50">
       <SEO {...seo} />
       <PublicNav />
 

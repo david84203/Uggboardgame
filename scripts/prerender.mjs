@@ -170,6 +170,15 @@ async function main() {
   await browser.close();
   server.close();
 
+  // 首頁（/）預渲染後會蓋掉 dist/index.html，而 index.html 同時是 SPA 的 fallback，
+  // 若不處理，會員 APP 使用者打開 /app 會先閃一下官網首頁的內容再切成 APP。
+  // 所以另外寫一份「乾淨空殼」到 dist/app/index.html 給 APP 用（vercel.json 的 rewrite 指向它），
+  // 並標 noindex：APP 是會員工具頁，不需要被搜尋引擎收錄，也不該跟首頁互相稀釋。
+  const appShell = template.replace(/<head([^>]*)>/i, '<head$1>\n    <meta name="robots" content="noindex, follow" />');
+  await mkdir(path.join(DIST, 'app'), { recursive: true });
+  await writeFile(path.join(DIST, 'app', 'index.html'), appShell, 'utf-8');
+  console.log('  ok /app  ->  會員 APP 空殼（noindex）');
+
   // sitemap 的 lastmod 自動帶成本次 build 日期（台北時間），不用每次手改
   const today = new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
   const sitemapPath = path.join(DIST, 'sitemap.xml');
