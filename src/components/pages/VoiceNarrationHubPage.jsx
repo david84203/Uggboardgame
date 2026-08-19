@@ -2,7 +2,7 @@ import React from 'react';
 import { Flower2 } from 'lucide-react';
 import { isInLIFF, openExternal } from '../../utils/liff';
 
-const BASE_URL = 'https://uggboardgame.vercel.app';
+const BASE_URL = 'https://uggboardgame.com/app';
 
 export default function VoiceNarrationHubPage({ onSelect }) {
   function handleSelect(tab) {

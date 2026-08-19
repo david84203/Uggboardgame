@@ -23,5 +23,10 @@
       "destination": "https://uggboardgame.com/$1",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    { "source": "/app", "destination": "/index.html" },
+    { "source": "/app/", "destination": "/index.html" },
+    { "source": "/app/(.*)", "destination": "/index.html" }
   ]
 }

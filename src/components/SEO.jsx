@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-export const SITE_URL = 'https://uggboardgame.vercel.app';
+export const SITE_URL = 'https://uggboardgame.com';
 export const SITE_NAME = '烏嘎嘎桌遊';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/LOGO.jpg`;
 
