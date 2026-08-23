@@ -9,19 +9,18 @@ const LINKS = [
 export default function PublicNav() {
   const { pathname } = useLocation();
   return (
-    <header className="bg-white border-b border-stone-200 sticky top-0 z-10">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="font-bold text-orange-600 text-lg">烏嘎嘎桌遊</Link>
-        <nav className="flex items-center gap-3 text-sm">
+    <header
+      className="sticky top-0 z-20 border-b"
+      style={{ borderColor: 'var(--ug-line)', background: 'var(--ug-bg)' }}
+    >
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
+        <Link to="/" className="font-black ug-ink text-[17px] shrink-0">烏嘎嘎桌遊</Link>
+        <nav className="flex items-center gap-5 text-sm whitespace-nowrap">
           {LINKS.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={
-                pathname === link.to
-                  ? 'font-bold text-orange-600'
-                  : 'text-stone-500 hover:text-orange-600'
-              }
+              className={pathname === link.to ? 'font-bold ug-accent' : 'ug-ink-2 hover:text-[var(--ug-accent)]'}
             >
               {link.label}
             </Link>
@@ -34,11 +33,13 @@ export default function PublicNav() {
 
 export function PublicFooter() {
   return (
-    <footer className="max-w-3xl mx-auto px-4 sm:px-6 py-10 text-center text-sm text-stone-400 space-y-1">
-      <p>烏嘎嘎桌遊｜台中市東區自由路四段309號</p>
-      <p>
-        會員請至 <a href="/app" className="text-orange-600 underline">烏嘎嘎會員 APP</a> 查詢消費、預約與租借
-      </p>
+    <footer className="border-t mt-20" style={{ borderColor: 'var(--ug-line)' }}>
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm ug-ink-3">
+        <p>烏嘎嘎桌遊｜台中市東區自由路四段309號</p>
+        <p>
+          會員請至 <a href="/app" className="ug-accent underline">烏嘎嘎會員 APP</a> 查詢消費、預約與租借
+        </p>
+      </div>
     </footer>
   );
 }

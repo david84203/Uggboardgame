@@ -23,26 +23,44 @@ const FACTS = [
 
 const HIGHLIGHTS = [
   {
-    icon: '🎲',
     title: '1,600款以上桌遊，換玩不加價',
     desc: '1樓整面桌遊牆全部開盒可玩，從10分鐘的派對遊戲到三小時的重度策略都有。入場後想換幾款就換幾款，不另外計費。',
   },
   {
-    icon: '🧑‍🏫',
     title: '不會玩？我們免費教',
     desc: '選好遊戲跟店員說一聲就會有人教規則，不額外收費。第一次玩桌遊、不知道挑什麼，直接告訴店員人數與想玩的感覺，我們幫你選。',
   },
   {
-    icon: '💸',
     title: '沒有低消，費用一次算清',
     desc: '不用為了坐下而點餐。全日暢玩玩到打烊、輕鬆玩方案3小時內計費，入店超過20分鐘才開始計入場費，提早離場退差額。',
   },
 ];
 
+// 樓層照片一律用 public/images/env/web/ 的縮圖版（原圖 2~3MB 是會員 APP 環境頁在用的）。
+// 挑片原則：只用沒有拍到客人臉的照片，門面頁是對外公開頁。
 const FLOORS = [
-  { floor: '1F', title: '桌遊牆與販售專區', desc: '整面開盒桌遊自由借玩，同區設有販售專區，喜歡可以直接帶回家。' },
-  { floor: '2F', title: '日式地板區', desc: '低桌坐墊設計，適合親子與想放鬆坐著玩的客人，也可整層包場（約30人）。' },
-  { floor: '3F', title: '大桌椅空間＋電動麻將桌', desc: '容納人數最多的樓層，適合重度策略遊戲與團體包場；另設電動日麻桌（支援日麻／台麻），需預約。' },
+  {
+    floor: '1F',
+    title: '桌遊牆與販售專區',
+    desc: '整面開盒桌遊自由借玩，同區設有販售專區，喜歡可以直接帶回家。',
+    photo: '/images/env/web/game-wall.webp',
+    alt: '烏嘎嘎桌遊1樓整面開盒桌遊牆與販售專區',
+    wide: true,
+  },
+  {
+    floor: '2F',
+    title: '日式地板區',
+    desc: '低桌坐墊設計，適合親子與想放鬆坐著玩的客人，也可整層包場（約30人）。',
+    photo: '/images/env/web/floor2.webp',
+    alt: '烏嘎嘎桌遊2樓日式地板區的矮桌與坐墊',
+  },
+  {
+    floor: '3F',
+    title: '大桌椅空間＋電動麻將桌',
+    desc: '容納人數最多的樓層，適合重度策略遊戲與團體包場；另設電動日麻桌（支援日麻／台麻），需預約。',
+    photo: '/images/env/web/floor3.webp',
+    alt: '烏嘎嘎桌遊3樓的大桌椅空間，多桌客人同時遊玩',
+  },
 ];
 
 const SCENES = [
@@ -50,6 +68,12 @@ const SCENES = [
   { who: '一個人來', text: '歡迎。想找人一起玩建議先用官方LINE或FB粉專問併團時段，我們協助湊團；臨時來店較難即時併桌。' },
   { who: '帶小孩來', text: '2樓日式地板區最適合親子。12歲以下需至少一位家長全程陪同，店員可以教孩子玩，但無法代為看顧。' },
   { who: '團體／包場', text: '2樓和室或3樓大空間各可容納約30人，平日整日4,000元、假日整日6,000元，整段時段計價不另計人數。' },
+];
+
+const PRICES = [
+  { plan: '會員．全日暢玩', weekday: '150元', weekend: '200元' },
+  { plan: '會員．輕鬆玩（3小時內）', weekday: '90元', weekend: '120元' },
+  { plan: '非會員．全日暢玩', weekday: '180元', weekend: '250元' },
 ];
 
 const FAQ_PREVIEW = [
@@ -70,194 +94,212 @@ export default function HomePage() {
   }
 
   return (
-    <div className="public-page min-h-screen bg-stone-50">
+    <div className="public-page min-h-screen">
       <SEO {...seo} />
       <PublicNav />
 
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-orange-500 to-amber-500">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-white">
-          <h1 className="text-3xl sm:text-4xl font-bold leading-snug mb-4">
-            烏嘎嘎桌遊｜台中東區的三層樓桌遊店
-          </h1>
-          <p className="text-base sm:text-lg leading-relaxed text-orange-50 mb-6">
-            台中市東區自由路四段309號，店內超過 1,600 款桌遊全部開盒、入場後自由借玩，
-            <span className="font-bold text-white">沒有低消、遊戲教學免費</span>，
-            每日 13:00–24:00 營業（週二固定公休）。2016 年開店至今，是台中規模數一數二的桌遊店。
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="/app?tab=booking"
-              className="bg-white text-orange-600 font-bold rounded-xl px-5 py-3 text-base shadow-sm hover:bg-orange-50"
-            >
-              📅 線上預約座位
-            </a>
-            <a
-              href="/app?tab=gamelist"
-              className="bg-orange-600/40 border border-white/50 text-white font-bold rounded-xl px-5 py-3 text-base hover:bg-orange-600/60"
-            >
-              🎲 查店內遊戲清單
-            </a>
-            <a
-              href="tel:0422154321"
-              className="bg-orange-600/40 border border-white/50 text-white font-bold rounded-xl px-5 py-3 text-base hover:bg-orange-600/60"
-            >
-              ☎️ 04-2215-4321
-            </a>
+      {/* 1. Hero：左文右圖的不對稱分割。
+          註：這段導言比一般 hero 長很多，是因為文案本身要餵給 AI 搜尋、不能刪字，
+          所以改用較小的字級把它當「前言段落」處理，而不是硬撐成大標。 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pt-12 sm:pt-20 pb-14 sm:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div className="lg:col-span-6">
+            <h1 className="text-[28px] sm:text-[40px] font-black leading-[1.25] ug-ink mb-5">
+              烏嘎嘎桌遊｜台中東區的三層樓桌遊店
+            </h1>
+            <p className="ug-lead ug-ink-2 mb-8 max-w-[46ch]">
+              台中市東區自由路四段309號，店內超過 1,600 款桌遊全部開盒、入場後自由借玩，
+              <span className="font-bold ug-ink">沒有低消、遊戲教學免費</span>，
+              每日 13:00–24:00 營業（週二固定公休）。2016 年開店至今，是台中規模數一數二的桌遊店。
+            </p>
+            {/* 三顆要能排成一行：桌機把左右內距收窄一點，不然電話那顆會掉到第二排 */}
+            <div className="flex flex-wrap gap-2.5">
+              <a href="/app?tab=booking" className="ug-btn ug-btn-primary px-4">線上預約座位</a>
+              <a href="/app?tab=gamelist" className="ug-btn ug-btn-ghost px-4">查店內遊戲清單</a>
+              <a href="tel:0422154321" className="ug-btn ug-btn-ghost px-4">04-2215-4321</a>
+            </div>
+          </div>
+          <div className="lg:col-span-6">
+            <div className="aspect-[14/9]">
+              <img
+                src="/images/env/web/crowd.webp"
+                alt="客人在烏嘎嘎桌遊店內圍桌遊玩桌遊"
+                width="1400"
+                height="900"
+                fetchPriority="high"
+                className="ug-photo"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
-        {/* 快速事實 */}
-        <section className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
-          <div className="bg-stone-700 px-5 sm:px-6 py-3">
-            <h2 className="font-bold text-white text-base">📌 一分鐘看懂烏嘎嘎</h2>
-          </div>
-          <dl className="divide-y divide-stone-100">
-            {FACTS.map((f) => (
-              <div key={f.label} className="px-5 sm:px-6 py-3 sm:flex sm:gap-4">
-                <dt className="font-bold text-stone-800 text-base sm:w-28 shrink-0">{f.label}</dt>
-                <dd className="text-stone-600 text-base leading-relaxed">{f.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-
-        {/* 三個特色 */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {HIGHLIGHTS.map((h) => (
-            <div key={h.title} className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm">
-              <p className="text-2xl mb-2">{h.icon}</p>
-              <h2 className="font-bold text-stone-800 text-base mb-2">{h.title}</h2>
-              <p className="text-stone-600 text-base leading-relaxed">{h.desc}</p>
+      {/* 2. 快速事實：方格，取代原本一列一條橫線的規格表 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <h2 className="ug-section-title text-lg mb-5">一分鐘看懂烏嘎嘎</h2>
+        <dl className="ug-facts">
+          {FACTS.map((f) => (
+            <div key={f.label} className="ug-fact">
+              <dt>{f.label}</dt>
+              <dd>
+                {f.label === '電話'
+                  ? <a href="tel:0422154321" className="ug-accent font-bold">{f.value}</a>
+                  : f.value}
+              </dd>
             </div>
           ))}
-        </section>
+        </dl>
+      </section>
 
-        {/* 樓層 */}
-        <section className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
-          <div className="bg-teal-600 px-5 sm:px-6 py-3">
-            <h2 className="font-bold text-white text-base">🏢 三層樓的遊戲空間</h2>
-          </div>
-          <ul className="divide-y divide-stone-100">
-            {FLOORS.map((f) => (
-              <li key={f.floor} className="px-5 sm:px-6 py-3">
-                <p className="font-bold text-stone-800 text-base mb-1">{f.floor}｜{f.title}</p>
-                <p className="text-stone-600 text-base leading-relaxed">{f.desc}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
+      {/* 3. 三個特色：編輯式橫列，左標題右說明，不做成三張並排卡片 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <div className="ug-divide ug-hair">
+          {HIGHLIGHTS.map((h) => (
+            <div key={h.title} className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7">
+              <h2 className="sm:col-span-5 font-bold ug-ink text-base sm:text-lg leading-snug">{h.title}</h2>
+              <p className="sm:col-span-7 ug-body ug-ink-2">{h.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {/* 情境導引 */}
-        <section className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-sm">
-          <h2 className="font-bold text-stone-800 text-lg mb-4">你是哪一種客人？</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {SCENES.map((s) => (
-              <div key={s.who} className="bg-stone-50 rounded-xl p-4">
-                <p className="font-bold text-orange-600 text-base mb-1">{s.who}</p>
-                <p className="text-stone-600 text-base leading-relaxed">{s.text}</p>
+      {/* 4. 樓層：三格不對稱照片牆（1F 佔滿一列，2F／3F 並排） */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <h2 className="ug-section-title text-lg mb-5">三層樓的遊戲空間</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {FLOORS.map((f) => (
+            <article key={f.floor} className={f.wide ? 'sm:col-span-2' : ''}>
+              <div className={f.wide ? 'aspect-[16/7]' : 'aspect-[4/3]'}>
+                <img src={f.photo} alt={f.alt} width="1000" height="750" loading="lazy" className="ug-photo" />
               </div>
-            ))}
-          </div>
-        </section>
+              <div className="mt-4">
+                {/* 「1F｜桌遊牆與販售專區」原本是一整串文字，分隔線保留在 DOM 裡不刪，
+                    只是把樓層數字放大、分隔號淡化，讓純文字讀起來仍然一模一樣。 */}
+                <h3 className="flex items-baseline gap-2 font-bold ug-ink text-base mb-1.5">
+                  <span className="ug-floor-no">{f.floor}</span>
+                  <span className="ug-ink-3 font-normal">｜</span>
+                  <span>{f.title}</span>
+                </h3>
+                <p className="ug-body ug-ink-2">{f.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-        {/* 收費摘要 */}
-        <section className="bg-amber-50 border border-amber-200 rounded-2xl p-5 sm:p-6">
-          <h2 className="font-bold text-amber-800 text-base mb-3">💰 收費一覽</h2>
-          <div className="overflow-x-auto -mx-1">
-            <table className="w-full text-sm border-collapse">
+      {/* 5. 情境導引：2×2 細線方格 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <h2 className="ug-section-title text-lg mb-5">你是哪一種客人？</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-0">
+          {SCENES.map((s) => (
+            <div key={s.who} className="ug-hair py-6">
+              <h3 className="font-bold ug-accent text-base mb-2">{s.who}</h3>
+              <p className="ug-body ug-ink-2">{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. 收費：真表格，不包卡片 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <h2 className="ug-section-title text-lg mb-5">收費一覽</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7 overflow-x-auto">
+            <table className="ug-table">
               <thead>
-                <tr className="text-stone-500 text-left">
-                  <th className="py-2 px-3 font-medium">方案</th>
-                  <th className="py-2 px-3 font-medium text-right">平日</th>
-                  <th className="py-2 px-3 font-medium text-right">假日</th>
+                <tr>
+                  <th>方案</th>
+                  <th>平日</th>
+                  <th>假日</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-amber-200/60">
-                <tr>
-                  <td className="py-2.5 px-3 text-stone-700">會員．全日暢玩</td>
-                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">150元</td>
-                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">200元</td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-3 text-stone-700">會員．輕鬆玩（3小時內）</td>
-                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">90元</td>
-                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">120元</td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-3 text-stone-700">非會員．全日暢玩</td>
-                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">180元</td>
-                  <td className="py-2.5 px-3 text-right font-bold tabular-nums">250元</td>
-                </tr>
+              <tbody>
+                {PRICES.map((p) => (
+                  <tr key={p.plan}>
+                    <td>{p.plan}</td>
+                    <td className="ug-num">{p.weekday}</td>
+                    <td className="ug-num">{p.weekend}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-          <p className="text-stone-600 text-base leading-relaxed mt-3">
+          <p className="lg:col-span-5 ug-body ug-ink-2">
             入會費399元、永久有效無年費，當天辦當天就能用會員價。包場、租借與付款方式詳見{' '}
-            <Link to="/pricing" className="font-bold text-orange-600 underline">服務與收費</Link>。
+            <Link to="/pricing" className="font-bold ug-accent underline">服務與收費</Link>。
           </p>
-        </section>
+        </div>
+      </section>
 
-        {/* FAQ 精選 */}
-        <section className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-sm">
-          <h2 className="font-bold text-stone-800 text-lg mb-4">常被問到的問題</h2>
-          <div className="space-y-4">
-            {FAQ_PREVIEW.map((f) => (
-              <div key={f.q}>
-                <p className="font-bold text-stone-800 text-base mb-1">Q．{f.q}</p>
-                <p className="text-stone-600 text-base leading-relaxed">{f.a}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-stone-600 text-base mt-4">
+      {/* 7. FAQ 精選：懸掛縮排問答，不做成卡片堆 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <h2 className="ug-section-title text-lg mb-5">常被問到的問題</h2>
+        <div className="max-w-[68ch] space-y-7">
+          {FAQ_PREVIEW.map((f) => (
+            <div key={f.q}>
+              <h3 className="font-bold ug-ink text-base mb-1.5">Q．{f.q}</h3>
+              <p className="ug-body ug-ink-2">{f.a}</p>
+            </div>
+          ))}
+          <p className="ug-body ug-ink-2">
             還有其他問題？完整15題整理在{' '}
-            <Link to="/faq" className="font-bold text-orange-600 underline">常見問題</Link>。
+            <Link to="/faq" className="font-bold ug-accent underline">常見問題</Link>。
           </p>
-        </section>
+        </div>
+      </section>
 
-        {/* 交通與聯絡 */}
-        <section className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-orange-500 to-amber-500 px-5 sm:px-6 py-3">
-            <h2 className="font-bold text-white text-base">📍 怎麼來、怎麼找我們</h2>
-          </div>
-          <div className="p-5 sm:p-6 space-y-3 text-stone-600 text-base leading-relaxed">
-            <p><span className="font-bold text-stone-800">地址：</span>台中市東區自由路四段309號。</p>
-            <p><span className="font-bold text-stone-800">停車：</span>機車可停門口；汽車可停正對面自由路四段310號「車麻吉」停車場。</p>
-            <p><span className="font-bold text-stone-800">公車：</span>站牌「東英自由路口」61、241路；站牌「自由東英路口」249路，下車步行約1分鐘。</p>
+      {/* 8. 交通與聯絡：左資訊右照片 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+        <h2 className="ug-section-title text-lg mb-5">怎麼來、怎麼找我們</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="lg:col-span-7 space-y-3 ug-body ug-ink-2">
+            <p><span className="font-bold ug-ink">地址：</span>台中市東區自由路四段309號。</p>
+            <p><span className="font-bold ug-ink">停車：</span>機車可停門口；汽車可停正對面自由路四段310號「車麻吉」停車場。</p>
+            <p><span className="font-bold ug-ink">公車：</span>站牌「東英自由路口」61、241路；站牌「自由東英路口」249路，下車步行約1分鐘。</p>
             <p>
-              <span className="font-bold text-stone-800">聯絡：</span>
-              電話 <a href="tel:0422154321" className="text-orange-600 font-bold">04-2215-4321</a>、
-              LINE <a href="https://line.me/R/ti/p/@160qiryn" target="_blank" rel="noreferrer" className="text-orange-600 font-bold">@160qiryn</a>、
-              Facebook <a href="https://www.facebook.com/UGGBG/" target="_blank" rel="noreferrer" className="text-orange-600 font-bold">UGGBG</a>、
-              Instagram <a href="https://www.instagram.com/uggboardgame/" target="_blank" rel="noreferrer" className="text-orange-600 font-bold">@uggboardgame</a>。
+              <span className="font-bold ug-ink">聯絡：</span>
+              電話 <a href="tel:0422154321" className="ug-accent font-bold">04-2215-4321</a>、
+              LINE <a href="https://line.me/R/ti/p/@160qiryn" target="_blank" rel="noreferrer" className="ug-accent font-bold">@160qiryn</a>、
+              Facebook <a href="https://www.facebook.com/UGGBG/" target="_blank" rel="noreferrer" className="ug-accent font-bold">UGGBG</a>、
+              Instagram <a href="https://www.instagram.com/uggboardgame/" target="_blank" rel="noreferrer" className="ug-accent font-bold">@uggboardgame</a>。
             </p>
             <p>
-              更多店家資訊見 <Link to="/about" className="font-bold text-orange-600 underline">店家資訊</Link>。
+              更多店家資訊見 <Link to="/about" className="font-bold ug-accent underline">店家資訊</Link>。
             </p>
           </div>
-        </section>
+          <div className="lg:col-span-5">
+            <div className="aspect-[4/3]">
+              <img
+                src="/images/env/web/counter.webp"
+                alt="烏嘎嘎桌遊店內櫃台與收費看板"
+                width="1000"
+                height="750"
+                loading="lazy"
+                className="ug-photo"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-        {/* 會員 APP 導引 */}
-        <section className="bg-stone-800 rounded-2xl p-5 sm:p-6 text-stone-100">
-          <h2 className="font-bold text-white text-base mb-2">📱 已經是會員？</h2>
-          <p className="text-base leading-relaxed text-stone-300 mb-4">
-            會員 APP 可以線上預約座位、查店內開盒遊戲清單與租借紀錄、看自己的消費與玩過紀錄。
-          </p>
-          <a href="/app" className="inline-block bg-orange-500 text-white font-bold rounded-xl px-5 py-3 text-base hover:bg-orange-600">
-            前往烏嘎嘎會員 APP
-          </a>
-        </section>
-
-        {/* 同棟照相館 */}
-        <section className="bg-pink-50 border border-pink-200 rounded-2xl p-5 sm:p-6">
-          <p className="text-stone-700 text-base leading-relaxed">
-            <span className="font-bold text-pink-700">同棟3F為莎朗嘿yo韓式照相館</span>，提供韓式證件照與個人形象寫真，入口在烏嘎嘎桌遊店內，可直接向櫃台詢問。
-            更多資訊請見 <a href="https://heyyo520.tw" target="_blank" rel="noreferrer" className="underline text-pink-700">heyyo520.tw</a>。
-          </p>
-        </section>
-      </div>
+      {/* 9. 兩則導引：會員 APP 與同棟照相館 */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="ug-surface p-6">
+            <h2 className="font-bold ug-ink text-base mb-2">已經是會員？</h2>
+            <p className="ug-body ug-ink-2 mb-5">
+              會員 APP 可以線上預約座位、查店內開盒遊戲清單與租借紀錄、看自己的消費與玩過紀錄。
+            </p>
+            <a href="/app" className="ug-btn ug-btn-primary">前往烏嘎嘎會員 APP</a>
+          </div>
+          <div className="ug-surface p-6">
+            <p className="ug-body ug-ink-2">
+              <span className="font-bold ug-ink">同棟3F為莎朗嘿yo韓式照相館</span>，提供韓式證件照與個人形象寫真，入口在烏嘎嘎桌遊店內，可直接向櫃台詢問。
+              更多資訊請見 <a href="https://heyyo520.tw" target="_blank" rel="noreferrer" className="underline ug-accent">heyyo520.tw</a>。
+            </p>
+          </div>
+        </div>
+      </section>
 
       <PublicFooter />
     </div>

@@ -340,3 +340,185 @@ body:has(.public-page) #root {
 .badge-陣營 { background-color: #FCE7F3; color: #9D174D; }
 .badge-兒童 { background-color: #D1FAE5; color: #065F46; }
 .badge-雙人 { background-color: #EDE9FE; color: #5B21B6; }
+
+/* ==========================================================================
+   對外門面站 design system（/ /about /pricing /faq）
+   --------------------------------------------------------------------------
+   改版原則（2026-08-23）：
+   舊版是「大面積飽和橘漸層 ＋ teal/amber/emerald/pink 五色區塊標題 ＋ 八張
+   一模一樣的圓角卡片」。問題不是橘色太多，是飽和色面積太大、配色沒有系統，
+   而且每個區塊長得一樣，眼睛沒有落點。
+
+   新規則：
+   - 一個重點色（品牌橘），其餘全部中性。任何區塊都不准自己帶顏色。
+   - 圓角統一 4px。飽和色只出現在按鈕與少數文字上。
+   - 分隔靠留白與 1px 細線，不靠色塊。
+   - 內容分量由「真實店內照片」承擔，不是靠色塊裝飾。
+
+   ⚠️ 鐵則：這幾頁存在的目的是被 AI 搜尋讀取。
+      可以改顏色、間距、排版、字級；不可以改文案、標題階層，
+      不可以把文字做成圖片，不可以把內容藏進需要點擊才展開的元件。
+   ========================================================================== */
+
+.public-page {
+  --ug-bg: #f4f3f0;
+  --ug-surface: #ffffff;
+  --ug-sunken: #eceae5;
+  --ug-line: #dedbd4;
+  --ug-line-soft: #e9e6e0;
+  --ug-ink: #191817;
+  --ug-ink-2: #55514b;
+  --ug-ink-3: #8a857c;
+  --ug-accent: #c2490d;
+  --ug-accent-hover: #a03c0a;
+  --ug-radius: 4px;
+
+  color-scheme: light;
+  background: var(--ug-bg);
+  color: var(--ug-ink-2);
+  font-feature-settings: "tnum" 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .public-page {
+    --ug-bg: #141312;
+    --ug-surface: #1c1b19;
+    --ug-sunken: #232220;
+    --ug-line: #302e2b;
+    --ug-line-soft: #262523;
+    --ug-ink: #f2f0ed;
+    --ug-ink-2: #b0aba3;
+    --ug-ink-3: #837d74;
+    --ug-accent: #ff7a3d;
+    --ug-accent-hover: #ff945f;
+    color-scheme: dark;
+  }
+}
+
+body:has(.public-page) {
+  background: var(--ug-bg, #f4f3f0) !important;
+}
+
+/* --- 文字 ---------------------------------------------------------------- */
+.ug-ink   { color: var(--ug-ink); }
+.ug-ink-2 { color: var(--ug-ink-2); }
+.ug-ink-3 { color: var(--ug-ink-3); }
+.ug-accent { color: var(--ug-accent); }
+
+.public-page h1 { letter-spacing: -0.02em; }
+.public-page h2 { letter-spacing: -0.01em; }
+
+.ug-lead { font-size: 1.0625rem; line-height: 1.9; }
+@media (min-width: 640px) { .ug-lead { font-size: 1.125rem; } }
+
+.ug-body { font-size: 0.9375rem; line-height: 1.85; }
+@media (min-width: 640px) { .ug-body { font-size: 1rem; } }
+
+.public-page a { text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+/* --- 面 ------------------------------------------------------------------ */
+.ug-surface {
+  background: var(--ug-surface);
+  border: 1px solid var(--ug-line);
+  border-radius: var(--ug-radius);
+}
+.ug-hair { border-top: 1px solid var(--ug-line); }
+.ug-divide > * + * { border-top: 1px solid var(--ug-line-soft); }
+
+/* 章節標題：一條短橘線 + 標題，取代原本的整條彩色標題列 */
+.ug-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: var(--ug-ink);
+}
+.ug-section-title::before {
+  content: "";
+  flex: none;
+  width: 18px;
+  height: 2px;
+  background: var(--ug-accent);
+  transform: translateY(-0.3em);
+}
+
+/* --- 圖 ------------------------------------------------------------------ */
+.ug-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--ug-radius);
+  background: var(--ug-sunken);
+}
+
+/* --- 按鈕 ---------------------------------------------------------------- */
+.ug-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  border-radius: var(--ug-radius);
+  padding: 0.75rem 1.25rem;
+  white-space: nowrap;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .1s ease;
+}
+.ug-btn:active { transform: translateY(1px); }
+
+.ug-btn-primary { background: var(--ug-accent); color: #fff; }
+.ug-btn-primary:hover { background: var(--ug-accent-hover); }
+
+.ug-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--ug-line);
+  color: var(--ug-ink);
+}
+.ug-btn-ghost:hover { border-color: var(--ug-accent); color: var(--ug-accent); }
+
+/* --- 事實方格：取代原本一列一條橫線的規格表 ------------------------------- */
+.ug-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--ug-line);
+  border: 1px solid var(--ug-line);
+  border-radius: var(--ug-radius);
+  overflow: hidden;
+}
+@media (min-width: 640px) { .ug-facts { grid-template-columns: 1fr 1fr; } }
+.ug-fact { background: var(--ug-surface); padding: 1rem 1.25rem; }
+.ug-fact dt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ug-ink-3);
+  margin-bottom: 0.35rem;
+}
+.ug-fact dd { color: var(--ug-ink); line-height: 1.75; font-size: 0.9375rem; }
+
+/* --- 表格 ---------------------------------------------------------------- */
+.ug-table { width: 100%; border-collapse: collapse; }
+.ug-table th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ug-ink-3);
+  text-align: left;
+  padding: 0 0.75rem 0.6rem;
+}
+.ug-table th:not(:first-child), .ug-table td:not(:first-child) { text-align: right; }
+.ug-table td { padding: 0.7rem 0.75rem; color: var(--ug-ink-2); font-size: 0.9375rem; }
+.ug-table tbody tr { border-top: 1px solid var(--ug-line-soft); }
+.ug-table td.ug-num { color: var(--ug-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* --- 樓層條 -------------------------------------------------------------- */
+.ug-floor-no {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ug-accent);
+  letter-spacing: -0.04em;
+}
+
+/* 這站刻意不做進場動畫：頁面內容會被預渲染成靜態 HTML 供 AI 搜尋讀取，
+   任何「先 opacity:0 再淡入」都可能被烘進靜態檔而變成讀不到的內容。 */

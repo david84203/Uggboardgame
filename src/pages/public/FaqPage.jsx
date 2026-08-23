@@ -80,23 +80,25 @@ const seo = {
 
 export default function FaqPage() {
   return (
-    <div className="public-page min-h-screen bg-stone-50">
+    <div className="public-page min-h-screen">
       <SEO {...seo} />
       <PublicNav />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
-        <section className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-stone-800">常見問題</h1>
-        </section>
+      <div className="max-w-5xl mx-auto px-5 sm:px-8">
+        <header className="pt-12 sm:pt-20 pb-10 sm:pb-14">
+          <h1 className="text-[28px] sm:text-[40px] font-black ug-ink">常見問題</h1>
+        </header>
 
-        <section className="space-y-3">
+        {/* 問題在左、答案在右的兩欄編輯式排版。
+            刻意不做手風琴／摺疊：答案要一眼可讀，也要讓不執行 JS 的 AI 爬蟲直接讀到。 */}
+        <section className="ug-divide ug-hair">
           {FAQS.map((item, i) => (
-            <div key={i} className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 shadow-sm">
-              <h2 className="font-bold text-stone-800 text-lg mb-2 flex gap-2">
-                <span className="text-orange-500 shrink-0">Q{i + 1}.</span>
+            <div key={i} className="grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-10 py-7">
+              <h2 className="lg:col-span-5 font-bold ug-ink text-base sm:text-[17px] leading-[1.7] flex gap-3">
+                <span className="ug-accent shrink-0 tabular-nums font-black">Q{i + 1}.</span>
                 <span>{item.q}</span>
               </h2>
-              <p className="text-stone-600 text-base leading-relaxed pl-7">{item.a}</p>
+              <p className="lg:col-span-7 ug-body ug-ink-2 pl-9 lg:pl-0">{item.a}</p>
             </div>
           ))}
         </section>
