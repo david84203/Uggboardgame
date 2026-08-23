@@ -119,9 +119,21 @@ export default function PricingPage() {
                 </table>
               </div>
             </div>
-            <p className="lg:col-span-5 text-sm leading-[1.85] ug-ink-3">
-              包場為整段時段計價、不另計人數。要包場請先透過官方LINE或Facebook粉絲專頁洽詢檔期。
-            </p>
+            <div className="lg:col-span-5">
+              <p className="text-sm leading-[1.85] ug-ink-3 mb-5">
+                包場為整段時段計價、不另計人數。要包場請先透過官方LINE或Facebook粉絲專頁洽詢檔期。
+              </p>
+              <div className="aspect-[4/3]">
+                <img
+                  src="/images/env/web/tatami-busy.webp"
+                  alt="烏嘎嘎桌遊2樓和室包場時坐滿客人的情況"
+                  width="900"
+                  height="675"
+                  loading="lazy"
+                  className="ug-photo"
+                />
+              </div>
+            </div>
           </div>
         </section>
 

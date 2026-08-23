@@ -25,14 +25,20 @@ const HIGHLIGHTS = [
   {
     title: '1,600款以上桌遊，換玩不加價',
     desc: '1樓整面桌遊牆全部開盒可玩，從10分鐘的派對遊戲到三小時的重度策略都有。入場後想換幾款就換幾款，不另外計費。',
+    photo: '/images/env/web/game-heavy.webp',
+    alt: '烏嘎嘎桌遊店內攤開的重度策略遊戲盤面與配件',
   },
   {
     title: '不會玩？我們免費教',
     desc: '選好遊戲跟店員說一聲就會有人教規則，不額外收費。第一次玩桌遊、不知道挑什麼，直接告訴店員人數與想玩的感覺，我們幫你選。',
+    photo: '/images/env/web/table-group.webp',
+    alt: '一桌客人在烏嘎嘎桌遊店內一起玩桌遊',
   },
   {
     title: '沒有低消，費用一次算清',
     desc: '不用為了坐下而點餐。全日暢玩玩到打烊、輕鬆玩方案3小時內計費，入店超過20分鐘才開始計入場費，提早離場退差額。',
+    photo: '/images/env/web/crowd.webp',
+    alt: '客人在烏嘎嘎桌遊店內邊吃邊玩桌遊',
   },
 ];
 
@@ -43,7 +49,7 @@ const FLOORS = [
     floor: '1F',
     title: '桌遊牆與販售專區',
     desc: '整面開盒桌遊自由借玩，同區設有販售專區，喜歡可以直接帶回家。',
-    photo: '/images/env/web/game-wall.webp',
+    photo: '/images/env/web/wall-close.webp',
     alt: '烏嘎嘎桌遊1樓整面開盒桌遊牆與販售專區',
     wide: true,
   },
@@ -51,7 +57,7 @@ const FLOORS = [
     floor: '2F',
     title: '日式地板區',
     desc: '低桌坐墊設計，適合親子與想放鬆坐著玩的客人，也可整層包場（約30人）。',
-    photo: '/images/env/web/floor2.webp',
+    photo: '/images/env/web/tatami.webp',
     alt: '烏嘎嘎桌遊2樓日式地板區的矮桌與坐墊',
   },
   {
@@ -122,8 +128,8 @@ export default function HomePage() {
           <div className="lg:col-span-6">
             <div className="aspect-[14/9]">
               <img
-                src="/images/env/web/crowd.webp"
-                alt="客人在烏嘎嘎桌遊店內圍桌遊玩桌遊"
+                src="/images/env/web/wall-aisle.webp"
+                alt="烏嘎嘎桌遊店內整排開盒桌遊的桌遊牆走道"
                 width="1400"
                 height="900"
                 fetchPriority="high"
@@ -151,13 +157,16 @@ export default function HomePage() {
         </dl>
       </section>
 
-      {/* 3. 三個特色：編輯式橫列，左標題右說明，不做成三張並排卡片 */}
+      {/* 3. 三個特色：照片在上、文字在下的三欄。不加外框，靠照片與留白分組 */}
       <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
-        <div className="ug-divide ug-hair">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
           {HIGHLIGHTS.map((h) => (
-            <div key={h.title} className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7">
-              <h2 className="sm:col-span-5 font-bold ug-ink text-base sm:text-lg leading-snug">{h.title}</h2>
-              <p className="sm:col-span-7 ug-body ug-ink-2">{h.desc}</p>
+            <div key={h.title}>
+              <div className="aspect-[4/3] mb-4">
+                <img src={h.photo} alt={h.alt} width="900" height="675" loading="lazy" className="ug-photo" />
+              </div>
+              <h2 className="font-bold ug-ink text-base mb-2 leading-snug">{h.title}</h2>
+              <p className="ug-body ug-ink-2">{h.desc}</p>
             </div>
           ))}
         </div>
@@ -224,10 +233,22 @@ export default function HomePage() {
               </tbody>
             </table>
           </div>
-          <p className="lg:col-span-5 ug-body ug-ink-2">
-            入會費399元、永久有效無年費，當天辦當天就能用會員價。包場、租借與付款方式詳見{' '}
-            <Link to="/pricing" className="font-bold ug-accent underline">服務與收費</Link>。
-          </p>
+          <div className="lg:col-span-5">
+            <p className="ug-body ug-ink-2 mb-5">
+              入會費399元、永久有效無年費，當天辦當天就能用會員價。包場、租借與付款方式詳見{' '}
+              <Link to="/pricing" className="font-bold ug-accent underline">服務與收費</Link>。
+            </p>
+            <div className="aspect-[4/3]">
+              <img
+                src="/images/env/web/group.webp"
+                alt="烏嘎嘎桌遊店內多桌客人同時遊玩的滿場情況"
+                width="900"
+                height="675"
+                loading="lazy"
+                className="ug-photo"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -270,8 +291,8 @@ export default function HomePage() {
           <div className="lg:col-span-5">
             <div className="aspect-[4/3]">
               <img
-                src="/images/env/web/counter.webp"
-                alt="烏嘎嘎桌遊店內櫃台與收費看板"
+                src="/images/env/web/storefront.webp"
+                alt="烏嘎嘎桌遊位於台中市東區自由路四段309號的店門口招牌"
                 width="1000"
                 height="750"
                 loading="lazy"

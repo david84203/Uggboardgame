@@ -21,22 +21,22 @@ const FLOORS = [
     floor: '1F',
     title: '桌遊牆與販售專區',
     desc: '超過1,600款開盒桌遊自由借玩，同區設有販售專區，喜歡可直接帶回家。',
-    photo: '/images/env/web/floor1.webp',
-    alt: '烏嘎嘎桌遊1樓的桌遊販售專區',
+    photo: '/images/env/web/wall-close.webp',
+    alt: '烏嘎嘎桌遊1樓整面開盒桌遊牆',
   },
   {
     floor: '2F',
     title: '日式地板區',
     desc: '低桌坐墊設計，適合親子與喜歡放鬆氛圍的玩家。',
-    photo: '/images/env/web/floor2.webp',
+    photo: '/images/env/web/tatami.webp',
     alt: '烏嘎嘎桌遊2樓日式地板區的矮桌與坐墊',
   },
   {
     floor: '3F',
     title: '桌椅空間＋電動麻將桌',
     desc: '店內容納人數最多的樓層，適合重度策略遊戲與包場；另設電動日麻桌（支援日麻／台麻），需預約使用。',
-    photo: '/images/env/web/floor3.webp',
-    alt: '烏嘎嘎桌遊3樓的大桌椅空間，多桌客人同時遊玩',
+    photo: '/images/env/web/mahjong.webp',
+    alt: '烏嘎嘎桌遊3樓的電動麻將桌',
   },
 ];
 
@@ -65,10 +65,10 @@ export default function AboutPage() {
           <div className="lg:col-span-5">
             <div className="aspect-[4/3]">
               <img
-                src="/images/env/web/game-wall.webp"
-                alt="烏嘎嘎桌遊店內整面開盒桌遊牆"
-                width="1400"
-                height="1050"
+                src="/images/env/web/sales.webp"
+                alt="烏嘎嘎桌遊1樓的桌遊販售專區貨架"
+                width="1000"
+                height="750"
                 fetchPriority="high"
                 className="ug-photo"
               />
@@ -97,8 +97,8 @@ export default function AboutPage() {
             <div className="lg:col-span-5">
               <div className="aspect-[4/3]">
                 <img
-                  src="/images/env/web/counter.webp"
-                  alt="烏嘎嘎桌遊店內櫃台"
+                  src="/images/env/web/storefront.webp"
+                  alt="烏嘎嘎桌遊位於台中市東區自由路四段309號的店門口招牌，同棟3樓為莎朗嘿yo韓式照相館"
                   width="1000"
                   height="750"
                   loading="lazy"
