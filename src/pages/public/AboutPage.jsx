@@ -4,7 +4,7 @@ import PublicNav, { PublicFooter } from './PublicNav';
 const seo = {
   title: '烏嘎嘎桌遊｜台中東區桌遊店 地址、電話、營業時間',
   description:
-    '烏嘎嘎桌遊位於台中市東區自由路四段309號，營業時間每日13:00–24:00、週二公休。店內超過1,600款桌遊可直接借玩，提供入場計時制與遊戲教學服務。',
+    '烏嘎嘎桌遊位於台中市東區自由路四段309號，營業時間每日13:00–24:00、週二公休。店內超過1,700款桌遊可直接借玩，提供入場計時制與遊戲教學服務。',
   path: '/about',
   schema: [
     businessSchema,
@@ -20,7 +20,7 @@ const FLOORS = [
   {
     floor: '1F',
     title: '桌遊牆與販售專區',
-    desc: '超過1,600款開盒桌遊自由借玩，同區設有販售專區，喜歡可直接帶回家。',
+    desc: '超過1,700款開盒桌遊自由借玩，同區設有販售專區，喜歡可直接帶回家。',
     photo: '/images/env/web/wall-close.webp',
     alt: '烏嘎嘎桌遊1樓整面開盒桌遊牆',
   },
@@ -59,7 +59,7 @@ export default function AboutPage() {
           <div className="lg:col-span-7">
             <h1 className="text-[28px] sm:text-[40px] font-black ug-ink mb-4">烏嘎嘎桌遊</h1>
             <p className="ug-lead ug-ink-2 max-w-[44ch]">
-              台中市東區自由路四段309號，共有三層開放遊戲空間，店內超過1,600款桌遊可直接借玩，是台中規模數一數二的桌遊店。
+              台中市東區自由路四段309號，共有三層開放遊戲空間，店內超過1,700款桌遊可直接借玩，是台中規模數一數二的桌遊店。
             </p>
           </div>
           <div className="lg:col-span-5">

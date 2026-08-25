@@ -3,9 +3,9 @@ import SEO, { businessSchema, websiteSchema } from '../../components/SEO';
 import PublicNav, { PublicFooter } from './PublicNav';
 
 const seo = {
-  title: '烏嘎嘎桌遊｜台中東區桌遊店．1,600款桌遊．無低消免費教學',
+  title: '烏嘎嘎桌遊｜台中東區桌遊店．1,700款桌遊．無低消免費教學',
   description:
-    '烏嘎嘎桌遊位於台中市東區自由路四段309號，三層樓遊戲空間、1,600款以上桌遊自由借玩，入場會員150元起、沒有低消、遊戲教學免費。每日13:00–24:00營業，週二固定公休。',
+    '烏嘎嘎桌遊位於台中市東區自由路四段309號，三層樓遊戲空間、1,700款以上桌遊自由借玩，入場會員150元起、沒有低消、遊戲教學免費。每日13:00–24:00營業，週二固定公休。',
   path: '/',
   schema: [businessSchema, websiteSchema],
 };
@@ -16,14 +16,14 @@ const FACTS = [
   { label: '電話', value: '04-2215-4321' },
   { label: '入場費', value: '會員全日暢玩平日150元／假日200元；非會員平日180元／假日250元' },
   { label: '低消', value: '沒有低消，付入場費即可' },
-  { label: '桌遊數量', value: '1,600款以上開盒桌遊，入場後不限款數自由取用' },
+  { label: '桌遊數量', value: '1,700款以上開盒桌遊，入場後不限款數自由取用' },
   { label: '遊戲教學', value: '免費，店員依你選的遊戲教規則' },
   { label: '外食', value: '可帶外食；整桌共享性餐點（PIZZA、蛋糕等）加收200元清潔費' },
 ];
 
 const HIGHLIGHTS = [
   {
-    title: '1,600款以上桌遊，換玩不加價',
+    title: '1,700款以上桌遊，換玩不加價',
     desc: '1樓整面桌遊牆全部開盒可玩，從10分鐘的派對遊戲到三小時的重度策略都有。入場後想換幾款就換幾款，不另外計費。',
     photo: '/images/env/web/game-heavy.webp',
     alt: '烏嘎嘎桌遊店內攤開的重度策略遊戲盤面與配件',
@@ -114,7 +114,7 @@ export default function HomePage() {
               烏嘎嘎桌遊｜台中東區的三層樓桌遊店
             </h1>
             <p className="ug-lead ug-ink-2 mb-8 max-w-[46ch]">
-              台中市東區自由路四段309號，店內超過 1,600 款桌遊全部開盒、入場後自由借玩，
+              台中市東區自由路四段309號，店內超過 1,700 款桌遊全部開盒、入場後自由借玩，
               <span className="font-bold ug-ink">沒有低消、遊戲教學免費</span>，
               每日 13:00–24:00 營業（週二固定公休）。2016 年開店至今，是台中規模數一數二的桌遊店。
             </p>

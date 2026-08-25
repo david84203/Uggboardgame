@@ -52,7 +52,7 @@ export default function PricingPage() {
         <header className="pt-12 sm:pt-20 pb-12 sm:pb-16 max-w-[52ch]">
           <h1 className="text-[28px] sm:text-[40px] font-black ug-ink mb-4">服務與收費</h1>
           <p className="ug-lead ug-ink-2">
-            <span className="font-bold ug-ink">烏嘎嘎沒有低消規則，每人依入場方案付費即可</span>，入場費已包含店內超過1,600款桌遊自由借玩與免費遊戲教學。
+            <span className="font-bold ug-ink">烏嘎嘎沒有低消規則，每人依入場方案付費即可</span>，入場費已包含店內超過1,700款桌遊自由借玩與免費遊戲教學。
           </p>
         </header>
 
