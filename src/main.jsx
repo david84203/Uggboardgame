@@ -10,6 +10,7 @@ import HomePage from './pages/public/HomePage.jsx'
 import AboutPage from './pages/public/AboutPage.jsx'
 import PricingPage from './pages/public/PricingPage.jsx'
 import FaqPage from './pages/public/FaqPage.jsx'
+import LinkPage from './pages/public/LinkPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -22,6 +23,8 @@ createRoot(document.getElementById('root')).render(
             <Route path="/about" element={<AboutPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/faq" element={<FaqPage />} />
+            {/* QR code 專用快速連結頁。noindex、不進 sitemap，網址已印在實體物上不可改 */}
+            <Route path="/link" element={<LinkPage />} />
             {/* catch-all：/app 與其餘所有網址都照舊 render 會員 APP（含 ?tab= 參數） */}
             <Route path="*" element={<App />} />
           </Routes>

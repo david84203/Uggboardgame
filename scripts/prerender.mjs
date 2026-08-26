@@ -73,10 +73,15 @@ function startServer(template) {
   return new Promise((resolve) => server.listen(PORT, () => resolve(server)));
 }
 
+// sitemap 以外還要預渲染的路由：不希望被搜尋引擎收錄（自帶 noindex），
+// 但仍需要一份自己的靜態 HTML——否則會沿用 SPA fallback（＝首頁那份 HTML），
+// 不跑 JS 的爬蟲就會在這個網址上讀到整篇首頁內容，而且拿到首頁的 robots/canonical。
+const EXTRA_ROUTES = ['/link'];
+
 async function getRoutes() {
   const xml = await readFile(path.join(DIST, 'sitemap.xml'), 'utf-8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  return locs.map((loc) => new URL(loc).pathname);
+  return [...locs.map((loc) => new URL(loc).pathname), ...EXTRA_ROUTES];
 }
 
 async function main() {
