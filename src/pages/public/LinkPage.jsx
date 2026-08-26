@@ -3,7 +3,7 @@
 // noindex 且不進 sitemap（因此不會被 prerender），避免與官網門面頁在搜尋結果打架。
 import { Link } from 'react-router-dom';
 import { Globe, MapPin, MessageCircle, Phone, Star } from 'lucide-react';
-import SEO from '../../components/SEO';
+import SEO, { LINE_URL } from '../../components/SEO';
 
 // lucide 1.x 已移除品牌圖示，Instagram 標誌改用內嵌 SVG。
 const InstagramIcon = ({ size = 20, className }) => (
@@ -27,7 +27,7 @@ const InstagramIcon = ({ size = 20, className }) => (
 
 const LINKS = [
   {
-    href: 'https://lin.ee/zZdT746',
+    href: LINE_URL,
     icon: MessageCircle,
     label: '加入官方 LINE',
     sub: '訂位・活動通知・會員 APP 入口',

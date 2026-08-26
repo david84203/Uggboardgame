@@ -1,5 +1,5 @@
 import { Link, Navigate, useLocation } from 'react-router-dom';
-import SEO, { businessSchema, websiteSchema } from '../../components/SEO';
+import SEO, { businessSchema, websiteSchema, LINE_URL } from '../../components/SEO';
 import PublicNav, { PublicFooter } from './PublicNav';
 
 const seo = {
@@ -118,10 +118,11 @@ export default function HomePage() {
               <span className="font-bold ug-ink">沒有低消、遊戲教學免費</span>，
               每日 13:00–24:00 營業（週二固定公休）。2016 年開店至今，是台中規模數一數二的桌遊店。
             </p>
-            {/* 三顆要能排成一行：桌機把左右內距收窄一點，不然電話那顆會掉到第二排 */}
+            {/* 預約與遊戲清單都在會員 APP 裡，APP 入口又在 LINE 圖文選單裡，
+                所以這兩件事併成一顆 LINE 按鈕——不做兩顆連到同一個網址的按鈕。 */}
             <div className="flex flex-wrap gap-2.5">
-              <a href="/app?tab=booking" className="ug-btn ug-btn-primary px-4">線上預約座位</a>
-              <a href="/app?tab=gamelist" className="ug-btn ug-btn-ghost px-4">查店內遊戲清單</a>
+              <a href={LINE_URL} target="_blank" rel="noreferrer" className="ug-btn ug-btn-primary px-4">加 LINE 預約座位</a>
+              <a href="/pricing" className="ug-btn ug-btn-ghost px-4">看收費方式</a>
               <a href="tel:0422154321" className="ug-btn ug-btn-ghost px-4">04-2215-4321</a>
             </div>
           </div>
@@ -307,11 +308,12 @@ export default function HomePage() {
       <section className="max-w-5xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="ug-surface p-6">
-            <h2 className="font-bold ug-ink text-base mb-2">已經是會員？</h2>
+            <h2 className="font-bold ug-ink text-base mb-2">會員 APP 在官方 LINE 裡</h2>
             <p className="ug-body ug-ink-2 mb-5">
               會員 APP 可以線上預約座位、查店內開盒遊戲清單與租借紀錄、看自己的消費與玩過紀錄。
+              加入官方 LINE 後，從下方圖文選單就能進入。
             </p>
-            <a href="/app" className="ug-btn ug-btn-primary">前往烏嘎嘎會員 APP</a>
+            <a href={LINE_URL} target="_blank" rel="noreferrer" className="ug-btn ug-btn-primary">加 LINE 領取 APP 入口</a>
           </div>
           <div className="ug-surface p-6">
             <p className="ug-body ug-ink-2">

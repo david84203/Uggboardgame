@@ -2,6 +2,10 @@ import { Helmet } from 'react-helmet-async';
 
 export const SITE_URL = 'https://uggboardgame.com';
 export const SITE_NAME = '烏嘎嘎桌遊';
+// 官方 LINE。會員 APP 的入口放在 LINE 圖文選單裡，官網對外一律導 LINE 而不是直連 /app
+//（Lu 2026-08-27 裁定：不讓客人跳過加 LINE）。/app 本身沒有關閉，
+// 舊書籤、LINE 選單、已安裝的 PWA 都還是直接進得去。
+export const LINE_URL = 'https://lin.ee/zZdT746';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/LOGO.jpg`;
 
 export const absoluteUrl = (path = '/') => {

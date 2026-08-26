@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { LINE_URL } from '../../components/SEO';
 
 const LINKS = [
   { to: '/about', label: '店家資訊' },
@@ -37,7 +38,7 @@ export function PublicFooter() {
       <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm ug-ink-3">
         <p>烏嘎嘎桌遊｜台中市東區自由路四段309號</p>
         <p>
-          會員請至 <a href="/app" className="ug-accent underline">烏嘎嘎會員 APP</a> 查詢消費、預約與租借
+          會員請加 <a href={LINE_URL} target="_blank" rel="noreferrer" className="ug-accent underline">官方 LINE</a>，從選單進入會員 APP 查詢消費、預約與租借
         </p>
       </div>
     </footer>
