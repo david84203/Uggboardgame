@@ -54,7 +54,22 @@ const FIELD_MAP = {
   usedSale: '二手販售',
   soldOut: '已售出',
   usedZone: '分區',
+  staffPick: '店員推薦',   // 情境標籤，如 "4人、新手、輕鬆"
+  mustLearn: '必學',       // 1=新人必學 2=進階
+  guestCount: '客人人數',  // 實際好玩的人數，跟盒子上的「遊戲人數」不同
 };
+
+/**
+ * 解析店員推薦情境標籤 "4人、新手 / 輕鬆" → ['4人','新手','輕鬆']
+ * 頓號、逗號、斜線、分號、空白都當分隔
+ */
+function parsePickTags(raw) {
+  if (!raw) return [];
+  return String(raw)
+    .split(/[、,，/／;；\s]+/)
+    .map((t) => t.trim())
+    .filter((t) => t !== '');
+}
 
 function isWithinThreeMonths(dateStr) {
   if (!dateStr || !dateStr.trim()) return false;
@@ -187,6 +202,7 @@ export default function useGoogleSheet() {
                 const sheetRowNumber = headerIndex + originalIndex + 2;
 
                 const playersParsed = parsePlayers(row[FIELD_MAP.players]);
+                const guestParsed = parsePlayers(row[FIELD_MAP.guestCount]);
                 const timeParsed = parsePlayTime(row[FIELD_MAP.playTime]);
                 const rating = parseFloat(row[FIELD_MAP.rating]);
                 const weight = parseFloat(row[FIELD_MAP.weight]);
@@ -237,6 +253,12 @@ export default function useGoogleSheet() {
                   isSoldOut: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.soldOut] || '').trim())
                     || soldNames.has((row[FIELD_MAP.name] || '').trim()),
                   usedZone: parseInt(row[FIELD_MAP.usedZone]) || 0,
+                  staffPicks: parsePickTags(row[FIELD_MAP.staffPick]),
+                  mustLearn: parseInt(row[FIELD_MAP.mustLearn]) || 0,
+                  // 客人人數：店員推薦時要看的是「幾個客人玩起來最好」，不是盒子上的可玩人數
+                  minGuests: guestParsed.min,
+                  maxGuests: guestParsed.max,
+                  guestCountRaw: row[FIELD_MAP.guestCount]?.trim() || '',
                 };
               });
 

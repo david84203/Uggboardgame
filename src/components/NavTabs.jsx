@@ -10,13 +10,17 @@ const TABS = [
   { id: 'member',       label: '會員專區',           icon: '👤',  desc: '查詢資料、預約桌位、玩過紀錄' },
 ];
 
+// 只有店員／管理員登入後才出現
+const STAFF_TAB = { id: 'staff', label: '店員專區', icon: '🎯', desc: '班表、推薦遊戲、必學進度' };
+
 export { TABS };
 
-export default function NavTabs({ activeTab, onTabChange }) {
+export default function NavTabs({ activeTab, onTabChange, showStaffTab = false }) {
+  const tabs = showStaffTab ? [...TABS, STAFF_TAB] : TABS;
   return (
     <nav className="px-3 pb-6">
       <div className="grid grid-cols-1 gap-3">
-        {TABS.map((tab) => {
+        {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button

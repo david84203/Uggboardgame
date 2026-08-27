@@ -3,6 +3,7 @@ import { collection, query, where, getDocs, addDoc, doc, updateDoc } from 'fireb
 import { db } from '../../firebase/config'
 import { calcLevel, calcNextLevel, LEVELS, EXP_RULES } from '../../utils/exp'
 import { getLiffProfile } from '../../utils/liff'
+import { findStaffByPhone, findStaffByLineUserId, bindStaffLine } from '../../utils/staffAuth'
 import { Star, Calendar, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import GameCard from '../GameCard'
 import RentalEstimator from '../RentalEstimator'
@@ -902,6 +903,28 @@ function MemberCard({ member, onLogout, allGames = [], onNavigate }) {
 }
 
 // ── 主元件 ────────────────────────────────────────────────────────────────────
+function StaffOnlyCard({ member, onLogout, onNavigate }) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-6">
+      <div className="w-full max-w-sm text-center">
+        <div className="text-4xl mb-3">🎲</div>
+        <h2 className="text-xl font-bold text-stone-800">{member.name}，早安</h2>
+        <p className="text-sm text-stone-500 mt-1">你是烏嘎嘎的店員，這裡是你的專區</p>
+        <button onClick={() => onNavigate?.('staff')}
+          className="mt-6 w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-base shadow-sm shadow-orange-200 hover:opacity-90 transition">
+          進入店員專區
+        </button>
+        <button onClick={onLogout} className="mt-3 w-full py-2.5 text-sm text-stone-400 hover:text-stone-600 transition">
+          登出
+        </button>
+        <p className="text-xs text-stone-400 mt-6 leading-relaxed">
+          你目前沒有會員資料，所以看不到會員卡。<br />想要會員功能請跟店長辦理。
+        </p>
+      </div>
+    </div>
+  )
+}
+
 const MEMBER_KEY = 'ugg_member'
 
 export default function MemberPage({ onMemberChange, allGames = [], onNavigate }) {
@@ -930,8 +953,11 @@ export default function MemberPage({ onMemberChange, allGames = [], onNavigate }
         setLiffUserId(profile.userId)
         const q = query(collection(db, 'members'), where('lineUserId', '==', profile.userId))
         const snap = await getDocs(q)
-        if (!snap.empty) saveMember({ ...snap.docs[0].data(), id: snap.docs[0].id })
-        else setNeedsBinding(true)
+        if (!snap.empty) { saveMember({ ...snap.docs[0].data(), id: snap.docs[0].id }); return }
+        // 店員不一定是會員，再查一次店員名單
+        const staff = await findStaffByLineUserId(profile.userId)
+        if (staff) { saveMember(staff); return }
+        setNeedsBinding(true)
       } catch (err) { console.error('LIFF login error:', err) }
       finally { setLiffChecking(false) }
     }
@@ -944,9 +970,19 @@ export default function MemberPage({ onMemberChange, allGames = [], onNavigate }
     try {
       const snap = await getDocs(collection(db, 'members'))
       const matched = snap.docs.find(d => (d.data().phone || '').replace(/[\s\-\(\)]/g, '').trim() === normalized)
-      if (!matched) { setError('找不到此手機號碼的會員，請確認號碼或至現場辦理'); return }
-      await updateDoc(doc(db, 'members', matched.id), { lineUserId: liffUserId })
-      saveMember({ ...matched.data(), id: matched.id })
+      if (matched) {
+        await updateDoc(doc(db, 'members', matched.id), { lineUserId: liffUserId })
+        saveMember({ ...matched.data(), id: matched.id })
+        return
+      }
+      // 不是會員，再查店員名單（店員不必辦會員也能登入）
+      const staff = await findStaffByPhone(normalized)
+      if (staff) {
+        await bindStaffLine(staff.staffId, liffUserId)
+        saveMember(staff)
+        return
+      }
+      setError('找不到此手機號碼的會員，請確認號碼或至現場辦理')
     } catch (err) { setError(`綁定失敗：${err?.message || '請稍後再試'}`) }
     finally { setLoading(false) }
   }
@@ -960,7 +996,8 @@ export default function MemberPage({ onMemberChange, allGames = [], onNavigate }
         const q = query(collection(db, 'members'), where('name', '==', 'GM'))
         const snap = await getDocs(q)
         if (!snap.empty) {
-          saveMember({ ...snap.docs[0].data(), id: snap.docs[0].id })
+          // 補 isGM：Firestore 的 GM 文件不一定有這個欄位，全站管理員判斷都靠它
+          saveMember({ ...snap.docs[0].data(), id: snap.docs[0].id, isGM: true })
         } else {
           // Firestore 還沒建 GM 帳號時，用本地預設值
           saveMember(GM_MEMBER)
@@ -1015,14 +1052,21 @@ export default function MemberPage({ onMemberChange, allGames = [], onNavigate }
         }
       }
 
-      if (snap.empty) { setError('找不到此姓名的會員，請確認姓名是否正確'); return }
       const matched = snap.docs.find(d => (d.data().phone || '').replace(/[\s\-\(\)]/g, '').trim() === normalized)
-      if (!matched) setError('手機號碼不符，請確認輸入的號碼')
-      else saveMember({ ...matched.data(), id: matched.id })
+      if (matched) { saveMember({ ...matched.data(), id: matched.id }); return }
+
+      // 會員查不到，再查店員名單（店員不必辦會員也能登入）
+      const staff = await findStaffByPhone(normalized)
+      if (staff) { saveMember(staff); return }
+
+      if (snap.empty) setError('找不到此姓名的會員，請確認姓名是否正確')
+      else setError('手機號碼不符，請確認輸入的號碼')
     } catch (err) { setError(`查詢失敗：${err?.message || '請稍後再試'}`) }
     finally { setLoading(false) }
   }
 
+  // 只有店員身分、沒有會員資料的人，直接帶去店員專區（不套會員卡）
+  if (member?.isStaffOnly) return <StaffOnlyCard member={member} onLogout={() => saveMember(null)} onNavigate={onNavigate} />
   if (member) return <MemberCard member={member} onLogout={() => saveMember(null)} allGames={allGames} onNavigate={onNavigate} />
   if (liffChecking) return <div className="flex items-center justify-center min-h-[60vh]"><p className="text-stone-400 text-sm">載入中…</p></div>
   if (needsBinding) return <LineBindingForm onBind={handleLineBind} loading={loading} error={error} />

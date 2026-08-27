@@ -34,6 +34,8 @@ import useGoogleSheet from './hooks/useGoogleSheet';
 import useMemberGames from './hooks/useMemberGames';
 import useActiveRentals from './hooks/useActiveRentals';
 import EventBoardPage from './components/pages/EventBoardPage';
+import StaffPage from './components/pages/StaffPage';
+import useStaffProfile from './hooks/useStaffProfile';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -76,6 +78,10 @@ export default function App() {
 
   const { memberGames, getStatus, getRecord, toggleStatus, updateRating } = useMemberGames(loggedInMember?.id);
   const { isRented } = useActiveRentals();
+
+  // 店員／管理員身分：決定首頁要不要出現「店員專區」入口
+  const { isStaff, isOwner } = useStaffProfile(loggedInMember);
+  const showStaffTab = isStaff || isOwner;
 
   const [filters, setFilters] = useState({
     searchQuery: '',
@@ -180,6 +186,8 @@ export default function App() {
         return <EnvironmentPage />;
       case 'member':
         return <MemberPage onMemberChange={setLoggedInMember} allGames={games} onNavigate={setActiveTab} />;
+      case 'staff':
+        return <StaffPage member={loggedInMember} games={games} gamesLoading={loading} onNavigate={setActiveTab} />;
       case 'booking':
         return <BookingPage />;
       case 'booking-admin':
@@ -267,7 +275,7 @@ export default function App() {
       <ErrorBoundary>
         {activeTab === 'home' ? (
         <div className="pt-4 pb-10">
-            <NavTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            <NavTabs activeTab={activeTab} onTabChange={setActiveTab} showStaffTab={showStaffTab} />
           </div>
         ) : (
           renderContent()
