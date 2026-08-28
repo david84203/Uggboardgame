@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
-import { CalendarCheck, RefreshCw, AlertTriangle, Lock } from 'lucide-react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import { CalendarCheck, RefreshCw, AlertTriangle, Lock, Plus, X } from 'lucide-react'
 import {
   fetchBookingsForAdmin, updateBookingStatus, slotLabel, parseSlot, STATUS_LABEL,
+  createBooking, validateBooking, generateSlots, todayStr, maxDateStr, FLOOR_OPTIONS,
 } from '../../utils/booking'
 import { syncBooking, isSyncConfigured } from '../../utils/bookingSync'
 import { getLiffProfile } from '../../utils/liff'
@@ -10,6 +11,7 @@ import { getLiffProfile } from '../../utils/liff'
 const OWNER_LINE_ID = import.meta.env.VITE_OWNER_LINE_ID || ''
 
 const card = 'bg-white border border-stone-200 rounded-2xl'
+const field = 'w-full px-3 py-2.5 rounded-xl border border-stone-200 bg-white text-base text-stone-800 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition'
 
 function whenText(b) {
   const [, m, d] = b.date.split('-')
@@ -67,11 +69,99 @@ function Row({ b, busy, onConfirm, onDecline, onCancel }) {
   )
 }
 
+// ── 手動新增：客人直接在 LINE 聊天室講的預約，店長自己補一筆 ─────────────────
+// 店長會這樣填就代表已經答應了，所以送出後直接標為已確認並寫進 Google 日曆
+function NewBookingForm({ onDone, onClose }) {
+  const [form, setForm] = useState({
+    name: '', phone: '', date: '', time: '',
+    people: 2, floor: '不指定', firstVisit: false, note: '',
+  })
+  const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+  const slots = useMemo(() => generateSlots(form.date), [form.date])
+
+  // 換日期時，若原本選的時段已不可用就清掉
+  useEffect(() => {
+    if (form.time && !slots.some(s => s.value === form.time)) set('time', '')
+  }, [slots])
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    const msg = validateBooking(form, { requirePhone: false })
+    if (msg) { setError(msg); return }
+    setError(''); setSaving(true)
+    const data = { ...form, people: Number(form.people) }
+    try {
+      const id = await createBooking(data, { remember: false })
+      const res = await syncBooking('confirm', { ...data, id })
+      await updateBookingStatus(id, 'confirmed', {
+        confirmedAt: new Date().toISOString(),
+        calendarEventId: res?.eventId || null,
+        source: 'admin',
+      })
+      onDone(res?.ok
+        ? '已新增，並寫進 Google 日曆 ✅'
+        : res?.skipped
+          ? '已新增，但日曆尚未連線，請自己補行程'
+          : `已新增，但日曆寫入失敗：${res?.error || '未知錯誤'}`)
+    } catch (err) {
+      setError(`新增失敗：${err?.message || '請稍後再試'}`)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className={`${card} p-4 space-y-3`}>
+      <div className="flex items-center justify-between">
+        <div className="text-sm font-bold text-stone-600">手動新增預約</div>
+        <button type="button" onClick={onClose} className="p-1 text-stone-400 hover:text-stone-600">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <input className={field} placeholder="姓名" value={form.name} onChange={e => set('name', e.target.value)} />
+        <input className={field} placeholder="電話（可留空）" inputMode="tel" value={form.phone} onChange={e => set('phone', e.target.value)} />
+        <input className={field} type="date" min={todayStr()} max={maxDateStr()} value={form.date} onChange={e => set('date', e.target.value)} />
+        <select className={field} value={form.time} onChange={e => set('time', e.target.value)} disabled={!form.date}>
+          <option value="">{form.date ? '選時間' : '先選日期'}</option>
+          {slots.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+        </select>
+        <input className={field} type="number" min="1" max="60" value={form.people}
+          onChange={e => set('people', e.target.value)} placeholder="人數" />
+        <select className={field} value={form.floor} onChange={e => set('floor', e.target.value)}>
+          {FLOOR_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
+        </select>
+      </div>
+
+      <input className={field} placeholder="備註（例如：人數暫定）" value={form.note} onChange={e => set('note', e.target.value)} />
+
+      <label className="flex items-center gap-2 text-sm text-stone-500">
+        <input type="checkbox" checked={form.firstVisit} onChange={e => set('firstVisit', e.target.checked)} />
+        第一次來
+      </label>
+
+      {error && <div className="text-sm text-rose-500">{error}</div>}
+
+      <button type="submit" disabled={saving}
+        className="w-full py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm hover:opacity-90 transition disabled:opacity-40">
+        {saving ? '處理中…' : '新增並確認'}
+      </button>
+      <p className="text-xs text-stone-400">
+        會直接寫進 Google 日曆。客人不是從 APP 預約的，不會收到 LINE 確認訊息，記得自己在聊天室回他。
+      </p>
+    </form>
+  )
+}
+
 export default function BookingAdminPage({ onNavigate }) {
   const [data, setData] = useState({ pending: [], upcoming: [] })
   const [loading, setLoading] = useState(true)
   const [busyId, setBusyId] = useState(null)
   const [toast, setToast] = useState('')
+  const [adding, setAdding] = useState(false)
 
   // 守門：已用 GM 登入，或在 LINE 裡以店長本人身分開啟
   const [authed, setAuthed] = useState(() => {
@@ -176,11 +266,24 @@ export default function BookingAdminPage({ onNavigate }) {
         <h2 className="text-xl font-bold text-stone-800 flex items-center gap-2">
           <CalendarCheck className="w-5 h-5 text-orange-500" /> 預約管理
         </h2>
-        <button onClick={load} disabled={loading}
-          className="p-2 rounded-xl border border-stone-200 text-stone-500 hover:bg-stone-50 transition disabled:opacity-40">
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={() => { setAdding(a => !a); setToast('') }}
+            className="flex items-center gap-1 px-3 py-2 rounded-xl border border-stone-200 text-stone-600 text-sm font-bold hover:bg-stone-50 transition">
+            <Plus className="w-4 h-4" /> 手動新增
+          </button>
+          <button onClick={load} disabled={loading}
+            className="p-2 rounded-xl border border-stone-200 text-stone-500 hover:bg-stone-50 transition disabled:opacity-40">
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          </button>
+        </div>
       </div>
+
+      {adding && (
+        <NewBookingForm
+          onClose={() => setAdding(false)}
+          onDone={msg => { setAdding(false); setToast(msg); load() }}
+        />
+      )}
 
       {!isSyncConfigured() && (
         <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-sm text-amber-700">

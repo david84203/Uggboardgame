@@ -65,7 +65,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
 
   return (
     <div className="sticky top-[53px] z-40 bg-white/80 backdrop-blur-lg border-b border-stone-100 shadow-sm">
-      <div className="px-4 py-3 space-y-2.5">
+      <div className="px-3 sm:px-4 py-2.5 space-y-2.5">
 
         {/* Row 1: 搜尋欄 + 篩選按鈕 */}
         <div className="flex gap-2">
@@ -75,15 +75,28 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
             </div>
             <input
               type="text"
-              placeholder="搜尋遊戲名稱 (中/英文)..."
+              aria-label="搜尋遊戲名稱"
+              placeholder="搜尋遊戲名稱..."
               value={searchQuery || ''}
               onChange={(e) => onFilterChange({ ...filters, searchQuery: e.target.value })}
-              className="w-full pl-9 pr-3 py-2 bg-white border border-stone-200 rounded-xl text-sm text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 transition-all shadow-sm"
+              className="w-full h-11 pl-9 pr-10 bg-white border border-stone-200 rounded-xl text-base text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 transition-all shadow-sm"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                aria-label="清除搜尋文字"
+                onClick={() => onFilterChange({ ...filters, searchQuery: '' })}
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-stone-400 rounded-lg active:bg-stone-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
           <button
             onClick={() => setIsExpanded(v => !v)}
-            className={`relative flex items-center gap-1.5 px-3 h-9 rounded-xl text-sm font-bold transition-all shrink-0 cursor-pointer border ${
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? '收合篩選條件' : '展開篩選條件'}
+            className={`relative flex items-center gap-1.5 px-3 h-11 rounded-xl text-sm font-bold transition-all shrink-0 cursor-pointer border ${
               isExpanded || activeFilterCount > 0
                 ? 'bg-orange-500 text-white border-orange-500 shadow-md shadow-orange-200'
                 : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
@@ -101,16 +114,16 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
 
         {/* 已選條件標籤（收合時顯示） */}
         {!isExpanded && activeChips.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 items-center">
+          <div className="flex gap-1.5 items-center overflow-x-auto no-scrollbar -mx-1 px-1 pb-0.5">
             {activeChips.map(chip => (
-              <span key={chip.key} className="flex items-center gap-1 px-2 py-0.5 bg-orange-50 text-orange-700 border border-orange-200 rounded-full text-xs font-semibold">
+              <span key={chip.key} className="flex items-center gap-1 px-2 py-1 bg-orange-50 text-orange-700 border border-orange-200 rounded-full text-xs font-semibold shrink-0">
                 {chip.label}
-                <button onClick={chip.onRemove} className="hover:text-red-500 transition-colors cursor-pointer">
+                <button aria-label={`移除${chip.label}篩選`} onClick={chip.onRemove} className="w-5 h-5 -mr-1 flex items-center justify-center hover:text-red-500 transition-colors cursor-pointer">
                   <X className="w-3 h-3" />
                 </button>
               </span>
             ))}
-            <button onClick={handleReset} className="text-xs text-stone-400 hover:text-red-400 font-medium transition-colors cursor-pointer">
+            <button onClick={handleReset} className="text-xs text-stone-400 hover:text-red-400 font-medium transition-colors cursor-pointer shrink-0 px-1">
               全部清除
             </button>
           </div>
@@ -118,20 +131,22 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
 
         {/* 展開的篩選面板 */}
         {isExpanded && (
-          <>
+          <div className="max-h-[calc(100dvh-126px)] overflow-y-auto overscroll-contain no-scrollbar space-y-2.5 pr-0.5 pb-1">
             {/* 玩家模式 */}
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-2 gap-2">
               {PLAYER_MODES.map(({ value, emoji, label, desc, color }) => {
                 const isActive = playerMode === value;
                 return (
                   <button
                     key={value}
                     onClick={() => togglePlayerMode(value)}
-                    className={`flex flex-col items-center justify-center gap-0.5 py-2 rounded-xl border font-semibold transition-all cursor-pointer ${isActive ? MODE_ACTIVE[color] : MODE_IDLE[color]}`}
+                    className={`flex items-center gap-2 px-2.5 py-2 rounded-xl border font-semibold transition-all cursor-pointer text-left ${isActive ? MODE_ACTIVE[color] : MODE_IDLE[color]}`}
                   >
-                    <span className="text-base leading-none">{emoji}</span>
-                    <span className="text-xs font-bold">{label}</span>
-                    <span className={`text-[9px] font-medium leading-tight text-center ${isActive ? 'text-white/80' : 'text-stone-400'}`}>{desc}</span>
+                    <span className="text-lg leading-none shrink-0">{emoji}</span>
+                    <span className="min-w-0">
+                      <span className="block text-xs font-bold">{label}</span>
+                      <span className={`block text-[10px] font-medium leading-tight truncate ${isActive ? 'text-white/80' : 'text-stone-400'}`}>{desc}</span>
+                    </span>
                   </button>
                 );
               })}
@@ -145,6 +160,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
                 </div>
                 <div className="flex items-center gap-1 bg-white border border-stone-100 rounded-xl p-1 shadow-sm shrink-0">
                   <button
+                    aria-label="減少遊玩人數"
                     onClick={() => handlePlayerChange(-1)}
                     disabled={!playerCount || playerCount <= 0}
                     className="w-7 h-7 flex items-center justify-center rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 disabled:opacity-30 transition-all cursor-pointer disabled:cursor-auto"
@@ -155,6 +171,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
                     {playerCount || '-'}
                   </span>
                   <button
+                    aria-label="增加遊玩人數"
                     onClick={() => handlePlayerChange(1)}
                     className="w-7 h-7 flex items-center justify-center rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 transition-all cursor-pointer"
                   >
@@ -168,6 +185,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
                   <Clock className="w-3.5 h-3.5" />
                 </div>
                 <select
+                  aria-label="選擇遊玩時間"
                   value={timeRange || ''}
                   onChange={(e) => onFilterChange({ ...filters, timeRange: e.target.value })}
                   className="w-full pl-9 pr-8 py-2 bg-white border border-stone-100 shadow-sm rounded-xl text-sm text-stone-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-orange-300 transition-all cursor-pointer"
@@ -293,7 +311,7 @@ export default function FilterBar({ filters, onFilterChange, availableCategories
                 )}
               </div>
             )}
-          </>
+          </div>
         )}
 
       </div>

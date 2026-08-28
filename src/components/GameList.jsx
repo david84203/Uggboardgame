@@ -6,17 +6,20 @@ import useRentalCounts from '../hooks/useRentalCounts';
 
 function SkeletonCard() {
   return (
-    <div className="bg-white border-2 border-[#e6d9b6] rounded-xl overflow-hidden p-3">
-      <div className="h-32 sm:h-40 bg-stone-100 rounded-lg mb-3 animate-pulse" />
-      <div className="h-5 w-3/4 rounded animate-shimmer mb-1" />
-      <div className="h-4 w-1/2 rounded animate-shimmer mb-3" />
-      <div className="flex gap-3 mb-3">
-        <div className="h-4 w-1/2 rounded animate-shimmer" />
-        <div className="h-4 w-1/2 rounded animate-shimmer" />
-      </div>
-      <div className="flex gap-2 mt-auto">
-        <div className="h-5 w-12 rounded animate-shimmer" />
-        <div className="h-5 w-12 rounded animate-shimmer" />
+    <div className="h-[156px] bg-white border border-[#e6d9b6] rounded-2xl overflow-hidden p-2.5 flex gap-3">
+      <div className="h-full w-[112px] shrink-0 bg-stone-100 rounded-xl animate-pulse" />
+      <div className="flex-1 min-w-0 py-1">
+        <div className="h-5 w-4/5 rounded animate-shimmer mb-2" />
+        <div className="h-3 w-3/5 rounded animate-shimmer mb-3" />
+        <div className="flex gap-2 mb-3">
+          <div className="h-5 w-16 rounded animate-shimmer" />
+          <div className="h-5 w-14 rounded animate-shimmer" />
+        </div>
+        <div className="flex gap-2 mb-3">
+          <div className="h-4 w-12 rounded animate-shimmer" />
+          <div className="h-4 w-14 rounded animate-shimmer" />
+        </div>
+        <div className="h-5 w-14 rounded animate-shimmer" />
       </div>
     </div>
   );
@@ -93,7 +96,7 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
           <div className="w-5 h-5 border-2 border-orange-300 border-t-transparent rounded-full animate-spin" />
           <span className="text-sm text-stone-400 font-medium">正在載入桌遊資料...</span>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 gap-2.5">
           {[1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)}
         </div>
       </div>
@@ -142,9 +145,9 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
             </span>
           </button>
           {showRecommended && (
-            <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+            <div className="flex gap-3 overflow-x-auto pb-2 px-0.5 no-scrollbar snap-x snap-mandatory">
               {recommended.map(game => (
-                <div key={game.id} className="w-40 shrink-0">
+                <div key={game.id} className="w-[min(82vw,300px)] shrink-0 snap-start">
                   <GameCard game={game} {...cardProps} />
                 </div>
               ))}
@@ -169,7 +172,7 @@ export default function GameList({ games, loading, error, totalCount, memberId, 
       {showTips && <GameListTips onClose={() => setShowTips(false)} />}
 
       {/* Game Cards Grid */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 gap-2.5">
         {games.slice(0, displayCount).map((game) => (
           <GameCard key={`${game.name}-${game.id}`} game={game} {...cardProps} />
         ))}

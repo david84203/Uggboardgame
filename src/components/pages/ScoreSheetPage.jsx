@@ -118,6 +118,8 @@ export default function ScoreSheetPage({ games }) {
   };
 
   const handleCell = useCallback((r, c, val) => {
+    // 保留負號與小數點，並允許輸入中的「-」或「-.」狀態
+    if (!/^-?\d*(?:\.\d*)?$/.test(val)) return;
     setCells(prev => {
       const next = prev.map(row => [...row]);
       next[r][c] = val;
@@ -235,7 +237,8 @@ export default function ScoreSheetPage({ games }) {
                 {Array.from({ length: playerCount }).map((_, c) => (
                   <td key={c} style={{ ...cellStyle, borderColor: '#e7e5e4', background: r % 2 === 0 ? '#fff' : '#fafaf9' }}>
                     <input
-                      type="number" inputMode="numeric"
+                      type="text" inputMode="text"
+                      aria-label={`${rowLabels[r] || `項目 ${r + 1}`}，${playerNames[c] || `玩家 ${c + 1}`}的分數`}
                       value={cells[r]?.[c] ?? ''}
                       onChange={e => handleCell(r, c, e.target.value)}
                       style={inputStyle}
@@ -263,7 +266,7 @@ export default function ScoreSheetPage({ games }) {
       </div>
 
       <p style={{ textAlign: 'center', fontSize: 12, color: '#a8a29e', marginTop: 8 }}>
-        點擊任何欄位即可編輯・總計自動計算・最高分以金色標示
+        可輸入正負分數・總計自動計算・最高分以金色標示
       </p>
 
       {showUploadModal && (

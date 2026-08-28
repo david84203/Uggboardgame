@@ -158,30 +158,29 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   
   const displayCategories = category ? [category] : [];
   const allBadges = [...displayCategories, ...(tags || [])];
+  const visibleBadgeLimit = youtubeIds.length > 0 ? 1 : 2;
+  const visibleBadges = allBadges.slice(0, visibleBadgeLimit);
+  const hiddenBadgeCount = Math.max(0, allBadges.length - visibleBadges.length);
 
   return (
     <>
       {!hideCard && (
       <div
-        className="game-card animate-fade-in-up bg-white rounded-[14px] shadow-sm border-2 border-[#e6d9b6] p-3 hover:shadow-md transition-shadow duration-300 flex flex-col h-full cursor-pointer relative group"
+        role="button"
+        tabIndex={0}
+        aria-labelledby={`game-name-${game.id}`}
+        className="game-card animate-fade-in-up bg-white rounded-2xl shadow-sm border border-[#e6d9b6] p-2.5 hover:shadow-md active:scale-[0.99] transition-all duration-200 flex h-[156px] cursor-pointer relative group overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
         onClick={() => setIsModalOpen(true)}
+        onKeyDown={(event) => {
+          if (event.target !== event.currentTarget) return;
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setIsModalOpen(true);
+          }
+        }}
       >
-        {/* New Badge Absolute */}
-        {isNew && (
-          <div className="absolute -top-2 -left-2 z-10 px-2 py-1 bg-orange-500 text-white rounded-full shadow-md">
-            <span className="text-[10px] font-bold tracking-wider">NEW</span>
-          </div>
-        )}
-        {/* Hot Badge Absolute */}
-        {isHot && (
-          <div className="absolute -top-2 -right-2 z-10 flex items-center gap-0.5 px-2 py-1 bg-red-500 text-white rounded-full shadow-md">
-             <Flame className="w-3 h-3 fill-white" />
-             <span className="text-[10px] font-bold">熱門</span>
-          </div>
-        )}
-
         {/* Image Section */}
-        <div className="relative h-32 sm:h-40 w-full overflow-hidden shrink-0 rounded-lg mb-3 bg-stone-100">
+        <div className="relative h-full w-[112px] overflow-hidden shrink-0 rounded-xl bg-stone-100">
           {!imgError ? (
             <img
               src={imgSrc}
@@ -192,12 +191,22 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
             />
           ) : (
             <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-stone-50">
-              <img src="/images/LOGO.jpg" alt="Logo" className="w-16 h-16 object-contain opacity-20 grayscale" />
+              <img src="/images/LOGO.jpg" alt="Logo" className="w-14 h-14 object-contain opacity-20 grayscale" />
             </div>
           )}
+          <div className="absolute inset-x-1.5 top-1.5 z-10 flex items-start justify-between gap-1 pointer-events-none">
+            {isNew ? (
+              <span className="px-1.5 py-0.5 bg-orange-500 text-white text-[9px] leading-4 font-extrabold tracking-wide rounded-full shadow-sm">NEW</span>
+            ) : <span />}
+            {isHot && (
+              <span className="flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[9px] leading-4 font-bold rounded-full shadow-sm">
+                <Flame className="w-2.5 h-2.5 fill-white" />熱門
+              </span>
+            )}
+          </div>
           {isUnavailable && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="bg-stone-800/80 text-white text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">
+              <span className="bg-stone-800/85 text-white text-[11px] font-bold px-2.5 py-1 rounded-full tracking-wide">
                 {unavailableLabel}
               </span>
             </div>
@@ -205,78 +214,79 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
         </div>
 
         {/* Card Body */}
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 min-w-0 pl-3 py-0.5">
           {/* Title */}
-          <h3 className="text-base sm:text-lg font-bold text-stone-800 leading-snug mb-1 flex items-center gap-1.5 truncate" id={`game-name-${game.id}`}>
+          <h3 className="text-[15px] font-extrabold text-stone-800 leading-snug mb-0.5 flex items-start gap-1.5 min-w-0" id={`game-name-${game.id}`}>
             {stickerColor && (
               <span
-                className="inline-block shrink-0 w-2.5 h-2.5 rounded-full"
+                className="inline-block shrink-0 w-2.5 h-2.5 rounded-full mt-1"
                 style={{ backgroundColor: stickerColor }}
                 title={stickerLabel}
               />
             )}
-            <span className="truncate">{name}</span>
+            <span className="line-clamp-2 break-words">{name}</span>
           </h3>
           
           {/* Subtitle / Description (English Name) */}
-          <p className="text-[13px] text-stone-500 font-medium truncate mb-3">
+          <p className="text-[11px] leading-4 text-stone-400 font-medium truncate mb-1.5">
             {englishName && englishName !== 'N/A' ? englishName : '經典桌遊推薦...'}
           </p>
 
-          {/* Info Rows */}
-          <div className="flex items-center gap-2 mb-3">
+          {/* 核心資訊：膠囊寬度由內容決定，避免手機雙欄互相擠壓 */}
+          <div className="flex items-center gap-1.5 mb-1.5 min-w-0">
             {/* Players */}
-            <div className="flex items-center gap-1.5 w-1/2">
-              <Users className="w-4 h-4 text-blue-500 shrink-0" />
-              <span className="text-[13px] text-stone-600 truncate">{playersDisplay}</span>
+            <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 min-w-0">
+              <Users className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-[11px] leading-4 font-bold truncate">{playersDisplay}</span>
             </div>
 
             {/* Difficulty / Rating */}
-            <div className="flex items-center gap-1.5 w-1/2">
-              <Star className="w-4 h-4 text-amber-500 fill-amber-400 shrink-0" />
-              <span className="text-[13px] text-stone-600 truncate">
-                難度: {weightLabel || '普通'}
-              </span>
+            <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50 text-amber-700 shrink-0" aria-label={`難度：${weightLabel || '普通'}`}>
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
+              <span className="text-[11px] leading-4 font-bold">{weightLabel || '普通'}</span>
             </div>
           </div>
 
-          {/* Bottom Section */}
-          <div className="mt-auto pt-2 border-t border-stone-100/50 space-y-1.5">
-            {/* Tags Row */}
-            {(allBadges.length > 0 || youtubeIds.length > 0) && (
-              <div className="flex flex-wrap gap-1">
-                {allBadges.map((badge, idx) => (
-                  <span key={idx} className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#f0e6c8] text-[#8c7335]">{badge}</span>
-                ))}
-                {youtubeIds.length > 0 && (
-                  <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-purple-50 text-purple-600 border border-purple-100">
-                    <PlayCircle className="w-3 h-3" />教學
-                  </span>
-                )}
-              </div>
+          {/* 標籤固定單行，只顯示前兩個，其餘以數量提示 */}
+          <div className="flex items-center gap-1 min-h-5 overflow-hidden mb-1">
+            {visibleBadges.map((badge, idx) => (
+              <span key={`${badge}-${idx}`} className="max-w-[72px] truncate px-1.5 py-0.5 rounded text-[10px] leading-4 font-semibold bg-[#f0e6c8] text-[#8c7335] shrink-0">{badge}</span>
+            ))}
+            {youtubeIds.length > 0 && (
+              <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] leading-4 font-semibold bg-purple-50 text-purple-600 border border-purple-100 shrink-0">
+                <PlayCircle className="w-3 h-3" />教學
+              </span>
             )}
-            {/* Action Row */}
-            <div className="flex items-center justify-between">
-              <div>
+            {hiddenBadgeCount > 0 && (
+              <span className="text-[10px] leading-4 font-bold text-stone-400 shrink-0">+{hiddenBadgeCount}</span>
+            )}
+          </div>
+
+          {/* Bottom Section */}
+          <div className="mt-auto pt-1.5 border-t border-stone-100">
+            <div className="flex items-center justify-between min-h-7 gap-2">
+              <div className="min-w-0">
                 {rental && (
-                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap">
+                  <span className="inline-flex text-[11px] leading-5 font-bold text-emerald-700 bg-emerald-50 px-2 rounded-full border border-emerald-200 whitespace-nowrap">
                     租 ${rental}
                   </span>
                 )}
               </div>
               {memberId && (
-                <div className="flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
+                <div className="flex items-center gap-1 shrink-0" onClick={e => e.stopPropagation()}>
                   {getRecord(game.id)?.rating ? (
                     <button
+                      aria-label="修改我的評分"
                       title="已評分，點擊修改"
                       onClick={(e) => { e.stopPropagation(); setShowRating(true); }}
-                      className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-600 active:scale-95"
+                      className="h-8 flex items-center gap-1 px-2 rounded-full bg-amber-50 border border-amber-200 text-amber-600 active:scale-95"
                     >
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       <span className="text-[11px] font-bold">{getRecord(game.id).rating}</span>
                     </button>
                   ) : (
                     <button
+                      aria-label="標記為玩過"
                       title="玩過"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -289,6 +299,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                     </button>
                   )}
                   <button
+                    aria-label="加入想玩清單"
                     title="想玩"
                     onClick={(e) => { e.stopPropagation(); onToggle(game, 'wishlist'); }}
                     className={`w-8 h-8 rounded-full flex items-center justify-center active:scale-95 transition-all ${getStatus(game.id) === 'wishlist' ? 'bg-rose-500 text-white shadow-sm' : 'bg-stone-100 text-stone-500 hover:bg-rose-100 hover:text-rose-600'}`}
@@ -313,18 +324,22 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
       {/* Detail Modal Overlay */}
       {isModalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-stone-900/60 backdrop-blur-sm"
           onClick={closeModal}
         >
           {/* Modal Container */}
           <div
-            className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-fade-in-up"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`game-detail-title-${game.id}`}
+            className="relative w-full max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92dvh] sm:max-h-[90vh] animate-fade-in-up"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
+              aria-label="關閉遊戲詳情"
               onClick={closeModal}
-              className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-md transition-colors cursor-pointer"
+              className="absolute top-2.5 right-2.5 z-10 w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-black/55 text-white rounded-full backdrop-blur-md transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -345,15 +360,15 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
               )}
 
               {/* Modal Content Body */}
-              <div className="p-6">
+              <div className="p-4 sm:p-6 pb-[max(1rem,env(safe-area-inset-bottom))]">
                 {/* Title Section */}
-                <div className="mb-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <h2 className="text-2xl font-extrabold text-stone-900 leading-tight flex items-center gap-2">
+                <div className="mb-5">
+                  <div>
+                    <div className="min-w-0">
+                      <h2 id={`game-detail-title-${game.id}`} className="text-xl sm:text-2xl font-extrabold text-stone-900 leading-tight flex items-start gap-2 break-words">
                         {stickerColor && (
                           <span
-                            className="inline-block shrink-0 w-3 h-3 rounded-full"
+                            className="inline-block shrink-0 w-3 h-3 rounded-full mt-1.5"
                             style={{ backgroundColor: stickerColor }}
                             title={stickerLabel}
                           />
@@ -376,16 +391,16 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                         </p>
                       )}
                     </div>
+                  </div>
+
+                  {/* Badges Row */}
+                  <div className="flex flex-wrap gap-2 mt-4">
                     {isHot && (
-                      <div className="flex items-center gap-1 px-2.5 py-1.5 bg-red-50 text-red-600 rounded-xl border border-red-100/50 shrink-0">
+                      <div className="flex items-center gap-1 px-2.5 py-1 bg-red-50 text-red-600 rounded-lg border border-red-100/50">
                         <Flame className="w-4 h-4 fill-red-500" />
                         <span className="text-xs font-bold whitespace-nowrap">店內熱門</span>
                       </div>
                     )}
-                  </div>
-                  
-                  {/* Badges Row */}
-                  <div className="flex flex-wrap gap-2 mt-4">
                     {rating && (
                       <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 rounded-lg text-amber-700">
                         <Star className="w-4 h-4 text-amber-500 fill-amber-400" />
@@ -417,53 +432,53 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                 )}
 
                 {/* Info Grid (Detailed) */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-5 sm:mb-6">
                   {/* Players */}
-                  <div className="flex items-center gap-3 p-3 bg-orange-50/50 border border-orange-100/50 rounded-xl">
-                    <div className="p-2 bg-white rounded-lg shadow-sm text-orange-500">
+                  <div className="flex items-center gap-2 p-2.5 sm:p-3 bg-orange-50/50 border border-orange-100/50 rounded-xl min-w-0">
+                    <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm text-orange-500 shrink-0">
                       <Users className="w-5 h-5" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-[11px] text-stone-500 font-medium mb-0.5">遊玩人數</p>
-                      <p className="text-sm font-bold text-stone-800">{playersDisplay}</p>
+                      <p className="text-sm font-bold text-stone-800 break-words">{playersDisplay}</p>
                     </div>
                   </div>
 
                   {/* Play Time */}
                   {timeDisplay && (
-                    <div className="flex items-center gap-3 p-3 bg-blue-50/50 border border-blue-100/50 rounded-xl">
-                      <div className="p-2 bg-white rounded-lg shadow-sm text-blue-500">
+                    <div className="flex items-center gap-2 p-2.5 sm:p-3 bg-blue-50/50 border border-blue-100/50 rounded-xl min-w-0">
+                      <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm text-blue-500 shrink-0">
                         <Clock className="w-5 h-5" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-[11px] text-stone-500 font-medium mb-0.5">預計時間</p>
-                        <p className="text-sm font-bold text-stone-800">{timeDisplay}</p>
+                        <p className="text-sm font-bold text-stone-800 break-words">{timeDisplay}</p>
                       </div>
                     </div>
                   )}
 
                   {/* Location */}
                   {location && (
-                    <div className="flex items-center gap-3 p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl">
-                      <div className="p-2 bg-white rounded-lg shadow-sm text-emerald-500">
+                    <div className="flex items-center gap-2 p-2.5 sm:p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl min-w-0">
+                      <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm text-emerald-500 shrink-0">
                         <MapPin className="w-5 h-5" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-[11px] text-stone-500 font-medium mb-0.5">放置櫃位</p>
-                        <p className="text-sm font-bold text-emerald-800">{location}</p>
+                        <p className="text-sm font-bold text-emerald-800 break-words">{location}</p>
                       </div>
                     </div>
                   )}
 
                   {/* Weight */}
                   {weightLabel && (
-                    <div className="flex items-center gap-3 p-3 bg-purple-50/50 border border-purple-100/50 rounded-xl">
-                      <div className="p-2 bg-white rounded-lg shadow-sm text-purple-500">
+                    <div className="flex items-center gap-2 p-2.5 sm:p-3 bg-purple-50/50 border border-purple-100/50 rounded-xl min-w-0">
+                      <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm text-purple-500 shrink-0">
                         <span className="text-lg leading-none block">⚖️</span>
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-[11px] text-stone-500 font-medium mb-0.5">難度評級</p>
-                        <p className="text-sm font-bold text-stone-800">{weightLabel} <span className="text-stone-400 font-medium">({weight.toFixed(1)})</span></p>
+                        <p className="text-sm font-bold text-stone-800 break-words">{weightLabel} <span className="text-stone-400 font-medium">({weight.toFixed(1)})</span></p>
                       </div>
                     </div>
                   )}
@@ -484,26 +499,26 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
 
                 {/* 定價 & 租金 */}
                 {(price || rental) && (
-                  <div className="flex gap-3 mb-6">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-6">
                     {price && (
-                      <div className="flex-1 flex items-center gap-3 p-3 bg-rose-50/50 border border-rose-100/50 rounded-xl">
-                        <div className="p-2 bg-white rounded-lg shadow-sm text-rose-500">
+                      <div className="flex items-center gap-2 p-2.5 sm:p-3 bg-rose-50/50 border border-rose-100/50 rounded-xl min-w-0">
+                        <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm text-rose-500 shrink-0">
                           <span className="text-lg leading-none block">🏷️</span>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-[11px] text-stone-500 font-medium mb-0.5">定價</p>
-                          <p className="text-sm font-bold text-stone-800">NT$ {price}</p>
+                          <p className="text-sm font-bold text-stone-800 break-words">NT$ {price}</p>
                         </div>
                       </div>
                     )}
                     {rental && (
-                      <div className="flex-1 flex items-center gap-3 p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl">
-                        <div className="p-2 bg-white rounded-lg shadow-sm text-emerald-500">
+                      <div className="flex items-center gap-2 p-2.5 sm:p-3 bg-emerald-50/50 border border-emerald-100/50 rounded-xl min-w-0">
+                        <div className="p-1.5 sm:p-2 bg-white rounded-lg shadow-sm text-emerald-500 shrink-0">
                           <span className="text-lg leading-none block">🎮</span>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-[11px] text-stone-500 font-medium mb-0.5">租金</p>
-                          <p className="text-sm font-bold text-emerald-700">NT$ {rental}</p>
+                          <p className="text-sm font-bold text-emerald-700 break-words">NT$ {rental}</p>
                         </div>
                       </div>
                     )}
