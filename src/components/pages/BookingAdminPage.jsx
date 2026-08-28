@@ -19,6 +19,87 @@ function whenText(b) {
   return `${Number(m)}/${Number(d)}（${w}） ${slotLabel(parseSlot(b.time).min)}`
 }
 
+// 發 LINE 給預約客人。API 在 ugg-suite 那個站（LINE 金鑰只設在那邊），
+// 只吃 bookingId，由後端自己查 lineUserId，前端指定不了任意對象。
+const SEND_LINE_API = 'https://ugg-suite.vercel.app/api/send-line'
+
+function noShowTemplate(b) {
+  return `您好，這裡是烏嘎嘎桌遊 🎲
+${whenText(b)} 的 ${b.people} 人預約，時間到了還沒看到您們，剛才有撥電話但沒接通，想確認一下是不是路上遇到狀況了？
+
+方便的話回覆我們一下：
+1. 還會來，大概幾點到
+2. 今天沒辦法來，要取消
+
+桌子我們先幫您保留 1 小時，超過的話因為現場有其他客人在等，可能就要先釋出了。麻煩您回覆一下，謝謝！`
+}
+
+function SendLineBox({ b }) {
+  const [open, setOpen] = useState(false)
+  const [text, setText] = useState('')
+  const [sending, setSending] = useState(false)
+  const [result, setResult] = useState('')
+
+  // 手動補登的預約沒有 lineUserId，發不了，直接講清楚免得店長乾等
+  if (!b.lineUserId) {
+    return <div className="text-xs text-stone-400">此預約沒有 LINE（手動補登的），只能打電話</div>
+  }
+
+  async function send() {
+    if (!text.trim() || sending) return
+    setSending(true); setResult('')
+    try {
+      const r = await fetch(SEND_LINE_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId: b.id, text }),
+      })
+      const j = await r.json().catch(() => ({}))
+      if (!r.ok || !j.ok) throw new Error(j.error || `發送失敗（${r.status}）`)
+      setResult('✅ 已送出')
+      setText('')
+    } catch (e) {
+      setResult(`❌ ${e.message}`)
+    } finally {
+      setSending(false)
+    }
+  }
+
+  if (!open) {
+    return (
+      <button onClick={() => setOpen(true)}
+        className="text-xs text-emerald-600 underline underline-offset-2 hover:text-emerald-700">
+        💬 發 LINE 給客人
+      </button>
+    )
+  }
+
+  return (
+    <div className="space-y-2 rounded-xl bg-emerald-50/60 border border-emerald-100 p-3">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold text-emerald-700">發 LINE 給 {b.name}</span>
+        <button onClick={() => { setOpen(false); setResult('') }} className="text-stone-400 hover:text-stone-600">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+      <button onClick={() => setText(noShowTemplate(b))}
+        className="text-xs px-2.5 py-1 rounded-full border border-emerald-200 text-emerald-700 bg-white hover:bg-emerald-50">
+        帶入「沒出現」詢問範本
+      </button>
+      <textarea rows={4} value={text} onChange={e => setText(e.target.value)}
+        placeholder="想跟客人說的話…"
+        className={`${field} resize-y`} />
+      <div className="flex items-center gap-2">
+        <button onClick={send} disabled={sending || !text.trim()}
+          className="px-4 py-2 rounded-xl bg-emerald-500 text-white text-sm font-bold hover:opacity-90 transition disabled:opacity-40">
+          {sending ? '傳送中…' : '送出'}
+        </button>
+        {result && <span className="text-xs text-stone-600">{result}</span>}
+      </div>
+    </div>
+  )
+}
+
 function Row({ b, busy, onConfirm, onDecline, onCancel }) {
   const s = STATUS_LABEL[b.status] || STATUS_LABEL.pending
   return (
@@ -65,6 +146,8 @@ function Row({ b, busy, onConfirm, onDecline, onCancel }) {
           </button>
         </div>
       )}
+
+      {(b.status === 'pending' || b.status === 'confirmed') && <SendLineBox b={b} />}
     </div>
   )
 }
@@ -88,7 +171,7 @@ function NewBookingForm({ onDone, onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const msg = validateBooking(form, { requirePhone: false })
+    const msg = validateBooking(form)
     if (msg) { setError(msg); return }
     setError(''); setSaving(true)
     const data = { ...form, people: Number(form.people) }
@@ -123,7 +206,7 @@ function NewBookingForm({ onDone, onClose }) {
 
       <div className="grid grid-cols-2 gap-2">
         <input className={field} placeholder="姓名" value={form.name} onChange={e => set('name', e.target.value)} />
-        <input className={field} placeholder="電話（可留空）" inputMode="tel" value={form.phone} onChange={e => set('phone', e.target.value)} />
+        <input className={field} placeholder="手機（必填，09 開頭 10 碼）" inputMode="tel" value={form.phone} onChange={e => set('phone', e.target.value)} />
         <input className={field} type="date" min={todayStr()} max={maxDateStr()} value={form.date} onChange={e => set('date', e.target.value)} />
         <select className={field} value={form.time} onChange={e => set('time', e.target.value)} disabled={!form.date}>
           <option value="">{form.date ? '選時間' : '先選日期'}</option>
