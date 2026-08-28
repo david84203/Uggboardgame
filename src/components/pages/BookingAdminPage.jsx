@@ -171,8 +171,14 @@ function NewBookingForm({ onDone, onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const msg = validateBooking(form)
+    // 店長補登：電話可留空（現場口頭訂位當下要不到），但有填就得是正確格式
+    const msg = validateBooking(form, { requirePhone: false })
     if (msg) { setError(msg); return }
+
+    // 補登的預約沒有 lineUserId 發不了 LINE，再沒電話就完全聯絡不上客人 → 送出前擋一下
+    if (!form.phone?.trim() && !window.confirm(
+      '這筆預約沒有留電話。\n\n手動補登的預約也發不了 LINE，客人沒出現時將完全聯絡不上。\n\n確定要這樣建立嗎？'
+    )) return
     setError(''); setSaving(true)
     const data = { ...form, people: Number(form.people) }
     try {
@@ -206,7 +212,7 @@ function NewBookingForm({ onDone, onClose }) {
 
       <div className="grid grid-cols-2 gap-2">
         <input className={field} placeholder="姓名" value={form.name} onChange={e => set('name', e.target.value)} />
-        <input className={field} placeholder="手機（必填，09 開頭 10 碼）" inputMode="tel" value={form.phone} onChange={e => set('phone', e.target.value)} />
+        <input className={field} placeholder="手機（沒問到可留空，09 開頭 10 碼）" inputMode="tel" value={form.phone} onChange={e => set('phone', e.target.value)} />
         <input className={field} type="date" min={todayStr()} max={maxDateStr()} value={form.date} onChange={e => set('date', e.target.value)} />
         <select className={field} value={form.time} onChange={e => set('time', e.target.value)} disabled={!form.date}>
           <option value="">{form.date ? '選時間' : '先選日期'}</option>

@@ -92,11 +92,13 @@ export function bookingRange(dateStr, timeValue, hours = 3) {
 }
 
 // ── 送出前的檢查 ─────────────────────────────────────────────────────────────
-// 手機一律必填（含店長手動補登）：客人沒出現時要有 LINE 以外的第二條聯絡管道
-export function validateBooking(form) {
+// 客人自己線上預約時手機一律必填：人沒出現時要有 LINE 以外的第二條聯絡管道。
+// requirePhone: false 只給店長後台手動補登用——客人在現場或 LINE 上口頭訂位、
+// 當下要不到電話時仍要建得起來；填了就照樣驗格式，不會放進亂碼。
+export function validateBooking(form, { requirePhone = true } = {}) {
   if (!form.name?.trim()) return '請填寫姓名'
   const phone = (form.phone || '').replace(/[\s\-()]/g, '')
-  if (!/^09\d{8}$/.test(phone)) return '手機號碼格式不對，請填 09 開頭的 10 碼'
+  if ((requirePhone || phone) && !/^09\d{8}$/.test(phone)) return '手機號碼格式不對，請填 09 開頭的 10 碼'
   if (!form.date) return '請選擇日期'
   if (form.date < todayStr()) return '不能預約過去的日期'
   if (form.date > maxDateStr()) return '最多只能預約兩個月內的日期'
