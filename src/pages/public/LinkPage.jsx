@@ -3,7 +3,7 @@
 // noindex 且不進 sitemap（因此不會被 prerender），避免與官網門面頁在搜尋結果打架。
 import { Link } from 'react-router-dom';
 import { Globe, MapPin, MessageCircle, Phone, Star } from 'lucide-react';
-import SEO, { LINE_URL } from '../../components/SEO';
+import SEO from '../../components/SEO';
 
 // lucide 1.x 已移除品牌圖示，Instagram 標誌改用內嵌 SVG。
 const InstagramIcon = ({ size = 20, className }) => (
@@ -27,7 +27,7 @@ const InstagramIcon = ({ size = 20, className }) => (
 
 const LINKS = [
   {
-    href: LINE_URL,
+    href: '/go/line/link-page',
     icon: MessageCircle,
     label: '加入官方 LINE',
     sub: '訂位・活動通知・會員 APP 入口',
@@ -43,7 +43,7 @@ const LINKS = [
     internal: true,
   },
   {
-    href: 'https://www.instagram.com/uggboardgame/',
+    href: '/go/instagram/link-page',
     icon: InstagramIcon,
     label: 'Instagram',
     sub: '@uggboardgame',
@@ -51,19 +51,19 @@ const LINKS = [
   {
     // 直接開啟 Google「寫評論」視窗。Place ID 由店家地圖 ftid
     // (0x34693d4ebeee27bf:0x46e132c9090a17cf) 換算，已反查確認為烏嘎嘎桌遊。
-    href: 'https://search.google.com/local/writereview?placeid=ChIJvyfuvk49aTQRzxcKCcky4UY',
+    href: '/go/review/link-page',
     icon: Star,
     label: 'Google 五星好評',
     sub: '玩得開心的話，留個評論鼓勵我們',
   },
   {
-    href: 'https://www.google.com/maps/place/?q=place_id:ChIJvyfuvk49aTQRzxcKCcky4UY',
+    href: '/go/map/link-page',
     icon: MapPin,
     label: 'Google 地圖',
     sub: '台中市東區自由路四段309號',
   },
   {
-    href: 'tel:0422154321',
+    href: '/go/phone/link-page',
     icon: Phone,
     label: '電話直撥',
     sub: '04-2215-4321',
@@ -93,8 +93,8 @@ const LinkButton = ({ href, icon: Icon, label, sub, primary, internal }) => {
   ) : (
     <a
       href={href}
-      target={href.startsWith('tel:') ? undefined : '_blank'}
-      rel="noreferrer"
+      target="_blank"
+      rel="nofollow noreferrer"
       className={className}
     >
       {content}

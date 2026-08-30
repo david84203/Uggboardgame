@@ -41,10 +41,10 @@ const FLOORS = [
 ];
 
 const CONTACTS = [
-  { label: '電話', value: '04-2215-4321', href: 'tel:0422154321' },
-  { label: 'LINE 官方帳號', value: '@160qiryn', href: 'https://line.me/R/ti/p/@160qiryn', external: true },
-  { label: 'Facebook', value: 'UGGBG', href: 'https://www.facebook.com/UGGBG/', external: true },
-  { label: 'Instagram', value: '@uggboardgame', href: 'https://www.instagram.com/uggboardgame/', external: true },
+  { label: '電話', value: '04-2215-4321', href: '/go/phone/about-contact' },
+  { label: 'LINE 官方帳號', value: '@160qiryn', href: '/go/line/about-contact', external: true },
+  { label: 'Facebook', value: 'UGGBG', href: '/go/facebook/about-contact', external: true },
+  { label: 'Instagram', value: '@uggboardgame', href: '/go/instagram/about-contact', external: true },
 ];
 
 export default function AboutPage() {
@@ -140,7 +140,7 @@ export default function AboutPage() {
                 <dd>
                   <a
                     href={c.href}
-                    {...(c.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                    {...(c.external ? { target: '_blank', rel: 'nofollow noreferrer' } : {})}
                     className="font-bold ug-accent text-[15px]"
                   >
                     {c.value}
@@ -154,7 +154,7 @@ export default function AboutPage() {
         <section className="ug-surface p-6 max-w-[70ch]">
           <p className="ug-body ug-ink-2">
             <span className="font-bold ug-ink">同棟3F為莎朗嘿yo韓式照相館</span>，提供韓式證件照與個人形象寫真，入口在烏嘎嘎桌遊店內，可直接向櫃台詢問。
-            更多資訊請見 <a href="https://heyyo520.tw" target="_blank" rel="noreferrer" className="underline ug-accent">heyyo520.tw</a>。
+            更多資訊請見 <a href="/go/heyyo/about-cross-brand" target="_blank" rel="nofollow noreferrer" className="underline ug-accent">heyyo520.tw</a>。
           </p>
         </section>
       </div>

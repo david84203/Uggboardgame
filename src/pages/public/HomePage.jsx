@@ -1,5 +1,5 @@
 import { Link, Navigate, useLocation } from 'react-router-dom';
-import SEO, { businessSchema, websiteSchema, LINE_URL } from '../../components/SEO';
+import SEO, { businessSchema, websiteSchema } from '../../components/SEO';
 import PublicNav, { PublicFooter } from './PublicNav';
 
 const seo = {
@@ -121,9 +121,9 @@ export default function HomePage() {
             {/* 預約與遊戲清單都在會員 APP 裡，APP 入口又在 LINE 圖文選單裡，
                 所以這兩件事併成一顆 LINE 按鈕——不做兩顆連到同一個網址的按鈕。 */}
             <div className="flex flex-wrap gap-2.5">
-              <a href={LINE_URL} target="_blank" rel="noreferrer" className="ug-btn ug-btn-primary px-4">加 LINE 預約座位</a>
+              <a href="/go/line/home-hero" target="_blank" rel="nofollow noreferrer" className="ug-btn ug-btn-primary px-4">加 LINE 預約座位</a>
               <a href="/pricing" className="ug-btn ug-btn-ghost px-4">看收費方式</a>
-              <a href="tel:0422154321" className="ug-btn ug-btn-ghost px-4">04-2215-4321</a>
+              <a href="/go/phone/home-hero" className="ug-btn ug-btn-ghost px-4">04-2215-4321</a>
             </div>
           </div>
           <div className="lg:col-span-6">
@@ -150,7 +150,7 @@ export default function HomePage() {
               <dt>{f.label}</dt>
               <dd>
                 {f.label === '電話'
-                  ? <a href="tel:0422154321" className="ug-accent font-bold">{f.value}</a>
+                  ? <a href="/go/phone/home-facts" className="ug-accent font-bold">{f.value}</a>
                   : f.value}
               </dd>
             </div>
@@ -280,10 +280,10 @@ export default function HomePage() {
             <p><span className="font-bold ug-ink">公車：</span>站牌「東英自由路口」61、241路；站牌「自由東英路口」249路，下車步行約1分鐘。</p>
             <p>
               <span className="font-bold ug-ink">聯絡：</span>
-              電話 <a href="tel:0422154321" className="ug-accent font-bold">04-2215-4321</a>、
-              LINE <a href="https://line.me/R/ti/p/@160qiryn" target="_blank" rel="noreferrer" className="ug-accent font-bold">@160qiryn</a>、
-              Facebook <a href="https://www.facebook.com/UGGBG/" target="_blank" rel="noreferrer" className="ug-accent font-bold">UGGBG</a>、
-              Instagram <a href="https://www.instagram.com/uggboardgame/" target="_blank" rel="noreferrer" className="ug-accent font-bold">@uggboardgame</a>。
+              電話 <a href="/go/phone/home-contact" className="ug-accent font-bold">04-2215-4321</a>、
+              LINE <a href="/go/line/home-contact" target="_blank" rel="nofollow noreferrer" className="ug-accent font-bold">@160qiryn</a>、
+              Facebook <a href="/go/facebook/home-contact" target="_blank" rel="nofollow noreferrer" className="ug-accent font-bold">UGGBG</a>、
+              Instagram <a href="/go/instagram/home-contact" target="_blank" rel="nofollow noreferrer" className="ug-accent font-bold">@uggboardgame</a>。
             </p>
             <p>
               更多店家資訊見 <Link to="/about" className="font-bold ug-accent underline">店家資訊</Link>。
@@ -313,12 +313,12 @@ export default function HomePage() {
               會員 APP 可以線上預約座位、查店內開盒遊戲清單與租借紀錄、看自己的消費與玩過紀錄。
               加入官方 LINE 後，從下方圖文選單就能進入。
             </p>
-            <a href={LINE_URL} target="_blank" rel="noreferrer" className="ug-btn ug-btn-primary">加 LINE 領取 APP 入口</a>
+            <a href="/go/line/home-app" target="_blank" rel="nofollow noreferrer" className="ug-btn ug-btn-primary">加 LINE 領取 APP 入口</a>
           </div>
           <div className="ug-surface p-6">
             <p className="ug-body ug-ink-2">
               <span className="font-bold ug-ink">同棟3F為莎朗嘿yo韓式照相館</span>，提供韓式證件照與個人形象寫真，入口在烏嘎嘎桌遊店內，可直接向櫃台詢問。
-              更多資訊請見 <a href="https://heyyo520.tw" target="_blank" rel="noreferrer" className="underline ug-accent">heyyo520.tw</a>。
+              更多資訊請見 <a href="/go/heyyo/home-cross-brand" target="_blank" rel="nofollow noreferrer" className="underline ug-accent">heyyo520.tw</a>。
             </p>
           </div>
         </div>
