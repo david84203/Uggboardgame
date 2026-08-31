@@ -100,18 +100,19 @@ export default function HomePage() {
   }
 
   return (
-    <div className="public-page min-h-screen">
+    <div className="public-page public-home min-h-screen">
       <SEO {...seo} />
       <PublicNav />
 
       {/* 1. Hero：左文右圖的不對稱分割。
           註：這段導言比一般 hero 長很多，是因為文案本身要餵給 AI 搜尋、不能刪字，
           所以改用較小的字級把它當「前言段落」處理，而不是硬撐成大標。 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pt-12 sm:pt-20 pb-14 sm:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          <div className="lg:col-span-6">
-            <h1 className="text-[28px] sm:text-[40px] font-black leading-[1.25] ug-ink mb-5">
-              烏嘎嘎桌遊｜台中東區的三層樓桌遊店
+      <section className="ug-hero max-w-6xl mx-auto px-5 sm:px-8 pt-10 sm:pt-16 pb-14 sm:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-9 lg:gap-14 items-center">
+          <div className="ug-hero-copy lg:col-span-6">
+            <p className="ug-eyebrow">台中東區 · 三層樓桌遊空間</p>
+            <h1 className="text-[34px] sm:text-[52px] font-black leading-[1.14] ug-ink mb-6">
+              烏嘎嘎桌遊<span className="ug-title-break">｜台中東區的三層樓桌遊店</span>
             </h1>
             <p className="ug-lead ug-ink-2 mb-8 max-w-[46ch]">
               台中市東區自由路四段309號，店內超過 1,700 款桌遊全部開盒、入場後自由借玩，
@@ -126,8 +127,8 @@ export default function HomePage() {
               <a href="/go/phone/home-hero" className="ug-btn ug-btn-ghost px-4">04-2215-4321</a>
             </div>
           </div>
-          <div className="lg:col-span-6">
-            <div className="aspect-[14/9]">
+          <div className="ug-hero-media lg:col-span-6">
+            <div className="ug-hero-photo aspect-[14/9]">
               <img
                 src="/images/env/web/wall-aisle.webp"
                 alt="烏嘎嘎桌遊店內整排開盒桌遊的桌遊牆走道"
@@ -137,12 +138,14 @@ export default function HomePage() {
                 className="ug-photo"
               />
             </div>
+            <div className="ug-hero-stamp ug-hero-stamp-games" aria-hidden="true"><strong>1,700+</strong><span>款桌遊</span></div>
+            <div className="ug-hero-stamp ug-hero-stamp-teach" aria-hidden="true"><strong>FREE</strong><span>免費教學</span></div>
           </div>
         </div>
       </section>
 
       {/* 2. 快速事實：方格，取代原本一列一條橫線的規格表 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+      <section className="ug-section max-w-6xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24">
         <h2 className="ug-section-title text-lg mb-5">一分鐘看懂烏嘎嘎</h2>
         <dl className="ug-facts">
           {FACTS.map((f) => (
@@ -158,27 +161,30 @@ export default function HomePage() {
         </dl>
       </section>
 
-      {/* 3. 三個特色：照片在上、文字在下的三欄。不加外框，靠照片與留白分組 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
-          {HIGHLIGHTS.map((h) => (
-            <div key={h.title}>
+      {/* 3. 三個特色：照片在上、文字在下的三欄品牌卡 */}
+      <section className="ug-feature-band">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+          {HIGHLIGHTS.map((h, index) => (
+            <article key={h.title} className="ug-feature-card">
               <div className="aspect-[4/3] mb-4">
                 <img src={h.photo} alt={h.alt} width="900" height="675" loading="lazy" className="ug-photo" />
               </div>
-              <h2 className="font-bold ug-ink text-base mb-2 leading-snug">{h.title}</h2>
+              <span className="ug-card-no" aria-hidden="true">0{index + 1}</span>
+              <h2 className="font-black ug-ink text-lg mb-2 leading-snug">{h.title}</h2>
               <p className="ug-body ug-ink-2">{h.desc}</p>
-            </div>
+            </article>
           ))}
+          </div>
         </div>
       </section>
 
       {/* 4. 樓層：三格不對稱照片牆（1F 佔滿一列，2F／3F 並排） */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+      <section className="ug-section max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
         <h2 className="ug-section-title text-lg mb-5">三層樓的遊戲空間</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {FLOORS.map((f) => (
-            <article key={f.floor} className={f.wide ? 'sm:col-span-2' : ''}>
+            <article key={f.floor} className={`ug-floor-card ${f.wide ? 'sm:col-span-2 ug-floor-card-wide' : ''}`}>
               <div className={f.wide ? 'aspect-[16/7]' : 'aspect-[4/3]'}>
                 <img src={f.photo} alt={f.alt} width="1000" height="750" loading="lazy" className="ug-photo" />
               </div>
@@ -197,12 +203,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. 情境導引：2×2 細線方格 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+      {/* 5. 情境導引：2×2 資訊卡 */}
+      <section className="ug-section ug-scenes max-w-6xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24">
         <h2 className="ug-section-title text-lg mb-5">你是哪一種客人？</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-0">
           {SCENES.map((s) => (
-            <div key={s.who} className="ug-hair py-6">
+            <div key={s.who} className="ug-scene-card">
               <h3 className="font-bold ug-accent text-base mb-2">{s.who}</h3>
               <p className="ug-body ug-ink-2">{s.text}</p>
             </div>
@@ -210,11 +216,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. 收費：真表格，不包卡片 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+      {/* 6. 收費：高辨識度品牌色帶中的真表格 */}
+      <section className="ug-pricing-band">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
         <h2 className="ug-section-title text-lg mb-5">收費一覽</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-7 overflow-x-auto">
+        <div className="ug-pricing-panel grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <div className="lg:col-span-7 overflow-x-auto self-center">
             <table className="ug-table">
               <thead>
                 <tr>
@@ -251,14 +258,15 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       {/* 7. FAQ 精選：懸掛縮排問答，不做成卡片堆 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+      <section className="ug-section ug-faq-preview max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
         <h2 className="ug-section-title text-lg mb-5">常被問到的問題</h2>
         <div className="max-w-[68ch] space-y-7">
           {FAQ_PREVIEW.map((f) => (
-            <div key={f.q}>
+            <div key={f.q} className="ug-faq-item">
               <h3 className="font-bold ug-ink text-base mb-1.5">Q．{f.q}</h3>
               <p className="ug-body ug-ink-2">{f.a}</p>
             </div>
@@ -271,7 +279,7 @@ export default function HomePage() {
       </section>
 
       {/* 8. 交通與聯絡：左資訊右照片 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8 pb-16 sm:pb-20">
+      <section className="ug-section ug-contact-section max-w-6xl mx-auto px-5 sm:px-8 pb-16 sm:pb-24">
         <h2 className="ug-section-title text-lg mb-5">怎麼來、怎麼找我們</h2>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           <div className="lg:col-span-7 space-y-3 ug-body ug-ink-2">
@@ -305,7 +313,7 @@ export default function HomePage() {
       </section>
 
       {/* 9. 兩則導引：會員 APP 與同棟照相館 */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-8">
+      <section className="ug-cta-grid max-w-6xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="ug-surface p-6">
             <h2 className="font-bold ug-ink text-base mb-2">會員 APP 在官方 LINE 裡</h2>

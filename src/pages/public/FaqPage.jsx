@@ -80,20 +80,20 @@ const seo = {
 
 export default function FaqPage() {
   return (
-    <div className="public-page min-h-screen">
+    <div className="public-page public-faq min-h-screen">
       <SEO {...seo} />
       <PublicNav />
 
       <div className="max-w-5xl mx-auto px-5 sm:px-8">
-        <header className="pt-12 sm:pt-20 pb-10 sm:pb-14">
+        <header className="ug-subpage-hero ug-subpage-hero-copy pt-12 sm:pt-20 pb-10 sm:pb-14">
           <h1 className="text-[28px] sm:text-[40px] font-black ug-ink">常見問題</h1>
         </header>
 
         {/* 問題在左、答案在右的兩欄編輯式排版。
             刻意不做手風琴／摺疊：答案要一眼可讀，也要讓不執行 JS 的 AI 爬蟲直接讀到。 */}
-        <section className="ug-divide ug-hair">
+        <section className="ug-faq-list">
           {FAQS.map((item, i) => (
-            <div key={i} className="grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-10 py-7">
+            <div key={i} className="ug-faq-row grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-10">
               <h2 className="lg:col-span-5 font-bold ug-ink text-base sm:text-[17px] leading-[1.7] flex gap-3">
                 <span className="ug-accent shrink-0 tabular-nums font-black">Q{i + 1}.</span>
                 <span>{item.q}</span>

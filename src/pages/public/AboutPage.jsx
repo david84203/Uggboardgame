@@ -49,13 +49,13 @@ const CONTACTS = [
 
 export default function AboutPage() {
   return (
-    <div className="public-page min-h-screen">
+    <div className="public-page public-about min-h-screen">
       <SEO {...seo} />
       <PublicNav />
 
       <div className="max-w-5xl mx-auto px-5 sm:px-8">
         {/* Hero：左文右圖 */}
-        <header className="pt-12 sm:pt-20 pb-14 sm:pb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <header className="ug-subpage-hero pt-12 sm:pt-20 pb-14 sm:pb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-7">
             <h1 className="text-[28px] sm:text-[40px] font-black ug-ink mb-4">烏嘎嘎桌遊</h1>
             <p className="ug-lead ug-ink-2 max-w-[44ch]">
@@ -77,7 +77,7 @@ export default function AboutPage() {
         </header>
 
         {/* 營業時間：整段獨立，這是最常被查的事實 */}
-        <section className="pb-16 sm:pb-20">
+        <section className="ug-section pb-16 sm:pb-20">
           <h2 className="ug-section-title text-lg mb-4">營業時間</h2>
           <p className="ug-lead ug-ink-2 max-w-[62ch]">
             <span className="font-bold ug-ink">每日 13:00–24:00，週二固定公休</span>（其餘六天含國定假日皆正常營業）。最晚可預約時段為 23:00。
@@ -86,7 +86,7 @@ export default function AboutPage() {
         </section>
 
         {/* 地址與交通：左文右照 */}
-        <section className="pb-16 sm:pb-20">
+        <section className="ug-section pb-16 sm:pb-20">
           <h2 className="ug-section-title text-lg mb-5">地址與交通</h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             <div className="lg:col-span-7 space-y-3 ug-body ug-ink-2">
@@ -110,7 +110,7 @@ export default function AboutPage() {
         </section>
 
         {/* 樓層：照片牆 */}
-        <section className="pb-16 sm:pb-20">
+        <section className="ug-section pb-16 sm:pb-20">
           <h2 className="ug-section-title text-lg mb-5">店內樓層</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {FLOORS.map((f) => (
@@ -131,7 +131,7 @@ export default function AboutPage() {
         </section>
 
         {/* 聯絡方式：細線列表 */}
-        <section className="pb-16 sm:pb-20">
+        <section className="ug-section pb-16 sm:pb-20">
           <h2 className="ug-section-title text-lg mb-5">聯絡方式</h2>
           <dl className="ug-divide ug-hair max-w-[52ch]">
             {CONTACTS.map((c) => (
@@ -151,7 +151,7 @@ export default function AboutPage() {
           </dl>
         </section>
 
-        <section className="ug-surface p-6 max-w-[70ch]">
+        <section className="ug-surface ug-cross-brand p-6 max-w-[70ch]">
           <p className="ug-body ug-ink-2">
             <span className="font-bold ug-ink">同棟3F為莎朗嘿yo韓式照相館</span>，提供韓式證件照與個人形象寫真，入口在烏嘎嘎桌遊店內，可直接向櫃台詢問。
             更多資訊請見 <a href="/go/heyyo/about-cross-brand" target="_blank" rel="nofollow noreferrer" className="underline ug-accent">heyyo520.tw</a>。

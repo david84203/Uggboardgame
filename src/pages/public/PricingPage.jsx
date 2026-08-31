@@ -44,12 +44,12 @@ const VENUE = [
 
 export default function PricingPage() {
   return (
-    <div className="public-page min-h-screen">
+    <div className="public-page public-pricing min-h-screen">
       <SEO {...seo} />
       <PublicNav />
 
       <div className="max-w-5xl mx-auto px-5 sm:px-8">
-        <header className="pt-12 sm:pt-20 pb-12 sm:pb-16 max-w-[52ch]">
+        <header className="ug-subpage-hero ug-subpage-hero-copy pt-12 sm:pt-20 pb-12 sm:pb-16 max-w-[58ch]">
           <h1 className="text-[28px] sm:text-[40px] font-black ug-ink mb-4">服務與收費</h1>
           <p className="ug-lead ug-ink-2">
             <span className="font-bold ug-ink">烏嘎嘎沒有低消規則，每人依入場方案付費即可</span>，入場費已包含店內超過1,700款桌遊自由借玩與免費遊戲教學。
@@ -57,7 +57,7 @@ export default function PricingPage() {
         </header>
 
         {/* 入場費：左標題右內容的兩欄結構 */}
-        <section className="pb-16 sm:pb-20">
+        <section className="ug-section pb-16 sm:pb-20">
           <h2 className="ug-section-title text-lg mb-5">入場費</h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7 ug-divide ug-hair">
@@ -76,7 +76,7 @@ export default function PricingPage() {
         </section>
 
         {/* 外食與教學：兩欄並排的短段落 */}
-        <section className="pb-16 sm:pb-20 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
+        <section className="ug-section ug-info-duo pb-16 sm:pb-20 grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <h2 className="ug-section-title text-lg mb-4">外食與餐點</h2>
             <div className="ug-body ug-ink-2 space-y-2">
@@ -93,7 +93,7 @@ export default function PricingPage() {
         </section>
 
         {/* 包場：真表格 */}
-        <section className="pb-16 sm:pb-20">
+        <section className="ug-section pb-16 sm:pb-20">
           <h2 className="ug-section-title text-lg mb-5">包場方案</h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7">
@@ -138,7 +138,7 @@ export default function PricingPage() {
         </section>
 
         {/* 租借與付款：兩欄並排 */}
-        <section className="pb-16 sm:pb-20 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
+        <section className="ug-section ug-info-duo pb-16 sm:pb-20 grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <h2 className="ug-section-title text-lg mb-4">桌遊租借（限會員）</h2>
             <div className="ug-body ug-ink-2 space-y-2">
