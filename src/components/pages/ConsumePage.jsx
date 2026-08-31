@@ -162,6 +162,9 @@ export default function ConsumePage() {
             <p className="text-base text-stone-600 leading-relaxed mt-1">
               <span className="font-bold text-amber-700">容納人數：</span>兩層樓都各可容納約 <span className="font-bold">30 人</span>
             </p>
+            <p className="text-base text-stone-600 leading-relaxed mt-1">
+              <span className="font-bold text-amber-700">外食：</span>攜帶共享性餐點收固定清潔費 <span className="font-bold">500 元</span>（不逐桌計；個人餐點與飲料不在此限）
+            </p>
           </div>
 
           {/* 平日包場 */}

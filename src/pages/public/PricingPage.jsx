@@ -81,7 +81,7 @@ export default function PricingPage() {
             <h2 className="ug-section-title text-lg mb-4">外食與餐點</h2>
             <div className="ug-body ug-ink-2 space-y-2">
               <p><span className="font-bold ug-ink">可以帶外食</span>，店內也有販售泡麵、米漢堡、炸物拼盤、飲料與零食（供餐至21:00）。</p>
-              <p>若攜帶<span className="font-bold ug-ink">整桌共享性餐點</span>（例如PIZZA、蛋糕、烤雞、烤鴨等），需加收<span className="font-bold ug-accent">200元清潔費</span>（以桌計費，非每人）。</p>
+              <p>個人餐點與飲料不另收費。若攜帶<span className="font-bold ug-ink">整桌共享性餐點</span>（例如PIZZA、蛋糕、烤雞、烤鴨等），需加收清潔費<span className="font-bold ug-accent">每桌200元</span>——依實際放置餐點的桌子計算，非以人數計；餐點集中在一桌就只算一桌。</p>
             </div>
           </div>
           <div>
@@ -121,7 +121,7 @@ export default function PricingPage() {
             </div>
             <div className="lg:col-span-5">
               <p className="text-sm leading-[1.85] ug-ink-3 mb-5">
-                包場為整段時段計價、不另計人數。要包場請先透過官方LINE或Facebook粉絲專頁洽詢檔期。
+                包場為整段時段計價、不另計人數。包場如攜帶共享性餐點，收固定清潔費500元（不逐桌計；個人餐點與飲料不在此限）。要包場請先透過官方LINE或Facebook粉絲專頁洽詢檔期。
               </p>
               <div className="aspect-[4/3]">
                 <img
