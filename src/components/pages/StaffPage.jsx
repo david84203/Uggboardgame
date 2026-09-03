@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
-import { CalendarDays, Sparkles, GraduationCap, ChevronLeft, ChevronRight, Check, Clock, MapPin, Users } from 'lucide-react'
+import { CalendarDays, Sparkles, GraduationCap, Receipt, ChevronLeft, ChevronRight, Check, Clock, MapPin, Users } from 'lucide-react'
 import GameCard from '../GameCard'
-import useStaffProfile from '../../hooks/useStaffProfile'
+import FoodMenuEditor from '../FoodMenuEditor'
+import useStaffProfile, { normPhone } from '../../hooks/useStaffProfile'
 import useStaffSkills from '../../hooks/useStaffSkills'
 import useSchedule, { useUpcomingShifts } from '../../hooks/useSchedule'
 
@@ -393,11 +394,16 @@ const TABS = [
   { id: 'schedule', label: '排班表', icon: CalendarDays },
   { id: 'picks', label: '推薦遊戲', icon: Sparkles },
   { id: 'learn', label: '必學遊戲', icon: GraduationCap },
+  { id: 'menu', label: '零食價目', icon: Receipt },
 ]
 
 export default function StaffPage({ member, games = [], gamesLoading = false, onNavigate }) {
   const { staffList, staff, isStaff, isOwner, loading } = useStaffProfile(member)
-  const [tab, setTab] = useState('schedule')
+  // 營運系統的「零食價目」按鈕會帶 ?tab=staff&sub=menu 直接開到編輯頁
+  const [tab, setTab] = useState(() => {
+    const sub = new URLSearchParams(window.location.search).get('sub')
+    return TABS.some((t) => t.id === sub) ? sub : 'schedule'
+  })
   const [ownerViewId, setOwnerViewId] = useState('')
   const [selectedGame, setSelectedGame] = useState(null)
 
@@ -493,6 +499,11 @@ export default function StaffPage({ member, games = [], gamesLoading = false, on
           isSelf={!isOwner && staff?.id === viewStaff?.id}
           onOpenGame={setSelectedGame}
         />
+      )}
+      {tab === 'menu' && (
+        // 寫入端要靠手機號認人（後端會再比對一次排班表），
+        // GM 登入用的是 GM_NO_PHONE 沒有真手機，所以只能看不能改
+        <FoodMenuEditor phone={member?.phone} canEdit={!!normPhone(member?.phone) && isStaff} />
       )}
 
       {/* 遊戲詳細：直接用遊戲清單那張卡，圖片／簡介／教學影片／租金都在裡面 */}
