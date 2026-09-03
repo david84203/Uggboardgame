@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Plus, Save, RotateCcw, X, AlertTriangle } from 'lucide-react'
+import { Plus, Save, RotateCcw, X, AlertTriangle, ExternalLink } from 'lucide-react'
 
 // 價目表讀寫都走 ugg-suite（Google 服務帳號金鑰只在那個專案，對外 APP 不放金鑰）。
 // 客人看的價目頁走 gviz CSV 直讀，不經過這裡；這支是「要驗身分」的編輯端。
 const API = 'https://ugg-suite.vercel.app/api/food-menu'
+// 沒有登記手機的帳號（例如管理員登入）改不了，給一條直接編試算表的路
+const SHEET_URL =
+  'https://docs.google.com/spreadsheets/d/1ihFg-9I9QBG9bXK3XtipsD9ymtPvlBcQJk4KA5YeMnw/edit#gid=2121065632'
 
 // 補零食是主要情境，所以零食排最前面
 const CATEGORIES = ['零食', '餐點', '飲料']
@@ -182,10 +185,19 @@ export default function FoodMenuEditor({ phone, canEdit = true }) {
       </div>
 
       {!canEdit && (
-        <div className="bg-stone-100 border border-stone-200 rounded-2xl p-3">
+        <div className="bg-stone-100 border border-stone-200 rounded-2xl p-3 space-y-2">
           <p className="text-sm text-stone-600 leading-relaxed">
-            目前這個帳號沒有登記手機號碼，只能查看。要改價目請用店員身分登入，或直接在 Google 試算表修改。
+            這個帳號沒有登記手機號碼（管理員登入就是這種），系統認不出是誰改的，所以只能查看。
+            要在這裡改，得用有登記手機的店員身分登入。
           </p>
+          <a
+            href={SHEET_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-bold"
+          >
+            <ExternalLink size={15} /> 用 Google 試算表編輯
+          </a>
         </div>
       )}
 
