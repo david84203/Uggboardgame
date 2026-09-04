@@ -1,10 +1,13 @@
 import { useState, useMemo } from 'react'
-import { CalendarDays, Sparkles, GraduationCap, Receipt, ChevronLeft, ChevronRight, Check, Clock, MapPin, Users } from 'lucide-react'
+import { CalendarDays, Sparkles, GraduationCap, Receipt, ClipboardCheck, ChevronLeft, ChevronRight, Check, Clock, MapPin, Users } from 'lucide-react'
 import GameCard from '../GameCard'
 import FoodMenuEditor from '../FoodMenuEditor'
 import useStaffProfile, { normPhone } from '../../hooks/useStaffProfile'
 import useStaffSkills from '../../hooks/useStaffSkills'
 import useSchedule, { useUpcomingShifts } from '../../hooks/useSchedule'
+import useShiftDuties from '../../hooks/useShiftDuties'
+import { useDepositExpected } from '../../hooks/useDepositExpected'
+import { DUTIES, GROUP_LABELS, OPENING_CASH } from '../../utils/duties'
 
 const PALETTE = {
   orange: { dot: '#f97316', chip: 'bg-orange-100 text-orange-700' },
@@ -389,12 +392,190 @@ function LearnTab({ games, gamesLoading, viewStaff, canVerify, isSelf, onOpenGam
   )
 }
 
+// ── 值班工作：每日固定工作打勾清單，開班點錢兼打卡上班 ──────────────────────
+function fmtTime(ts) {
+  if (!ts?.toDate) return ''
+  const d = ts.toDate()
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+}
+
+function MoneyRow({ label, value, ok, diff, unknown }) {
+  return (
+    <div className={`${card} p-3 flex items-center justify-between`}>
+      <span className="text-sm text-stone-700">{label}</span>
+      <div className="text-right">
+        <span className="text-sm font-bold text-stone-800">{value ?? '-'}</span>
+        {unknown ? (
+          <span className="block text-[11px] text-stone-400">應有金額待入場系統提供</span>
+        ) : ok ? (
+          <span className="block text-[11px] text-amber-600 font-bold">相符</span>
+        ) : (
+          <span className="block text-[11px] text-rose-500 font-bold">{diff > 0 ? `多 ${diff}` : `少 ${Math.abs(diff)}`}</span>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function DutiesTab({ staff }) {
+  const { duties, loading, openShift, toggleTask, skipTask } = useShiftDuties(staff)
+  const { expected: depositExpected } = useDepositExpected()
+  const [drawerInput, setDrawerInput] = useState('')
+  const [depositInput, setDepositInput] = useState('')
+  const [opening, setOpening] = useState(false)
+  const [busyTask, setBusyTask] = useState('')
+
+  if (!staff) {
+    return (
+      <div className={`${card} p-5 text-center`}>
+        <p className="text-sm text-stone-600 font-medium">今天沒有你的班</p>
+        <p className="text-xs text-stone-400 mt-2 leading-relaxed">如果你今天有上班，請跟店長確認排班登記</p>
+      </div>
+    )
+  }
+
+  if (loading) return <p className="text-center text-sm text-stone-400 py-10">載入中…</p>
+
+  async function handleOpen() {
+    const drawer = Number(drawerInput)
+    const deposit = Number(depositInput)
+    if (drawerInput === '' || depositInput === '' || Number.isNaN(drawer) || Number.isNaN(deposit)) {
+      alert('請輸入抽屜與押金盒的實點金額')
+      return
+    }
+    setOpening(true)
+    try {
+      await openShift({ drawer, deposit, depositExpected })
+    } catch (e) {
+      alert(`開班失敗：${e?.message || '請稍後再試'}`)
+    } finally {
+      setOpening(false)
+    }
+  }
+
+  // 還沒開班：只顯示點錢卡片
+  if (!duties) {
+    return (
+      <div className={`${card} p-5 space-y-4`}>
+        <div>
+          <div className="text-sm font-bold text-stone-800">開班點錢</div>
+          <div className="text-[11px] text-stone-400 mt-0.5">點完送出即完成打卡上班</div>
+        </div>
+        <div className="space-y-3">
+          <div>
+            <label className="text-xs font-bold text-stone-500">抽屜現金（應有 {OPENING_CASH}）</label>
+            <input type="number" inputMode="numeric" value={drawerInput} onChange={(e) => setDrawerInput(e.target.value)}
+              placeholder="實點金額"
+              className="mt-1 w-full px-3 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-orange-400" />
+          </div>
+          <div>
+            <label className="text-xs font-bold text-stone-500">押金盒</label>
+            <input type="number" inputMode="numeric" value={depositInput} onChange={(e) => setDepositInput(e.target.value)}
+              placeholder="實點金額"
+              className="mt-1 w-full px-3 py-3 rounded-xl border border-stone-200 text-sm focus:outline-none focus:border-orange-400" />
+            {depositExpected == null && <p className="text-[11px] text-stone-400 mt-1">應有金額待入場系統提供</p>}
+          </div>
+        </div>
+        <button disabled={opening} onClick={handleOpen}
+          className="w-full py-3.5 rounded-2xl bg-orange-500 text-white text-sm font-bold disabled:opacity-40">
+          {opening ? '處理中…' : '完成開班'}
+        </button>
+      </div>
+    )
+  }
+
+  // 已開班：清單＋進度
+  const checkTasks = DUTIES.filter((d) => d.group !== 'open')
+  const doneCount = checkTasks.filter((d) => {
+    const t = duties.tasks?.[d.id]
+    return t?.done || t?.skipped
+  }).length
+
+  async function handleToggle(id) {
+    setBusyTask(id)
+    try { await toggleTask(id) } catch (e) { alert(`更新失敗：${e?.message || '請稍後再試'}`) }
+    finally { setBusyTask('') }
+  }
+  async function handleSkip(id) {
+    setBusyTask(id)
+    try { await skipTask(id) } catch (e) { alert(`更新失敗：${e?.message || '請稍後再試'}`) }
+    finally { setBusyTask('') }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className={`${card} p-4`}>
+        <div className="flex items-baseline justify-between">
+          <span className="text-sm font-bold text-stone-800">{duties.staffName} 已開班</span>
+          <span className="text-xs text-stone-400 flex items-center gap-1"><Clock size={12} />{fmtTime(duties.openedAt)}</span>
+        </div>
+        <div className="flex items-baseline justify-between mt-3 mb-1">
+          <span className="text-xs text-stone-500">今日進度</span>
+          <span className="text-sm text-stone-500"><strong className="text-amber-600 text-lg">{doneCount}</strong> / {checkTasks.length}</span>
+        </div>
+        <div className="h-2 rounded-full bg-stone-100 overflow-hidden">
+          <div className="bg-amber-500 h-full transition-all" style={{ width: `${(doneCount / checkTasks.length) * 100}%` }} />
+        </div>
+      </div>
+
+      {/* 點錢結果：唯讀，開班時已輸入完成 */}
+      <div className="space-y-2">
+        <div className="px-1">
+          <div className="text-sm font-bold text-stone-700">{GROUP_LABELS.open}</div>
+          <div className="text-[11px] text-stone-400">開班時已完成，這裡只顯示結果</div>
+        </div>
+        <MoneyRow label="抽屜現金" value={duties.openCount?.drawer} ok={duties.openCount?.drawerOk} diff={duties.openCount?.drawerDiff} />
+        <MoneyRow label="押金盒" value={duties.openCount?.deposit} ok={duties.openCount?.depositOk} diff={duties.openCount?.depositDiff}
+          unknown={duties.openCount?.depositDiff == null} />
+      </div>
+
+      {['shift', 'close'].map((group) => (
+        <div key={group} className="space-y-2">
+          <div className="px-1">
+            <div className="text-sm font-bold text-stone-700">{GROUP_LABELS[group]}</div>
+          </div>
+          {DUTIES.filter((d) => d.group === group).map((d) => {
+            const t = duties.tasks?.[d.id]
+            const done = !!t?.done
+            const skipped = !!t?.skipped
+            const isBusy = busyTask === d.id
+            return (
+              <div key={d.id} className={`${card} p-3 flex items-center gap-3`}>
+                <button
+                  disabled={isBusy || skipped}
+                  onClick={() => handleToggle(d.id)}
+                  className={`shrink-0 w-11 h-11 rounded-xl border-2 flex items-center justify-center transition disabled:opacity-50 ${
+                    done ? 'bg-amber-500 border-amber-500 text-white' : skipped ? 'bg-stone-100 border-stone-200 text-stone-300' : 'border-stone-300 text-transparent'
+                  }`}>
+                  <Check size={20} />
+                </button>
+                <div className="min-w-0 flex-1">
+                  <div className={`text-sm ${done || skipped ? 'text-stone-400 line-through' : 'text-stone-800 font-medium'}`}>{d.title}</div>
+                  {done && t?.at && <div className="text-[11px] text-stone-400 mt-0.5">完成於 {fmtTime(t.at)}</div>}
+                  {skipped && <div className="text-[11px] text-stone-400 mt-0.5">今天不用</div>}
+                </div>
+                {d.skippable && !done && !skipped && (
+                  <button disabled={isBusy} onClick={() => handleSkip(d.id)}
+                    className="shrink-0 text-[11px] px-2.5 py-1.5 rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50 disabled:opacity-40">
+                    今天不用
+                  </button>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ── 主頁 ─────────────────────────────────────────────────────────────────────
 const TABS = [
   { id: 'schedule', label: '排班表', icon: CalendarDays },
   { id: 'picks', label: '推薦遊戲', icon: Sparkles },
   { id: 'learn', label: '必學遊戲', icon: GraduationCap },
   { id: 'menu', label: '零食價目', icon: Receipt },
+  { id: 'duties', label: '值班工作', icon: ClipboardCheck },
 ]
 
 export default function StaffPage({ member, games = [], gamesLoading = false, onNavigate }) {
@@ -505,6 +686,9 @@ export default function StaffPage({ member, games = [], gamesLoading = false, on
         // GM 登入用的是 GM_NO_PHONE 沒有真手機，所以只能看不能改
         <FoodMenuEditor phone={member?.phone} canEdit={!!normPhone(member?.phone) && isStaff} />
       )}
+      {/* 值班工作只服務登入本人（打卡、打勾都記在自己名下），
+          所以傳 staff 而不是 viewStaff——老闆切視角是用來「看」別人，不是替別人打勾 */}
+      {tab === 'duties' && <DutiesTab staff={staff} />}
 
       {/* 遊戲詳細：直接用遊戲清單那張卡，圖片／簡介／教學影片／租金都在裡面 */}
       {selectedGame && (
