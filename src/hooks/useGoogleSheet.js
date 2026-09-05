@@ -71,6 +71,12 @@ function parsePickTags(raw) {
     .filter((t) => t !== '');
 }
 
+/** 必學=1 的遊戲自動多一個「必學」標籤，保證必學一定出現在推薦遊戲 */
+function withMustLearnTag(tags, mustLearnRaw) {
+  if (parseInt(mustLearnRaw) === 1 && !tags.includes('必學')) return [...tags, '必學'];
+  return tags;
+}
+
 function isWithinThreeMonths(dateStr) {
   if (!dateStr || !dateStr.trim()) return false;
   const arrival = new Date(dateStr.trim());
@@ -253,7 +259,8 @@ export default function useGoogleSheet() {
                   isSoldOut: ['v', 'ˇ', '✓', '√', 'V', '✔'].includes((row[FIELD_MAP.soldOut] || '').trim())
                     || soldNames.has((row[FIELD_MAP.name] || '').trim()),
                   usedZone: parseInt(row[FIELD_MAP.usedZone]) || 0,
-                  staffPicks: parsePickTags(row[FIELD_MAP.staffPick]),
+                  // 規則：必學（1）一定是推薦——Sheet 沒填情境標籤也自動掛「必學」標籤進推薦頁
+                  staffPicks: withMustLearnTag(parsePickTags(row[FIELD_MAP.staffPick]), row[FIELD_MAP.mustLearn]),
                   mustLearn: parseInt(row[FIELD_MAP.mustLearn]) || 0,
                   // 客人人數：店員推薦時要看的是「幾個客人玩起來最好」，不是盒子上的可玩人數
                   minGuests: guestParsed.min,
