@@ -24,7 +24,6 @@ const dotOf = (k) => (PALETTE[k] || PALETTE.orange).dot
 
 const card = 'bg-white border border-stone-200 rounded-2xl'
 const pad2 = (n) => String(n).padStart(2, '0')
-const ymOf = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`
 const dayStr = (y, m, d) => `${y}-${pad2(m)}-${pad2(d)}`
 const todayStr = () => {
   const n = new Date()
@@ -41,12 +40,29 @@ function shortName(name = '') {
 // ── 排班表（唯讀，與入場系統同一份資料）─────────────────────────────────────
 function ScheduleTab({ viewStaff }) {
   const [cursor, setCursor] = useState(() => new Date())
-  const ym = ymOf(cursor)
-  const { shifts, loading } = useSchedule(ym)
-
   const year = cursor.getFullYear()
   const month = cursor.getMonth() + 1
   const today = todayStr()
+
+  // 月曆格子：週一起算，前後補上鄰月的日子（與入場系統的排班表一致）
+  const cells = useMemo(() => {
+    const lead = (new Date(year, month - 1, 1).getDay() + 6) % 7
+    const total = new Date(year, month, 0).getDate()
+    const trail = (7 - ((lead + total) % 7)) % 7
+    const out = []
+    for (let i = -lead; i < total + trail; i++) {
+      const dt = new Date(year, month - 1, i + 1)
+      out.push({
+        ds: dayStr(dt.getFullYear(), dt.getMonth() + 1, dt.getDate()),
+        day: dt.getDate(),
+        jsDay: dt.getDay(),
+        outside: dt.getMonth() + 1 !== month,
+      })
+    }
+    return out
+  }, [year, month])
+
+  const { shifts, loading } = useSchedule(cells[0].ds, cells[cells.length - 1].ds)
 
   const byDate = useMemo(() => {
     const m = {}
@@ -66,17 +82,6 @@ function ScheduleTab({ viewStaff }) {
     shifts.forEach((s) => { if (!m.has(s.staffId)) m.set(s.staffId, { name: s.name, color: s.color }) })
     return Array.from(m.values())
   }, [shifts])
-
-  // 月曆格子：週一起算，與入場系統的排班表一致
-  const cells = useMemo(() => {
-    const first = new Date(year, month - 1, 1)
-    const lead = (first.getDay() + 6) % 7
-    const total = new Date(year, month, 0).getDate()
-    const out = []
-    for (let i = 0; i < lead; i++) out.push(null)
-    for (let d = 1; d <= total; d++) out.push(d)
-    return out
-  }, [year, month])
 
   const shiftMonth = (delta) => setCursor(new Date(year, month - 1 + delta, 1))
 
@@ -119,15 +124,14 @@ function ScheduleTab({ viewStaff }) {
         </div>
 
         <div className="grid grid-cols-7 gap-1">
-          {cells.map((d, i) => {
-            if (d === null) return <div key={`e${i}`} />
-            const ds = dayStr(year, month, d)
+          {cells.map((c) => {
+            const ds = c.ds
             const list = byDate[ds] || []
             const isToday = ds === today
-            const isWeekend = [0, 6].includes(new Date(ds).getDay())
+            const isWeekend = [0, 6].includes(c.jsDay)
             return (
-              <div key={ds} className={`min-h-[58px] rounded-lg p-1 border ${isToday ? 'border-orange-400 bg-orange-50/60' : 'border-stone-100'}`}>
-                <div className={`text-[11px] font-semibold ${isToday ? 'text-orange-600' : isWeekend ? 'text-red-400' : 'text-stone-500'}`}>{d}</div>
+              <div key={ds} className={`min-h-[58px] rounded-lg p-1 border ${isToday ? 'border-orange-400 bg-orange-50/60' : 'border-stone-100'} ${c.outside ? 'opacity-45' : ''}`}>
+                <div className={`text-[11px] font-semibold ${isToday ? 'text-orange-600' : c.outside ? 'text-stone-400' : isWeekend ? 'text-red-400' : 'text-stone-500'}`}>{c.day}</div>
                 <div className="flex flex-col gap-0.5 mt-0.5">
                   {list.map((s) => {
                     const mine = viewStaff && s.staffId === viewStaff.id

@@ -43,20 +43,22 @@ export function useUpcomingShifts(staffId, take = 3) {
 }
 
 /**
- * 讀某個月的排班（與入場系統 ugg-suite 的排班分頁同一份資料，不做同步）
- * @param {string} ym 'YYYY-MM'
+ * 讀一段日期區間的排班（與入場系統 ugg-suite 的排班分頁同一份資料，不做同步）
+ * 月曆前後會補鄰月的日子，所以區間由呼叫端給，不是整月
+ * @param {string} from 'YYYY-MM-DD'
+ * @param {string} to   'YYYY-MM-DD'
  */
-export default function useSchedule(ym) {
+export default function useSchedule(from, to) {
   const [shifts, setShifts] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!ym) return
+    if (!from || !to) return
     setLoading(true)
     const q = query(
       collection(db, 'schedule_shifts'),
-      where('date', '>=', `${ym}-01`),
-      where('date', '<=', `${ym}-31`)
+      where('date', '>=', from),
+      where('date', '<=', to)
     )
     const unsub = onSnapshot(
       q,
@@ -70,7 +72,7 @@ export default function useSchedule(ym) {
       }
     )
     return unsub
-  }, [ym])
+  }, [from, to])
 
   return { shifts, loading }
 }
