@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BeautyLensAnalysis",
+  "description": "AI 臉部與風格分析結果。後端以 Structured Output 強制此格式，前端依代碼匹配預製圖庫與色票。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["quality", "face_shape", "feature_volume", "personal_color", "skin", "makeup", "clothing_colors", "summary"],
+  "properties": {
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok", "issues"],
+      "properties": {
+        "ok": { "type": "boolean" },
+        "issues": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["no_face", "multiple_faces", "not_frontal", "occluded", "too_dark", "too_bright", "blurry", "heavy_makeup", "low_resolution"] }
+        }
+      }
+    },
+    "face_shape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "confidence", "evidence"],
+      "properties": {
+        "type": { "type": "string", "enum": ["round", "square", "oval", "diamond", "heart", "oblong"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence": { "type": "array", "maxItems": 3, "items": { "type": "string" } }
+      }
+    },
+    "feature_volume": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "confidence", "proportions"],
+      "properties": {
+        "level": { "type": "string", "enum": ["light", "medium", "bold"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "proportions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["eye_spacing", "midface", "lower_face", "cheekbone", "brow_eye_gap"],
+          "properties": {
+            "eye_spacing": { "type": "string", "enum": ["wide", "standard", "narrow"] },
+            "midface": { "type": "string", "enum": ["long", "standard", "short"] },
+            "lower_face": { "type": "string", "enum": ["long", "standard", "short"] },
+            "cheekbone": { "type": "string", "enum": ["prominent", "standard", "flat"] },
+            "brow_eye_gap": { "type": "string", "enum": ["wide", "standard", "narrow"] }
+          }
+        }
+      }
+    },
+    "personal_color": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["season", "confidence", "axes", "sub_type"],
+      "properties": {
+        "season": { "type": "string", "enum": ["spring", "summer", "autumn", "winter"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "axes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["temperature", "value", "chroma"],
+          "properties": {
+            "temperature": { "type": "string", "enum": ["warm", "neutral_warm", "neutral_cool", "cool"] },
+            "value": { "type": "string", "enum": ["light", "medium", "deep"] },
+            "chroma": { "type": "string", "enum": ["clear", "medium", "muted"] }
+          }
+        },
+        "sub_type": {
+          "type": "string",
+          "enum": ["light_spring", "warm_spring", "clear_spring", "light_summer", "cool_summer", "soft_summer", "soft_autumn", "warm_autumn", "deep_autumn", "deep_winter", "cool_winter", "clear_winter"]
+        }
+      }
+    },
+    "skin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "confidence", "observations", "care_focus"],
+      "properties": {
+        "type": { "type": "string", "enum": ["oily", "dry", "combination", "normal"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "observations": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["redness", "pores", "dullness", "shine", "dark_circles", "dry_patches", "acne", "uneven_tone"] }
+        },
+        "care_focus": { "type": "array", "maxItems": 3, "items": { "type": "string" } }
+      }
+    },
+    "makeup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blush", "contour", "highlight", "eye", "lip", "style_notes"],
+      "properties": {
+        "blush": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["placement", "shape", "tip", "color_family", "hex"],
+          "properties": {
+            "placement": { "type": "string", "enum": ["apple_center", "apple_outer", "cheekbone_high", "cheekbone_diagonal", "under_eye_wide", "horizontal_mid"] },
+            "shape": { "type": "string", "enum": ["round", "oval_diagonal", "horizontal_band", "c_shape"] },
+            "tip": { "type": "string" },
+            "color_family": { "type": "string" },
+            "hex": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+          }
+        },
+        "contour": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["zones", "tip"],
+          "properties": {
+            "zones": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["temples", "hairline_top", "hairline_sides", "cheek_hollow", "jaw_corners", "jawline", "chin_tip", "nose_sides", "forehead_sides"] }
+            },
+            "tip": { "type": "string" }
+          }
+        },
+        "highlight": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["zones", "tip"],
+          "properties": {
+            "zones": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["forehead_center", "cheekbone_top", "under_brow", "nose_bridge", "cupid_bow", "chin_center", "inner_eye"] }
+            },
+            "tip": { "type": "string" }
+          }
+        },
+        "eye": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["color_family", "hex_palette", "tip"],
+          "properties": {
+            "color_family": { "type": "string" },
+            "hex_palette": { "type": "array", "maxItems": 3, "items": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" } },
+            "tip": { "type": "string" }
+          }
+        },
+        "lip": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["color_family", "hex_palette", "finish", "tip"],
+          "properties": {
+            "color_family": { "type": "string" },
+            "hex_palette": { "type": "array", "maxItems": 3, "items": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" } },
+            "finish": { "type": "string", "enum": ["matte", "satin", "glossy", "tint"] },
+            "tip": { "type": "string" }
+          }
+        },
+        "style_notes": { "type": "string", "description": "依使用者勾選的風格給的整體妝感建議，60–120 字" }
+      }
+    },
+    "clothing_colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommended", "avoid", "neutrals", "tip"],
+      "properties": {
+        "recommended": { "type": "array", "minItems": 6, "maxItems": 6, "items": { "$ref": "#/$defs/swatch" } },
+        "avoid": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/swatch" } },
+        "neutrals": { "type": "array", "maxItems": 3, "items": { "$ref": "#/$defs/swatch" } },
+        "tip": { "type": "string" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["headline", "body", "tags"],
+      "properties": {
+        "headline": { "type": "string", "description": "8–14 字標題，例：清透夏日玫瑰系" },
+        "body": { "type": "string", "description": "60–90 字，溫暖具體、不批評外貌" },
+        "tags": { "type": "array", "maxItems": 6, "items": { "type": "string" }, "description": "給分享卡用的短標籤" }
+      }
+    }
+  },
+  "$defs": {
+    "swatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "hex"],
+      "properties": {
+        "name": { "type": "string" },
+        "hex": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+      }
+    }
+  }
+}
