@@ -8,6 +8,8 @@
 | [02-技術架構](./02-技術架構.md) | LIFF + React + Vercel Functions + Firebase + Claude Vision 的整體設計、資料模型、AI 輸出 Schema、成本試算、資安與個資 |
 | [03-臉部圖解渲染策略](./03-臉部圖解渲染策略.md) | 「AI 動態生成」vs「AI 回傳標籤 → 前端匹配預製圖庫」vs「特徵點參數化疊圖」的分析與建議 |
 | [04-開發時程與模組拆解](./04-開發時程與模組拆解.md) | 8 週 MVP 排程、工程模組（M0–M8）、人力、驗收標準 |
+| [05-AI 系統提示與錯誤處理](./05-AI系統提示與錯誤處理.md) | 完整 System Prompt v1.0、判斷準則、位置代碼對照、三層 Fallback 矩陣、校準計畫 |
+| [06-文案與導流](./06-文案與導流.md) | 立牌文案、六格選單、報告 CTA（含新增的寫真預約）、分享語錄、流程微文案、分眾推播 |
 | [analysis-schema.json](./analysis-schema.json) | AI 分析結果的 JSON Schema（後端 Structured Output 與前端圖庫索引共用） |
 | [products-template.csv](./products-template.csv) | 商品對照表範本（匯入 Google Sheet 後，由 Han 依玫琳凱型錄填入品名與貨號） |
 
