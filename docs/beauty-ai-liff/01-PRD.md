@@ -51,9 +51,9 @@
 
 ### 4.1 MVP 內（In Scope）
 - LIFF 內完成：同意 → 拍照/上傳 → 品質檢查 → 風格勾選 → AI 分析 → 報告 → 導流 / 分享。
-- 6 種臉型、淡顏/濃顏與比例特性、春夏秋冬四季型（含 12 細分僅作為「傾向」提示）、膚質初判（油/乾/混合/敏感傾向、與光澤/毛孔/暗沉的觀察）。
+- 6 種臉型、淡顏/濃顏與比例特性、**冷暖色調**（暖色調 / 冷色調 / 中性偏暖 / 中性偏冷；Han 決策：不使用四季或任何專有色彩分類名稱）、膚質初判（油/乾/混合/敏感傾向、與光澤/毛孔/暗沉的觀察）。
 - 腮紅 / 修容 / 打亮位置圖解（預製圖庫）。
-- 服裝顏色「適合 / 避雷」色票（依季型）。
+- 服裝顏色「適合 / 避雷」色票（依冷暖色調與明度）。
 - 自動貼標籤寫入 Firestore，並同步為 LINE 受眾群組（供分眾推播）。
 - 三個導流：推薦保養/彩妝商品（依膚質與色彩型）、彩妝課預約（LINE 預約或表單）、IG 限動分享卡（PNG）。
 - 報告以 Flex Message 送回 LINE 聊天室（由使用者端 `liff.sendMessages` 送出，不消耗 OA 訊息額度）。
@@ -116,9 +116,9 @@
 | FR-AI-1 | 後端接收 base64 影像 + 風格標籤 + 自述，呼叫視覺模型，回傳符合 `analysis-schema.json` 的 JSON | P0 |
 | FR-AI-2 | 臉型：`round / square / oval / diamond / heart / oblong` 六選一，附信心度與 1–2 個依據（例：「下顎線圓潤、臉長寬比約 1.1」） | P0 |
 | FR-AI-3 | 五官量感：`light / medium / bold`（淡顏 / 中間 / 濃顏），並回傳比例特性：眼距（寬/標準/窄）、中庭長度、下庭長度、顴骨突出、眉眼距離 | P0 |
-| FR-AI-4 | 個人色彩：`spring / summer / autumn / winter`，附 `warm/cool`、`light/deep`、`clear/muted` 三軸判斷與信心度；信心度 < 0.6 時報告改用「傾向」措辭 | P0 |
+| FR-AI-4 | 冷暖色調：`warm / cool / neutral_warm / neutral_cool` 四選一，附 `light/medium/deep`（明度）與 `clear/medium/muted`（彩度）兩軸供色票深淺使用；信心度 < 0.6 時報告改用「傾向」措辭。**報告與標籤一律不出現四季名稱或任何專有色彩分類** | P0 |
 | FR-AI-5 | 膚質初判：`oily / dry / combination / normal` + 觀察標記（`redness`, `pores`, `dullness`, `shine`, `dark_circles`），並註明「照片初判，非醫療診斷」 | P0 |
-| FR-AI-6 | 妝容建議：依臉型輸出腮紅 / 修容 / 打亮的「位置代碼」（對應圖庫）與 1 句畫法說明；依季型輸出腮紅、唇色、眼影的色系建議 | P0 |
+| FR-AI-6 | 妝容建議：依臉型輸出腮紅 / 修容 / 打亮的「位置代碼」（對應圖庫）與 1 句畫法說明；依冷暖色調與明度輸出腮紅、唇色、眼影的色系建議 | P0 |
 | FR-AI-7 | 服裝顏色：適合 6 色、避雷 4 色（HEX + 中文名） | P0 |
 | FR-AI-8 | 一段 60–90 字的「風格總結」，語氣溫暖、具體、不批評外貌 | P0 |
 | FR-AI-9 | 影像不符合要求（無臉、多臉、側臉、遮擋）時回傳 `quality.ok=false` 與原因，前端引導重拍，不計入每日次數 | P0 |
@@ -130,16 +130,16 @@
 |---|---|---|
 | FR-REP-1 | 報告頁區塊順序：① 總結卡 ② 臉型與量感 ③ 個人色彩 ④ 妝容圖解（腮紅 / 修容 / 打亮三層可切換） ⑤ 服裝色票 ⑥ 膚質與保養重點 ⑦ 導流按鈕 | P0 |
 | FR-REP-2 | 圖解以 SVG 圖層渲染（見 03 文件），可單獨開關每一層，並有「為什麼這樣畫」的文字 | P0 |
-| FR-REP-3 | 報告可「傳到聊天室」：以 `liff.sendMessages` 送出 Flex Message（總結 + 臉型 + 季型 + 三個按鈕），使用者日後可在聊天室找回 | P0 |
+| FR-REP-3 | 報告可「傳到聊天室」：以 `liff.sendMessages` 送出 Flex Message（總結 + 臉型 + 色調 + 三個按鈕），使用者日後可在聊天室找回 | P0 |
 | FR-REP-4 | 報告連結可重開（`/beauty/report/{analysisId}`，需本人登入） | P1 |
 | FR-REP-5 | 報告頁底部「這份分析準嗎？」👍👎 回饋，寫入事件供調整提示詞 | P1 |
 
 ### 5.7 導流（CTA）
 | 編號 | 需求 | 優先 |
 |---|---|---|
-| FR-CTA-1 | 「為你挑的保養 / 彩妝」：依膚質與季型從商品對照表（品項來自玫琳凱型錄、規則由 Han 定義）挑 **4 件：2 件保養 + 2 件彩妝**（Han 決策：各半）；主按鈕「我想了解這 4 件」以 oaMessage 開 Han 的 LINE 對話框並預填商品名 + 精簡報告；若該商品有客人可開的網址則另顯示「看商品」 | P0 |
-| FR-CTA-2 | 「我想預約彩妝課」：以 LINE 的 `oaMessage` 網址開啟 Han 官方 LINE 對話框，並**自動預填一段「分析報告精簡版」文字**（臉型、量感、季型、膚質、勾選風格、報告編號），使用者按送出即完成預約詢問；Han 端在聊天室直接看到重點 | P0 |
-| FR-CTA-3 | 「IG 限動分享卡」：客端 Canvas 生成 1080×1920 PNG（臉型、季型、風格標籤、店家 LINE QR 與 `?ref=ig`），提供「儲存圖片」與「傳到聊天室」 | P0 |
+| FR-CTA-1 | 「為你挑的保養 / 彩妝」：依膚質與冷暖色調從商品對照表（品項來自玫琳凱型錄、規則由 Han 定義）挑 **4 件：2 件保養 + 2 件彩妝**（Han 決策：各半）；主按鈕「我想了解這 4 件」以 oaMessage 開 Han 的 LINE 對話框並預填商品名 + 精簡報告；若該商品有客人可開的網址則另顯示「看商品」 | P0 |
+| FR-CTA-2 | 「我想預約彩妝課」：以 LINE 的 `oaMessage` 網址開啟 Han 官方 LINE 對話框，並**自動預填一段「分析報告精簡版」文字**（臉型、量感、色調、膚質、勾選風格、報告編號），使用者按送出即完成預約詢問；Han 端在聊天室直接看到重點 | P0 |
+| FR-CTA-3 | 「IG 限動分享卡」：客端 Canvas 生成 1080×1920 PNG（臉型、色調、風格標籤、店家 LINE QR 與 `?ref=ig`），提供「儲存圖片」與「傳到聊天室」 | P0 |
 | FR-CTA-4 | 分享卡預設不含客人照片，可選擇加入（再次確認） | P1 |
 | FR-CTA-5 | 所有 CTA 點擊寫入 `events`（含 `analysisId`、`ctaType`） | P0 |
 | FR-CTA-6 | 「我想預約拍照」（Han 決策新增）：以 oaMessage 開 Han 的 LINE 對話框，預填拍攝類型選項與精簡報告（含適合色），標籤追加 `intent:photo` | P0 |
@@ -147,9 +147,9 @@
 ### 5.8 標籤與分眾（TAG）
 | 編號 | 需求 | 優先 |
 |---|---|---|
-| FR-TAG-1 | 分析完成後在 Firestore `users/{lineUserId}.tags` 寫入：`face:oval`、`season:summer`、`volume:light`、`skin:combination`、`style:korean_bare`、`stage:analyzed` | P0 |
+| FR-TAG-1 | 分析完成後在 Firestore `users/{lineUserId}.tags` 寫入：`face:oval`、`tone:cool`、`volume:light`、`skin:combination`、`style:korean_bare`、`stage:analyzed` | P0 |
 | FR-TAG-2 | 點擊 CTA 後追加 `intent:product` / `intent:class` / `intent:photo` / `intent:share` | P0 |
-| FR-TAG-3 | 每日排程把新增使用者同步進 LINE 受眾群組（Messaging API audience group，依季型 / 膚質建群），供 OA 後台分眾推播 | P1 |
+| FR-TAG-3 | 每日排程把新增使用者同步進 LINE 受眾群組（Messaging API audience group，依色調 / 膚質建群），供 OA 後台分眾推播 | P1 |
 | FR-TAG-4 | 後台（可先用 Firestore console 或既有店員 APP 頁面）可查詢：某標籤的人數、最近 7 天分析數 | P1 |
 | FR-TAG-5 | 分析完成 48 小時後，若未點任何 CTA，推播一則「你的專屬色彩清單」（含商品）——用 Messaging API push，計入 OA 訊息額度，需開關控制 | P2 |
 

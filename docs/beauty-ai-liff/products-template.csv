@@ -1,4 +1,4 @@
-sku,mk_code,name,category,url,image,price,skin_types,observations,seasons,priority,active,note
+sku,mk_code,name,category,url,image,price,skin_types,observations,tones,priority,active,note
 SK-OILY-CLEANSER,,（請填型錄品名：控油潔面）,skincare,,,,"oily,combination","shine,pores",,1,TRUE,油性/混合肌基礎清潔
 SK-DRY-CLEANSER,,（請填型錄品名：保濕潔面）,skincare,,,,"dry,normal","dry_patches,dullness",,1,TRUE,乾性/中性肌基礎清潔
 SK-CALM-SERUM,,（請填型錄品名：舒緩/敏感精華）,skincare,,,,"","redness,acne",,1,TRUE,泛紅、痘痘傾向優先
@@ -7,13 +7,13 @@ SK-PORE-TONER,,（請填型錄品名：毛孔調理）,skincare,,,,"oily,combina
 SK-EYE-CREAM,,（請填型錄品名：眼霜）,skincare,,,,"","dark_circles",,2,TRUE,黑眼圈
 SK-MOIST-CREAM,,（請填型錄品名：保濕乳霜）,skincare,,,,"dry,normal","dry_patches",,2,TRUE,
 SK-GEL-CREAM,,（請填型錄品名：清爽凝露）,skincare,,,,"oily,combination","shine",,2,TRUE,
-MU-BLUSH-COOLPINK,,（請填型錄品名＋色號：冷粉腮紅）,makeup,,,,"","","summer,winter",1,TRUE,冷色季型
-MU-BLUSH-CORAL,,（請填型錄品名＋色號：珊瑚腮紅）,makeup,,,,"","","spring,autumn",1,TRUE,暖色季型
-MU-LIP-ROSE,,（請填型錄品名＋色號：玫瑰豆沙唇膏）,makeup,,,,"","","summer",1,TRUE,
-MU-LIP-BERRY,,（請填型錄品名＋色號：莓果/正紅唇膏）,makeup,,,,"","","winter",1,TRUE,
-MU-LIP-PEACH,,（請填型錄品名＋色號：蜜桃/珊瑚唇膏）,makeup,,,,"","","spring",1,TRUE,
-MU-LIP-BRICK,,（請填型錄品名＋色號：磚紅/楓葉唇膏）,makeup,,,,"","","autumn",1,TRUE,
-MU-EYE-COOL,,（請填型錄品名＋色號：灰粉/藕紫眼影）,makeup,,,,"","","summer,winter",2,TRUE,
-MU-EYE-WARM,,（請填型錄品名＋色號：大地/杏桃眼影）,makeup,,,,"","","spring,autumn",2,TRUE,
+MU-BLUSH-COOLPINK,,（請填型錄品名＋色號：冷粉腮紅）,makeup,,,,"","","cool",1,TRUE,冷色調
+MU-BLUSH-CORAL,,（請填型錄品名＋色號：珊瑚腮紅）,makeup,,,,"","","warm",1,TRUE,暖色調
+MU-LIP-ROSE,,（請填型錄品名＋色號：玫瑰豆沙唇膏）,makeup,,,,"","","cool",1,TRUE,
+MU-LIP-BERRY,,（請填型錄品名＋色號：莓果/正紅唇膏）,makeup,,,,"","","cool",1,TRUE,
+MU-LIP-PEACH,,（請填型錄品名＋色號：蜜桃/珊瑚唇膏）,makeup,,,,"","","warm",1,TRUE,
+MU-LIP-BRICK,,（請填型錄品名＋色號：磚紅/楓葉唇膏）,makeup,,,,"","","warm",1,TRUE,
+MU-EYE-COOL,,（請填型錄品名＋色號：灰粉/藕紫眼影）,makeup,,,,"","","cool",2,TRUE,
+MU-EYE-WARM,,（請填型錄品名＋色號：大地/杏桃眼影）,makeup,,,,"","","warm",2,TRUE,
 MU-BASE-OILY,,（請填型錄品名：控油妝前/粉底）,makeup,,,,"oily,combination","shine,pores","",2,TRUE,
 MU-BASE-DRY,,（請填型錄品名：保濕妝前/粉底）,makeup,,,,"dry,normal","dry_patches","",2,TRUE,
