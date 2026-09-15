@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "BeautyLensAnalysis",
-  "description": "AI 臉部與風格分析結果。後端以 Structured Output 強制此格式，前端依代碼匹配預製圖庫與色票。色彩只輸出冷暖色調與明度、彩度軸，不使用四季或任何專有分類名稱。",
+  "title": "BeautyLensAiOutput",
+  "description": "AI 唯一需要回傳的內容（系統化版 v2）：五個分類 + 兩句話。位置代碼、色票、比例特性、商品皆由程式規則推導，見 src/beauty/rules/。此檔由 src/beauty/rules/aiOutputSchema.js 產生，請勿手改。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -10,9 +10,7 @@
     "feature_volume",
     "color_tone",
     "skin",
-    "makeup",
-    "clothing_colors",
-    "summary"
+    "notes"
   ],
   "properties": {
     "quality": {
@@ -49,12 +47,13 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "type",
+        "primary",
+        "secondary",
         "confidence",
         "evidence"
       ],
       "properties": {
-        "type": {
+        "primary": {
           "type": "string",
           "enum": [
             "round",
@@ -63,6 +62,21 @@
             "diamond",
             "heart",
             "oblong"
+          ]
+        },
+        "secondary": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "round",
+            "square",
+            "oval",
+            "diamond",
+            "heart",
+            "oblong",
+            null
           ]
         },
         "confidence": {
@@ -84,8 +98,7 @@
       "additionalProperties": false,
       "required": [
         "level",
-        "confidence",
-        "proportions"
+        "confidence"
       ],
       "properties": {
         "level": {
@@ -100,59 +113,6 @@
           "type": "number",
           "minimum": 0,
           "maximum": 1
-        },
-        "proportions": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "eye_spacing",
-            "midface",
-            "lower_face",
-            "cheekbone",
-            "brow_eye_gap"
-          ],
-          "properties": {
-            "eye_spacing": {
-              "type": "string",
-              "enum": [
-                "wide",
-                "standard",
-                "narrow"
-              ]
-            },
-            "midface": {
-              "type": "string",
-              "enum": [
-                "long",
-                "standard",
-                "short"
-              ]
-            },
-            "lower_face": {
-              "type": "string",
-              "enum": [
-                "long",
-                "standard",
-                "short"
-              ]
-            },
-            "cheekbone": {
-              "type": "string",
-              "enum": [
-                "prominent",
-                "standard",
-                "flat"
-              ]
-            },
-            "brow_eye_gap": {
-              "type": "string",
-              "enum": [
-                "wide",
-                "standard",
-                "narrow"
-              ]
-            }
-          }
         }
       }
     },
@@ -173,8 +133,7 @@
             "cool",
             "neutral_warm",
             "neutral_cool"
-          ],
-          "description": "報告只顯示冷色調 / 暖色調 / 中性偏冷 / 中性偏暖，不使用季型名稱"
+          ]
         },
         "confidence": {
           "type": "number",
@@ -195,8 +154,7 @@
                 "light",
                 "medium",
                 "deep"
-              ],
-              "description": "膚色明度，用來決定色票深淺"
+              ]
             },
             "chroma": {
               "type": "string",
@@ -204,8 +162,7 @@
                 "clear",
                 "medium",
                 "muted"
-              ],
-              "description": "對比與彩度，用來決定色票鮮豔或霧感"
+              ]
             }
           }
         },
@@ -267,266 +224,21 @@
         }
       }
     },
-    "makeup": {
+    "notes": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "blush",
-        "contour",
-        "highlight",
-        "eye",
-        "lip",
-        "style_notes"
+        "personal_line",
+        "style_line"
       ],
       "properties": {
-        "blush": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "placement",
-            "shape",
-            "tip",
-            "color_family",
-            "hex"
-          ],
-          "properties": {
-            "placement": {
-              "type": "string",
-              "enum": [
-                "apple_center",
-                "apple_outer",
-                "cheekbone_high",
-                "cheekbone_diagonal",
-                "under_eye_wide",
-                "horizontal_mid"
-              ]
-            },
-            "shape": {
-              "type": "string",
-              "enum": [
-                "round",
-                "oval_diagonal",
-                "horizontal_band",
-                "c_shape"
-              ]
-            },
-            "tip": {
-              "type": "string"
-            },
-            "color_family": {
-              "type": "string"
-            },
-            "hex": {
-              "type": "string",
-              "pattern": "^#[0-9A-Fa-f]{6}$"
-            }
-          }
-        },
-        "contour": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "zones",
-            "tip"
-          ],
-          "properties": {
-            "zones": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "temples",
-                  "hairline_top",
-                  "hairline_sides",
-                  "cheek_hollow",
-                  "jaw_corners",
-                  "jawline",
-                  "chin_tip",
-                  "nose_sides",
-                  "forehead_sides"
-                ]
-              }
-            },
-            "tip": {
-              "type": "string"
-            }
-          }
-        },
-        "highlight": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "zones",
-            "tip"
-          ],
-          "properties": {
-            "zones": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "forehead_center",
-                  "cheekbone_top",
-                  "under_brow",
-                  "nose_bridge",
-                  "cupid_bow",
-                  "chin_center",
-                  "inner_eye"
-                ]
-              }
-            },
-            "tip": {
-              "type": "string"
-            }
-          }
-        },
-        "eye": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "color_family",
-            "hex_palette",
-            "tip"
-          ],
-          "properties": {
-            "color_family": {
-              "type": "string"
-            },
-            "hex_palette": {
-              "type": "array",
-              "maxItems": 3,
-              "items": {
-                "type": "string",
-                "pattern": "^#[0-9A-Fa-f]{6}$"
-              }
-            },
-            "tip": {
-              "type": "string"
-            }
-          }
-        },
-        "lip": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "color_family",
-            "hex_palette",
-            "finish",
-            "tip"
-          ],
-          "properties": {
-            "color_family": {
-              "type": "string"
-            },
-            "hex_palette": {
-              "type": "array",
-              "maxItems": 3,
-              "items": {
-                "type": "string",
-                "pattern": "^#[0-9A-Fa-f]{6}$"
-              }
-            },
-            "finish": {
-              "type": "string",
-              "enum": [
-                "matte",
-                "satin",
-                "glossy",
-                "tint"
-              ]
-            },
-            "tip": {
-              "type": "string"
-            }
-          }
-        },
-        "style_notes": {
+        "personal_line": {
           "type": "string",
-          "description": "依使用者勾選的風格給的整體妝感建議，60–120 字"
-        }
-      }
-    },
-    "clothing_colors": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "recommended",
-        "avoid",
-        "neutrals",
-        "tip"
-      ],
-      "properties": {
-        "recommended": {
-          "type": "array",
-          "minItems": 6,
-          "maxItems": 6,
-          "items": {
-            "$ref": "#/$defs/swatch"
-          }
+          "description": "40 到 70 字，描述這張臉最有特色、最值得強調的一點，溫暖具體"
         },
-        "avoid": {
-          "type": "array",
-          "minItems": 4,
-          "maxItems": 4,
-          "items": {
-            "$ref": "#/$defs/swatch"
-          }
-        },
-        "neutrals": {
-          "type": "array",
-          "maxItems": 3,
-          "items": {
-            "$ref": "#/$defs/swatch"
-          }
-        },
-        "tip": {
-          "type": "string"
-        }
-      }
-    },
-    "summary": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "headline",
-        "body",
-        "tags"
-      ],
-      "properties": {
-        "headline": {
+        "style_line": {
           "type": "string",
-          "description": "8–14 字標題，例：清透夏日玫瑰系"
-        },
-        "body": {
-          "type": "string",
-          "description": "60–90 字，溫暖具體、不批評外貌"
-        },
-        "tags": {
-          "type": "array",
-          "maxItems": 6,
-          "items": {
-            "type": "string"
-          },
-          "description": "給分享卡用的短標籤"
-        }
-      }
-    }
-  },
-  "$defs": {
-    "swatch": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "hex"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "hex": {
-          "type": "string",
-          "pattern": "^#[0-9A-Fa-f]{6}$"
+          "description": "60 到 100 字，依客人勾選的風格說明怎麼調整成適合她的版本"
         }
       }
     }

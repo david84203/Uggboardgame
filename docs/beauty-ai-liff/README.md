@@ -10,7 +10,8 @@
 | [04-開發時程與模組拆解](./04-開發時程與模組拆解.md) | 8 週 MVP 排程、工程模組（M0–M8）、人力、驗收標準 |
 | [05-AI 系統提示與錯誤處理](./05-AI系統提示與錯誤處理.md) | 完整 System Prompt v1.0、判斷準則、位置代碼對照、三層 Fallback 矩陣、校準計畫 |
 | [06-文案與導流](./06-文案與導流.md) | 立牌文案、六格選單、報告 CTA（含新增的寫真預約）、分享語錄、流程微文案、分眾推播 |
-| [analysis-schema.json](./analysis-schema.json) | AI 分析結果的 JSON Schema（後端 Structured Output 與前端圖庫索引共用） |
+| [analysis-schema.json](./analysis-schema.json) | AI 回傳的 JSON Schema（系統化版：五個分類 + 兩句話；由 `src/beauty/rules/aiOutputSchema.js` 產生） |
+| [07-實作狀態與部署](./07-實作狀態與部署.md) | 程式碼位置、系統化架構（AI 只做分類，規則做決定）、部署需要的設定與環境變數、待辦 |
 | [products-template.csv](./products-template.csv) | 商品對照表範本（匯入 Google Sheet 後，由 Han 依玫琳凱型錄填入品名與貨號） |
 
 ## 一句話結論

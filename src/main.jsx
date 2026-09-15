@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
@@ -13,6 +13,9 @@ import PricingPage from './pages/public/PricingPage.jsx'
 import FaqPage from './pages/public/FaqPage.jsx'
 import LinkPage from './pages/public/LinkPage.jsx'
 import OutboundRedirectPage from './pages/public/OutboundRedirectPage.jsx'
+
+// 于涵 Han 的 AI 妝容診斷 LIFF：獨立 chunk、獨立 LIFF ID，與桌遊店 APP 互不影響
+const BeautyApp = lazy(() => import('./beauty/BeautyApp.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -29,6 +32,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/link" element={<LinkPage />} />
             {/* 對外連結先經過站內短網址，讓免費 Web Analytics 能辨識 LINE、電話等轉換來源 */}
             <Route path="/go/:channel/*" element={<OutboundRedirectPage />} />
+            <Route path="/beauty/*" element={<Suspense fallback={null}><BeautyApp /></Suspense>} />
             {/* catch-all：/app 與其餘所有網址都照舊 render 會員 APP（含 ?tab= 參數） */}
             <Route path="*" element={<App />} />
           </Routes>
@@ -39,4 +43,5 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-initLiff()
+// /beauty 有自己的 LIFF（liff.init 一頁只能呼叫一次），桌遊店的 LIFF 不在那裡初始化
+if (!window.location.pathname.startsWith('/beauty')) initLiff()

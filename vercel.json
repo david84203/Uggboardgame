@@ -38,6 +38,14 @@
   ],
   "rewrites": [
     {
+      "source": "/beauty",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/beauty/(.*)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/app",
       "destination": "/app/index.html"
     },
