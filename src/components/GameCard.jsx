@@ -87,15 +87,12 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   const unavailableLabel = isSoldOut ? '已售出' : '租借中';
   const rentalCount = getRentalCount?.(id, name) ?? 0;
 
-  // Sheet 標準值是單字「綠/黃/紅」；舊資料的「綠色」也要認得（2026-09-20 統一前有 1600+ 筆）
+  // Sheet 標準值是單字「綠/黃/紅」三色，空白＝還沒歸類；
+  // 舊資料的「綠色」也要認得（2026-09-20 統一前有 1600+ 筆）
   const STICKER_COLORS = {
-    '紅': '#ef4444',
     '綠': '#22c55e',
     '黃': '#eab308',
-    '藍': '#3b82f6',
-    '橘': '#f97316',
-    '紫': '#a855f7',
-    '粉': '#ec4899',
+    '紅': '#ef4444',
   };
   const STICKER_LABELS = {
     '綠': '平易近人的規則，適合新手玩家',

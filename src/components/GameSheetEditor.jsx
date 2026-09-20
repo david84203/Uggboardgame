@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Search, Save, AlertTriangle, ExternalLink, X } from 'lucide-react'
+import { Search, Save, AlertTriangle, ExternalLink } from 'lucide-react'
 
 // 開盒遊戲列表的讀寫都走 ugg-suite（Google 服務帳號金鑰只在那個專案，對外 APP 不放金鑰）。
 // 客人看的遊戲清單走發布版 CSV 直讀，不經過這裡；這支是「要驗身分」的編輯端。
@@ -9,15 +9,14 @@ const API = 'https://ugg-suite.vercel.app/api/write-sheet'
 const SHEET_URL =
   'https://docs.google.com/spreadsheets/d/1ihFg-9I9QBG9bXK3XtipsD9ymtPvlBcQJk4KA5YeMnw/edit#gid=540615026'
 
-// Sheet 存的是單字（綠/黃/紅），客人卡片上顯示成同色圓圈
-const STICKERS = [
-  { key: '綠', color: '#22c55e', hint: '好教' },
-  { key: '黃', color: '#eab308', hint: '假日不教' },
-  { key: '紅', color: '#ef4444', hint: '不教' },
-  { key: '藍', color: '#3b82f6', hint: '' },
-  { key: '橘', color: '#f97316', hint: '' },
-  { key: '紫', color: '#a855f7', hint: '' },
-  { key: '粉', color: '#ec4899', hint: '' },
+// Sheet 存的是單字（綠/黃/紅），客人卡片上顯示成同色圓圈。
+// 店裡就只有這三色，前端後端都只認這三個（2026-09-20 Lu 裁定）
+// 空白不是「沒填」，是「還沒歸類」，所以跟三色並排當第四個選項，店員一眼看得出哪些還沒分
+const CHOICES = [
+  { key: '綠', label: '綠', color: '#22c55e', hint: '好教' },
+  { key: '黃', label: '黃', color: '#eab308', hint: '假日不教' },
+  { key: '紅', label: '紅', color: '#ef4444', hint: '不提供教學' },
+  { key: '', label: '未分', color: null, hint: '還沒歸類' },
 ]
 
 const card = 'bg-white border border-stone-200 rounded-2xl'
@@ -84,33 +83,28 @@ function GameRow({ game, draft, canEdit, onChange }) {
 
       <div>
         <span className="block text-[11px] text-stone-400 mb-1">貼紙</span>
-        <div className="flex flex-wrap gap-1.5">
-          {STICKERS.map((s) => {
+        <div className="grid grid-cols-4 gap-1.5">
+          {CHOICES.map((s) => {
             const on = sticker === s.key
             return (
               <button
-                key={s.key} type="button" disabled={!canEdit}
-                onClick={() => onChange({ sticker: on ? '' : s.key })}
-                className={`flex items-center gap-1 pl-1.5 pr-2.5 py-1.5 rounded-xl border text-xs font-bold transition ${
+                key={s.key || 'none'} type="button" disabled={!canEdit}
+                onClick={() => onChange({ sticker: s.key })}
+                className={`flex items-center justify-center gap-1 px-1 py-1.5 rounded-xl border text-xs font-bold transition ${
                   on ? 'border-stone-700 bg-stone-800 text-white' : 'border-stone-200 bg-white text-stone-500'
                 }`}
               >
-                <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: s.color }} />
-                {s.key}
+                <span
+                  className="w-3.5 h-3.5 rounded-full shrink-0"
+                  style={s.color ? { background: s.color } : { border: '2px dashed #d6d3d1' }}
+                />
+                {s.label}
               </button>
             )
           })}
-          {sticker !== '' && canEdit && (
-            <button
-              type="button" onClick={() => onChange({ sticker: '' })}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-stone-200 bg-white text-xs font-bold text-stone-400"
-            >
-              <X size={13} /> 清掉
-            </button>
-          )}
         </div>
-        {sticker !== '' && STICKERS.find((s) => s.key === sticker)?.hint && (
-          <p className="text-[11px] text-stone-400 mt-1">{STICKERS.find((s) => s.key === sticker).hint}</p>
+        {CHOICES.find((s) => s.key === sticker)?.hint && (
+          <p className="text-[11px] text-stone-400 mt-1">{CHOICES.find((s) => s.key === sticker).hint}</p>
         )}
       </div>
 
