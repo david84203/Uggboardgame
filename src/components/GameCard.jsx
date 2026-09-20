@@ -87,22 +87,24 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   const unavailableLabel = isSoldOut ? '已售出' : '租借中';
   const rentalCount = getRentalCount?.(id, name) ?? 0;
 
+  // Sheet 標準值是單字「綠/黃/紅」；舊資料的「綠色」也要認得（2026-09-20 統一前有 1600+ 筆）
   const STICKER_COLORS = {
-    '紅色': '#ef4444',
-    '綠色': '#22c55e',
-    '黃色': '#eab308',
-    '藍色': '#3b82f6',
-    '橘色': '#f97316',
-    '紫色': '#a855f7',
-    '粉色': '#ec4899',
+    '紅': '#ef4444',
+    '綠': '#22c55e',
+    '黃': '#eab308',
+    '藍': '#3b82f6',
+    '橘': '#f97316',
+    '紫': '#a855f7',
+    '粉': '#ec4899',
   };
   const STICKER_LABELS = {
-    '綠色': '平易近人的規則，適合新手玩家',
-    '黃色': '假日不提供教學服務',
-    '紅色': '不提供教學，需自行研究規則',
+    '綠': '平易近人的規則，適合新手玩家',
+    '黃': '假日不提供教學服務',
+    '紅': '不提供教學，需自行研究規則',
   };
-  const stickerColor = sticker ? STICKER_COLORS[sticker] || null : null;
-  const stickerLabel = sticker ? (STICKER_LABELS[sticker] || sticker) : null;
+  const stickerKey = sticker ? String(sticker).trim().replace(/色$/, '') : '';
+  const stickerColor = STICKER_COLORS[stickerKey] || null;
+  const stickerLabel = sticker ? (STICKER_LABELS[stickerKey] || sticker) : null;
 
   // Extract BGG ID from BGG link
   const bggIdMatch = bggLink?.match(/boardgamegeek\.com\/boardgame(?:expansion)?\/(\d+)/);

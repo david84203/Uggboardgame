@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
-import { CalendarDays, Sparkles, GraduationCap, Receipt, ClipboardCheck, ChevronLeft, ChevronRight, Check, Clock, MapPin, Users } from 'lucide-react'
+import { CalendarDays, Sparkles, GraduationCap, Receipt, ClipboardCheck, Boxes, ChevronLeft, ChevronRight, Check, Clock, MapPin, Users } from 'lucide-react'
 import GameCard from '../GameCard'
 import FoodMenuEditor from '../FoodMenuEditor'
+import GameSheetEditor from '../GameSheetEditor'
 import useStaffProfile, { normPhone } from '../../hooks/useStaffProfile'
 import useStaffSkills from '../../hooks/useStaffSkills'
 import useSchedule, { useUpcomingShifts } from '../../hooks/useSchedule'
@@ -580,6 +581,7 @@ const TABS = [
   { id: 'learn', label: '必學遊戲', icon: GraduationCap },
   { id: 'menu', label: '零食價目', icon: Receipt },
   { id: 'duties', label: '值班工作', icon: ClipboardCheck },
+  { id: 'games', label: '遊戲資料', icon: Boxes },
 ]
 
 export default function StaffPage({ member, games = [], gamesLoading = false, onNavigate }) {
@@ -656,14 +658,14 @@ export default function StaffPage({ member, games = [], gamesLoading = false, on
         </div>
       </div>
 
-      {/* 分頁 */}
-      <div className="flex gap-1.5">
+      {/* 分頁：六個橫排在手機上字會擠成兩行，改排三欄兩列 */}
+      <div className="grid grid-cols-3 gap-1.5">
         {TABS.map((t) => {
           const Icon = t.icon
           const active = tab === t.id
           return (
             <button key={t.id} onClick={() => setTab(t.id)}
-              className={`flex-1 flex flex-col items-center gap-1 py-2.5 rounded-2xl text-xs font-medium transition ${
+              className={`flex flex-col items-center gap-1 py-2.5 rounded-2xl text-xs font-medium transition ${
                 active ? 'bg-orange-500 text-white shadow-sm shadow-orange-200' : 'bg-white border border-stone-200 text-stone-500'
               }`}>
               <Icon size={17} />
@@ -693,6 +695,10 @@ export default function StaffPage({ member, games = [], gamesLoading = false, on
       {/* 值班工作只服務登入本人（打卡、打勾都記在自己名下），
           所以傳 staff 而不是 viewStaff——老闆切視角是用來「看」別人，不是替別人打勾 */}
       {tab === 'duties' && <DutiesTab staff={staff} />}
+      {tab === 'games' && (
+        // 同零食價目：寫入端靠手機號認人（後端會再比對一次排班表），GM 登入只能看
+        <GameSheetEditor phone={member?.phone} canEdit={!!normPhone(member?.phone) && isStaff} />
+      )}
 
       {/* 遊戲詳細：直接用遊戲清單那張卡，圖片／簡介／教學影片／租金都在裡面 */}
       {selectedGame && (
