@@ -5,8 +5,8 @@ import { getLiffProfile } from '../../utils/liff'
 import { Calendar, Clock, Users, Home, Minus, Plus, CheckCircle2 } from 'lucide-react'
 import {
   generateSlots, todayStr, maxDateStr, validateBooking, createBooking,
-  fetchMyBookings, updateBookingStatus, slotLabel, parseSlot, isClosedDay,
-  FLOOR_OPTIONS, STATUS_LABEL,
+  fetchMyBookings, updateBookingStatus, slotLabel, parseSlot, isClosedDay, closedReason,
+  FLOOR_OPTIONS, STATUS_LABEL, floorOptionsFor,
 } from '../../utils/booking'
 import { syncBooking } from '../../utils/bookingSync'
 
@@ -242,7 +242,7 @@ export default function BookingPage() {
           {!form.date ? (
             <p className="text-sm text-stone-400 px-1">請先選日期</p>
           ) : isClosedDay(form.date) ? (
-            <p className="text-sm text-rose-500 px-1">週二店休，請選擇其他日期</p>
+            <p className="text-sm text-rose-500 px-1">{closedReason(form.date)}，請選擇其他日期</p>
           ) : slots.length === 0 ? (
             <p className="text-sm text-rose-500 px-1">今天已經來不及線上預約了，請直接私訊小編</p>
           ) : (
@@ -278,7 +278,7 @@ export default function BookingPage() {
             <Home className="w-4 h-4" /> 樓層偏好
           </label>
           <select value={form.floor} onChange={e => set('floor', e.target.value)} className={field}>
-            {FLOOR_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
+            {floorOptionsFor(form.date).map(f => <option key={f} value={f}>{f}</option>)}
           </select>
         </div>
 

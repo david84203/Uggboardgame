@@ -20,11 +20,33 @@ export function toDateStr(d) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
-/** 週二全店公休（本地時區判斷，避免用字串解析誤判時區） */
-export function isClosedDay(dateStr) {
-  if (!dateStr) return false
+// 臨時店休區間（含頭尾），過期的可以刪掉
+export const CLOSED_RANGES = [
+  { from: '2026-10-05', to: '2026-10-23', label: '10/5～10/23 店休' },
+]
+
+/** 回傳店休原因；有營業回傳 null（本地時區判斷，避免用字串解析誤判時區） */
+export function closedReason(dateStr) {
+  if (!dateStr) return null
+  const range = CLOSED_RANGES.find(r => dateStr >= r.from && dateStr <= r.to)
+  if (range) return range.label
   const [y, mo, d] = dateStr.split('-').map(Number)
-  return new Date(y, mo - 1, d).getDay() === 2
+  return new Date(y, mo - 1, d).getDay() === 2 ? '週二店休' : null
+}
+
+export function isClosedDay(dateStr) {
+  return !!closedReason(dateStr)
+}
+
+// 包場等原因當天不開放的樓層，過期的可以刪掉
+export const CLOSED_FLOORS = [
+  { date: '2026-10-24', floor: '2F 地板區' },
+]
+
+/** 某天可選的樓層（已包場的樓層拿掉） */
+export function floorOptionsFor(dateStr) {
+  const closed = CLOSED_FLOORS.filter(c => c.date === dateStr).map(c => c.floor)
+  return FLOOR_OPTIONS.filter(f => !closed.includes(f))
 }
 
 export function todayStr() {
@@ -102,12 +124,13 @@ export function validateBooking(form, { requirePhone = true } = {}) {
   if (!form.date) return '請選擇日期'
   if (form.date < todayStr()) return '不能預約過去的日期'
   if (form.date > maxDateStr()) return '最多只能預約兩個月內的日期'
-  if (isClosedDay(form.date)) return '週二店休，請選擇其他日期'
+  if (isClosedDay(form.date)) return `${closedReason(form.date)}，請選擇其他日期`
   if (!form.time) return '請選擇時間'
   if (!generateSlots(form.date).some(s => s.value === form.time)) {
     return '這個時段已經來不及或不在營業時間內，請重新選擇'
   }
   if (!form.people || form.people < 1) return '請選擇人數'
+  if (!floorOptionsFor(form.date).includes(form.floor)) return `${form.floor}當天已包場，請選擇其他樓層`
   return null
 }
 
