@@ -23,6 +23,12 @@ function whenText(b) {
 // 只吃 bookingId，由後端自己查 lineUserId，前端指定不了任意對象。
 const SEND_LINE_API = 'https://ugg-suite.vercel.app/api/send-line'
 
+// 舊資料沒存 source：有 LINE 帳號＝LINE 表單；沒有的，7/31 前沒有補登功能、之後補登都有標 admin，所以是網頁
+function sourceText(b) {
+  const src = b.source || (b.lineUserId ? 'line' : 'web')
+  return { line: 'LINE 預約', web: '網頁預約', admin: '店長補登' }[src] || src
+}
+
 function noShowTemplate(b) {
   return `您好，這裡是烏嘎嘎桌遊 🎲
 ${whenText(b)} 的 ${b.people} 人預約，時間到了還沒看到您們，剛才有撥電話但沒接通，想確認一下是不是路上遇到狀況了？
@@ -116,6 +122,7 @@ function Row({ b, busy, onConfirm, onDecline, onCancel }) {
             <a href={`tel:${b.phone}`} className="text-blue-500 ml-2 underline">{b.phone}</a>
             {b.memberNo && <span className="text-stone-400 ml-2">會員 #{b.memberNo}</span>}
             {!b.memberId && <span className="text-stone-400 ml-2">非會員</span>}
+            <span className="text-stone-400 ml-2">· {sourceText(b)}</span>
           </div>
           {b.note && <div className="text-sm text-stone-500 mt-1 break-words bg-stone-50 rounded-xl px-3 py-2">備註：{b.note}</div>}
         </div>
@@ -180,7 +187,7 @@ function NewBookingForm({ onDone, onClose }) {
       '這筆預約沒有留電話。\n\n手動補登的預約也發不了 LINE，客人沒出現時將完全聯絡不上。\n\n確定要這樣建立嗎？'
     )) return
     setError(''); setSaving(true)
-    const data = { ...form, people: Number(form.people) }
+    const data = { ...form, people: Number(form.people), source: 'admin' }
     try {
       const id = await createBooking(data, { remember: false })
       const res = await syncBooking('confirm', { ...data, id })

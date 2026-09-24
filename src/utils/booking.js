@@ -159,6 +159,8 @@ export async function createBooking(form, { remember = true } = {}) {
     memberId: form.memberId || null,
     memberNo: form.memberNo || null,
     lineUserId: form.lineUserId || null,
+    // 預約從哪來：line＝官方 LINE 開的表單、web＝一般瀏覽器、admin＝店長補登
+    source: form.source || (form.lineUserId ? 'line' : 'web'),
     date: form.date,
     time: form.time,
     people: Number(form.people),
