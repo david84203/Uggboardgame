@@ -628,6 +628,12 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
                     </a>
                   </div>
                 )}
+
+                {/* BGG XML API 使用條款要求：顯示 Powered by BGG 並連回 BGG */}
+                <a href="https://boardgamegeek.com" target="_blank" rel="noopener noreferrer"
+                  className="flex justify-center pt-3">
+                  <img src="/powered-by-bgg.png" alt="Powered by BGG" className="h-11 w-auto" loading="lazy" />
+                </a>
               </div>
             </div>
           </div>
