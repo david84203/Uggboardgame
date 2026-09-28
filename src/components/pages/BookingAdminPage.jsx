@@ -3,6 +3,7 @@ import { CalendarCheck, RefreshCw, AlertTriangle, Lock, Plus, X } from 'lucide-r
 import {
   fetchBookingsForAdmin, updateBookingStatus, slotLabel, parseSlot, STATUS_LABEL,
   createBooking, validateBooking, generateSlots, todayStr, maxDateStr, FLOOR_OPTIONS,
+  pastNoShows, setNoShow,
 } from '../../utils/booking'
 import { syncBooking, isSyncConfigured } from '../../utils/bookingSync'
 import { getLiffProfile } from '../../utils/liff'
@@ -106,10 +107,17 @@ function SendLineBox({ b }) {
   )
 }
 
-function Row({ b, busy, onConfirm, onDecline, onCancel }) {
+function Row({ b, busy, noShows, onConfirm, onDecline, onCancel, onNoShow }) {
   const s = STATUS_LABEL[b.status] || STATUS_LABEL.pending
+  const history = pastNoShows(b, noShows)
   return (
-    <div className={`${card} p-4 space-y-3`}>
+    <div className={`${card} p-4 space-y-3 ${history.length ? 'border-rose-300 ring-2 ring-rose-100' : ''}`}>
+      {history.length > 0 && (
+        <div className="rounded-xl bg-rose-50 border border-rose-200 px-3 py-2 text-sm text-rose-700">
+          <div className="font-bold">⚠️ 黑名單：曾放鳥 {history.length} 次，請先打電話確認是否會來</div>
+          <div className="text-xs mt-0.5">{history.map(n => `${whenText(n)}（${n.name}）`).join('、')}</div>
+        </div>
+      )}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-base font-bold text-stone-800">{whenText(b)}</div>
@@ -147,10 +155,16 @@ function Row({ b, busy, onConfirm, onDecline, onCancel }) {
           <span className="text-xs text-stone-400">
             {b.calendarEventId ? '📅 已寫入 Google 日曆' : '⚠️ 未同步日曆'}
           </span>
-          <button onClick={() => onCancel(b)} disabled={busy}
-            className="px-4 py-2 rounded-xl border border-stone-200 text-stone-500 text-sm hover:bg-stone-50 transition disabled:opacity-40">
-            取消預約
-          </button>
+          <div className="flex gap-2">
+            <button onClick={() => onNoShow(b)} disabled={busy}
+              className={`px-3 py-2 rounded-xl border text-sm transition disabled:opacity-40 ${b.noShow ? 'border-rose-300 bg-rose-50 text-rose-600' : 'border-stone-200 text-stone-500 hover:bg-stone-50'}`}>
+              {b.noShow ? '🚫 已標放鳥（按下取消）' : '🚫 放鳥'}
+            </button>
+            <button onClick={() => onCancel(b)} disabled={busy}
+              className="px-4 py-2 rounded-xl border border-stone-200 text-stone-500 text-sm hover:bg-stone-50 transition disabled:opacity-40">
+              取消預約
+            </button>
+          </div>
         </div>
       )}
 
@@ -253,7 +267,7 @@ function NewBookingForm({ onDone, onClose }) {
 }
 
 export default function BookingAdminPage({ onNavigate }) {
-  const [data, setData] = useState({ pending: [], upcoming: [] })
+  const [data, setData] = useState({ pending: [], upcoming: [], noShows: [] })
   const [loading, setLoading] = useState(true)
   const [busyId, setBusyId] = useState(null)
   const [toast, setToast] = useState('')
@@ -336,6 +350,21 @@ export default function BookingAdminPage({ onNavigate }) {
     } finally { setBusyId(null) }
   }
 
+  async function handleNoShow(b) {
+    const msg = b.noShow
+      ? `取消 ${b.name} 的放鳥標記？`
+      : `把 ${b.name}（${b.phone || '無電話'}）${whenText(b)} 標成放鳥？\n\n之後同一支手機或同一個 LINE 帳號再預約，會標紅字提醒你先打電話確認。客人不會收到任何通知。`
+    if (!window.confirm(msg)) return
+    setBusyId(b.id)
+    try {
+      await setNoShow(b.id, !b.noShow)
+      setToast(b.noShow ? '已取消放鳥標記' : '已標記放鳥，之後這位客人預約會出現黑名單提醒')
+      await load()
+    } catch (e) {
+      setToast(`標記失敗：${e?.message || ''}`)
+    } finally { setBusyId(null) }
+  }
+
   if (checking) {
     return <div className="flex items-center justify-center min-h-[60vh]"><p className="text-stone-400 text-sm">確認身分中…</p></div>
   }
@@ -400,6 +429,7 @@ export default function BookingAdminPage({ onNavigate }) {
           : data.pending.length === 0 ? <p className="text-sm text-stone-300 text-center py-4">目前沒有待確認的預約</p>
           : data.pending.map(b => (
               <Row key={b.id} b={b} busy={busyId === b.id}
+                noShows={data.noShows} onNoShow={handleNoShow}
                 onConfirm={handleConfirm} onDecline={handleDecline} onCancel={handleCancel} />
             ))}
       </section>
@@ -410,6 +440,7 @@ export default function BookingAdminPage({ onNavigate }) {
           ? <p className="text-sm text-stone-300 text-center py-4">還沒有已確認的預約</p>
           : data.upcoming.map(b => (
               <Row key={b.id} b={b} busy={busyId === b.id}
+                noShows={data.noShows} onNoShow={handleNoShow}
                 onConfirm={handleConfirm} onDecline={handleDecline} onCancel={handleCancel} />
             ))}
       </section>

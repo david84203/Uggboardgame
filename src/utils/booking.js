@@ -205,7 +205,19 @@ export async function fetchBookingsForAdmin() {
   return {
     pending: all.filter(b => b.status === 'pending').sort(sortByWhen),
     upcoming: all.filter(b => b.status === 'confirmed' && b.date >= today).sort(sortByWhen),
+    noShows: all.filter(b => b.noShow).sort(sortByWhen),
   }
+}
+
+/** 黑名單：這筆預約的手機或 LINE 帳號，曾在「別的」預約被標過放鳥 → 回傳那幾筆 */
+export function pastNoShows(b, noShows) {
+  return noShows.filter(n => n.id !== b.id &&
+    ((b.phone && n.phone === b.phone) || (b.lineUserId && n.lineUserId === b.lineUserId)))
+}
+
+/** 標記／取消放鳥。只寫旗標不動 status：客人「我的預約」看不到，也不會觸發日曆或 LINE 通知 */
+export async function setNoShow(id, on) {
+  await updateDoc(doc(db, COL, id), { noShow: on, noShowAt: on ? new Date().toISOString() : null })
 }
 
 export async function updateBookingStatus(id, status, extra = {}) {
