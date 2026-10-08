@@ -42,30 +42,45 @@ const ITEMS = [
 ];
 
 const COLORS = [
-  { id: 'white',  label: '白',  bg: 'bg-stone-50',  active: 'bg-white border-b-2 border-stone-800 font-bold',    text: 'text-stone-800',  col: 'text-stone-700',  colBg: 'bg-stone-100' },
-  { id: 'purple', label: '紫',  bg: 'bg-purple-50', active: 'bg-purple-100 border-b-2 border-purple-700 font-bold', text: 'text-purple-800', col: 'text-purple-700', colBg: 'bg-purple-100' },
-  { id: 'red',    label: '紅',  bg: 'bg-red-50',    active: 'bg-red-100 border-b-2 border-red-700 font-bold',    text: 'text-red-800',    col: 'text-red-700',    colBg: 'bg-red-100' },
-  { id: 'blue',   label: '藍',  bg: 'bg-blue-50',   active: 'bg-blue-100 border-b-2 border-blue-700 font-bold',  text: 'text-blue-800',   col: 'text-blue-700',  colBg: 'bg-blue-100' },
-  { id: 'green',  label: '綠',  bg: 'bg-green-50',  active: 'bg-green-100 border-b-2 border-green-700 font-bold', text: 'text-green-800',  col: 'text-green-700', colBg: 'bg-green-100' },
+  { id: 'white',  label: '白',  bg: 'bg-stone-50',  active: 'bg-white border-b-2 border-stone-800 font-bold',    text: 'text-stone-800',  col: 'text-stone-700',  colBg: 'bg-stone-100',  dot: 'bg-white' },
+  { id: 'red',    label: '紅',  bg: 'bg-red-50',    active: 'bg-red-100 border-b-2 border-red-700 font-bold',    text: 'text-red-800',    col: 'text-red-700',    colBg: 'bg-red-100',    dot: 'bg-red-500' },
+  { id: 'blue',   label: '藍',  bg: 'bg-blue-50',   active: 'bg-blue-100 border-b-2 border-blue-700 font-bold',  text: 'text-blue-800',   col: 'text-blue-700',  colBg: 'bg-blue-100',   dot: 'bg-blue-600' },
+  { id: 'green',  label: '綠',  bg: 'bg-green-50',  active: 'bg-green-100 border-b-2 border-green-700 font-bold', text: 'text-green-800',  col: 'text-green-700', colBg: 'bg-green-100',  dot: 'bg-green-600' },
+  { id: 'purple', label: '紫',  bg: 'bg-purple-50', active: 'bg-purple-100 border-b-2 border-purple-700 font-bold', text: 'text-purple-800', col: 'text-purple-700', colBg: 'bg-purple-100', dot: 'bg-purple-500' },
+  { id: 'beige',  label: '米',  bg: 'bg-amber-50',  active: 'bg-amber-100 border-b-2 border-amber-700 font-bold', text: 'text-amber-900',  col: 'text-amber-800', colBg: 'bg-amber-100',  dot: 'bg-[#E8D9B5]' },
+  { id: 'black',  label: '黑',  bg: 'bg-stone-200', active: 'bg-stone-800 text-white border-b-2 border-black font-bold', text: 'text-black', col: 'text-black', colBg: 'bg-stone-300', dot: 'bg-stone-900' },
+  { id: 'sky',    label: '天空藍', bg: 'bg-sky-50', active: 'bg-sky-100 border-b-2 border-sky-500 font-bold',    text: 'text-sky-700',    col: 'text-sky-600',   colBg: 'bg-sky-100',    dot: 'bg-sky-400' },
 ];
 
+// 四個座位的預設顏色，第一位固定從白色開始
+const DEFAULT_COLORS = ['white', 'red', 'blue', 'purple'];
+
 const DEFAULT_STATE = ITEMS.reduce((acc, item) => ({ ...acc, [item.id]: 0 }), {});
-const DEFAULT_PLAYERS = COLORS.reduce((acc, color) => ({
-  ...acc,
-  [color.id]: { name: '', scores: { ...DEFAULT_STATE } }
-}), {});
+
+// 舊版存檔是以顏色為 key 的物件，這裡一併轉成座位陣列
+function loadPlayers(saved) {
+  const list = Array.isArray(saved) ? saved : DEFAULT_COLORS.map(c => ({ color: c, ...saved?.[c] }));
+  return DEFAULT_COLORS.map((c, i) => ({
+    color: COLORS.some(x => x.id === list[i]?.color) ? list[i].color : c,
+    name: list[i]?.name || '',
+    scores: { ...DEFAULT_STATE, ...list[i]?.scores },
+  }));
+}
 
 function calcTotal(scores) {
   return ITEMS.reduce((sum, item) => sum + SCORE_RULES[item.id](scores[item.id]), 0);
 }
 
+const colorOf = (player) => COLORS.find(c => c.id === player.color);
+
 // ── 結算總表 ─────────────────────────────────────────────
 function RankingView({ players }) {
-  const playerData = COLORS.map(c => ({
-    ...c,
-    name: players[c.id].name || c.label,
-    scores: players[c.id].scores,
-    total: calcTotal(players[c.id].scores),
+  const playerData = players.map((p, i) => ({
+    ...colorOf(p),
+    id: i,
+    name: p.name || colorOf(p).label,
+    scores: p.scores,
+    total: calcTotal(p.scores),
   }));
 
   const ranked = [...playerData].sort((a, b) => b.total - a.total);
@@ -74,7 +89,7 @@ function RankingView({ players }) {
     <div className="pb-10">
       {/* 橫向計分表 */}
       <div className="overflow-x-auto">
-        <table className="w-full text-xs border-collapse" style={{ minWidth: '420px' }}>
+        <table className="w-full text-xs border-collapse" style={{ minWidth: '320px' }}>
           <thead>
             <tr className="bg-[#C8B99A]">
               <th className="px-2 py-2 text-left sticky left-0 bg-[#C8B99A] text-stone-700 font-bold w-20 min-w-[72px] border-r border-[#B0A080]">
@@ -165,15 +180,15 @@ function RankingView({ players }) {
 
 // ── 主元件 ────────────────────────────────────────────────
 export default function AgricolaScoreCalculator({ games }) {
-  const [activeTab, setActiveTab] = useState('white');
-  const [players, setPlayers] = useState(DEFAULT_PLAYERS);
+  const [activeTab, setActiveTab] = useState(0);
+  const [players, setPlayers] = useState(() => loadPlayers());
   const [isLoaded, setIsLoaded] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('agricola_scores');
     if (saved) {
-      try { setPlayers(JSON.parse(saved)); } catch (e) {}
+      try { setPlayers(loadPlayers(JSON.parse(saved))); } catch (e) {}
     }
     setIsLoaded(true);
   }, []);
@@ -182,28 +197,39 @@ export default function AgricolaScoreCalculator({ games }) {
     if (isLoaded) localStorage.setItem('agricola_scores', JSON.stringify(players));
   }, [players, isLoaded]);
 
+  const updateActive = (fn) => setPlayers(prev => prev.map((p, i) => i === activeTab ? fn(p) : p));
+
   const handleNameChange = (e) => {
-    setPlayers(prev => ({ ...prev, [activeTab]: { ...prev[activeTab], name: e.target.value } }));
+    updateActive(p => ({ ...p, name: e.target.value }));
+  };
+
+  // 選到別人正在用的顏色就兩人對調，不會出現兩個同色
+  const handleColorChange = (colorId) => {
+    setPlayers(prev => {
+      const mine = prev[activeTab].color;
+      return prev.map((p, i) => i === activeTab ? { ...p, color: colorId }
+        : p.color === colorId ? { ...p, color: mine } : p);
+    });
   };
 
   const handleScoreChange = (id, delta, isDirect) => {
-    setPlayers(prev => {
-      let newVal = prev[activeTab].scores[id] + delta;
+    updateActive(p => {
+      let newVal = p.scores[id] + delta;
       if (!isDirect && newVal < 0) newVal = 0;
-      return { ...prev, [activeTab]: { ...prev[activeTab], scores: { ...prev[activeTab].scores, [id]: newVal } } };
+      return { ...p, scores: { ...p.scores, [id]: newVal } };
     });
   };
 
   const handleReset = () => {
     if (window.confirm('確定要將目前這位玩家的分數全部歸零嗎？')) {
-      setPlayers(prev => ({ ...prev, [activeTab]: { ...prev[activeTab], scores: { ...DEFAULT_STATE } } }));
+      updateActive(p => ({ ...p, scores: { ...DEFAULT_STATE } }));
     }
   };
 
   if (!isLoaded) return null;
 
   const isRanking = activeTab === 'ranking';
-  const currentColor = COLORS.find(c => c.id === activeTab);
+  const currentColor = isRanking ? null : colorOf(players[activeTab]);
   const currentScores = isRanking ? null : players[activeTab].scores;
   const currentName   = isRanking ? '' : players[activeTab].name;
   const totalScore    = isRanking ? 0 : calcTotal(currentScores);
@@ -213,12 +239,12 @@ export default function AgricolaScoreCalculator({ games }) {
 
       {/* 頂部玩家頁籤 */}
       <div className="flex bg-[#DDD5BC] shadow-sm overflow-x-auto">
-        {COLORS.map((color) => (
-          <button key={color.id} onClick={() => setActiveTab(color.id)}
+        {players.map((p, i) => (
+          <button key={i} onClick={() => setActiveTab(i)}
             className={`flex-1 py-3 text-center transition-colors text-sm whitespace-nowrap ${
-              activeTab === color.id ? color.active : 'text-stone-600 hover:bg-stone-200/50'
+              activeTab === i ? colorOf(p).active : 'text-stone-600 hover:bg-stone-200/50'
             }`}>
-            {color.label}
+            {colorOf(p).label}
           </button>
         ))}
         <button onClick={() => setActiveTab('ranking')}
@@ -242,10 +268,10 @@ export default function AgricolaScoreCalculator({ games }) {
           {showUpload && (
             <ScoreUploadModal
               result={{
-                players: COLORS.map(c => ({
-                  name: players[c.id].name || c.label,
-                  total: calcTotal(players[c.id].scores),
-                  categories: Object.fromEntries(ITEMS.map(item => [item.zh, SCORE_RULES[item.id](players[c.id].scores[item.id])])),
+                players: players.map(p => ({
+                  name: p.name || colorOf(p).label,
+                  total: calcTotal(p.scores),
+                  categories: Object.fromEntries(ITEMS.map(item => [item.zh, SCORE_RULES[item.id](p.scores[item.id])])),
                 })).filter(p => p.total !== calcTotal(DEFAULT_STATE)),
                 source: 'agricola',
               }}
@@ -269,6 +295,18 @@ export default function AgricolaScoreCalculator({ games }) {
               <span className={`text-4xl font-black ${currentColor?.text}`}>{totalScore}</span>
               <span className="text-amber-500 text-xl">★</span>
             </div>
+          </div>
+
+          {/* 顏色選擇 */}
+          <div className="flex flex-wrap items-center gap-1.5 px-6 py-2.5 bg-[#E8E0CC] border-b border-[#C8BB9A]">
+            <span className={`font-medium text-base ${currentColor?.text}`}>顏色</span>
+            {COLORS.map(c => (
+              <button key={c.id} onClick={() => handleColorChange(c.id)} aria-label={c.label}
+                className={`w-7 h-7 rounded-full border-2 ${c.dot} ${
+                  c.id === currentColor?.id ? 'border-stone-800 ring-2 ring-stone-800 ring-offset-2 ring-offset-[#E8E0CC]'
+                    : players.some(p => p.color === c.id) ? 'border-stone-400 opacity-40' : 'border-stone-400'
+                }`} />
+            ))}
           </div>
 
           {/* 計分列表區 */}
