@@ -1259,7 +1259,11 @@ export default function EventBoardPage({ games = [], gamesLoading = false, logge
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState(null)
-  const [tab, setTab] = useState('events')
+  // ?sub=used-games 可以直接開在二手遊戲那頁：LINE 自動回覆的「二手清單」按鈕要一鍵到位，
+  // 不然客人被丟到活動公告還得自己再點一次。認不得的值一律回到活動公告。
+  const [tab, setTab] = useState(() => (
+    new URLSearchParams(window.location.search).get('sub') === 'used-games' ? 'used-games' : 'events'
+  ))
 
   useEffect(() => {
     async function fetchEvents() {

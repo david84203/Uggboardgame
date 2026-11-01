@@ -16,8 +16,12 @@ export const FLOOR_OPTIONS = ['不指定', '1F 桌遊牆區', '2F 地板區', '3
 // ── 日期與時間小工具 ─────────────────────────────────────────────────────────
 const pad = n => String(n).padStart(2, '0')
 
+// 店在台灣，一律用台北時間算「現在」，不看裝置時區（店長出國時手機在別的時區）
+// 回傳的 Date 用 getUTC* 讀出來就是台北的年月日時分
+const taipeiNow = () => new Date(Date.now() + 8 * 60 * 60 * 1000)
+
 export function toDateStr(d) {
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`
 }
 
 // 臨時店休區間（含頭尾），過期的可以刪掉
@@ -50,12 +54,12 @@ export function floorOptionsFor(dateStr) {
 }
 
 export function todayStr() {
-  return toDateStr(new Date())
+  return toDateStr(taipeiNow())
 }
 
 export function maxDateStr() {
-  const d = new Date()
-  d.setDate(d.getDate() + MAX_AHEAD_DAYS)
+  const d = taipeiNow()
+  d.setUTCDate(d.getUTCDate() + MAX_AHEAD_DAYS)
   return toDateStr(d)
 }
 
@@ -90,8 +94,8 @@ export function generateSlots(dateStr) {
 
   let earliest = OPEN_MIN
   if (dateStr === todayStr()) {
-    const now = new Date()
-    const cutoff = now.getHours() * 60 + now.getMinutes() + MIN_AHEAD_MIN
+    const now = taipeiNow()
+    const cutoff = now.getUTCHours() * 60 + now.getUTCMinutes() + MIN_AHEAD_MIN
     // 進位到下一個半點
     earliest = Math.max(OPEN_MIN, Math.ceil(cutoff / SLOT_STEP) * SLOT_STEP)
   }
@@ -105,10 +109,10 @@ export function generateSlots(dateStr) {
 
 /** 預約的實際起訖時間（Date 物件），給日曆用；預設抓 3 小時 */
 export function bookingRange(dateStr, timeValue, hours = 3) {
-  const [y, mo, d] = dateStr.split('-').map(Number)
   const { min } = parseSlot(timeValue)
-  const start = new Date(y, mo - 1, d, 0, 0, 0)
-  start.setMinutes(min) // 超過 24:00 會自動進位到隔天
+  // 固定用台北時間算：店長人在國外按確認時，用手機時區會把 13:30 算成 20:30（2026-10 蜜月期間踩過）
+  // 超過 24:00 的分鐘數會自動進位到隔天
+  const start = new Date(new Date(`${dateStr}T00:00:00+08:00`).getTime() + min * 60 * 1000)
   const end = new Date(start.getTime() + hours * 60 * 60 * 1000)
   return { start, end }
 }
