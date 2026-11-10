@@ -33,7 +33,7 @@
     "xlsx": "^0.18.5"
   },
   "dependencies": {
-    "@line/liff": "^2.29.0",
+    "@line/liff": "^2.32.0",
     "@modelcontextprotocol/node": "^2.0.0",
     "@modelcontextprotocol/server": "^2.0.0",
     "@tailwindcss/vite": "^4.2.4",
