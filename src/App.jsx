@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import NavTabs from './components/NavTabs';
 import FilterBar from './components/FilterBar';
@@ -254,6 +254,24 @@ export default function App() {
     }
   };
 
+  // 手機返回手勢／實體返回鍵＝跟左上角返回箭頭同一套邏輯。
+  // 不在首頁時，瀏覽器紀錄裡固定墊一筆「APP 內頁」，返回時吃掉這筆並往上一層；回到首頁才真的離開。
+  const tabRef = useRef(activeTab);
+  const backRef = useRef(handleBack);
+  tabRef.current = activeTab;
+  backRef.current = handleBack;
+
+  useEffect(() => {
+    const inApp = window.history.state?.uggApp;
+    if (activeTab !== 'home' && !inApp) window.history.pushState({ ...window.history.state, uggApp: true }, '');
+    else if (activeTab === 'home' && inApp) window.history.back(); // 用左上箭頭回首頁時，把墊的那筆收掉
+  }, [activeTab]);
+
+  useEffect(() => {
+    const onPop = () => { if (tabRef.current !== 'home') backRef.current(); };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   const isLineWebView = /Line\//.test(navigator.userAgent)
   const [showPwaTip, setShowPwaTip] = useState(
