@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { usePersistedState } from '../../hooks/usePersistedState';
 import { Plus, Minus, RotateCcw, Upload } from 'lucide-react';
 import ScoreUploadModal from '../ScoreUploadModal';
 
@@ -71,13 +72,13 @@ function SetupView({ onStart, games }) {
 }
 
 export default function ScoreSheetPage({ games }) {
-  const [setupDone, setSetupDone] = useState(false);
-  const [gameInfo, setGameInfo] = useState(null);
-  const [playerCount, setPlayerCount] = useState(DEFAULT_PLAYERS);
-  const [rowCount, setRowCount] = useState(DEFAULT_ROWS);
-  const [playerNames, setPlayerNames] = useState(() => Array(8).fill(''));
-  const [rowLabels, setRowLabels] = useState(() => Array(20).fill(''));
-  const [cells, setCells] = useState(() => makeGrid(DEFAULT_ROWS, DEFAULT_PLAYERS));
+  const [setupDone, setSetupDone] = usePersistedState('ScoreSheet:setupDone', false);
+  const [gameInfo, setGameInfo] = usePersistedState('ScoreSheet:gameInfo', null);
+  const [playerCount, setPlayerCount] = usePersistedState('ScoreSheet:playerCount', DEFAULT_PLAYERS);
+  const [rowCount, setRowCount] = usePersistedState('ScoreSheet:rowCount', DEFAULT_ROWS);
+  const [playerNames, setPlayerNames] = usePersistedState('ScoreSheet:playerNames', () => Array(8).fill(''));
+  const [rowLabels, setRowLabels] = usePersistedState('ScoreSheet:rowLabels', () => Array(20).fill(''));
+  const [cells, setCells] = usePersistedState('ScoreSheet:cells', () => makeGrid(DEFAULT_ROWS, DEFAULT_PLAYERS));
   const [showUploadModal, setShowUploadModal] = useState(false);
 
   // 同步格子大小
@@ -128,8 +129,9 @@ export default function ScoreSheetPage({ games }) {
   }, []);
 
   const handleReset = () => {
-    if (!window.confirm('確定要清除所有分數嗎？')) return;
+    if (!window.confirm('確定要清除所有分數、重新開一局嗎？')) return;
     setCells(makeGrid(rowCount, playerCount));
+    setSetupDone(false); // 分數會自動存檔，離開再回來不會重置，所以「重開一局」從這裡回設定頁
   };
 
   // 計算每位玩家總分

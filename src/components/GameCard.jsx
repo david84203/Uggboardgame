@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Users, Clock, MapPin, Star, ExternalLink, Gamepad2, X, Flame, PlayCircle, Heart, CheckCircle, TrendingUp } from 'lucide-react';
 import GameLeaderboard from './GameLeaderboard';
+import { useBackClose } from '../hooks/useBackClose';
 
 function extractYoutubeIds(urlString) {
   if (!urlString) return [];
@@ -15,6 +16,7 @@ function extractYoutubeIds(urlString) {
 
 function StarRatingPopup({ onRate, onClose }) {
   const [hover, setHover] = useState(0)
+  useBackClose(true, onClose)
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={onClose}>
       <div className="bg-white rounded-2xl shadow-xl p-5 w-64 text-center" onClick={e => e.stopPropagation()}>
@@ -39,6 +41,7 @@ export default function GameCard({ game, memberId, getStatus, getRecord, onToggl
   const [showRating, setShowRating] = useState(false);
 
   function closeModal() { setIsModalOpen(false); onModalClose?.(); }
+  useBackClose(isModalOpen, closeModal);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {

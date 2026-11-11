@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { usePersistedState } from '../../hooks/usePersistedState';
 import { RotateCcw, Upload } from 'lucide-react'
 import ScoreUploadModal from '../ScoreUploadModal'
 
@@ -94,11 +95,11 @@ function calcTotal(s) {
 }
 
 export default function ConcordiaPage({ isLoggedIn, onGoToMember, games }) {
-  const [step, setStep] = useState('setup')
-  const [count, setCount] = useState(3)
-  const [names, setNames] = useState(Array(5).fill('').map((_, i) => `玩家${i + 1}`))
-  const [scores, setScores] = useState(Array(5).fill(null).map(() => ({ ...BLANK })))
-  const [active, setActive] = useState(0)
+  const [step, setStep] = usePersistedState('Concordia:step', 'setup')
+  const [count, setCount] = usePersistedState('Concordia:count', 3)
+  const [names, setNames] = usePersistedState('Concordia:names', Array(5).fill('').map((_, i) => `玩家${i + 1}`))
+  const [scores, setScores] = usePersistedState('Concordia:scores', Array(5).fill(null).map(() => ({ ...BLANK })))
+  const [active, setActive] = usePersistedState('Concordia:active', 0)
   const [showUpload, setShowUpload] = useState(false)
 
   if (!isLoggedIn) return (

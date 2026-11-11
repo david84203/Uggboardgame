@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Header from './components/Header';
+import { consumeBackPop } from './hooks/useBackClose';
 import NavTabs from './components/NavTabs';
 import FilterBar from './components/FilterBar';
 import GameList from './components/GameList';
@@ -268,7 +269,10 @@ export default function App() {
   }, [activeTab]);
 
   useEffect(() => {
-    const onPop = () => { if (tabRef.current !== 'home') backRef.current(); };
+    const onPop = () => {
+      if (consumeBackPop()) return; // 有彈窗就只關彈窗
+      if (tabRef.current !== 'home') backRef.current();
+    };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);

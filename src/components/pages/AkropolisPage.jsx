@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { usePersistedState } from '../../hooks/usePersistedState';
 import { RotateCcw, Upload } from 'lucide-react'
 import ScoreUploadModal from '../ScoreUploadModal'
 
@@ -102,12 +103,12 @@ function calcTotal(s, advanced) {
 }
 
 export default function AkropolisPage({ isLoggedIn, onGoToMember, games }) {
-  const [step, setStep] = useState('setup')
-  const [count, setCount] = useState(3)
-  const [names, setNames] = useState(Array(4).fill('').map((_, i) => `玩家${i + 1}`))
-  const [scores, setScores] = useState(Array(4).fill(null).map(() => makeBlank()))
-  const [active, setActive] = useState(0)
-  const [advanced, setAdvanced] = useState(false)
+  const [step, setStep] = usePersistedState('Akropolis:step', 'setup')
+  const [count, setCount] = usePersistedState('Akropolis:count', 3)
+  const [names, setNames] = usePersistedState('Akropolis:names', Array(4).fill('').map((_, i) => `玩家${i + 1}`))
+  const [scores, setScores] = usePersistedState('Akropolis:scores', Array(4).fill(null).map(() => makeBlank()))
+  const [active, setActive] = usePersistedState('Akropolis:active', 0)
+  const [advanced, setAdvanced] = usePersistedState('Akropolis:advanced', false)
   const [showUpload, setShowUpload] = useState(false)
 
   if (!isLoggedIn) return (

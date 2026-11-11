@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useBackClose } from '../../hooks/useBackClose';
 import { Calculator, Trophy, TableProperties, Lock, Wheat, Landmark, Feather, Globe, Layers, ScrollText } from 'lucide-react';
 
 export default function ScoringHubPage({ onSelect, isLoggedIn, onGoToMember }) {
   const [showPrompt, setShowPrompt] = useState(false)
+  useBackClose(showPrompt, () => setShowPrompt(false))
 
   return (
     <div className="max-w-lg mx-auto p-4 pt-6">

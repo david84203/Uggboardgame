@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { X, Search, Plus, Trash2 } from 'lucide-react'
 import useActiveRentals from '../hooks/useActiveRentals'
+import { useBackClose } from '../hooks/useBackClose'
 
 // 租金公式與門市系統一致：定價總和每滿 500 元收 50 元（無條件進位）
 function calcRentalFee(totalPrice) {
@@ -22,6 +23,7 @@ function formatReturnDate(dateStr) {
 const emptyRow = { game: null, search: '', showDropdown: false }
 
 export default function RentalEstimator({ allGames = [], onClose }) {
+  useBackClose(true, onClose)
   const { getRentalInfo } = useActiveRentals()
   const [rows, setRows] = useState([{ ...emptyRow }])
 

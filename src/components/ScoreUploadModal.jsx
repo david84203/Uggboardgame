@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { X, Search, Trophy, Upload } from 'lucide-react'
 import { uploadScorecard } from '../hooks/useScorecard'
+import { useBackClose } from '../hooks/useBackClose'
 
 export default function ScoreUploadModal({ result, games, defaultGameName, onClose }) {
+  useBackClose(true, onClose)
   const [gameSearch, setGameSearch] = useState(defaultGameName || '')
   const [selectedGame, setSelectedGame] = useState(() => {
     if (!defaultGameName || !games?.length) return null

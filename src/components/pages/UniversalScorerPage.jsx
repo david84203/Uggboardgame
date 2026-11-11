@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { usePersistedState, clearPersisted } from '../../hooks/usePersistedState';
 import { RotateCcw, Undo2, CornerDownLeft, RotateCw, Upload } from 'lucide-react';
 import ScoreUploadModal from '../ScoreUploadModal';
 
@@ -254,11 +255,11 @@ const getTablePositions = (count, containerW) => {
 
 // ── 計分頁主體 ────────────────────────────────────
 function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, onExit }) {
-  const [players, setPlayers] = useState(initialPlayers);
+  const [players, setPlayers] = usePersistedState('UniversalScorer:players', initialPlayers);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [currentRound, setCurrentRound] = useState(1);
+  const [currentRound, setCurrentRound] = usePersistedState('UniversalScorer:currentRound', 1);
   const [rotatedIds, setRotatedIds] = useState(new Set());
-  const [layoutMode, setLayoutMode] = useState('list'); // 'list' | 'table'
+  const [layoutMode, setLayoutMode] = usePersistedState('UniversalScorer:layoutMode', 'list'); // 'list' | 'table'
   const tableContainerRef = useRef(null);
   const [containerW, setContainerW] = useState(window.innerWidth);
 
@@ -273,8 +274,8 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, o
   }, [layoutMode]);
 
   // 排名只在全員確認時更新
-  const [cardOrder, setCardOrder] = useState(() => initialPlayers.map(p => p.id));
-  const [displayRanks, setDisplayRanks] = useState(() => Object.fromEntries(initialPlayers.map((_, i) => [i, 1])));
+  const [cardOrder, setCardOrder] = usePersistedState('UniversalScorer:cardOrder', () => initialPlayers.map(p => p.id));
+  const [displayRanks, setDisplayRanks] = usePersistedState('UniversalScorer:displayRanks', () => Object.fromEntries(initialPlayers.map((_, i) => [i, 1])));
 
   const getPlayerById = (id) => players.find(p => p.id === id);
 
@@ -449,8 +450,8 @@ function ScoringView({ initialPlayers, totalRounds, sortMode, gameInfo, games, o
 
 // ── 設定頁 ────────────────────────────────────────
 function SetupView({ onStart, games }) {
-  const [playerCount, setPlayerCount] = useState(4);
-  const [names, setNames] = useState(Array(12).fill(''));
+  const [playerCount, setPlayerCount] = usePersistedState('UniversalSetup:playerCount', 4);
+  const [names, setNames] = usePersistedState('UniversalSetup:names', Array(12).fill(''));
   const [colors, setColors] = useState(DEFAULT_COLORS);
   const [totalRounds, setTotalRounds] = useState(1);
   const [pickerOpen, setPickerOpen] = useState(-1);
@@ -586,8 +587,11 @@ function SetupView({ onStart, games }) {
 
 // ── 主元件 ────────────────────────────────────────
 export default function UniversalScorerPage({ onGoToMember, isLoggedIn, games }) {
-  const [gameState, setGameState] = useState(null);
-  const handleStart = (players, totalRounds, sortMode, gameInfo) => setGameState({ players, totalRounds, sortMode, gameInfo });
+  const [gameState, setGameState] = usePersistedState('UniversalScorer:game', null);
+  const handleStart = (players, totalRounds, sortMode, gameInfo) => {
+    clearPersisted('UniversalScorer:'); // 開新局：清掉上一局的分數
+    setGameState({ players, totalRounds, sortMode, gameInfo });
+  };
   const handleExit = () => { if (window.confirm('確定要結束遊戲並回到設定頁嗎？')) setGameState(null); };
   if (!isLoggedIn) {
     return (
