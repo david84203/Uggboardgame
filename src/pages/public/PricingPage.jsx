@@ -4,7 +4,7 @@ import PublicNav, { PublicFooter } from './PublicNav';
 const seo = {
   title: '烏嘎嘎桌遊收費方式｜入場費、包場、租借遊戲價格',
   description:
-    '烏嘎嘎桌遊沒有低消，採入場計時／全日制收費：會員全日暢玩平日150元、假日200元；非會員平日180元、假日250元。另提供包場、桌遊租借與免費遊戲教學服務。',
+    '烏嘎嘎桌遊沒有低消，採入場計時／全日制收費：會員全日暢玩平日150元、假日200元；非會員平日180元、假日250元；2歲以內免費、2～4歲半價。另提供包場、桌遊租借與免費遊戲教學服務。',
   path: '/pricing',
   schema: [
     businessSchema,
@@ -32,6 +32,12 @@ const ENTRY = [
     plan: '非會員．全日暢玩',
     body: (
       <>平日 <b className="ug-accent">180元</b>／假日 <b className="ug-accent">250元</b>。</>
+    ),
+  },
+  {
+    plan: '兒童',
+    body: (
+      <><b className="ug-accent">2歲以內免費</b>、<b className="ug-accent">2～4歲半價</b>、4歲以上依一般價格收費。12歲以下需至少一位家長全程陪同。</>
     ),
   },
 ];
@@ -97,7 +103,7 @@ export default function PricingPage() {
           <h2 className="ug-section-title text-lg mb-5">包場方案</h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7">
-              <p className="ug-body ug-ink-2 mb-5">可包場空間為 <span className="font-bold ug-ink">2樓和室</span> 或 <span className="font-bold ug-ink">3樓大空間</span>，各可容納約30人。</p>
+              <p className="ug-body ug-ink-2 mb-5">可包場空間為 <span className="font-bold ug-ink">2樓和室</span>，可容納約30人。</p>
               <div className="overflow-x-auto">
                 <table className="ug-table">
                   <thead>
