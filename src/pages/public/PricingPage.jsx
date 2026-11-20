@@ -149,7 +149,7 @@ export default function PricingPage() {
             <h2 className="ug-section-title text-lg mb-4">桌遊租借（限會員）</h2>
             <div className="ug-body ug-ink-2 space-y-2">
               <p><span className="font-bold ug-ink">押金＝該遊戲定價全額</span>，租金依定價分級：500元以下收50元，每多500元加收50元（例如1,001~1,500元收150元）。</p>
-              <p>租期自出租隔天起算，以<span className="font-bold ug-ink">3天</span>為限；會員等級Lv.3（棋盤老手）以上延長為<span className="font-bold ug-ink">5天</span>。逾期視同續借，需再付租金。歸還後購買同款新品享85折。</p>
+              <p>租期自出租隔天起算，以<span className="font-bold ug-ink">3天</span>為限；會員等級Lv.3（棋盤老手）以上延長為<span className="font-bold ug-ink">5天</span>。逾期視同續借，需再付租金。歸還後購買同款新品享85折。完整規則見<a href="/rent" className="font-bold ug-accent underline">桌遊租借</a>。</p>
             </div>
           </div>
           <div>

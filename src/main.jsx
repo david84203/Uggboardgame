@@ -11,6 +11,7 @@ import HomePage from './pages/public/HomePage.jsx'
 import AboutPage from './pages/public/AboutPage.jsx'
 import PricingPage from './pages/public/PricingPage.jsx'
 import FaqPage from './pages/public/FaqPage.jsx'
+import RentPage from './pages/public/RentPage.jsx'
 import LinkPage from './pages/public/LinkPage.jsx'
 import OutboundRedirectPage from './pages/public/OutboundRedirectPage.jsx'
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/about" element={<AboutPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/faq" element={<FaqPage />} />
+            <Route path="/rent" element={<RentPage />} />
             {/* QR code 專用快速連結頁。noindex、不進 sitemap，網址已印在實體物上不可改 */}
             <Route path="/link" element={<LinkPage />} />
             {/* 對外連結先經過站內短網址，讓免費 Web Analytics 能辨識 LINE、電話等轉換來源 */}

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 const LINKS = [
   { to: '/about', label: '店家資訊' },
   { to: '/pricing', label: '服務與收費' },
+  { to: '/rent', label: '桌遊租借' },
   { to: '/faq', label: '常見問題' },
 ];
 
